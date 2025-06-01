@@ -21,7 +21,26 @@ items:
       app: nginx-web
       version: blue   # <--- Route traffic to blue deployment
     type: LoadBalancer
-
+    
+- apiVersion: v1
+  kind: Service
+  metadata:
+    labels:
+      app.kubernetes.io/component: controller
+      app.kubernetes.io/name: prometheus-operator
+      app.kubernetes.io/version: v0.38.3
+    name: prometheus-operator
+    namespace: default
+  spec:
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: http
+      port: 8080
+      targetPort: http
+    selector:
+      app.kubernetes.io/component: controller
+      app.kubernetes.io/name: prometheus-operator
+      
 - apiVersion: apps/v1
   kind: Deployment
   metadata:
