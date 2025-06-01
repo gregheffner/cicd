@@ -23,10 +23,10 @@ jobs:
         run: echo "TAG=v$(date +'%Y.%m')" >> $GITHUB_OUTPUT
 
       - name: Pull latest image
-        run: docker pull <your-dockerhub-username>/<your-image>:latest
+        run: docker pull technotuba/nginx:latest
 
       - name: Tag image with year.month
-        run: docker tag technotuba/nginx:latest <your-dockerhub-username>/<your-image>:${{ steps.date.outputs.TAG }}
+        run: docker tag technotuba/nginx:latest technotuba/nginx:${{ steps.date.outputs.TAG }}
 
       - name: Push new tag
         run: docker push technotuba/nginx:${{ steps.date.outputs.TAG }}
