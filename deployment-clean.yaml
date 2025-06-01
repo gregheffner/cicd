@@ -100,6 +100,7 @@ items:
           name: fail2ban-config-cloudflare
         - configMap:
             name: fail2ban-cloudflare-ban-script
+            defaultMode: 0755
           name: ban-script
         - name: cloudflare-creds
           secret:
