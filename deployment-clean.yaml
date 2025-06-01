@@ -15,10 +15,8 @@ items:
     ipFamilyPolicy: SingleStack
     ports:
     - name: http
-      nodePort: 32535
       port: 80
     - name: nginx-status
-      nodePort: 30727
       port: 81
     selector:
       app: nginx-web
