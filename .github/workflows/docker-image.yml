@@ -1,9 +1,10 @@
 name: Auto Update Docker Image
 
 on:
-  schedule:
-    - cron: '0 0 1 * *' # Monthly
-  workflow_dispatch:
+  workflow_run:
+    workflows: ["Retag DockerHub Latest"]
+    types:
+      - completed
 
 jobs:
   update-build-push:
