@@ -18,6 +18,14 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      
+      - name: Install dependencies
+        run: pip install requests
+
       - name: Get current year and month
         id: date
         run: echo "TAG=v$(date +'%Y.%m')" >> $GITHUB_OUTPUT
@@ -30,3 +38,16 @@ jobs:
 
       - name: Push new tag
         run: docker push technotuba/nginx:${{ steps.date.outputs.TAG }}
+
+      - name: Generate Dockerfile with latest versions
+        run: python .github/scripts/generate_dockerfile.py
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: technotuba/nginx:latest
