@@ -11,7 +11,6 @@ items:
     namespace: prod
   spec:
     externalTrafficPolicy: Local
-    healthCheckNodePort: 31887
     ipFamilyPolicy: SingleStack
     ports:
     - name: http
