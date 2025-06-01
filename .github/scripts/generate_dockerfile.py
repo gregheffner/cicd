@@ -33,15 +33,10 @@ def get_latest_njs_debian_release():
     return "3~bookworm", "1~bookworm"
 
 NGINX_VERSION = get_latest_nginx_version()
-ALPINE_VERSION = get_latest_alpine_version()
 NJS_VERSION = get_latest_njs_version()
 NJS_RELEASE, PKG_RELEASE = get_latest_njs_debian_release()
 
-# Only append ALPINE_VERSION if it's not 'latest'
-if ALPINE_VERSION == "latest":
-    base_image = f"nginx:{NGINX_VERSION}"
-else:
-    base_image = f"nginx:{NGINX_VERSION}-{ALPINE_VERSION}"
+base_image = f"nginx:{NGINX_VERSION}-alpine"
 
 dockerfile_content = f"""\
 FROM {base_image}
