@@ -1,0 +1,31 @@
+name: Retag DockerHub Latest
+
+on:
+  schedule:
+    - cron: '0 0 1 * *' 
+
+jobs:
+  retag-latest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Get current year and month
+        id: date
+        run: echo "TAG=v$(date +'%Y.%m')" >> $GITHUB_OUTPUT
+
+      - name: Pull latest image
+        run: docker pull <your-dockerhub-username>/<your-image>:latest
+
+      - name: Tag image with year.month
+        run: docker tag technotuba/nginx:latest <your-dockerhub-username>/<your-image>:${{ steps.date.outputs.TAG }}
+
+      - name: Push new tag
+        run: docker push technotuba/nginx:${{ steps.date.outputs.TAG }}
