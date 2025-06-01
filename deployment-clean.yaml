@@ -8,7 +8,7 @@ items:
       name: cleaner-pod
       pod-template-generation: "1"
     name: cleaner-pod-7ntnv
-    namespace: default
+    namespace: prod
   spec:
     affinity:
       nodeAffinity:
@@ -43,7 +43,7 @@ items:
         readOnly: true
     preemptionPolicy: PreemptLowerPriority
     priority: 0
-    serviceAccountName: default
+    serviceAccountName: prod
     tolerations:
     - effect: NoExecute
       key: node.kubernetes.io/not-ready
@@ -92,7 +92,7 @@ items:
       name: cleaner-pod
       pod-template-generation: "1"
     name: cleaner-pod-npgsl
-    namespace: default
+    namespace: prod
   spec:
     affinity:
       nodeAffinity:
@@ -127,7 +127,7 @@ items:
         readOnly: true
     preemptionPolicy: PreemptLowerPriority
     priority: 0
-    serviceAccountName: default
+    serviceAccountName: prod
     tolerations:
     - effect: NoExecute
       key: node.kubernetes.io/not-ready
@@ -176,7 +176,7 @@ items:
       name: cleaner-pod
       pod-template-generation: "1"
     name: cleaner-pod-nt8nf
-    namespace: default
+    namespace: prod
   spec:
     affinity:
       nodeAffinity:
@@ -211,7 +211,7 @@ items:
         readOnly: true
     preemptionPolicy: PreemptLowerPriority
     priority: 0
-    serviceAccountName: default
+    serviceAccountName: prod
     tolerations:
     - effect: NoExecute
       key: node.kubernetes.io/not-ready
@@ -256,7 +256,7 @@ items:
   kind: Pod
   metadata:
     annotations:
-      checksum/default-custom-config: dd51953a8d3959ab0339bd9777452024
+      checksum/prod-custom-config: dd51953a8d3959ab0339bd9777452024
       checksum/otel_agent-custom-config: c609e2fb7352676a67f0423b58970d43
       container.apparmor.security.beta.kubernetes.io/system-probe: unconfined
     labels:
@@ -267,12 +267,12 @@ items:
       app.kubernetes.io/instance: datadog-agent
       app.kubernetes.io/managed-by: datadog-operator
       app.kubernetes.io/name: datadog-agent-deployment
-      app.kubernetes.io/part-of: default-datadog
+      app.kubernetes.io/part-of: prod-datadog
       app.kubernetes.io/version: ""
       controller-revision-hash: 5749fbf44
       pod-template-generation: "25"
     name: datadog-agent-5rqhq
-    namespace: default
+    namespace: prod
   spec:
     affinity:
       nodeAffinity:
@@ -1066,7 +1066,7 @@ items:
   kind: Pod
   metadata:
     annotations:
-      checksum/default-custom-config: dd51953a8d3959ab0339bd9777452024
+      checksum/prod-custom-config: dd51953a8d3959ab0339bd9777452024
       checksum/otel_agent-custom-config: c609e2fb7352676a67f0423b58970d43
       container.apparmor.security.beta.kubernetes.io/system-probe: unconfined
     labels:
@@ -1077,12 +1077,12 @@ items:
       app.kubernetes.io/instance: datadog-agent
       app.kubernetes.io/managed-by: datadog-operator
       app.kubernetes.io/name: datadog-agent-deployment
-      app.kubernetes.io/part-of: default-datadog
+      app.kubernetes.io/part-of: prod-datadog
       app.kubernetes.io/version: ""
       controller-revision-hash: 5749fbf44
       pod-template-generation: "25"
     name: datadog-agent-bgn9j
-    namespace: default
+    namespace: prod
   spec:
     affinity:
       nodeAffinity:
@@ -1876,7 +1876,7 @@ items:
   kind: Pod
   metadata:
     annotations:
-      checksum/default-custom-config: dd51953a8d3959ab0339bd9777452024
+      checksum/prod-custom-config: dd51953a8d3959ab0339bd9777452024
       checksum/otel_agent-custom-config: c609e2fb7352676a67f0423b58970d43
       container.apparmor.security.beta.kubernetes.io/system-probe: unconfined
     labels:
@@ -1887,12 +1887,12 @@ items:
       app.kubernetes.io/instance: datadog-agent
       app.kubernetes.io/managed-by: datadog-operator
       app.kubernetes.io/name: datadog-agent-deployment
-      app.kubernetes.io/part-of: default-datadog
+      app.kubernetes.io/part-of: prod-datadog
       app.kubernetes.io/version: ""
       controller-revision-hash: 5749fbf44
       pod-template-generation: "25"
     name: datadog-agent-l56m4
-    namespace: default
+    namespace: prod
   spec:
     affinity:
       nodeAffinity:
@@ -2686,7 +2686,7 @@ items:
   kind: Pod
   metadata:
     annotations:
-      checksum/default-custom-config: dd51953a8d3959ab0339bd9777452024
+      checksum/prod-custom-config: dd51953a8d3959ab0339bd9777452024
       checksum/otel_agent-custom-config: c609e2fb7352676a67f0423b58970d43
       container.apparmor.security.beta.kubernetes.io/system-probe: unconfined
     labels:
@@ -2697,12 +2697,12 @@ items:
       app.kubernetes.io/instance: datadog-agent
       app.kubernetes.io/managed-by: datadog-operator
       app.kubernetes.io/name: datadog-agent-deployment
-      app.kubernetes.io/part-of: default-datadog
+      app.kubernetes.io/part-of: prod-datadog
       app.kubernetes.io/version: ""
       controller-revision-hash: 5749fbf44
       pod-template-generation: "25"
     name: datadog-agent-xfvpd
-    namespace: default
+    namespace: prod
   spec:
     affinity:
       nodeAffinity:
@@ -3497,7 +3497,7 @@ items:
   metadata:
     annotations:
       checksum/cluster_checks-custom-config: f7dc31a1080204b2a0f72ea0cc314033
-      checksum/default-custom-config: dd51953a8d3959ab0339bd9777452024
+      checksum/prod-custom-config: dd51953a8d3959ab0339bd9777452024
     labels:
       agent.datadoghq.com/component: cluster-agent
       agent.datadoghq.com/name: datadog
@@ -3505,11 +3505,11 @@ items:
       app.kubernetes.io/instance: datadog-cluster-agent
       app.kubernetes.io/managed-by: datadog-operator
       app.kubernetes.io/name: datadog-agent-deployment
-      app.kubernetes.io/part-of: default-datadog
+      app.kubernetes.io/part-of: prod-datadog
       app.kubernetes.io/version: ""
       pod-template-hash: 9b69799bd
     name: datadog-cluster-agent-9b69799bd-lslfn
-    namespace: default
+    namespace: prod
   spec:
     affinity:
       podAntiAffinity:
@@ -3529,7 +3529,7 @@ items:
       - name: DD_CLUSTER_AGENT_KUBERNETES_SERVICE_NAME
         value: datadog-cluster-agent
       - name: DD_KUBE_RESOURCES_NAMESPACE
-        value: default
+        value: prod
       - name: DD_LEADER_ELECTION
         value: "true"
       - name: DD_HEALTH_PORT
@@ -3573,7 +3573,7 @@ items:
       - name: DD_LANGUAGE_DETECTION_ENABLED
         value: "true"
       - name: DD_APM_INSTRUMENTATION_TARGETS
-        value: '[{"name":"default-target","ddTraceVersions":{"dotnet":"3","java":"1","js":"5","php":"1","python":"3"}}]'
+        value: '[{"name":"prod-target","ddTraceVersions":{"dotnet":"3","java":"1","js":"5","php":"1","python":"3"}}]'
       - name: DD_ADMISSION_CONTROLLER_AUTO_INSTRUMENTATION_APPSEC_ENABLED
         value: "true"
       - name: DD_CLUSTER_CHECKS_ENABLED
@@ -3736,7 +3736,7 @@ items:
       app.kubernetes.io/name: datadog-operator
       pod-template-hash: 6dc6d8d44c
     name: datadog-operator-6dc6d8d44c-n7cmg
-    namespace: default
+    namespace: prod
   spec:
     containers:
     - args:
@@ -3846,7 +3846,7 @@ items:
       app: nginx-web
       pod-template-hash: 7f97754dd
     name: nginx-web-7f97754dd-42jlh
-    namespace: default
+    namespace: prod
   spec:
     affinity:
       nodeAffinity:
@@ -3934,7 +3934,7 @@ items:
         readOnly: true
     preemptionPolicy: PreemptLowerPriority
     priority: 0
-    serviceAccountName: default
+    serviceAccountName: prod
     tolerations:
     - effect: NoExecute
       key: node.kubernetes.io/not-ready
@@ -3953,7 +3953,7 @@ items:
         name: fail2ban-config
       name: fail2ban-config-cloudflare
     - configMap:
-        defaultMode: 493
+        prodMode: 493
         name: fail2ban-cloudflare-ban-script
       name: ban-script
     - name: cloudflare-creds
@@ -4032,7 +4032,7 @@ items:
       app: nginx-web
       pod-template-hash: 7f97754dd
     name: nginx-web-7f97754dd-fj4gv
-    namespace: default
+    namespace: prod
   spec:
     affinity:
       nodeAffinity:
@@ -4120,7 +4120,7 @@ items:
         readOnly: true
     preemptionPolicy: PreemptLowerPriority
     priority: 0
-    serviceAccountName: default
+    serviceAccountName: prod
     tolerations:
     - effect: NoExecute
       key: node.kubernetes.io/not-ready
@@ -4139,7 +4139,7 @@ items:
         name: fail2ban-config
       name: fail2ban-config-cloudflare
     - configMap:
-        defaultMode: 493
+        prodMode: 493
         name: fail2ban-cloudflare-ban-script
       name: ban-script
     - name: cloudflare-creds
@@ -4218,7 +4218,7 @@ items:
       app: nginx-web
       pod-template-hash: 7f97754dd
     name: nginx-web-7f97754dd-ld7mz
-    namespace: default
+    namespace: prod
   spec:
     affinity:
       nodeAffinity:
@@ -4306,7 +4306,7 @@ items:
         readOnly: true
     preemptionPolicy: PreemptLowerPriority
     priority: 0
-    serviceAccountName: default
+    serviceAccountName: prod
     tolerations:
     - effect: NoExecute
       key: node.kubernetes.io/not-ready
@@ -4325,7 +4325,7 @@ items:
         name: fail2ban-config
       name: fail2ban-config-cloudflare
     - configMap:
-        defaultMode: 493
+        prodMode: 493
         name: fail2ban-cloudflare-ban-script
       name: ban-script
     - name: cloudflare-creds
@@ -4373,11 +4373,11 @@ items:
       app.kubernetes.io/instance: datadog
       app.kubernetes.io/managed-by: datadog-operator
       app.kubernetes.io/name: datadog-agent-deployment
-      app.kubernetes.io/part-of: default-datadog
+      app.kubernetes.io/part-of: prod-datadog
       app.kubernetes.io/version: ""
       operator.datadoghq.com/managed-by-store: "true"
     name: datadog-admission-controller
-    namespace: default
+    namespace: prod
   spec:
     clusterIP: 10.111.152.166
     clusterIPs:
@@ -4399,11 +4399,11 @@ items:
       app.kubernetes.io/instance: datadog
       app.kubernetes.io/managed-by: datadog-operator
       app.kubernetes.io/name: datadog-agent-deployment
-      app.kubernetes.io/part-of: default-datadog
+      app.kubernetes.io/part-of: prod-datadog
       app.kubernetes.io/version: ""
       operator.datadoghq.com/managed-by-store: "true"
     name: datadog-agent
-    namespace: default
+    namespace: prod
   spec:
     clusterIP: 10.99.100.222
     clusterIPs:
@@ -4420,7 +4420,7 @@ items:
       protocol: UDP
     selector:
       agent.datadoghq.com/component: agent
-      app.kubernetes.io/part-of: default-datadog
+      app.kubernetes.io/part-of: prod-datadog
 - apiVersion: v1
   kind: Service
   metadata:
@@ -4430,11 +4430,11 @@ items:
       app.kubernetes.io/instance: datadog
       app.kubernetes.io/managed-by: datadog-operator
       app.kubernetes.io/name: datadog-agent-deployment
-      app.kubernetes.io/part-of: default-datadog
+      app.kubernetes.io/part-of: prod-datadog
       app.kubernetes.io/version: ""
       operator.datadoghq.com/managed-by-store: "true"
     name: datadog-cluster-agent
-    namespace: default
+    namespace: prod
   spec:
     clusterIP: 10.100.85.187
     clusterIPs:
@@ -4454,7 +4454,7 @@ items:
       component: apiserver
       provider: kubernetes
     name: kubernetes
-    namespace: default
+    namespace: prod
   spec:
     clusterIP: 10.96.0.1
     clusterIPs:
@@ -4473,7 +4473,7 @@ items:
       app: nginx-web
       k8slens-edit-resource-version: v1
     name: nginx-service
-    namespace: default
+    namespace: prod
   spec:
     clusterIP: 10.100.221.5
     clusterIPs:
@@ -4501,7 +4501,7 @@ items:
       app.kubernetes.io/name: prometheus-operator
       app.kubernetes.io/version: v0.38.3
     name: prometheus-operator
-    namespace: default
+    namespace: prod
   spec:
     clusterIP: None
     clusterIPs:
@@ -4522,7 +4522,7 @@ items:
     annotations:
       deprecated.daemonset.template.generation: "1"
     name: cleaner-pod
-    namespace: default
+    namespace: prod
   spec:
     revisionHistoryLimit: 10
     selector:
@@ -4558,7 +4558,7 @@ items:
             name: host-logs
         dnsPolicy: ClusterFirst
         restartPolicy: Always
-        schedulerName: default-scheduler
+        schedulerName: prod-scheduler
         terminationGracePeriodSeconds: 30
         volumes:
         - hostPath:
@@ -4584,11 +4584,11 @@ items:
       app.kubernetes.io/instance: datadog-agent
       app.kubernetes.io/managed-by: datadog-operator
       app.kubernetes.io/name: datadog-agent-deployment
-      app.kubernetes.io/part-of: default-datadog
+      app.kubernetes.io/part-of: prod-datadog
       app.kubernetes.io/version: ""
       k8slens-edit-resource-version: v1
     name: datadog-agent
-    namespace: default
+    namespace: prod
   spec:
     revisionHistoryLimit: 10
     selector:
@@ -4598,7 +4598,7 @@ items:
     template:
       metadata:
         annotations:
-          checksum/default-custom-config: dd51953a8d3959ab0339bd9777452024
+          checksum/prod-custom-config: dd51953a8d3959ab0339bd9777452024
           checksum/otel_agent-custom-config: c609e2fb7352676a67f0423b58970d43
           container.apparmor.security.beta.kubernetes.io/system-probe: unconfined
         creationTimestamp: null
@@ -4610,7 +4610,7 @@ items:
           app.kubernetes.io/instance: datadog-agent
           app.kubernetes.io/managed-by: datadog-operator
           app.kubernetes.io/name: datadog-agent-deployment
-          app.kubernetes.io/part-of: default-datadog
+          app.kubernetes.io/part-of: prod-datadog
           app.kubernetes.io/version: ""
       spec:
         containers:
@@ -5281,7 +5281,7 @@ items:
           - mountPath: /host/var/lib/kubelet/seccomp
             name: seccomp-root
         restartPolicy: Always
-        schedulerName: default-scheduler
+        schedulerName: prod-scheduler
         securityContext:
           runAsUser: 0
         serviceAccount: datadog-agent
@@ -5302,7 +5302,7 @@ items:
         - name: logdatadog
         - name: datadog-agent-auth
         - configMap:
-            defaultMode: 420
+            prodMode: 420
             name: datadog-install-info
           name: installinfo
         - name: checksd
@@ -5325,7 +5325,7 @@ items:
             type: ""
           name: runtimesocketdir
         - configMap:
-            defaultMode: 420
+            prodMode: 420
             name: datadog-system-probe-seccomp
           name: datadog-agent-security
         - hostPath:
@@ -5382,7 +5382,7 @@ items:
             type: ""
           name: symlinkcontainerpath
         - configMap:
-            defaultMode: 420
+            prodMode: 420
             name: datadog-otel-agent-config
           name: otel-agent-config-volume
     updateStrategy:
@@ -5403,10 +5403,10 @@ items:
       app.kubernetes.io/instance: datadog-cluster-agent
       app.kubernetes.io/managed-by: datadog-operator
       app.kubernetes.io/name: datadog-agent-deployment
-      app.kubernetes.io/part-of: default-datadog
+      app.kubernetes.io/part-of: prod-datadog
       app.kubernetes.io/version: ""
     name: datadog-cluster-agent
-    namespace: default
+    namespace: prod
   spec:
     progressDeadlineSeconds: 600
     replicas: 1
@@ -5424,7 +5424,7 @@ items:
       metadata:
         annotations:
           checksum/cluster_checks-custom-config: f7dc31a1080204b2a0f72ea0cc314033
-          checksum/default-custom-config: dd51953a8d3959ab0339bd9777452024
+          checksum/prod-custom-config: dd51953a8d3959ab0339bd9777452024
         creationTimestamp: null
         labels:
           agent.datadoghq.com/component: cluster-agent
@@ -5433,7 +5433,7 @@ items:
           app.kubernetes.io/instance: datadog-cluster-agent
           app.kubernetes.io/managed-by: datadog-operator
           app.kubernetes.io/name: datadog-agent-deployment
-          app.kubernetes.io/part-of: default-datadog
+          app.kubernetes.io/part-of: prod-datadog
           app.kubernetes.io/version: ""
       spec:
         affinity:
@@ -5455,7 +5455,7 @@ items:
           - name: DD_CLUSTER_AGENT_KUBERNETES_SERVICE_NAME
             value: datadog-cluster-agent
           - name: DD_KUBE_RESOURCES_NAMESPACE
-            value: default
+            value: prod
           - name: DD_LEADER_ELECTION
             value: "true"
           - name: DD_HEALTH_PORT
@@ -5499,7 +5499,7 @@ items:
           - name: DD_LANGUAGE_DETECTION_ENABLED
             value: "true"
           - name: DD_APM_INSTRUMENTATION_TARGETS
-            value: '[{"name":"default-target","ddTraceVersions":{"dotnet":"3","java":"1","js":"5","php":"1","python":"3"}}]'
+            value: '[{"name":"prod-target","ddTraceVersions":{"dotnet":"3","java":"1","js":"5","php":"1","python":"3"}}]'
           - name: DD_ADMISSION_CONTROLLER_AUTO_INSTRUMENTATION_APPSEC_ENABLED
             value: "true"
           - name: DD_CLUSTER_CHECKS_ENABLED
@@ -5610,13 +5610,13 @@ items:
             name: datadogrun
         dnsPolicy: ClusterFirst
         restartPolicy: Always
-        schedulerName: default-scheduler
+        schedulerName: prod-scheduler
         serviceAccount: datadog-cluster-agent
         serviceAccountName: datadog-cluster-agent
         terminationGracePeriodSeconds: 30
         volumes:
         - configMap:
-            defaultMode: 420
+            prodMode: 420
             name: datadog-install-info
           name: installinfo
         - name: confd
@@ -5625,11 +5625,11 @@ items:
         - name: datadog-agent-auth
         - name: tmp
         - configMap:
-            defaultMode: 420
+            prodMode: 420
             name: datadog-kube-state-metrics-core-config
           name: ksm-core-config
         - configMap:
-            defaultMode: 420
+            prodMode: 420
             name: datadog-orchestrator-explorer-config
           name: orchestrator-explorer-config
         - name: datadogrun
@@ -5639,7 +5639,7 @@ items:
     annotations:
       deployment.kubernetes.io/revision: "2"
       meta.helm.sh/release-name: datadog-operator
-      meta.helm.sh/release-namespace: default
+      meta.helm.sh/release-namespace: prod
     labels:
       app.kubernetes.io/instance: datadog-operator
       app.kubernetes.io/managed-by: Helm
@@ -5647,7 +5647,7 @@ items:
       app.kubernetes.io/version: 1.14.0
       helm.sh/chart: datadog-operator-2.9.2
     name: datadog-operator
-    namespace: default
+    namespace: prod
   spec:
     progressDeadlineSeconds: 600
     replicas: 1
@@ -5727,7 +5727,7 @@ items:
           terminationMessagePolicy: File
         dnsPolicy: ClusterFirst
         restartPolicy: Always
-        schedulerName: default-scheduler
+        schedulerName: prod-scheduler
         serviceAccount: datadog-operator
         serviceAccountName: datadog-operator
         terminationGracePeriodSeconds: 30
@@ -5741,7 +5741,7 @@ items:
       app: nginx-web
       k8slens-edit-resource-version: v1
     name: nginx-web
-    namespace: default
+    namespace: prod
   spec:
     progressDeadlineSeconds: 600
     replicas: 3
@@ -5879,7 +5879,7 @@ items:
             name: nginx-logs
         dnsPolicy: ClusterFirst
         restartPolicy: Always
-        schedulerName: default-scheduler
+        schedulerName: prod-scheduler
         terminationGracePeriodSeconds: 30
         volumes:
         - hostPath:
@@ -5887,35 +5887,35 @@ items:
             type: DirectoryOrCreate
           name: nginx-logs
         - configMap:
-            defaultMode: 420
+            prodMode: 420
             name: fail2ban-config
           name: fail2ban-config-cloudflare
         - configMap:
-            defaultMode: 493
+            prodMode: 493
             name: fail2ban-cloudflare-ban-script
           name: ban-script
         - name: cloudflare-creds
           secret:
-            defaultMode: 420
+            prodMode: 420
             secretName: cloudflare-creds
         - configMap:
-            defaultMode: 420
+            prodMode: 420
             name: fail2ban-main-config
           name: fail2ban-main-config
         - configMap:
-            defaultMode: 420
+            prodMode: 420
             name: nginx-config
           name: config
         - configMap:
-            defaultMode: 420
+            prodMode: 420
             name: fail2ban-config
           name: fail2ban-config
         - configMap:
-            defaultMode: 420
+            prodMode: 420
             name: www-configmap
           name: www-volume
         - configMap:
-            defaultMode: 420
+            prodMode: 420
             name: nginx-config
           name: config-volume
         - hostPath:
@@ -5937,11 +5937,11 @@ items:
       app.kubernetes.io/instance: datadog-cluster-agent
       app.kubernetes.io/managed-by: datadog-operator
       app.kubernetes.io/name: datadog-agent-deployment
-      app.kubernetes.io/part-of: default-datadog
+      app.kubernetes.io/part-of: prod-datadog
       app.kubernetes.io/version: ""
       pod-template-hash: 9b69799bd
     name: datadog-cluster-agent-9b69799bd
-    namespace: default
+    namespace: prod
   spec:
     replicas: 1
     selector:
@@ -5953,7 +5953,7 @@ items:
       metadata:
         annotations:
           checksum/cluster_checks-custom-config: f7dc31a1080204b2a0f72ea0cc314033
-          checksum/default-custom-config: dd51953a8d3959ab0339bd9777452024
+          checksum/prod-custom-config: dd51953a8d3959ab0339bd9777452024
         creationTimestamp: null
         labels:
           agent.datadoghq.com/component: cluster-agent
@@ -5962,7 +5962,7 @@ items:
           app.kubernetes.io/instance: datadog-cluster-agent
           app.kubernetes.io/managed-by: datadog-operator
           app.kubernetes.io/name: datadog-agent-deployment
-          app.kubernetes.io/part-of: default-datadog
+          app.kubernetes.io/part-of: prod-datadog
           app.kubernetes.io/version: ""
           pod-template-hash: 9b69799bd
       spec:
@@ -5985,7 +5985,7 @@ items:
           - name: DD_CLUSTER_AGENT_KUBERNETES_SERVICE_NAME
             value: datadog-cluster-agent
           - name: DD_KUBE_RESOURCES_NAMESPACE
-            value: default
+            value: prod
           - name: DD_LEADER_ELECTION
             value: "true"
           - name: DD_HEALTH_PORT
@@ -6029,7 +6029,7 @@ items:
           - name: DD_LANGUAGE_DETECTION_ENABLED
             value: "true"
           - name: DD_APM_INSTRUMENTATION_TARGETS
-            value: '[{"name":"default-target","ddTraceVersions":{"dotnet":"3","java":"1","js":"5","php":"1","python":"3"}}]'
+            value: '[{"name":"prod-target","ddTraceVersions":{"dotnet":"3","java":"1","js":"5","php":"1","python":"3"}}]'
           - name: DD_ADMISSION_CONTROLLER_AUTO_INSTRUMENTATION_APPSEC_ENABLED
             value: "true"
           - name: DD_CLUSTER_CHECKS_ENABLED
@@ -6140,13 +6140,13 @@ items:
             name: datadogrun
         dnsPolicy: ClusterFirst
         restartPolicy: Always
-        schedulerName: default-scheduler
+        schedulerName: prod-scheduler
         serviceAccount: datadog-cluster-agent
         serviceAccountName: datadog-cluster-agent
         terminationGracePeriodSeconds: 30
         volumes:
         - configMap:
-            defaultMode: 420
+            prodMode: 420
             name: datadog-install-info
           name: installinfo
         - name: confd
@@ -6155,11 +6155,11 @@ items:
         - name: datadog-agent-auth
         - name: tmp
         - configMap:
-            defaultMode: 420
+            prodMode: 420
             name: datadog-kube-state-metrics-core-config
           name: ksm-core-config
         - configMap:
-            defaultMode: 420
+            prodMode: 420
             name: datadog-orchestrator-explorer-config
           name: orchestrator-explorer-config
         - name: datadogrun
@@ -6171,13 +6171,13 @@ items:
       deployment.kubernetes.io/max-replicas: "2"
       deployment.kubernetes.io/revision: "2"
       meta.helm.sh/release-name: datadog-operator
-      meta.helm.sh/release-namespace: default
+      meta.helm.sh/release-namespace: prod
     labels:
       app.kubernetes.io/instance: datadog-operator
       app.kubernetes.io/name: datadog-operator
       pod-template-hash: 6dc6d8d44c
     name: datadog-operator-6dc6d8d44c
-    namespace: default
+    namespace: prod
   spec:
     replicas: 1
     selector:
@@ -6252,7 +6252,7 @@ items:
           terminationMessagePolicy: File
         dnsPolicy: ClusterFirst
         restartPolicy: Always
-        schedulerName: default-scheduler
+        schedulerName: prod-scheduler
         serviceAccount: datadog-operator
         serviceAccountName: datadog-operator
         terminationGracePeriodSeconds: 30
@@ -6268,7 +6268,7 @@ items:
       app: nginx-web
       pod-template-hash: 7f97754dd
     name: nginx-web-7f97754dd
-    namespace: default
+    namespace: prod
   spec:
     replicas: 3
     selector:
@@ -6401,7 +6401,7 @@ items:
             name: nginx-logs
         dnsPolicy: ClusterFirst
         restartPolicy: Always
-        schedulerName: default-scheduler
+        schedulerName: prod-scheduler
         terminationGracePeriodSeconds: 30
         volumes:
         - hostPath:
@@ -6409,35 +6409,35 @@ items:
             type: DirectoryOrCreate
           name: nginx-logs
         - configMap:
-            defaultMode: 420
+            prodMode: 420
             name: fail2ban-config
           name: fail2ban-config-cloudflare
         - configMap:
-            defaultMode: 493
+            prodMode: 493
             name: fail2ban-cloudflare-ban-script
           name: ban-script
         - name: cloudflare-creds
           secret:
-            defaultMode: 420
+            prodMode: 420
             secretName: cloudflare-creds
         - configMap:
-            defaultMode: 420
+            prodMode: 420
             name: fail2ban-main-config
           name: fail2ban-main-config
         - configMap:
-            defaultMode: 420
+            prodMode: 420
             name: nginx-config
           name: config
         - configMap:
-            defaultMode: 420
+            prodMode: 420
             name: fail2ban-config
           name: fail2ban-config
         - configMap:
-            defaultMode: 420
+            prodMode: 420
             name: www-configmap
           name: www-volume
         - configMap:
-            defaultMode: 420
+            prodMode: 420
             name: nginx-config
           name: config-volume
         - hostPath:
@@ -6450,7 +6450,7 @@ items:
     labels:
       k8slens-edit-resource-version: v2
     name: nginx-web
-    namespace: default
+    namespace: prod
   spec:
     maxReplicas: 10
     metrics:
