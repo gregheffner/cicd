@@ -43,7 +43,7 @@ items:
         readOnly: true
     preemptionPolicy: PreemptLowerPriority
     priority: 0
-    serviceAccountName: prod
+    serviceAccountName: default
     tolerations:
     - effect: NoExecute
       key: node.kubernetes.io/not-ready
@@ -127,7 +127,7 @@ items:
         readOnly: true
     preemptionPolicy: PreemptLowerPriority
     priority: 0
-    serviceAccountName: prod
+    serviceAccountName: default
     tolerations:
     - effect: NoExecute
       key: node.kubernetes.io/not-ready
@@ -211,7 +211,7 @@ items:
         readOnly: true
     preemptionPolicy: PreemptLowerPriority
     priority: 0
-    serviceAccountName: prod
+    serviceAccountName: default
     tolerations:
     - effect: NoExecute
       key: node.kubernetes.io/not-ready
@@ -380,7 +380,7 @@ items:
         readOnly: true
     preemptionPolicy: PreemptLowerPriority
     priority: 0
-    serviceAccountName: prod
+    serviceAccountName: default
     tolerations:
     - effect: NoExecute
       key: node.kubernetes.io/not-ready
@@ -399,7 +399,7 @@ items:
         name: fail2ban-config
       name: fail2ban-config-cloudflare
     - configMap:
-        prodMode: 493
+        defaultMode: 493
         name: fail2ban-cloudflare-ban-script
       name: ban-script
     - name: cloudflare-creds
@@ -566,7 +566,7 @@ items:
         readOnly: true
     preemptionPolicy: PreemptLowerPriority
     priority: 0
-    serviceAccountName: prod
+    serviceAccountName: default
     tolerations:
     - effect: NoExecute
       key: node.kubernetes.io/not-ready
@@ -585,7 +585,7 @@ items:
         name: fail2ban-config
       name: fail2ban-config-cloudflare
     - configMap:
-        prodMode: 493
+        defaultMode: 493
         name: fail2ban-cloudflare-ban-script
       name: ban-script
     - name: cloudflare-creds
@@ -752,7 +752,7 @@ items:
         readOnly: true
     preemptionPolicy: PreemptLowerPriority
     priority: 0
-    serviceAccountName: prod
+    serviceAccountName: default
     tolerations:
     - effect: NoExecute
       key: node.kubernetes.io/not-ready
@@ -771,7 +771,7 @@ items:
         name: fail2ban-config
       name: fail2ban-config-cloudflare
     - configMap:
-        prodMode: 493
+        defaultMode: 493
         name: fail2ban-cloudflare-ban-script
       name: ban-script
     - name: cloudflare-creds
@@ -927,7 +927,7 @@ items:
             name: host-logs
         dnsPolicy: ClusterFirst
         restartPolicy: Always
-        schedulerName: prod-scheduler
+        schedulerName: default-scheduler
         terminationGracePeriodSeconds: 30
         volumes:
         - hostPath:
@@ -1089,7 +1089,7 @@ items:
             name: nginx-logs
         dnsPolicy: ClusterFirst
         restartPolicy: Always
-        schedulerName: prod-scheduler
+        schedulerName: default-scheduler
         terminationGracePeriodSeconds: 30
         volumes:
         - hostPath:
@@ -1097,35 +1097,35 @@ items:
             type: DirectoryOrCreate
           name: nginx-logs
         - configMap:
-            prodMode: 420
+            defaultMode: 420
             name: fail2ban-config
           name: fail2ban-config-cloudflare
         - configMap:
-            prodMode: 493
+            defaultMode: 493
             name: fail2ban-cloudflare-ban-script
           name: ban-script
         - name: cloudflare-creds
           secret:
-            prodMode: 420
+            defaultMode: 420
             secretName: cloudflare-creds
         - configMap:
-            prodMode: 420
+            defaultMode: 420
             name: fail2ban-main-config
           name: fail2ban-main-config
         - configMap:
-            prodMode: 420
+            defaultMode: 420
             name: nginx-config
           name: config
         - configMap:
-            prodMode: 420
+            defaultMode: 420
             name: fail2ban-config
           name: fail2ban-config
         - configMap:
-            prodMode: 420
+            defaultMode: 420
             name: www-configmap
           name: www-volume
         - configMap:
-            prodMode: 420
+            defaultMode: 420
             name: nginx-config
           name: config-volume
         - hostPath:
@@ -1277,7 +1277,7 @@ items:
             name: nginx-logs
         dnsPolicy: ClusterFirst
         restartPolicy: Always
-        schedulerName: prod-scheduler
+        schedulerName: default-scheduler
         terminationGracePeriodSeconds: 30
         volumes:
         - hostPath:
@@ -1285,35 +1285,35 @@ items:
             type: DirectoryOrCreate
           name: nginx-logs
         - configMap:
-            prodMode: 420
+            defaultMode: 420
             name: fail2ban-config
           name: fail2ban-config-cloudflare
         - configMap:
-            prodMode: 493
+            defaultMode: 493
             name: fail2ban-cloudflare-ban-script
           name: ban-script
         - name: cloudflare-creds
           secret:
-            prodMode: 420
+            defaultMode: 420
             secretName: cloudflare-creds
         - configMap:
-            prodMode: 420
+            defaultMode: 420
             name: fail2ban-main-config
           name: fail2ban-main-config
         - configMap:
-            prodMode: 420
+            defaultMode: 420
             name: nginx-config
           name: config
         - configMap:
-            prodMode: 420
+            defaultMode: 420
             name: fail2ban-config
           name: fail2ban-config
         - configMap:
-            prodMode: 420
+            defaultMode: 420
             name: www-configmap
           name: www-volume
         - configMap:
-            prodMode: 420
+            defaultMode: 420
             name: nginx-config
           name: config-volume
         - hostPath:
