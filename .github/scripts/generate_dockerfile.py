@@ -21,22 +21,15 @@ def get_latest_njs_version():
     return data["tag_name"].lstrip("v")
 
 def get_latest_njs_debian_release():
-    # Query Debian Sources API for njs in bookworm
     url = "https://sources.debian.org/api/src/njs/"
     resp = requests.get(url)
     data = resp.json()
-    # Find the latest version for bookworm
     for version in data.get("versions", []):
         if "bookworm" in version["suites"]:
-            # version["version"] is like "0.7.11-3~bookworm"
             ver = version["version"]
-            # Split into upstream, debian release, and pkg release
-            # e.g. "0.7.11-3~bookworm" => NJS_RELEASE="3~bookworm", PKG_RELEASE="1~bookworm"
             if "-" in ver:
                 upstream, debrel = ver.split("-", 1)
-                # Sometimes debrel is like "3~bookworm"
-                return debrel, debrel  # Both as fallback
-    # Fallbacks
+                return debrel, debrel
     return "3~bookworm", "1~bookworm"
 
 NGINX_VERSION = get_latest_nginx_version()
@@ -44,8 +37,14 @@ ALPINE_VERSION = get_latest_alpine_version()
 NJS_VERSION = get_latest_njs_version()
 NJS_RELEASE, PKG_RELEASE = get_latest_njs_debian_release()
 
+# Only append ALPINE_VERSION if it's not 'latest'
+if ALPINE_VERSION == "latest":
+    base_image = f"nginx:{NGINX_VERSION}"
+else:
+    base_image = f"nginx:{NGINX_VERSION}-{ALPINE_VERSION}"
+
 dockerfile_content = f"""\
-FROM nginx:{NGINX_VERSION}-{ALPINE_VERSION}
+FROM {base_image}
 
 LABEL description="Built by technotuba for K8s NGINX WWW"
 LABEL maintainer="main.plan5783@fastmail.com"
