@@ -1,0 +1,76 @@
+import datetime
+import requests
+
+def get_latest_nginx_version():
+    url = "https://nginx.org/en/download.html"
+    resp = requests.get(url)
+    import re
+    match = re.search(r'nginx-(\d+\.\d+\.\d+)\.tar\.gz', resp.text)
+    return match.group(1) if match else "1.28.0"
+
+def get_latest_alpine_version():
+    url = "https://registry.hub.docker.com/v2/repositories/library/alpine/tags?page_size=100"
+    resp = requests.get(url)
+    tags = [t['name'] for t in resp.json()['results']]
+    return "alpine-slim" if "alpine-slim" in tags else tags[0]
+
+def get_latest_njs_version():
+    url = "https://api.github.com/repos/nginx/njs/releases/latest"
+    resp = requests.get(url)
+    data = resp.json()
+    return data["tag_name"].lstrip("v")
+
+def get_latest_njs_debian_release():
+    # Query Debian Sources API for njs in bookworm
+    url = "https://sources.debian.org/api/src/njs/"
+    resp = requests.get(url)
+    data = resp.json()
+    # Find the latest version for bookworm
+    for version in data.get("versions", []):
+        if "bookworm" in version["suites"]:
+            # version["version"] is like "0.7.11-3~bookworm"
+            ver = version["version"]
+            # Split into upstream, debian release, and pkg release
+            # e.g. "0.7.11-3~bookworm" => NJS_RELEASE="3~bookworm", PKG_RELEASE="1~bookworm"
+            if "-" in ver:
+                upstream, debrel = ver.split("-", 1)
+                # Sometimes debrel is like "3~bookworm"
+                return debrel, debrel  # Both as fallback
+    # Fallbacks
+    return "3~bookworm", "1~bookworm"
+
+NGINX_VERSION = get_latest_nginx_version()
+ALPINE_VERSION = get_latest_alpine_version()
+NJS_VERSION = get_latest_njs_version()
+NJS_RELEASE, PKG_RELEASE = get_latest_njs_debian_release()
+
+dockerfile_content = f"""\
+FROM nginx:{NGINX_VERSION}-{ALPINE_VERSION}
+
+LABEL description="Built by technotuba for K8s NGINX WWW"
+LABEL maintainer="main.plan5783@fastmail.com"
+LABEL ClusterAge="{datetime.datetime.now().strftime('%a %b %d %I:%M:%S %p %Z %Y')}"
+LABEL source="https://github.com/gregheffner/k8-nginx-webpage"
+
+ENV NGINX_VERSION={NGINX_VERSION} \\
+    NJS_VERSION={NJS_VERSION} \\
+    NJS_RELEASE={NJS_RELEASE} \\
+    PKG_RELEASE={PKG_RELEASE}
+
+RUN set -x && \\
+    rm -rf /var/lib/apt/lists/*
+
+COPY docker-entrypoint.sh /
+COPY docker-entrypoint.d/ /docker-entrypoint.d/
+
+RUN chmod +x /docker-entrypoint.sh && \\
+    chmod +x /docker-entrypoint.d/*.sh || true
+
+EXPOSE 80
+
+ENTRYPOINT ["/docker-entrypoint.sh"]
+CMD ["nginx", "-g", "daemon off;"]
+"""
+
+with open("Dockerfile", "w") as f:
+    f.write(dockerfile_content)
