@@ -10,13 +10,8 @@ items:
     name: nginx-service
     namespace: prod
   spec:
-    clusterIP: 10.100.221.5
-    clusterIPs:
-    - 10.100.221.5
     externalTrafficPolicy: Local
     healthCheckNodePort: 31887
-    ipFamilies:
-    - IPv4
     ipFamilyPolicy: SingleStack
     ports:
     - name: http
