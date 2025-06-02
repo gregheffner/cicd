@@ -65,6 +65,8 @@ items:
             requests:
               cpu: 100m
           volumeMounts:
+          - mountPath: /var/log/nginx
+            name: nginx-logs
           - mountPath: /usr/share/nginx/html
             name: www-volume
           - mountPath: /etc/nginx/nginx.conf
@@ -84,6 +86,8 @@ items:
           securityContext:
             privileged: true
           volumeMounts:
+          - mountPath: /var/log/nginx
+            name: nginx-logs
           - mountPath: /etc/fail2ban/action.d/cloudflare-ban.conf
             name: fail2ban-config-cloudflare
             subPath: cloudflare-ban.conf
@@ -132,7 +136,10 @@ items:
             path: /home/huey/www/images
             type: Directory
           name: images-volume
-
+        - hostPath:
+            path: /var/log/nginx
+            type: DirectoryOrCreate
+          name: nginx-logs
 - apiVersion: autoscaling/v2
   kind: HorizontalPodAutoscaler
   metadata:
