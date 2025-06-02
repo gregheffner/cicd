@@ -1,4 +1,4 @@
-name: Switch NGINX Service to Blue
+name: Push traffic to blue cluster
 
 on:
   workflow_dispatch:
