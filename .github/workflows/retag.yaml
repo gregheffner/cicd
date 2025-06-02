@@ -84,10 +84,10 @@ jobs:
       - name: Update blue deployment to use previous image
         run: sed -i "s#technotuba/nginx:[^\"']*#technotuba/nginx:${{ steps.tags.outputs.PREVIOUS }}#g" nginx-blue.yaml
 
-      - name: Commit and push updated YAMLs
+     - name: Commit and push updated YAMLs
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
           git add nginx-green.yaml nginx-blue.yaml
           git commit -m "chore: update deployment images to latest and previous" || echo "No changes to commit"
-          git push
+          git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }}.git HEAD:${{ github.ref }}
