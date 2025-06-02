@@ -57,7 +57,7 @@ items:
       spec:
         containers:
         - name: nginx
-          image: technotuba/nginx:v2025.6.1
+          image: technotuba/nginx:v2025.06
           ports:
           - containerPort: 80
           - containerPort: 81
