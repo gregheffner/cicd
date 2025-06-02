@@ -1,6 +1,8 @@
 name: Auto Update Docker Image
 
-
+on:
+  #schedule: * * 1 0 0
+  workflow_dispatch:
 
 jobs:
   update-build-push:
