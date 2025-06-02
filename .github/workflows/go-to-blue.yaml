@@ -2,8 +2,6 @@ name: Switch NGINX Service to Blue
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '0 0 1 * *'
 
 jobs:
   switch-service-to-blue:
