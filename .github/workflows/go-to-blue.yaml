@@ -1,4 +1,4 @@
-name: Push traffic to blue cluster
+name: Push traffic to blue silo
 
 on:
   workflow_dispatch:
