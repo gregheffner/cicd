@@ -36,7 +36,7 @@ items:
     selector:
       matchLabels:
         app: nginx-web
-        version: blue   # <--- Match blue pods
+        version: green   # <--- Match blue pods
     template:
       metadata:
         labels:
@@ -57,7 +57,7 @@ items:
       spec:
         containers:
         - name: nginx
-          image: technotuba/nginx:
+          image: technotuba/nginx:latest
           ports:
           - containerPort: 80
           - containerPort: 81
