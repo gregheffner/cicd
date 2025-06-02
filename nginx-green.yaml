@@ -19,7 +19,7 @@ items:
       port: 81
     selector:
       app: nginx-web
-      version: green   # <--- Route traffic to green deployment
+      version: blue
     type: LoadBalancer
 
 - apiVersion: apps/v1
