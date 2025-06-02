@@ -12,21 +12,21 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Change only the Service selector from blue to green in nginx-green.yaml
+      - name: Change only the Service selector from green to blue in nginx-green.yaml
         run: |
           awk '{
-            if (!done && $0 ~ /^ *version: blue/) {
-              sub(/version: blue/, "version: green")
+            if (!done && $0 ~ /^ *version: green/) {
+              sub(/version: green/, "version: blue")
               done=1
             }
             print
           }' nginx-green.yaml > tmp.yaml && mv tmp.yaml nginx-green.yaml
 
-      - name: Change only the Service selector from blue to green in nginx-blue.yaml
+      - name: Change only the Service selector from green to blue in nginx-blue.yaml
         run: |
           awk '{
-            if (!done && $0 ~ /^ *version: blue/) {
-              sub(/version: blue/, "version: green")
+            if (!done && $0 ~ /^ *version: green/) {
+              sub(/version: green/, "version: blue")
               done=1
             }
             print
