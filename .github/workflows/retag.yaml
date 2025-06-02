@@ -1,14 +1,45 @@
 name: Make new image and tag old
 
 on:
+  workflow_dispatch:
   schedule:
     - cron: '0 0 1 * *'
-  workflow_dispatch:
-
 jobs:
   retag-latest:
     runs-on: ubuntu-latest
     steps:
+    
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Change only the Service selector from blue to green in nginx-green.yaml
+        run: |
+          awk '{
+            if (!done && $0 ~ /^ *version: blue/) {
+              sub(/version: blue/, "version: green")
+              done=1
+            }
+            print
+          }' nginx-green.yaml > tmp.yaml && mv tmp.yaml nginx-green.yaml
+
+      - name: Change only the Service selector from blue to green in nginx-blue.yaml
+        run: |
+          awk '{
+            if (!done && $0 ~ /^ *version: blue/) {
+              sub(/version: blue/, "version: green")
+              done=1
+            }
+            print
+          }' nginx-blue.yaml > tmp.yaml && mv tmp.yaml nginx-blue.yaml
+
+      - name: Commit and push changes
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          git add nginx-green.yaml nginx-blue.yaml
+          git commit -m "chore: switch nginx service selector to green" || echo "No changes to commit"
+          git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }}.git HEAD:${{ github.ref }}
+      
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
@@ -53,8 +84,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: technotuba/nginx:latest
-          
+          tags: technotuba/nginx:latest   
           
       - name: Checkout code
         uses: actions/checkout@v4
