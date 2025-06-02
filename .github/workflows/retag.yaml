@@ -54,20 +54,23 @@ jobs:
           context: .
           push: true
           tags: technotuba/nginx:latest
+          
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Pull latest changes
+        run: git pull --rebase
 
       - name: Update green deployment to use latest image
-        run: |
-          sed -i 's#technotuba/nginx:[^"]*#technotuba/nginx:latest#g' nginx-green.yaml
+        run: sed -i 's#***/nginx:[^"]*#***/nginx:latest#g' nginx-green.yaml
 
       - name: Update blue deployment to use versioned image
-        run: |
-          sed -i "s#technotuba/nginx:[^\"']*#technotuba/nginx:${{ steps.date.outputs.TAG }}#g" nginx-blue.yaml
+        run: sed -i "s#***/nginx:[^\"']*#***/nginx:v2025.06#g" nginx-blue.yaml
 
       - name: Commit and push updated YAMLs
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
-          git pull --rebase
           git add nginx-green.yaml nginx-blue.yaml
-          git commit -m "chore: update deployment images to latest and ${{ steps.date.outputs.TAG }}" || echo "No changes to commit"
-          git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }}.git HEAD:${{ github.ref }}
+          git commit -m "chore: update deployment images to latest and v2025.06" || echo "No changes to commit"
+          git push
