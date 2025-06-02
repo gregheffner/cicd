@@ -27,7 +27,7 @@ items:
   metadata:
     labels:
       app: nginx-web
-      version: blue   # <--- Mark as blue deployment
+      version: green   # <--- Mark as blue deployment
       k8slens-edit-resource-version: v1
     name: nginx-web-blue   # <--- Name for blue deployment
     namespace: prod
