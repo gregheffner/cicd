@@ -54,3 +54,19 @@ jobs:
           context: .
           push: true
           tags: technotuba/nginx:latest
+
+      - name: Update green deployment to use latest image
+        run: |
+          sed -i 's#technotuba/nginx:[^"]*#technotuba/nginx:latest#g' nginx-green.yaml
+
+      - name: Update blue deployment to use versioned image
+        run: |
+          sed -i "s#technotuba/nginx:[^\"']*#technotuba/nginx:${{ steps.date.outputs.TAG }}#g" nginx-blue.yaml
+
+      - name: Commit and push updated YAMLs
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          git add nginx-green.yaml nginx-blue.yaml
+          git commit -m "chore: update deployment images to latest and ${{ steps.date.outputs.TAG }}" || echo "No changes to commit"
+          git push
