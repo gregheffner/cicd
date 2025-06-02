@@ -36,7 +36,7 @@ items:
     selector:
       matchLabels:
         app: nginx-web
-        version: green   # <--- Match blue pods
+        version: blue   # <--- Match blue pods
     template:
       metadata:
         labels:
