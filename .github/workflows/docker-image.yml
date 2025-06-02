@@ -1,10 +1,6 @@
 name: Auto Update Docker Image
 
-on:
-  workflow_run:
-    workflows: ["Retag DockerHub Latest"]
-    types:
-      - completed
+
 
 jobs:
   update-build-push:
