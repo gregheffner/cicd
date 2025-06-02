@@ -55,6 +55,22 @@ jobs:
           push: true
           tags: technotuba/nginx:latest
           
+      - name: Get latest and previous tags from Docker Hub
+        id: tags
+        run: |
+          python <<EOF
+import requests
+repo = "technotuba/nginx"
+url = f"https://hub.docker.com/v2/repositories/{repo}/tags?page_size=2&page=1&ordering=last_updated"
+resp = requests.get(url)
+tags = [result['name'] for result in resp.json()['results']]
+latest = tags[0] if len(tags) > 0 else "latest"
+previous = tags[1] if len(tags) > 1 else "latest"
+with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
+    fh.write(f"LATEST={latest}\n")
+    fh.write(f"PREVIOUS={previous}\n")
+EOF
+          
       - name: Checkout code
         uses: actions/checkout@v4
 
@@ -62,10 +78,10 @@ jobs:
         run: git pull --rebase
 
       - name: Update green deployment to use latest image
-        run: sed -i 's#***/nginx:[^"]*#***/nginx:latest#g' nginx-green.yaml
+        run: sed -i 's#technotuba/nginx:[^"]*#technotuba/nginx:${{ steps.tags.outputs.LATEST }}#g' nginx-green.yaml
 
-      - name: Update blue deployment to use versioned image
-        run: sed -i "s#***/nginx:[^\"']*#***/nginx:v2025.06#g" nginx-blue.yaml
+      - name: Update blue deployment to use previous image
+        run: sed -i "s#technotuba/nginx:[^\"']*#technotuba/nginx:${{ steps.tags.outputs.PREVIOUS }}#g" nginx-blue.yaml
 
       - name: Commit and push updated YAMLs
         run: |
