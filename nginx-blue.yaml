@@ -76,8 +76,6 @@ items:
             name: config
             readOnly: true
             subPath: status.conf
-          - mountPath: /var/log/nginx
-            name: nginx-logs
         - name: fail2ban
           image: crazymax/fail2ban:latest
           resources:
@@ -103,14 +101,8 @@ items:
           - mountPath: /etc/fail2ban/filter.d/nginx-404.conf
             name: fail2ban-config
             subPath: nginx-404.conf
-          - mountPath: /var/log/nginx
-            name: nginx-logs
         serviceAccountName: prod
         volumes:
-        - hostPath:
-            path: /var/log/nginx
-            type: DirectoryOrCreate
-          name: nginx-logs
         - configMap:
             name: fail2ban-config
           name: fail2ban-config-cloudflare
