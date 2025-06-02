@@ -1,5 +1,6 @@
 import datetime
 import requests
+import re
 
 def get_stable_nginx_version():
     url = "https://nginx.org/en/download.html"
