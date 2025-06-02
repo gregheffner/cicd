@@ -31,8 +31,8 @@ jobs:
             print
           }' nginx-blue.yaml > tmp.yaml && mv tmp.yaml nginx-blue.yaml
 
-      - name: Update blue deployment to use previous image
-        run: sed -i 's#technotuba/nginx:[^"]*#technotuba/nginx:${{ steps.tags.outputs.LATEST }}#g' nginx-blue.yaml
+      - name: Update blue deployment to latest
+        run: sed -i 's#technotuba/nginx:[^"]*#technotuba/nginx:latest#g' nginx-blue.yaml
 
       - name: Commit and push updated YAMLs
         run: |
