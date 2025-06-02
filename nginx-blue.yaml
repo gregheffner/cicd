@@ -19,7 +19,7 @@ items:
       port: 81
     selector:
       app: nginx-web
-      version: blue
+      version: green
     type: LoadBalancer
       
 - apiVersion: apps/v1
@@ -57,7 +57,7 @@ items:
       spec:
         containers:
         - name: nginx
-          image: technotuba/nginx:v2025.6.1
+          image: technotuba/nginx:
           ports:
           - containerPort: 80
           - containerPort: 81
