@@ -55,11 +55,18 @@ jobs:
           push: true
           tags: technotuba/nginx:latest
           
+          
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Pull latest changes
+        run: git pull --rebase
+
       - name: Get latest and previous tags from Docker Hub
         id: tags
         run: |
           python <<EOF
-import requests
+import requests, os
 repo = "technotuba/nginx"
 url = f"https://hub.docker.com/v2/repositories/{repo}/tags?page_size=2&page=1&ordering=last_updated"
 resp = requests.get(url)
@@ -70,12 +77,6 @@ with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
     fh.write(f"LATEST={latest}\n")
     fh.write(f"PREVIOUS={previous}\n")
 EOF
-          
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Pull latest changes
-        run: git pull --rebase
 
       - name: Update green deployment to use latest image
         run: sed -i 's#technotuba/nginx:[^"]*#technotuba/nginx:${{ steps.tags.outputs.LATEST }}#g' nginx-green.yaml
@@ -88,5 +89,5 @@ EOF
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
           git add nginx-green.yaml nginx-blue.yaml
-          git commit -m "chore: update deployment images to latest and v2025.06" || echo "No changes to commit"
+          git commit -m "chore: update deployment images to latest and previous" || echo "No changes to commit"
           git push
