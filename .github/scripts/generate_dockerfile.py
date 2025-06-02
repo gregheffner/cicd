@@ -1,18 +1,14 @@
 import datetime
 import requests
 
-def get_latest_nginx_version():
+def get_stable_nginx_version():
     url = "https://nginx.org/en/download.html"
     resp = requests.get(url)
-    import re
-    match = re.search(r'nginx-(\d+\.\d+\.\d+)\.tar\.gz', resp.text)
-    return match.group(1) if match else "1.28.0"
-
-def get_latest_alpine_version():
-    url = "https://registry.hub.docker.com/v2/repositories/library/alpine/tags?page_size=100"
-    resp = requests.get(url)
-    tags = [t['name'] for t in resp.json()['results']]
-    return "alpine-slim" if "alpine-slim" in tags else tags[0]
+    # Find the "Stable version" section and extract the first nginx-X.Y.Z occurrence after it
+    stable_section = re.search(r"Stable version.*?nginx-(\d+\.\d+\.\d+)", resp.text, re.DOTALL)
+    if stable_section:
+        return stable_section.group(1)
+    return "1.28.0"
 
 def get_latest_njs_version():
     url = "https://api.github.com/repos/nginx/njs/releases/latest"
@@ -32,11 +28,11 @@ def get_latest_njs_debian_release():
                 return debrel, debrel
     return "3~bookworm", "1~bookworm"
 
-NGINX_VERSION = get_latest_nginx_version()
+NGINX_VERSION = get_stable_nginx_version()
 NJS_VERSION = get_latest_njs_version()
 NJS_RELEASE, PKG_RELEASE = get_latest_njs_debian_release()
 
-base_image = f"nginx:{NGINX_VERSION}-alpine"
+base_image = f"nginx:{NGINX_VERSION}-alpine-slim"
 
 dockerfile_content = f"""\
 FROM {base_image}
