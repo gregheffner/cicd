@@ -1,7 +1,8 @@
 name: Retag DockerHub Latest
 
 on:
-  #schedule: * * 1 0 0
+  schedule:
+    - cron: '0 0 1 * *'
   workflow_dispatch:
 
 jobs:
