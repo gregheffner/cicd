@@ -1,4 +1,4 @@
-name: Retag DockerHub Latest
+name: Make new image and tag old
 
 on:
   schedule:
