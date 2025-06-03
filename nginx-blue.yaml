@@ -146,7 +146,7 @@ items:
     name: nginx-web-blue
     namespace: prod
   spec:
-    maxReplicas: 15
+    maxReplicas: 10
     minReplicas: 3
     scaleTargetRef:
       apiVersion: apps/v1
