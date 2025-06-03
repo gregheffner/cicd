@@ -158,4 +158,4 @@ items:
         name: cpu
         target:
           type: Utilization
-          averageUtilization: 69
+          averageUtilization: 75
