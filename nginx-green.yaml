@@ -147,7 +147,7 @@ items:
     name: nginx-web-green
     namespace: prod
   spec:
-    maxReplicas: 10
+    maxReplicas: 15
     minReplicas: 3
     scaleTargetRef:
       apiVersion: apps/v1
