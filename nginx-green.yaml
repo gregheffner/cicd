@@ -154,9 +154,9 @@ items:
       kind: Deployment
       name: nginx-web-green
     metrics:
-    - type: Resource
-    resource:
-      name: cpu
-      target:
-        type: AverageValue
-        averageValue: "3000m"
+      - type: Resource
+        resource:
+          name: cpu
+          target:
+            type: AverageValue
+            averageValue: "3000m"
