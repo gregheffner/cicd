@@ -155,8 +155,8 @@ items:
       name: nginx-web-green
     metrics:
     - type: Resource
-      resource:
-        name: cpu
-        target:
-          type: Utilization
-          averageUtilization: 69
+    resource:
+      name: cpu
+      target:
+        type: AverageValue
+        averageValue: "3000m"
