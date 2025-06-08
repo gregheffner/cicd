@@ -1,4 +1,4 @@
-name: Push GREEN silo to latest image
+name: Update PROD with nginx:latest
 
 on:
   workflow_dispatch:
