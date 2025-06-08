@@ -1,43 +1,40 @@
 apiVersion: v1
-kind: List
-items:
-- apiVersion: v1
-  kind: Service
-  metadata:
-    labels:
-      app: nginx-web
-      k8slens-edit-resource-version: v1
-    name: nginx-service
-    namespace: prod
-  spec:
-    externalTrafficPolicy: Local
-    ipFamilyPolicy: SingleStack
-    ports:
+kind: Service
+metadata:
+  labels:
+    app: nginx-web
+    k8slens-edit-resource-version: v1
+  name: nginx-service
+  namespace: prod
+spec:
+  externalTrafficPolicy: Local
+  ipFamilyPolicy: SingleStack
+  ports:
     - name: http
       port: 80
     - name: nginx-status
       port: 81
-    selector:
-      app: nginx-web
-      version: blue
-    type: LoadBalancer
-
+  selector:
+    app: nginx-web
+    version: blue
+  type: LoadBalancer
+---
 apiVersion: autoscaling/v2
-  kind: HorizontalPodAutoscaler
-  metadata:
+kind: HorizontalPodAutoscaler
+metadata:
+  name: nginx-web-blue
+  namespace: prod
+spec:
+  maxReplicas: 10
+  minReplicas: 3
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
     name: nginx-web-blue
-    namespace: prod
-  spec:
-    maxReplicas: 10
-    minReplicas: 3
-    scaleTargetRef:
-      apiVersion: apps/v1
-      kind: Deployment
-      name: nginx-web-blue
-    metrics:
-      - type: Resource
-        resource:
-          name: cpu
-          target:
-            type: AverageValue
-            averageValue: "3000m"
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: AverageValue
+          averageValue: "3000m"
