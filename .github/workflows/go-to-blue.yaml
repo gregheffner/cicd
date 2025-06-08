@@ -18,7 +18,7 @@ jobs:
               done=1
             }
             print
-          }' nginx-service.yaml > tmp.yaml && mv tmp.yaml nginx-service.yaml
+          }' shared/nginx-service.yaml > tmp.yaml && mv tmp.yaml shared/nginx-service.yaml
 
       - name: Commit and push changes
         run: |
