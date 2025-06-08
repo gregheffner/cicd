@@ -1,4 +1,4 @@
-- apiVersion: apps/v1
+  apiVersion: apps/v1
   kind: DaemonSet
   metadata:
     labels:
@@ -115,4 +115,3 @@
             path: /home/huey/www/images
             type: Directory
           name: images-volume
-
