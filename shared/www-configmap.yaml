@@ -5,7 +5,6 @@ metadata:
   namespace: prod
   labels:
     k8slens-edit-resource-version: v1
-  selfLink: /api/v1/namespaces/prod/configmaps/www-configmap
 data:
   ads.txt: |
     google.com, pub-3941951641805897, DIRECT, f08c47fec0942fa0
