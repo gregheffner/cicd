@@ -2,6 +2,9 @@ name: Clear Cloudflare Cache
 
 on:
   workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
 
 jobs:
   clear-cache:
