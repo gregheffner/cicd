@@ -1,4 +1,4 @@
-name: Update PROD with nginx:latest
+name: Update PROD to nginx:latest
 
 on:
   workflow_dispatch:
