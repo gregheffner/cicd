@@ -1,0 +1,3 @@
+- name: Write kube-root-ca.crt from GitHub Secret
+  run: |
+    echo "${{ secrets.KUBE_ROOT_CA_CRT }}" | base64 --decode > kube-root-ca.crt
