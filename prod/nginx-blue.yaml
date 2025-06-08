@@ -116,24 +116,3 @@
             path: /var/log/nginx
             type: DirectoryOrCreate
           name: nginx-logs
-
-
-  apiVersion: autoscaling/v2
-  kind: HorizontalPodAutoscaler
-  metadata:
-    name: nginx-web-blue
-    namespace: prod
-  spec:
-    maxReplicas: 10
-    minReplicas: 3
-    scaleTargetRef:
-      apiVersion: apps/v1
-      kind: Deployment
-      name: nginx-web-blue
-    metrics:
-      - type: Resource
-        resource:
-          name: cpu
-          target:
-            type: AverageValue
-            averageValue: "3000m"
