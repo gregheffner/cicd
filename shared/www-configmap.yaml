@@ -2008,3 +2008,119 @@ data:
           <priority>1.0</priority>
         </url>
     </urlset>
+  CarPlay.html: |
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>HEFFNER</title>
+          <style>
+              html,
+              body {
+                  height: 100%;
+                  margin: 0;
+                  padding: 0;
+              }
+
+              body {
+                  background: #000;
+                  color: #fff;
+                  margin: 0;
+                  font-family: sans-serif;
+                  min-height: 100vh;
+                  display: flex;
+                  flex-direction: column;
+                  align-items: center;
+                  justify-content: center;
+              }
+
+              header,
+              footer {
+                  text-align: center;
+                  margin: 20px 0;
+              }
+
+              table {
+                  margin: 0 auto;
+                  width: 90vw;
+                  max-width: 600px;
+                  border-spacing: 20px 24px;
+              }
+
+              td {
+                  width: 50%;
+                  text-align: center;
+              }
+
+              td a img {
+                  width: 100%;
+                  max-width: 140px;
+                  aspect-ratio: 1 / 1;
+                  height: auto;
+                  background: #fff;
+                  border-radius: 16px;
+                  padding: 16px;
+                  box-sizing: border-box;
+                  border: 2px solid #333;
+                  transition: box-shadow 0.2s;
+                  object-fit: contain;
+                  display: block;
+                  margin: 0 auto;
+              }
+
+              td a img:hover {
+                  box-shadow: 0 0 12px #fff8;
+              }
+          </style>
+          </head>
+
+          <body>
+              <header>
+                  <h1>HEFFNER S5</h1>
+              </header>
+              <table>
+                  <tr>
+                      <td>
+                          <a href="https://app.datadoghq.com/">
+                              <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/datadog.svg" alt="Datadog">
+                          </a>
+                      </td>
+                      <td>
+                          <a href="http://192.168.1.190:32207/">
+                              <img src="https://argo-cd.readthedocs.io/en/stable/assets/logo.png" alt="Argo">
+                          </a>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td>
+                          <a href="https://greg.heffner.live/">
+                              <img src="https://greg.heffner.live/image/photo/header.jpg" alt="Homepage">
+                          </a>
+                      </td>
+                      <td>
+                          <a href="https://github.com/">
+                              <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub">
+                          </a>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td>
+                          <a href="https://instagram.com/">
+                              <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram">
+                          </a>
+                      </td>
+                      <td>
+                          <a href="https://cloudflare.com/">
+                              <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/cloudflare.svg"
+                                  alt="Cloudflare">
+                          </a>
+                      </td>
+                  </tr>
+              </table>
+              <footer>
+                  <h1>@jax_s5</h1>
+              </footer>
+          </body>
+
+          </html>
