@@ -1,28 +1,4 @@
-apiVersion: v1
-kind: List
-items:
-- apiVersion: v1
-  kind: Service
-  metadata:
-    labels:
-      app: nginx-web
-      k8slens-edit-resource-version: v1
-    name: nginx-service
-    namespace: prod
-  spec:
-    externalTrafficPolicy: Local
-    ipFamilyPolicy: SingleStack
-    ports:
-    - name: http
-      port: 80
-    - name: nginx-status
-      port: 81
-    selector:
-      app: nginx-web
-      version: blue
-    type: LoadBalancer
-      
-- apiVersion: apps/v1
+  apiVersion: apps/v1
   kind: Deployment
   metadata:
     labels:
@@ -140,6 +116,8 @@ items:
             path: /var/log/nginx
             type: DirectoryOrCreate
           name: nginx-logs
+
+
 - apiVersion: autoscaling/v2
   kind: HorizontalPodAutoscaler
   metadata:
