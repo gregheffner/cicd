@@ -1,0 +1,117 @@
+  apiVersion: apps/v1
+  kind: DaemonSet
+  metadata:
+    labels:
+      app: nginx-web
+      version: blue
+      k8slens-edit-resource-version: v1
+    name: nginx-web-gold
+    namespace: prod
+  spec:
+    selector:
+      matchLabels:
+        app: nginx-web
+        version: gold
+    template:
+      metadata:
+        labels:
+          app: nginx-web
+          version: gold
+        annotations:
+          ad.datadoghq.com/nginx.checks: |
+            {
+              "nginx": {
+                "init_config": {},
+                "instances": [
+                  {
+                    "nginx_status_url":"http://%%host%%:81/nginx_status/"
+                  }
+                ]
+              }
+            }
+      spec:
+        containers:
+        - name: nginx
+          image: technotuba/nginx:latest
+          ports:
+          - containerPort: 80
+          - containerPort: 81
+          resources:
+            requests:
+              cpu: 100m
+          volumeMounts:
+          - mountPath: /usr/share/nginx/html
+            name: www-volume
+          - mountPath: /etc/nginx/nginx.conf
+            name: config-volume
+            subPath: nginx.conf
+          - mountPath: /usr/share/nginx/html/image
+            name: images-volume
+          - mountPath: /etc/nginx/conf.d/status.conf
+            name: config
+            readOnly: true
+            subPath: status.conf
+          - mountPath: /var/log/nginx
+            name: nginx-logs
+        - name: fail2ban
+          image: crazymax/fail2ban:latest
+          resources:
+            requests:
+              cpu: 1m
+          securityContext:
+            privileged: true
+          volumeMounts:
+          - mountPath: /etc/fail2ban/action.d/cloudflare-ban.conf
+            name: fail2ban-config-cloudflare
+            subPath: cloudflare-ban.conf
+          - mountPath: /etc/cloudflare
+            name: cloudflare-creds
+          - mountPath: /usr/local/bin/fail2ban-cloudflare-ban.sh
+            name: ban-script
+            subPath: fail2ban-cloudflare-ban.sh
+          - mountPath: /etc/fail2ban/fail2ban.conf
+            name: fail2ban-main-config
+            subPath: fail2ban.conf
+          - mountPath: /etc/fail2ban/jail.local
+            name: fail2ban-config
+            subPath: jail.local
+          - mountPath: /etc/fail2ban/filter.d/nginx-404.conf
+            name: fail2ban-config
+            subPath: nginx-404.conf
+          - mountPath: /var/log/nginx
+            name: nginx-logs
+        serviceAccountName: prod
+        volumes:
+        - hostPath:
+            path: /var/log/nginx
+            type: DirectoryOrCreate
+          name: nginx-logs
+        - configMap:
+            name: fail2ban-config
+          name: fail2ban-config-cloudflare
+        - configMap:
+            name: fail2ban-cloudflare-ban-script
+            defaultMode: 0755
+          name: ban-script
+        - name: cloudflare-creds
+          secret:
+            secretName: cloudflare-creds
+        - configMap:
+            name: fail2ban-main-config
+          name: fail2ban-main-config
+        - configMap:
+            name: nginx-config
+          name: config
+        - configMap:
+            name: fail2ban-config
+          name: fail2ban-config
+        - configMap:
+            name: www-configmap
+          name: www-volume
+        - configMap:
+            name: nginx-config
+          name: config-volume
+        - hostPath:
+            path: /home/huey/www/images
+            type: Directory
+          name: images-volume
