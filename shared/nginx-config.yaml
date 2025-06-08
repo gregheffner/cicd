@@ -1,0 +1,94 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-config
+  namespace: prod   # Remove or change if needed
+data:
+  nginx.conf: |-
+    user  nginx;
+    worker_processes  auto;
+
+    error_log  /var/log/nginx/error.log crit;
+    error_log  /dev/stderr;
+    pid        /var/run/nginx.pid;
+
+    events {
+        worker_connections  1024;
+    }
+
+    http {
+        include       /etc/nginx/mime.types;
+        default_type  application/octet-stream;
+
+        map $http_x_forwarded_for $real_client_ip {
+            ~^(?<ip>[^,]+) $ip;
+            default $remote_addr;
+        }
+
+        log_format fail2ban '$real_client_ip - [$time_local] "$request" $status "$http_referer" "$http_user_agent"';
+
+        map $status $loggable {
+            ~^[23]  1;
+            default 0;
+        }
+
+        map $request_method $loggable {
+            default 1;
+            HEAD 0;
+        }
+
+        # Use the new log format for access_log
+        access_log  /var/log/nginx/access.log  fail2ban;
+        access_log /dev/stdout fail2ban;
+
+        sendfile        on;
+        #tcp_nopush     on;
+
+        keepalive_timeout  65;
+
+        #gzip  on;
+
+        include /etc/nginx/conf.d/*.conf;
+
+        server {
+          listen 80;
+
+          # Block all wlwmanifest.xml and xmlrpc.php requests, anywhere
+          location ~* wlwmanifest\.xml$ { return 444; }
+          location ~* xmlrpc\.php { return 444; }
+
+          # Block WordPress login
+          location = /wp-login.php { deny all; return 444; }
+          location ~* ^/(wp-admin|wp-includes) { deny all; return 444; }
+          
+          location /image/ {
+              root /usr/share/nginx/html/image;
+              expires 1y;
+              add_header Cache-Control "public, max-age=31536000, no-transform";
+              add_header Content-Security-Policy "default-src 'self'; style-src 'self' 'unsafe-inline';";
+          }
+          ignore_invalid_headers off;
+
+          location / {
+              root /usr/share/nginx/html;
+              index index.html index.htm;
+              expires 1y;
+              add_header Cache-Control "public, max-age=31536000, no-transform";
+          }
+          location /images/ {
+              root /usr/share/nginx/html/images;
+              expires 1y;
+              add_header Cache-Control "public, max-age=31536000, no-transform";
+              add_header Content-Security-Policy "default-src 'self'; style-src 'self' 'unsafe-inline';";
+          }
+        }
+    }
+  status.conf: |
+    server {
+      listen 81;
+      location /nginx_status {
+        stub_status;
+        allow all;  # or your agent's IP, or 'allow all;' for testing
+        server_tokens on;
+      }
+    }
