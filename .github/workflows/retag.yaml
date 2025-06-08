@@ -1,4 +1,4 @@
-name: Make new image and tag old
+name: Monthly build and retag
 
 on:
   workflow_dispatch:
