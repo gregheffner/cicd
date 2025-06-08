@@ -51,8 +51,8 @@ ENV NGINX_VERSION={NGINX_VERSION} \\
 RUN set -x && \\
     rm -rf /var/lib/apt/lists/*
 
-COPY docker-entrypoint.sh /
-COPY docker-entrypoint.d/ /docker-entrypoint.d/
+COPY DockerImage/docker-entrypoint.sh /
+COPY DockerImage/docker-entrypoint.d/ /docker-entrypoint.d/
 
 RUN chmod +x /docker-entrypoint.sh && \\
     chmod +x /docker-entrypoint.d/*.sh || true
