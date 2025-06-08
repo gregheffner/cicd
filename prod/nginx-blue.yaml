@@ -118,7 +118,7 @@
           name: nginx-logs
 
 
-- apiVersion: autoscaling/v2
+  apiVersion: autoscaling/v2
   kind: HorizontalPodAutoscaler
   metadata:
     name: nginx-web-blue
