@@ -1,4 +1,4 @@
-name: Push traffic to blue silo
+name: Push traffic to PROD
 
 on:
   workflow_dispatch:
