@@ -1,5 +1,8 @@
 # cicd
 
+
+![Blue-Green Deployment Diagram](screenshot.png)
+
 This repository showcases a blue-green deployment strategy using Kubernetes, enabling seamless and low-risk application updates by running two separate environments: **green** (for new releases) and **blue** (for production).
 
 ## Deployment Overview
