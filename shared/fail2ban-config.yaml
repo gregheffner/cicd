@@ -1,0 +1,45 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fail2ban-config
+  namespace: prod
+data:
+  cloudflare-ban.conf: |
+    [Definition]
+    actionstart =
+    actionstop =
+    actioncheck =
+    actionban = /usr/local/bin/fail2ban-cloudflare-ban.sh <ip>
+    actionunban =
+  jail.local: |-
+    [nginx-404]
+    enabled = true
+    port    = http,https
+    filter  = nginx-404
+    logpath = /var/log/nginx/access.log
+    action = cloudflare-ban[name=cloudflare-ban]
+    actionunban =
+    maxretry = 10
+    findtime = 86400
+    bantime = 2592000
+
+    [nginx-botsearch]
+    enabled = true
+    port    = http,https
+    filter  = nginx-botsearch
+    logpath = /var/log/nginx/access.log
+    action = cloudflare-ban[name=cloudflare-ban]
+    actionunban =
+    maxretry = 2
+    findtime = 600
+    bantime = 86400
+  nginx-404.conf: |
+    [Definition]
+    failregex = ^<HOST> - .*\s"[^"]*" 404
+    ignoreregex =
+  nginx-botsearch.conf: |
+    [Definition]
+    failregex = ^<HOST> - .*\s"[^"]*"
+    (444|403|400|499|495|496|497|500|501|502|503|504|520|521|522|523|524|525|526|530)
+    ignoreregex =
+  nginx-open.conf: |

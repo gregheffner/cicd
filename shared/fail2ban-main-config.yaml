@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fail2ban-main-config
+  namespace: prod
+data:
+  fail2ban.conf: |
+    [Definition]
+    loglevel = INFO
+    logtarget = STDOUT
