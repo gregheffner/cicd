@@ -1,0 +1,7 @@
+- name: Push cloudflare creds for fail2ban
+  run: |
+    kubectl create secret generic cloudflare-creds \
+      --namespace=prod \
+      --from-literal=API_TOKEN=${{ secrets.CLOUDFLARE_API_TOKEN }} \
+      --from-literal=ZONE_ID=${{ secrets.CLOUDFLARE_ZONE_ID }} \
+      --dry-run=client -o yaml | kubectl apply -f -
