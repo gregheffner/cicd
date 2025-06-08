@@ -14,7 +14,7 @@ This project demonstrates a blue-green deployment strategy with two separate dep
   - Docker Image: [`technotuba/nginx:latest`](https://hub.docker.com/r/technotuba/nginx/tags)
   - Represents the currently running production version.
 
-The blue-green deployment approach allows seamless switching between versions, minimizing downtime and risk during updates.
+The blue-green deployment approach allows seamless switching between versions, minimizing downtime and risk during updates. In this setup, the **DR (disaster recovery) environment** uses **DaemonSets** to ensure that the green version runs on every node, providing high availability for testing or backup purposes. The **PROD (production) environment** uses **StatefulSets** for the blue version, which is ideal for managing stable, persistent workloads in production. This separation ensures that updates can be tested safely in DR before promoting them to production, and that each environment uses the most appropriate Kubernetes controller for its needs.
 
 ## Environment Separation
 
