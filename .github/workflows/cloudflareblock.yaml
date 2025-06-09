@@ -1,0 +1,25 @@
+name: Cloudflare block count
+
+on:
+  workflow_dispatch:  # Runs every hour; adjust as needed
+
+jobs:
+  update-block-badge:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Get number of blocked IPs and update README badge
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          COUNT=$(curl -s -X GET "https://api.cloudflare.com/client/v4/user/firewall/access_rules/rules?mode=block&per_page=1000" \
+            -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+            -H "Content-Type: application/json" | jq '[.result[] | select(.configuration.target=="ip")] | length')
+          sed -i 's|<img alt="Cloudflare Block" src="https://img.shields.io/badge/cloudflare--block-[^"]*-red?logo=cloudflare&style=for-the-badge">|<img alt="Cloudflare Block" src="https://img.shields.io/badge/cloudflare--block-'"$COUNT"'-red?logo=cloudflare&style=for-the-badge">|' README.md
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          git add README.md
+          git commit -m "docs: update Cloudflare block badge [skip ci]" || echo "No changes to commit"
+          git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }}.git HEAD:${{ github.ref }}
