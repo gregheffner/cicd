@@ -16,7 +16,12 @@ jobs:
             -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
             -H "Content-Type: application/json" \
             --data '{"purge_everything":true}'
-            
+      
+      - name: Debug working directory
+        run: |
+          pwd
+          ls -l
+      
       - name: Update README with last Cloudflare cache clear date
         run: |
           DATE=$(date -u +"%Y-%m-%d %H:%M UTC")
