@@ -29,7 +29,7 @@ jobs:
       - name: Update README with last Cloudflare cache clear date
         run: |
           DATE=$(date -u +"%Y--%m--%d%%20%H:%M%%20UTC")
-          sed -i '/<img alt="Cloudflare" src="https:\/\/img.shields.io\/badge\/cloudflare-.*-orange?logo=cloudflare&style=for-the-badge">/c\<img alt="Cloudflare" src="https://img.shields.io/badge/cloudflare-'"$DATE"'-orange?logo=cloudflare&style=for-the-badge">' README.md
+          sed -i '/<img alt="Cloudflare Cache Clear" src="https:\/\/img.shields.io\/badge\/cloudflare-.*-orange?logo=cloudflare&style=for-the-badge">/c\<img alt="Cloudflare Cache Clear" src="https://img.shields.io/badge/cloudflare-'"$DATE"'-orange?logo=cloudflare&style=for-the-badge">' README.md
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
           git add README.md
