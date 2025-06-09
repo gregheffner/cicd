@@ -1,7 +1,9 @@
 name: Cloudflare block count
 
 on:
-  workflow_dispatch:  # Runs every hour; adjust as needed
+  workflow_dispatch:
+  schedule:
+    - cron: '0 9 * * *'
 
 jobs:
   update-block-badge:
