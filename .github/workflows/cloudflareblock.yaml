@@ -13,10 +13,13 @@ jobs:
       - name: Get number of blocked IPs and update README badge
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
         run: |
-          COUNT=$(curl -s -X GET "https://api.cloudflare.com/client/v4/user/firewall/access_rules/rules?mode=block&per_page=1000" \
+          RESPONSE=$(curl -s -X GET "https://api.cloudflare.com/client/v4/zones/$CLOUDFLARE_ZONE_ID/firewall/access_rules/rules?mode=block&per_page=1000" \
             -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-            -H "Content-Type: application/json" | jq '[.result[] | select(.configuration.target=="ip")] | length')
+            -H "Content-Type: application/json")
+          echo "$RESPONSE"
+          COUNT=$(echo "$RESPONSE" | jq '[.result[] | select(.configuration.target=="ip")] | length')
           sed -i 's|<img alt="Cloudflare Block" src="https://img.shields.io/badge/cloudflare--block-[^"]*-red?logo=cloudflare&style=for-the-badge">|<img alt="Cloudflare Block" src="https://img.shields.io/badge/cloudflare--block-'"$COUNT"'-red?logo=cloudflare&style=for-the-badge">|' README.md
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
