@@ -20,14 +20,14 @@ jobs:
             print
           }' shared/nginx-service.yaml > tmp.yaml && mv tmp.yaml shared/nginx-service.yaml
 
-      - name: Update README badge to green
-        run: |
-          sed -i '' 's|<img alt="Service Points To" src="https://img.shields.io/badge/service-.*-.*?style=for-the-badge">|<img alt="Service Points To" src="https://img.shields.io/badge/service-green-green?style=for-the-badge">|' README.md
-
       - name: Debug working directory and files
         run: |
           pwd
           ls -l
+
+      - name: Update README badge to green
+        run: |
+          sed -i '' 's|<img alt="Service Points To" src="https://img.shields.io/badge/service-.*-.*?style=for-the-badge">|<img alt="Service Points To" src="https://img.shields.io/badge/service-green-green?style=for-the-badge">|' README.md
       
       - name: Commit and push changes
         run: |
