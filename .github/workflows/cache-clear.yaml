@@ -35,4 +35,3 @@ jobs:
           git add README.md
           git commit -m "docs: update last Cloudflare cache clear date [skip ci]" || echo "No changes to commit"
           git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }}.git HEAD:${{ github.ref }}
-
