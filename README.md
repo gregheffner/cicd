@@ -5,7 +5,7 @@
 <img alt="Service Points To" src="https://img.shields.io/badge/service-blue-blue?style=for-the-badge">
 <img alt="Cloudflare" src="https://img.shields.io/badge/cloudflare-cache--clear-orange?logo=cloudflare&style=for-the-badge">
 
-> **Last Cloudflare cache clear:** <!-- CLOUDFLARE_CACHE_CLEAR_DATE -->Not yet run<!-- END_CLOUDFLARE_CACHE_CLEAR_DATE -->
+> **Last Cloudflare cache clear:** <!-- CLOUDFLARE_CACHE_CLEAR_DATE -->2025-06-09 02:09 UTC<!-- END_CLOUDFLARE_CACHE_CLEAR_DATE -->
 
 ![Blue-Green Deployment Diagram](screenshot.png)
 
