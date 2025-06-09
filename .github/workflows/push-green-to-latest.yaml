@@ -23,6 +23,10 @@ jobs:
 
       - name: Update blue deployment to latest
         run: sed -i 's#technotuba/nginx:[^"]*#technotuba/nginx:latest#g' prod/nginx-blue.yaml
+      
+      - name: Update green badge in README to latest
+        run: |
+          sed -i 's|<img alt="Green Image" src="https://img.shields.io/badge/green--image-technotuba/nginx:[^"-]*-brightgreen\?style=for-the-badge&logo=docker&logoColor=white">|<img alt="Green Image" src="https://img.shields.io/badge/green--image-technotuba/nginx:latest-brightgreen?style=for-the-badge&logo=docker&logoColor=white">|' README.md
 
       - name: Commit and push updated YAMLs
         run: |

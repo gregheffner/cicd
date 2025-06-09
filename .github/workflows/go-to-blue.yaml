@@ -20,10 +20,14 @@ jobs:
             print
           }' shared/nginx-service.yaml > tmp.yaml && mv tmp.yaml shared/nginx-service.yaml
 
+      - name: Update README badge to blue
+        run: |
+          sed -i '' 's|<img alt="Service Points To" src="https://img.shields.io/badge/service-.*-.*?style=for-the-badge">|<img alt="Service Points To" src="https://img.shields.io/badge/service-blue-blue?style=for-the-badge">|' README.md
+      
       - name: Commit and push changes
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
-          git add shared/nginx-service.yaml
+          git add shared/nginx-service.yaml README.md
           git commit -m "chore: switch nginx service selector to blue" || echo "No changes to commit"
           git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }}.git HEAD:${{ github.ref }}
