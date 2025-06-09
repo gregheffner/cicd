@@ -2118,8 +2118,21 @@ data:
                       </td>
                   </tr>
               </table>
+
               <footer>
                   <h1>@jax_s5</h1>
+                <table style="margin-left:auto; margin-right:auto;">
+                    <tr>
+                        <td><a href="sms:" target="_blank">iMessage</a></td>
+                        <td><a href="waze://" target="_blank">Waze</a></td>
+                        <td><a href="unifi://">UniFi Network</a></td>
+                    </tr>
+                    <tr>
+                        <td><a href="mailto:">Email</a></td>
+                        <td><a href="tel:">Call Someone</a></td>
+                        <td><a href="facetime:">FaceTime</a></td>
+                    </tr>    
+                </table>
               </footer>
           </body>
 
