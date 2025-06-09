@@ -22,9 +22,9 @@ jobs:
             print
           }' shared/nginx-service.yaml > tmp.yaml && mv tmp.yaml shared/nginx-service.yaml
       
-      - name: Update README badge to green
+      - name: Update Prod Silo badge in README to green
         run: |
-          sed -i 's|<img alt="Service Points To" src="https://img.shields.io/badge/service-.*-.*?style=for-the-badge">|<img alt="Service Points To" src="https://img.shields.io/badge/service-green-green?style=for-the-badge">|' README.md
+          sed -i 's|<img alt="Prod Silo" src="https://img.shields.io/badge/Prod%20Silo-.*-.*?style=for-the-badge">|<img alt="Prod Silo" src="https://img.shields.io/badge/Prod%20Silo-green-green?style=for-the-badge">|' README.md
       
       - name: Commit and push changes
         run: |

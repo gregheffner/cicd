@@ -22,8 +22,7 @@ jobs:
       
       - name: Update README badge to blue
         run: |
-          sed -i 's|<img alt="Service Points To" src="https://img.shields.io/badge/service-.*-.*?style=for-the-badge">|<img alt="Service Points To" src="https://img.shields.io/badge/service-blue-blue?style=for-the-badge">|' README.md
-      
+          sed -i 's|<img alt="Prod Silo" src="https://img.shields.io/badge/Prod%20Silo-.*-.*?style=for-the-badge">|<img alt="Prod Silo" src="https://img.shields.io/badge/Prod%20Silo-blue-blue?style=for-the-badge">|' README.md
       - name: Commit and push changes
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
