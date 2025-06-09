@@ -2,7 +2,7 @@
 
 <img alt="Green Image" src="https://img.shields.io/badge/green--image-technotuba/nginx:latest-brightgreen?style=for-the-badge&logo=docker&logoColor=white">
 <img alt="Blue Image" src="https://img.shields.io/badge/blue--image-technotuba/nginx:latest-blue?style=for-the-badge&logo=docker&logoColor=white">
-<img alt="Service Points To" src="https://img.shields.io/badge/service-green-green?style=for-the-badge">
+<img alt="Service Points To" src="https://img.shields.io/badge/service-blue-blue?style=for-the-badge">
 </br>
 </br>
 
