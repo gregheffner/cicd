@@ -2014,7 +2014,7 @@ data:
           <head>
           <meta charset="UTF-8">
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>HEFFNER</title>
+          <title>HEFFNER B9.5 S5</title>
           <style>
               html,
               body {
@@ -2038,7 +2038,7 @@ data:
               header,
               footer {
                   text-align: center;
-                  margin: 20px 0;
+                  margin: 0 auto;
               }
 
               table {
@@ -2072,6 +2072,17 @@ data:
               td a img:hover {
                   box-shadow: 0 0 12px #fff8;
               }
+
+              footer .footer-links {
+                    margin: 0 auto;
+                    width: auto;
+                    max-width: 400px;
+                    border-spacing: 12px 12px;
+                }
+                footer .footer-links td {
+                    text-align: center;
+                    padding: 8px 12px;
+                }
           </style>
           </head>
 
@@ -2118,10 +2129,10 @@ data:
                       </td>
                   </tr>
               </table>
-
-              <footer>
-                  <h1>@jax_s5</h1>
-                <table style="margin-left:auto; margin-right:auto;">
+              
+            <footer>
+                <h1>@jax_s5</h1>
+                <table class="footer-links">
                     <tr>
                         <td><a href="sms:" target="_blank">iMessage</a></td>
                         <td><a href="waze://" target="_blank">Waze</a></td>
@@ -2133,7 +2144,7 @@ data:
                         <td><a href="facetime:">FaceTime</a></td>
                     </tr>    
                 </table>
-              </footer>
+            </footer>
           </body>
 
           </html>
