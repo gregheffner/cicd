@@ -4,7 +4,7 @@
 <img alt="Blue Image" src="https://img.shields.io/badge/blue--image-technotuba/nginx:latest-blue?style=for-the-badge&logo=docker&logoColor=white">
 <img alt="Service Points To" src="https://img.shields.io/badge/service-blue-blue?style=for-the-badge">
 <img alt="Cloudflare" src="https://img.shields.io/badge/cloudflare-2025--06--09%2018:44%20UTC-orange?logo=cloudflare&style=for-the-badge">
-<img alt="Cloudflare Block" src="https://img.shields.io/badge/cloudflare--block-0-red?logo=cloudflare&style=for-the-badge">
+<img alt="Cloudflare Block" src="https://img.shields.io/badge/cloudflare--block-33-red?logo=cloudflare<img alt="Cloudflare Block" src="https://img.shields.io/badge/cloudflare--block-0-red?logo=cloudflare&style=for-the-badge">style=for-the-badge">
 
 
 
