@@ -7,6 +7,10 @@ jobs:
   clear-cache:
     runs-on: ubuntu-latest
     steps:
+    
+      - name: Checkout code
+        uses: actions/checkout@v4
+
       - name: Purge Everything in Cloudflare Zone
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
