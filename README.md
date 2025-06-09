@@ -3,9 +3,9 @@
 <img alt="Green Image" src="https://img.shields.io/badge/green--image-technotuba/nginx:latest-brightgreen?style=for-the-badge&logo=docker&logoColor=white">
 <img alt="Blue Image" src="https://img.shields.io/badge/blue--image-technotuba/nginx:latest-blue?style=for-the-badge&logo=docker&logoColor=white">
 <img alt="Service Points To" src="https://img.shields.io/badge/service-blue-blue?style=for-the-badge">
-<img alt="Cloudflare" src="https://img.shields.io/badge/cloudflare-cache--clear-orange?logo=cloudflare&style=for-the-badge">
+<img alt="Cloudflare" src="https://img.shields.io/badge/cloudflare-2025--06--09%2002:09%20UTC-orange?logo=cloudflare&style=for-the-badge">
 
-> **Last Cloudflare cache clear:** <!-- CLOUDFLARE_CACHE_CLEAR_DATE -->2025-06-09 02:09 UTC<!-- END_CLOUDFLARE_CACHE_CLEAR_DATE -->
+
 
 ![Blue-Green Deployment Diagram](screenshot.png)
 

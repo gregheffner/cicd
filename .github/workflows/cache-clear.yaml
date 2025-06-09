@@ -7,7 +7,7 @@ jobs:
   clear-cache:
     runs-on: ubuntu-latest
     steps:
-    
+
       - name: Checkout code
         uses: actions/checkout@v4
 
@@ -28,8 +28,8 @@ jobs:
       
       - name: Update README with last Cloudflare cache clear date
         run: |
-          DATE=$(date -u +"%Y-%m-%d %H:%M UTC")
-          sed -i 's|<!-- CLOUDFLARE_CACHE_CLEAR_DATE -->.*<!-- END_CLOUDFLARE_CACHE_CLEAR_DATE -->|<!-- CLOUDFLARE_CACHE_CLEAR_DATE -->'"$DATE"'<!-- END_CLOUDFLARE_CACHE_CLEAR_DATE -->|' README.md
+          DATE=$(date -u +"%Y--%m--%d%%20%H:%M%%20UTC")
+          sed -i "s|<img alt=\"Cloudflare\" src=\"https://img.shields.io/badge/cloudflare-.*-orange?logo=cloudflare&style=for-the-badge\">|<img alt=\"Cloudflare\" src=\"https://img.shields.io/badge/cloudflare-$DATE-orange?logo=cloudflare&style=for-the-badge\">|" README.md
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
           git add README.md
