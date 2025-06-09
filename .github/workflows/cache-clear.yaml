@@ -12,8 +12,18 @@ jobs:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
         run: |
-          RESPONSE=$(curl -s -w "\n%{http_code}" -X POST "https://api.cloudflare.com/client/v4/zones/$CLOUDFLARE_ZONE_ID/purge_cache" \
+          curl -s -X POST "https://api.cloudflare.com/client/v4/zones/$CLOUDFLARE_ZONE_ID/purge_cache" \
             -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
             -H "Content-Type: application/json" \
-            --data '{"purge_everything":true}')
-          echo "$RESPONSE"
+            --data '{"purge_everything":true}'
+            
+      - name: Update README with last Cloudflare cache clear date
+        run: |
+          DATE=$(date -u +"%Y-%m-%d %H:%M UTC")
+          sed -i 's|<!-- CLOUDFLARE_CACHE_CLEAR_DATE -->.*<!-- END_CLOUDFLARE_CACHE_CLEAR_DATE -->|<!-- CLOUDFLARE_CACHE_CLEAR_DATE -->'"$DATE"'<!-- END_CLOUDFLARE_CACHE_CLEAR_DATE -->|' README.md
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          git add README.md
+          git commit -m "docs: update last Cloudflare cache clear date [skip ci]" || echo "No changes to commit"
+          git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }}.git HEAD:${{ github.ref }}
+
