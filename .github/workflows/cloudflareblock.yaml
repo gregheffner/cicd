@@ -22,8 +22,8 @@ jobs:
             -H "Content-Type: application/json" | jq '[.result[] | select(.configuration.target=="ip")] | length')
           # Remove all Cloudflare Block badge lines
           sed -i '/<img alt="Cloudflare Block" src="https:\/\/img.shields.io\/badge\/cloudflare--block-.*-red?logo=cloudflare.*style=for-the-badge">/d' README.md
-          # Add the new badge after the Service Points To badge
-          awk '/<img alt="Service Points To"/ {print; print "<img alt=\"Cloudflare Block\" src=\"https://img.shields.io/badge/cloudflare--block-'"$COUNT"'-red?logo=cloudflare&style=for-the-badge\">"; next} 1' README.md > README.tmp && mv README.tmp README.md
+          # Add the new badge after the Prod Silo badge
+          awk '/<img alt="Prod Silo"/ {print; print "<img alt=\"Cloudflare Block\" src=\"https://img.shields.io/badge/cloudflare--block-'"$COUNT"'-red?logo=cloudflare&style=for-the-badge\">"; next} 1' README.md > README.tmp && mv README.tmp README.md
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
           git add README.md
