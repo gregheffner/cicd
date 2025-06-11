@@ -34,7 +34,6 @@ spec:
       labels:
         app: pressurewashing
     spec:
-      serviceAccountName: prod
       initContainers:
         - name: fetch-html
           image: alpine/git:latest
