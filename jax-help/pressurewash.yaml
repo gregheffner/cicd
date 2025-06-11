@@ -1,0 +1,67 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+  labels:
+    app: pressurewashing
+  name: pressurewashing-service
+  namespace: pressurewashing
+spec:
+  externalTrafficPolicy: Local
+  ipFamilyPolicy: SingleStack
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
+  selector:
+    app: pressurewashing
+  type: LoadBalancer
+
+---
+
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "1" 
+  name: pressurewashing
+  namespace: pressurewashing
+  labels:
+    app: pressurewashing
+spec:
+  selector:
+    matchLabels:
+      app: pressurewashing
+  template:
+    metadata:
+      labels:
+        app: pressurewashing
+    spec:
+      serviceAccountName: prod
+      initContainers:
+        - name: fetch-html
+          image: alpine/git:latest
+          command:
+            - sh
+            - -c
+            - |
+              git clone --depth 1 https://github.com/gregheffner/pressurewashing.git /html
+              cp -r /html/* /site/
+          volumeMounts:
+            - name: www-volume
+              mountPath: /site
+      containers:
+        - name: nginx
+          image: technotuba/nginx:latest
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: 100m
+          volumeMounts:
+            - mountPath: /usr/share/nginx/html
+              name: www-volume
+      volumes:
+        - name: www-volume
+          emptyDir: {}
