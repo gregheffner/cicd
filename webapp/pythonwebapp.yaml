@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pythonwebapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pythonwebapp
+  template:
+    metadata:
+      labels:
+        app: pythonwebapp
+    spec:
+      containers:
+      - name: pythonwebapp
+        image: technotuba/pythonwebapp:latest
+        ports:
+        - containerPort: 2323
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pythonwebapp
+spec:
+  selector:
+    app: pythonwebapp
+  ports:
+    - protocol: TCP
+      port: 2323
+      targetPort: 2323
+  type: ClusterIP
