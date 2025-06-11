@@ -4,9 +4,9 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "0"
   labels:
-    app: pressurewashing
-  name: pressurewashing-service
-  namespace: pressurewashing
+    app: helpdesk
+  name: helpdesk-service
+  namespace: helpdesk
 spec:
   externalTrafficPolicy: Local
   ipFamilyPolicy: SingleStack
@@ -15,7 +15,7 @@ spec:
       port: 80
       targetPort: 80
   selector:
-    app: pressurewashing
+    app: helpdesk
   type: LoadBalancer
 
 ---
@@ -25,18 +25,18 @@ kind: DaemonSet
 metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "1" 
-  name: pressurewashing
-  namespace: pressurewashing
+  name: helpdesk
+  namespace: helpdesk
   labels:
-    app: pressurewashing
+    app: helpdesk
 spec:
   selector:
     matchLabels:
-      app: pressurewashing
+      app: helpdesk
   template:
     metadata:
       labels:
-        app: pressurewashing
+        app: helpdesk
     spec:
       serviceAccountName: prod
       initContainers:
