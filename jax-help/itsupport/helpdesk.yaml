@@ -1,0 +1,66 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+  labels:
+    app: helpdesk
+  name: helpdesk-service
+  namespace: helpdesk
+spec:
+  externalTrafficPolicy: Local
+  ipFamilyPolicy: SingleStack
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
+  selector:
+    app: helpdesk
+  type: LoadBalancer
+
+---
+
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "1" 
+  name: helpdesk
+  namespace: helpdesk
+  labels:
+    app: helpdesk
+spec:
+  selector:
+    matchLabels:
+      app: helpdesk
+  template:
+    metadata:
+      labels:
+        app: helpdesk
+    spec:
+      initContainers:
+        - name: fetch-html
+          image: alpine/git:latest
+          command:
+            - sh
+            - -c
+            - |
+              git clone --depth 1 https://github.com/gregheffner/webcontact.git /html
+              cp -r /html/* /site/
+          volumeMounts:
+            - name: www-volume
+              mountPath: /site
+      containers:
+        - name: nginx
+          image: technotuba/nginx:latest
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: 100m
+          volumeMounts:
+            - mountPath: /usr/share/nginx/html
+              name: www-volume
+      volumes:
+        - name: www-volume
+          emptyDir: {}
