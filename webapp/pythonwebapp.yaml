@@ -16,7 +16,7 @@ spec:
       - name: pythonwebapp
         image: technotuba/pythonwebappv2
         ports:
-        - containerPort: 2323
+        - containerPort: 443
         volumeMounts:
         - name: tls-certs
           mountPath: /home/huey
