@@ -17,6 +17,14 @@ spec:
         image: technotuba/pythonwebapp:latest
         ports:
         - containerPort: 2323
+        volumeMounts:
+        - name: tls-certs
+          mountPath: /home/huey
+          readOnly: true
+      volumes:
+        - name: tls-certs
+          secret:
+            secretName: pythonwebapp-tls
 ---
 apiVersion: v1
 kind: Service
