@@ -35,6 +35,6 @@ spec:
     app: pythonwebapp
   ports:
     - protocol: TCP
-      port: 2323
+      port: 443
       targetPort: 2323
   type: ClusterIP
