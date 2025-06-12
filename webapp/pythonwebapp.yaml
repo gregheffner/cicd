@@ -34,7 +34,8 @@ spec:
   selector:
     app: pythonwebapp
   ports:
-    - protocol: TCP
+    - name: tls
+      protocol: TCP
       port: 443
       targetPort: 2323
   type: ClusterIP
