@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: pythonwebapp
-        image: technotuba/pythonwebappv4
+        image: technotuba/pythonwebappv5
         ports:
         - containerPort: 443
         volumeMounts:
