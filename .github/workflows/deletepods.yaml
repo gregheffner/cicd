@@ -14,7 +14,7 @@ on:
 
 jobs:
   delete-pods:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     env:
       KUBECONFIG: ${{ github.workspace }}/kubeconfig
     steps:
