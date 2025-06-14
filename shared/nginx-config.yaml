@@ -24,6 +24,7 @@ data:
         default 1;
         ~*Datadog/Synthetics 0;
         ~*DatadogSynthetics 0;
+        ~*Datadog Agent/ 0;
         }
 
         map $http_x_forwarded_for $real_client_ip {
