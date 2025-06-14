@@ -15,6 +15,8 @@ on:
 jobs:
   delete-pods:
     runs-on: ubuntu-latest
+    env:
+      KUBECONFIG: ${{ github.workspace }}/kubeconfig
     steps:
       - name: Set up kubectl
         uses: azure/setup-kubectl@v3
@@ -22,9 +24,7 @@ jobs:
           version: 'latest'
 
       - name: Configure Kubeconfig
-        run: |
-          echo "${{ secrets.KUBECONFIG }}" > kubeconfig
-          export KUBECONFIG=$PWD/kubeconfig
+        run: echo "${{ secrets.KUBECONFIG }}" > kubeconfig
 
       - name: Delete pods in namespace
         run: |
