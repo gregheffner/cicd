@@ -20,13 +20,6 @@ data:
         include       /etc/nginx/mime.types;
         default_type  application/octet-stream;
 
-        map $http_user_agent $log_datadog {
-        default 1;
-        ~*Datadog/Synthetics 0;
-        ~*DatadogSynthetics 0;
-        ~*Datadog Agent/ 0;
-        }
-
         map $http_x_forwarded_for $real_client_ip {
             ~^(?<ip>[^,]+) $ip;
             default $remote_addr;
@@ -45,8 +38,8 @@ data:
         }
 
         # Use the new log format for access_log
-        access_log  /var/log/nginx/access.log  fail2ban if=$log_datadog;
-        access_log /dev/stdout fail2ban if=$log_datadog;
+        access_log  /var/log/nginx/access.log  fail2ban;
+        access_log /dev/stdout fail2ban;
 
         sendfile        on;
         #tcp_nopush     on;
