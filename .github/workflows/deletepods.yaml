@@ -1,0 +1,35 @@
+name: Delete Kubernetes Pods
+
+on:
+  workflow_dispatch:
+    inputs:
+      namespace:
+        description: 'Namespace to delete pods from'
+        required: true
+        default: 'prod'
+      label_selector:
+        description: 'Label selector for pods (optional, e.g. app=nginx-web)'
+        required: true
+        default: 'app=nginx-web'
+
+jobs:
+  delete-pods:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up kubectl
+        uses: azure/setup-kubectl@v3
+        with:
+          version: 'latest'
+
+      - name: Configure Kubeconfig
+        run: |
+          echo "${{ secrets.KUBECONFIG }}" > kubeconfig
+          export KUBECONFIG=$PWD/kubeconfig
+
+      - name: Delete pods in namespace
+        run: |
+          if [ -z "${{ github.event.inputs.label_selector }}" ]; then
+            kubectl delete pods --all -n "${{ github.event.inputs.namespace }}"
+          else
+            kubectl delete pods -n "${{ github.event.inputs.namespace }}" -l "${{ github.event.inputs.label_selector }}"
+          fi
