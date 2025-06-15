@@ -318,6 +318,15 @@ data:
         <div class="row">
             <div class="leftcolumn">
                 <div class="card">
+                            <section id="Article23-GitAdv">
+                            <div class="blog-box" onclick="location.href='/image/pages/2025/June/githubadva.html';">
+                                <div class="blog-description">
+                                    <h3>Github advanced features: Short-cycle your processes</h3>
+                                    <p>Greg Heffner June 15, 2025</p>
+                                </div>
+                                <div class="blog-image-container" style="background-image: url('/image/blog/2025/June/githubadv.png');"></div>
+                            </div>
+                            </section>
                             <section id="Article22-AOC">
                             <div class="blog-box" onclick="location.href='/image/pages/2024/Nov/AOC.html';">
                                 <div class="blog-description">
@@ -594,6 +603,7 @@ data:
                         <li><a href="#Article20-SmokeTest">Smoke Tests: The Production Combine</a></li><br>Article21-Tools
                         <li><a href="#Article21-Tools">Terraform vs. Ansible: Navigating the Cloud with a Sail and a Spark</a></li><br>
                         <li><a href="#Article22-AOC">Advent of Cyber: Time for some Holiday fun with TryHackMe!</a></li><br>
+                        <li><a href="#Article23-GitAdv">Github advanced features: Short-cycle your processes</a></li><br>
                         -->
                     </nav>
                   </div>
@@ -2004,6 +2014,12 @@ data:
         <url>
           <loc>https://greg.heffner.live/image/pages/2024/Nov/AOC.html</loc>
           <lastmod>2024-10-23</lastmod>
+          <changefreq>daily</changefreq>
+          <priority>1.0</priority>
+        </url>
+        <url>
+          <loc>https://greg.heffner.live/image/pages/2025/June/githubadv.html</loc>
+          <lastmod>2025-06-15</lastmod>
           <changefreq>daily</changefreq>
           <priority>1.0</priority>
         </url>
