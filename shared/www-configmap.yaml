@@ -319,7 +319,7 @@ data:
             <div class="leftcolumn">
                 <div class="card">
                             <section id="Article23-GitAdv">
-                            <div class="blog-box" onclick="location.href='/image/pages/2025/June/githubadva.html';">
+                            <div class="blog-box" onclick="location.href='/image/pages/2025/June/githubadv.html';">
                                 <div class="blog-description">
                                     <h3>Github advanced features: Short-cycle your processes</h3>
                                     <p>Greg Heffner June 15, 2025</p>
