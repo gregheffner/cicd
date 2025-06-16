@@ -2186,10 +2186,167 @@ data:
                       margin: 32px 0 16px 0;
                       text-align: center;
                   }
+                  :root {
+                  --footer-height: 80px;
+                  }
+
+                  .car-animation {
+                  position: fixed;
+                  top: 0; left: 0;
+                  width: 100vw;
+                  height: 100vh;
+                  pointer-events: none;
+                  z-index: 100;
+                  }
+
+                  #car {
+                  position: absolute;
+                  top: 0; left: 0;
+                  animation: drive-around 12s linear infinite;
+                  transform-origin: 50% 50%;
+                  }
+
+                  @keyframes drive-around {
+                  /* Top edge: facing right */
+                  0%   { top: 0; left: 0; transform: rotate(0deg) scaleX(1);}
+                  24%  { top: 0; left: calc(100vw - 60px); transform: rotate(0deg) scaleX(1);}
+                  /* Right edge: facing down, flip vertically */
+                  25%  { top: 0; left: calc(100vw - 60px); transform: rotate(90deg) scaleY(-1);}
+                  49%  { top: calc(100vh - var(--footer-height) - 30px); left: calc(100vw - 60px); transform: rotate(90deg) scaleY(-1);}
+                  /* Bottom edge: facing left, flip vertically */
+                  50%  { top: calc(100vh - var(--footer-height) - 30px); left: calc(100vw - 60px); transform: rotate(180deg) scaleY(-1);}
+                  74%  { top: calc(100vh - var(--footer-height) - 30px); left: 0; transform: rotate(180deg) scaleY(-1);}
+                  /* Left edge: facing up, flip vertically */
+                  75%  { top: calc(100vh - var(--footer-height) - 30px); left: 0; transform: rotate(270deg) scaleY(-1);}
+                  99%  { top: 0; left: 0; transform: rotate(270deg) scaleY(-1);}
+                  100% { top: 0; left: 0; transform: rotate(0deg) scaleX(1);}
+                  }
+                  .dragging {
+                  animation: none !important;
+                  cursor: grabbing;
+                  }
               </style>
           </head>
+                      <script>
+                          const car = document.getElementById('car');
+                          let dragging = false, offsetX = 0, offsetY = 0;
 
+                          // Helper to get mouse/touch position
+                          function getPos(e) {
+                              if (e.touches) return { x: e.touches[0].clientX, y: e.touches[0].clientY };
+                              return { x: e.clientX, y: e.clientY };
+                          }
+
+                          // Drag start
+                          function dragStart(e) {
+                              dragging = true;
+                              car.classList.add('dragging');
+                              car.style.animation = 'none';
+                              const pos = getPos(e);
+                              offsetX = pos.x - car.offsetLeft;
+                              offsetY = pos.y - car.offsetTop;
+                              document.addEventListener('mousemove', dragMove);
+                              document.addEventListener('mouseup', dragEnd);
+                              document.addEventListener('touchmove', dragMove, { passive: false });
+                              document.addEventListener('touchend', dragEnd);
+                          }
+
+                          // Drag move
+                          function dragMove(e) {
+                              if (!dragging) return;
+                              e.preventDefault();
+                              const pos = getPos(e);
+                              let x = pos.x - offsetX;
+                              let y = pos.y - offsetY;
+                              // Clamp to viewport (above footer)
+                              const maxX = window.innerWidth - car.offsetWidth;
+                              const maxY = window.innerHeight - parseInt(getComputedStyle(document.documentElement).getPropertyValue('--footer-height')) - car.offsetHeight;
+                              x = Math.max(0, Math.min(x, maxX));
+                              y = Math.max(0, Math.min(y, maxY));
+                              car.style.left = x + 'px';
+                              car.style.top = y + 'px';
+                          }
+
+                          // Drag end
+                          function dragEnd() {
+                              if (!dragging) return;
+                              dragging = false;
+                              car.classList.remove('dragging');
+                              document.removeEventListener('mousemove', dragMove);
+                              document.removeEventListener('mouseup', dragEnd);
+                              document.removeEventListener('touchmove', dragMove);
+                              document.removeEventListener('touchend', dragEnd);
+
+                              // Snap to nearest edge (top, right, bottom, left)
+                              const x = car.offsetLeft;
+                              const y = car.offsetTop;
+                              const maxX = window.innerWidth - car.offsetWidth;
+                              const maxY = window.innerHeight - parseInt(getComputedStyle(document.documentElement).getPropertyValue('--footer-height')) - car.offsetHeight;
+                              const distances = [
+                                  { edge: 'top', dist: y },
+                                  { edge: 'right', dist: Math.abs(x - maxX) },
+                                  { edge: 'bottom', dist: Math.abs(y - maxY) },
+                                  { edge: 'left', dist: x }
+                              ];
+                              distances.sort((a, b) => a.dist - b.dist);
+                              let edge = distances[0].edge;
+                              let left = x, top = y, transform = '';
+                              switch (edge) {
+                                  case 'top':
+                                      left = Math.max(0, Math.min(x, maxX));
+                                      top = 0;
+                                      transform = 'rotate(0deg) scaleX(1)';
+                                      break;
+                                  case 'right':
+                                      left = maxX;
+                                      top = Math.max(0, Math.min(y, maxY));
+                                      transform = 'rotate(90deg) scaleY(-1)';
+                                      break;
+                                  case 'bottom':
+                                      left = Math.max(0, Math.min(x, maxX));
+                                      top = maxY;
+                                      transform = 'rotate(180deg) scaleY(-1)';
+                                      break;
+                                  case 'left':
+                                      left = 0;
+                                      top = Math.max(0, Math.min(y, maxY));
+                                      transform = 'rotate(270deg) scaleY(-1)';
+                                      break;
+                              }
+                              car.style.left = left + 'px';
+                              car.style.top = top + 'px';
+                              car.style.transform = transform;
+
+                              // Figure out animation start point based on edge and position
+                              let percent = 0;
+                              if (edge === 'top') {
+                                  percent = (left / maxX) * 24;
+                              } else if (edge === 'right') {
+                                  percent = 24 + (top / maxY) * 25;
+                              } else if (edge === 'bottom') {
+                                  percent = 49 + ((maxX - left) / maxX) * 25;
+                              } else if (edge === 'left') {
+                                  percent = 74 + ((maxY - top) / maxY) * 25;
+                              }
+                              // Remove animation, force reflow, then set new animation with offset
+                              car.style.animation = 'none';
+                              void car.offsetWidth;
+                              car.style.animation = `drive-around 12s linear infinite`;
+                              car.style.animationDelay = `-${percent * 0.12}s`;
+                          }
+
+                          // Event listeners
+                          car.addEventListener('mousedown', dragStart);
+                          car.addEventListener('touchstart', dragStart, { passive: false });
+                      </script>
           <body>
+              <div class="car-animation">
+                  <svg id="car" width="60" height="30" viewBox="0 0 60 30">
+                      <rect x="5" y="10" width="50" height="15" rx="5" fill="#1976d2" />
+                      <circle cx="15" cy="27" r="3" fill="#333" />
+                      <circle cx="45" cy="27" r="3" fill="#333" />
+                      <rect x="20" y="5" width="20" height="10" rx="3" fill="#90caf9" />
+                  </svg></div>
               <header>
                   <div class="audi-rings">
                       <div class="circle first"></div>
@@ -2226,10 +2383,10 @@ data:
                   </tr>
                   <tr>
                       <td>
-                        <a href="youtube://www.youtube.com/tv">
-                            <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/youtube.svg" alt="YouTube TV">
-                        </a>
-                    </td>
+                          <a href="youtube://www.youtube.com/tv">
+                              <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/youtube.svg" alt="YouTube TV">
+                          </a>
+                      </td>
                       <td>
                           <a href="https://cloudflare.com/">
                               <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/cloudflare.svg"
@@ -2246,9 +2403,9 @@ data:
                   <div class="footer-bar">
 
                       <!--
-                                  https://flowbite.com/icons/
+                                            https://flowbite.com/icons/
 
-                                    -->
+                                              -->
 
                       <a href="sms:" target="_blank" title="iMessage">
                           <svg class="footer-svg" xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="#fff"
