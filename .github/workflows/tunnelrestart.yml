@@ -1,0 +1,12 @@
+name: Restart Cloudflare Tunnels
+
+on:
+  workflow_dispatch:
+
+jobs:
+  restart-tunnels:
+    runs-on: self-hosted
+    steps:
+      - name: Restart all Cloudflare tunnels
+        run: |
+          sudo systemctl restart cloudflared*.service
