@@ -1,0 +1,192 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: searxng-settings
+  namespace: default
+data:
+  settings.yml: |
+    # SearxNG settings.yml - Secure & Private Example
+    server:
+      # secret_key is set via environment variable or secret
+      limiter: true
+      image_proxy: true
+      method: "GET"
+
+    search:
+      safe_search: true
+      autocomplete: "google"
+      default_lang: "en"
+      default_locale: "en_US"
+
+    ui:
+      theme: "simple"
+
+    redis:
+      url: null
+
+    outgoing:
+      request_timeout: 3.0
+      pool_connections: 100
+      pool_maxsize: 10
+
+    engines:
+      - name: "google"
+        engine: "google"
+        shortcut: "g"
+        disabled: false
+      - name: "bing"
+        engine: "bing"
+        shortcut: "b"
+        disabled: false
+
+    logging:
+      access: false
+      error: false
+      query: false
+
+    # Add more configuration as needed
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: searxng
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: searxng
+  template:
+    metadata:
+      labels:
+        app: searxng
+    spec:
+      containers:
+      - name: searxng
+        image: searxng/searxng:latest
+        ports:
+        - containerPort: 8080
+        volumeMounts:
+        - name: settings-volume
+          mountPath: /etc/searxng/settings.yml
+          subPath: settings.yml
+        env:
+        - name: SEARXNG_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: searxng-secret
+              key: SEARXNG_SECRET_KEY
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 500m
+            memory: 512Mi
+      volumes:
+      - name: settings-volume
+        configMap:
+          name: searxng-settings
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: searxng
+  namespace: default
+spec:
+  selector:
+    app: searxng
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: caddyfile
+  namespace: default
+data:
+  Caddyfile: |
+    search.heffner.live {
+        reverse_proxy searxng:8080
+        encode gzip
+    }
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: caddy
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: caddy
+  template:
+    metadata:
+      labels:
+        app: caddy
+    spec:
+      containers:
+      - name: caddy
+        image: caddy:latest
+        ports:
+        - containerPort: 80
+        - containerPort: 443
+        volumeMounts:
+        - name: caddyfile-volume
+          mountPath: /etc/caddy/Caddyfile
+          subPath: Caddyfile
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 500m
+            memory: 512Mi
+      volumes:
+      - name: caddyfile-volume
+        configMap:
+          name: caddyfile
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: caddy
+  namespace: default
+spec:
+  selector:
+    app: caddy
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+    - protocol: TCP
+      port: 443
+      targetPort: 443
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: searxng-ingress
+  namespace: default
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+spec:
+  rules:
+    - host: search.heffner.live
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: caddy
+                port:
+                  number: 80
+  tls:
+    - hosts:
+        - search.heffner.live
+      secretName: search-heffner-live-tls
