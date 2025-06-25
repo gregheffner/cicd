@@ -2375,7 +2375,7 @@ data:
                       </script>
           <body>
               <div id="matrix-greeting">
-                <span class="matrix-text">Hello technotube<span class="matrix-cursor">|</span></span>
+                <span class="matrix-text">Hello technotuba<span class="matrix-cursor">|</span></span>
                 <div class="matrix-time" id="matrix-time"></div>
               </div>
               <div class="car-animation">
