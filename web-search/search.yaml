@@ -3,7 +3,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: searxng-settings
-  namespace: default
+  namespace: searxng
 data:
   settings.yml: |
     # SearxNG settings.yml - Secure & Private Example
