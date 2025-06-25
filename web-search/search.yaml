@@ -6,7 +6,7 @@ metadata:
   namespace: searxng
 data:
   Caddyfile: |
-    search.heffner.live {
+    :80, :443, search.heffner.live {
         reverse_proxy whoogle:5000
         encode gzip
     }
