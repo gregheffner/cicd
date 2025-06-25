@@ -101,12 +101,34 @@ metadata:
   name: whoogle
   namespace: searxng
 spec:
+  type: NodePort
   selector:
     app: whoogle
   ports:
     - protocol: TCP
       port: 5000
       targetPort: 5000
+      nodePort: 30500
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: whoogle-allow-caddy-only
+  namespace: searxng
+spec:
+  podSelector:
+    matchLabels:
+      app: whoogle
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app: caddy
+      ports:
+        - protocol: TCP
+          port: 5000
+  policyTypes:
+    - Ingress
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -131,4 +153,3 @@ spec:
     - hosts:
         - search.heffner.live
       secretName: search-heffner-live-tls
-      
