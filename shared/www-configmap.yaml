@@ -2473,6 +2473,12 @@ data:
                                   clip-rule="evenodd" />
                           </svg>
                       </a>
+                      <a href="https://search.heffner.live" target="_blank" title="Web Search">
+                          <svg class="footer-svg" xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="#fff" viewBox="0 0 24 24">
+                              <circle cx="11" cy="11" r="7" stroke="#fff" stroke-width="2" fill="none"/>
+                              <line x1="16.5" y1="16.5" x2="22" y2="22" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+                          </svg>
+                      </a>
                   </div>
               </footer>
           </body>
