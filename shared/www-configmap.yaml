@@ -186,9 +186,10 @@ data:
             .blog-image-container {
                 flex: 1;
                 height: 95%;
-                background-size: cover;
-                background-position: left;
-                /* Adjust to left to match the text's new position */
+                background-size: contain;
+                background-position: center;
+                background-repeat: no-repeat;
+                /* Fit the entire image within the container */
             }
 
             .blog-description {
@@ -318,6 +319,7 @@ data:
         <div class="row">
             <div class="leftcolumn">
                 <div class="card">
+
                             <section id="Article24-WebSec">
                             <div class="blog-box" onclick="location.href='/image/pages/2025/June/websecurity.html';">
                                 <div class="blog-description">
@@ -654,8 +656,6 @@ data:
             data-cf-beacon='{"rayId":"8a0c47bffe7b53f3","r":1,"version":"2024.4.1","token":"58654ca0c624448c9c52f5291ddf5bec"}'
             crossorigin="anonymous"></script>
     </body>
-
-
     </html>
   cookie.html: |
     <!DOCTYPE html>
