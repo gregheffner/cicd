@@ -1,0 +1,152 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ip-analysis
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: ip-analysis
+  name: ip-analysis-service
+  namespace: ip-analysis
+spec:
+  ipFamilyPolicy: SingleStack
+  ports:
+    - name: http
+      port: 3002
+      targetPort: 3002
+      nodePort: 30002
+  selector:
+    app: ip-analysis
+  type: NodePort
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ip-analysis
+  namespace: ip-analysis
+  labels:
+    app: ip-analysis
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: ip-analysis
+  template:
+    metadata:
+      labels:
+        app: ip-analysis
+    spec:
+      containers:
+        - name: ip-analysis
+          image: technotuba/ipsearch:latest
+          ports:
+            - containerPort: 3002
+          resources:
+            requests:
+              cpu: 200m
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          env:
+            - name: NODE_ENV
+              value: "production"
+            - name: PORT
+              value: "3002"
+          livenessProbe:
+            httpGet:
+              path: /api/health
+              port: 3002
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /api/health
+              port: 3002
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 2
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1001
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: false
+            capabilities:
+              drop:
+                - ALL
+          volumeMounts:
+            - name: tmp-volume
+              mountPath: /tmp
+            - name: logs-volume
+              mountPath: /var/log
+              readOnly: true
+            - name: app-cache
+              mountPath: /app/.npm
+            - name: node-modules-cache
+              mountPath: /app/node_modules/.cache
+      volumes:
+        - name: tmp-volume
+          emptyDir: {}
+        - name: logs-volume
+          hostPath:
+            path: /var/log
+            type: Directory
+        - name: app-cache
+          emptyDir: {}
+        - name: node-modules-cache
+          emptyDir: {}
+      securityContext:
+        fsGroup: 1001
+
+---
+
+# Optional: Horizontal Pod Autoscaler
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: ip-analysis-hpa
+  namespace: ip-analysis
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: ip-analysis
+  minReplicas: 1
+  maxReplicas: 5
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+
+---
+
+# Optional: Network Policy for security
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: ip-analysis-netpol
+  namespace: ip-analysis
+spec:
+  podSelector:
+    matchLabels:
+      app: ip-analysis
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from: []
+    ports:
+    - protocol: TCP
+      port: 3002
+  egress:
+  - {}
