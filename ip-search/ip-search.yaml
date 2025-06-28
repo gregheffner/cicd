@@ -57,6 +57,11 @@ spec:
               value: "production"
             - name: PORT
               value: "3002"
+            - name: ABUSEIPDB_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: abuseipdb-secret
+                  key: ABUSEIPDB_API_KEY
           livenessProbe:
             httpGet:
               path: /api/health
