@@ -57,6 +57,12 @@ spec:
               value: "production"
             - name: PORT
               value: "3002"
+            - name: TRUST_PROXY
+              value: "true"
+            - name: PROXY_COUNT
+              value: "1"
+            - name: ERL_SKIP_VALIDATION
+              value: "true"
             - name: ABUSEIPDB_API_KEY
               valueFrom:
                 secretKeyRef:
