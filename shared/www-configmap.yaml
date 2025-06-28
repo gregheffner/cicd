@@ -2456,78 +2456,124 @@ data:
                                               -->
 
                       <a href="sms:" target="_blank" title="iMessage">
-                          <svg class="footer-svg" xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="#fff"
-                              viewBox="0 0 24 24">
-                              <path fill-rule="evenodd"
-                                  d="M4 3a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h1v2a1 1 0 0 0 1.707.707L9.414 13H15a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1H4Z"
-                                  clip-rule="evenodd" />
-                              <path fill-rule="evenodd"
-                                  d="M8.023 17.215c.033-.03.066-.062.098-.094L10.243 15H15a3 3 0 0 0 3-3V8h2a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1h-1v2a1 1 0 0 1-1.707.707L14.586 18H9a1 1 0 0 1-.977-.785Z"
-                                  clip-rule="evenodd" />
-                          </svg>
-                      </a>
-                      <a href="waze://" target="_blank" title="Waze">
-                          <svg class="footer-svg" xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none"
-                              viewBox="0 0 24 24">
-                              <path stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
-                                  d="M12 6v13m0-13 4 4m-4-4-4 4" />
-                          </svg>
-                      </a>
-                      <a href="unifi://" title="UniFi Network">
-                          <svg class="footer-svg" xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none"
-                              viewBox="0 0 24 24">
-                              <path stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                  d="M10 11h2v5m-2 0h4m-2.592-8.5h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                          </svg>
-                      </a>
-                      <a href="mailto:" title="Email">
-                          <svg class="footer-svg" xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="#fff"
-                              viewBox="0 0 24 24">
-                              <path
-                                  d="M17 6h-2V5h1a1 1 0 1 0 0-2h-2a1 1 0 0 0-1 1v2h-.541A5.965 5.965 0 0 1 14 10v4a1 1 0 1 1-2 0v-4c0-2.206-1.794-4-4-4-.075 0-.148.012-.22.028C7.686 6.022 7.596 6 7.5 6A4.505 4.505 0 0 0 3 10.5V16a1 1 0 0 0 1 1h7v3a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-3h5a1 1 0 0 0 1-1v-6c0-2.206-1.794-4-4-4Zm-9 8.5H7a1 1 0 1 1 0-2h1a1 1 0 1 1 0 2Z" />
+                          <svg class="footer-svg" xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="#fff" viewBox="0 0 24 24">
+                              <!-- Enhanced message bubbles with text indicators -->
+                              <path fill-rule="evenodd" d="M4 3a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h1v2a1 1 0 0 0 1.707.707L9.414 13H15a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1H4Z" clip-rule="evenodd" />
+                              <path fill-rule="evenodd" d="M8.023 17.215c.033-.03.066-.062.098-.094L10.243 15H15a3 3 0 0 0 3-3V8h2a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1h-1v2a1 1 0 0 1-1.707.707L14.586 18H9a1 1 0 0 1-.977-.785Z" clip-rule="evenodd" />
+                              <!-- Text lines in first bubble -->
+                              <line x1="6" y1="7" x2="13" y2="7" stroke="#333" stroke-width="0.8" stroke-linecap="round"/>
+                              <line x1="6" y1="9" x2="11" y2="9" stroke="#333" stroke-width="0.8" stroke-linecap="round"/>
+                              <!-- Text lines in second bubble -->
+                              <line x1="11" y1="14" x2="17" y2="14" stroke="#333" stroke-width="0.6" stroke-linecap="round"/>
+                              <line x1="13" y1="16" x2="16" y2="16" stroke="#333" stroke-width="0.6" stroke-linecap="round"/>
+                              <!-- Message indicators -->
+                              <circle cx="14" cy="6" r="0.8" fill="#007AFF"/>
+                              <circle cx="18" cy="11" r="0.8" fill="#34C759"/>
                           </svg>
                       </a>
                       <a href="tel:" title="Call">
-                          <svg class="footer-svg" xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="#fff"
-                              viewBox="0 0 24 24">
-                              <path
-                                  d="M7.978 4a2.553 2.553 0 0 0-1.926.877C4.233 6.7 3.699 8.751 4.153 10.814c.44 1.995 1.778 3.893 3.456 5.572 1.68 1.679 3.577 3.018 5.57 3.459 2.062.456 4.115-.073 5.94-1.885a2.556 2.556 0 0 0 .001-3.861l-1.21-1.21a2.689 2.689 0 0 0-3.802 0l-.617.618a.806.806 0 0 1-1.14 0l-1.854-1.855a.807.807 0 0 1 0-1.14l.618-.62a2.692 2.692 0 0 0 0-3.803l-1.21-1.211A2.555 2.555 0 0 0 7.978 4Z" />
+                          <svg class="footer-svg" xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="#fff" viewBox="0 0 24 24">
+                              <!-- Enhanced phone with signal waves -->
+                              <path d="M7.978 4a2.553 2.553 0 0 0-1.926.877C4.233 6.7 3.699 8.751 4.153 10.814c.44 1.995 1.778 3.893 3.456 5.572 1.68 1.679 3.577 3.018 5.57 3.459 2.062.456 4.115-.073 5.94-1.885a2.556 2.556 0 0 0 .001-3.861l-1.21-1.21a2.689 2.689 0 0 0-3.802 0l-.617.618a.806.806 0 0 1-1.14 0l-1.854-1.855a.807.807 0 0 1 0-1.14l.618-.62a2.692 2.692 0 0 0 0-3.803l-1.21-1.211A2.555 2.555 0 0 0 7.978 4Z" />
+                              <!-- Signal waves -->
+                              <path d="M16 8c1.5 1.5 1.5 3.5 0 5" stroke="#fff" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.8"/>
+                              <path d="M18 6c2.5 2.5 2.5 6.5 0 9" stroke="#fff" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.6"/>
+                              <path d="M20 4c3.5 3.5 3.5 9.5 0 13" stroke="#fff" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.4"/>
                           </svg>
                       </a>
                       <a href="facetime:" title="FaceTime">
-                          <svg class="footer-svg" xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="#fff"
-                              viewBox="0 0 24 24">
-                              <path fill-rule="evenodd"
-                                  d="M14 7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7Zm2 9.387 4.684 1.562A1 1 0 0 0 22 17V7a1 1 0 0 0-1.316-.949L16 7.613v8.774Z"
-                                  clip-rule="evenodd" />
+                          <svg class="footer-svg" xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="#fff" viewBox="0 0 24 24">
+                              <!-- Enhanced video camera with lens details -->
+                              <path fill-rule="evenodd" d="M14 7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7Zm2 9.387 4.684 1.562A1 1 0 0 0 22 17V7a1 1 0 0 0-1.316-.949L16 7.613v8.774Z" clip-rule="evenodd" />
+                              <!-- Camera lens rings -->
+                              <circle cx="8" cy="12" r="3" stroke="#333" stroke-width="0.8" fill="none"/>
+                              <circle cx="8" cy="12" r="2" stroke="#333" stroke-width="0.6" fill="none"/>
+                              <circle cx="8" cy="12" r="1" fill="#333"/>
+                              <!-- Lens reflection -->
+                              <circle cx="7" cy="11" r="0.8" fill="#fff" opacity="0.6"/>
+                              <!-- Recording indicator -->
+                              <circle cx="5" cy="8" r="0.8" fill="#ff4444"/>
                           </svg>
                       </a>
                       <a href="#" title="Music">
-                          <svg class="footer-svg" xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="#fff"
-                              viewBox="0 0 24 24">
-                              <path
-                                  d="M18.6216 3.21667c.2391.1897.3784.47817.3784.78334V15.6667c0 .0412-.0025.0818-.0073.1218.0048.0698.0073.1404.0073.2115 0 1.6569-1.3431 3-3 3s-3-1.3431-3-3 1.3431-3 3-3c.3506 0 .6872.0602 1 .1707V9.2602l-8 1.8667V18l-.00001.0032C8.99824 19.6586 7.65577 21 6 21c-1.65685 0-3-1.3431-3-3s1.34315-3 3-3c.35064 0 .68722.0602 1 .1707V6.33334c0-.46474.32018-.86823.77277-.97384l9.99953-2.33321c.1486-.03477.3012-.03465.4467-.00201.1427.03202.2783.09532.3964.18752.0021.00162.0041.00324.0062.00487Z" />
+                          <svg class="footer-svg" xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="#fff" viewBox="0 0 24 24">
+                              <!-- Enhanced music note with staff lines -->
+                              <path d="M18.6216 3.21667c.2391.1897.3784.47817.3784.78334V15.6667c0 .0412-.0025.0818-.0073.1218.0048.0698.0073.1404.0073.2115 0 1.6569-1.3431 3-3 3s-3-1.3431-3-3 1.3431-3 3-3c.3506 0 .6872.0602 1 .1707V9.2602l-8 1.8667V18l-.00001.0032C8.99824 19.6586 7.65577 21 6 21c-1.65685 0-3-1.3431-3-3s1.34315-3 3-3c.35064 0 .68722.0602 1 .1707V6.33334c0-.46474.32018-.86823.77277-.97384l9.99953-2.33321c.1486-.03477.3012-.03465.4467-.00201.1427.03202.2783.09532.3964.18752.0021.00162.0041.00324.0062.00487Z" />
+                              <!-- Staff lines -->
+                              <line x1="2" y1="8" x2="22" y2="8" stroke="#fff" stroke-width="0.5" opacity="0.4"/>
+                              <line x1="2" y1="10" x2="22" y2="10" stroke="#fff" stroke-width="0.5" opacity="0.4"/>
+                              <line x1="2" y1="12" x2="22" y2="12" stroke="#fff" stroke-width="0.5" opacity="0.4"/>
+                              <line x1="2" y1="14" x2="22" y2="14" stroke="#fff" stroke-width="0.5" opacity="0.4"/>
+                              <line x1="2" y1="16" x2="22" y2="16" stroke="#fff" stroke-width="0.5" opacity="0.4"/>
+                              <!-- Additional notes -->
+                              <circle cx="20" cy="10" r="1" fill="#fff" opacity="0.7"/>
+                              <circle cx="4" cy="14" r="0.8" fill="#fff" opacity="0.6"/>
                           </svg>
                       </a>
                       <a href="tiktok://" title="TikTok">
-                          <svg class="footer-svg" xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none"
-                              viewBox="0 0 24 24">
-                              <path stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
+                          <svg class="footer-svg" xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24">
+                              <!-- TikTok music note with enhanced design -->
+                              <path stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
                                   d="M12 16.5c0 1.3807-1.1193 2.5-2.5 2.5C8.11929 19 7 17.8807 7 16.5S8.11929 14 9.5 14c1.3807 0 2.5 1.1193 2.5 2.5Zm0 0V5c2.5 0 6 2.5 4.5 7" />
+                              <!-- Musical elements -->
+                              <circle cx="15" cy="8" r="1.5" stroke="#fff" stroke-width="1.5" fill="none" opacity="0.7"/>
+                              <circle cx="17" cy="6" r="1" stroke="#fff" stroke-width="1" fill="none" opacity="0.5"/>
+                              <!-- Rhythm lines -->
+                              <line x1="19" y1="5" x2="20" y2="4" stroke="#fff" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+                              <line x1="19" y1="7" x2="20" y2="8" stroke="#fff" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+                              <line x1="19" y1="9" x2="20" y2="10" stroke="#fff" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
                           </svg>
                       </a>
                       <a href="https://radar.heffner.live" target="_blank" title="Weather Radar">
-                          <svg class="footer-svg" xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="#fff"
-                              viewBox="0 0 24 24">
-                              <path fill-rule="evenodd"
-                                  d="M11.675 2.015C11.889 2.007 12.11 2.007 12.325 2.015c1.12.043 2.175.394 2.99 1.074.814.68 1.287 1.666 1.287 2.676a4.51 4.51 0 0 1-.648 2.352l-.124.196-.049.077-.01.015a1 1 0 0 1-.847.47H8.076a1 1 0 0 1-.847-.47l-.01-.015-.049-.077-.124-.196A4.51 4.51 0 0 1 6.398 5.765c0-1.01.473-1.996 1.287-2.676.815-.68 1.87-1.031 2.99-1.074Zm-5.55 6.86a1 1 0 0 1-.125 1.405A9 9 0 1 0 20 12a8.969 8.969 0 0 0-1.188-4.38 1 1 0 0 1 1.538-1.281A10.969 10.969 0 0 1 22 12a11 11 0 1 1-15.875-9.875 1 1 0 0 1 1.405.125l.595.714Zm7.376 4.626a1 1 0 0 1 1.398.248A2.99 2.99 0 0 1 15.5 16a3 3 0 1 1-3-3c.659 0 1.262.212 1.751.571a1 1 0 0 1 .248 1.398l-.498.532Z"
-                                  clip-rule="evenodd" />
+                          <svg class="footer-svg" xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="#fff" viewBox="0 0 24 24">
+                              <!-- Radar tower base -->
+                              <rect x="11" y="18" width="2" height="4" fill="#fff"/>
+                              <rect x="10" y="20" width="4" height="2" fill="#fff"/>
+                              <!-- Radar dish -->
+                              <ellipse cx="12" cy="16" rx="6" ry="2" fill="#fff"/>
+                              <ellipse cx="12" cy="15" rx="6" ry="2" stroke="#fff" stroke-width="1" fill="none"/>
+                              <!-- Radar sweeping beam -->
+                              <path d="M12 15 L18 9 A7 7 0 0 0 12 8 Z" fill="#fff" opacity="0.6"/>
+                              <!-- Radar circles -->
+                              <circle cx="12" cy="8" r="3" stroke="#fff" stroke-width="0.8" fill="none" opacity="0.7"/>
+                              <circle cx="12" cy="8" r="5" stroke="#fff" stroke-width="0.8" fill="none" opacity="0.5"/>
+                              <circle cx="12" cy="8" r="7" stroke="#fff" stroke-width="0.8" fill="none" opacity="0.3"/>
+                              <!-- Weather elements -->
+                              <circle cx="15" cy="5" r="1" fill="#fff" opacity="0.8"/>
+                              <circle cx="9" cy="6" r="0.8" fill="#fff" opacity="0.6"/>
+                              <circle cx="16" cy="10" r="0.6" fill="#fff" opacity="0.4"/>
                           </svg>
                       </a>
                       <a href="https://search.heffner.live" target="_blank" title="Web Search">
                           <svg class="footer-svg" xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="#fff" viewBox="0 0 24 24">
-                              <circle cx="11" cy="11" r="7" stroke="#fff" stroke-width="2" fill="none"/>
-                              <line x1="16.5" y1="16.5" x2="22" y2="22" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+                              <!-- Enhanced magnifying glass with lens reflection -->
+                              <circle cx="10" cy="10" r="6.5" stroke="#fff" stroke-width="2" fill="none"/>
+                              <circle cx="8" cy="8" r="2" fill="#fff" opacity="0.3"/>
+                              <line x1="15.5" y1="15.5" x2="21" y2="21" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+                              <!-- Web/browser elements -->
+                              <circle cx="10" cy="7" r="0.8" fill="#fff"/>
+                              <circle cx="7" cy="10" r="0.8" fill="#fff"/>
+                              <circle cx="13" cy="10" r="0.8" fill="#fff"/>
+                              <circle cx="10" cy="13" r="0.8" fill="#fff"/>
+                          </svg>
+                      </a>
+                      <a href="https://ip-analysis.heffner.live" target="_blank" title="IP Analysis">
+                          <svg class="footer-svg" xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="#fff" viewBox="0 0 24 24">
+                              <!-- Network globe with connection points -->
+                              <circle cx="12" cy="12" r="9" stroke="#fff" stroke-width="1.5" fill="none"/>
+                              <!-- Latitude lines -->
+                              <ellipse cx="12" cy="12" rx="9" ry="4" stroke="#fff" stroke-width="0.8" fill="none"/>
+                              <ellipse cx="12" cy="12" rx="9" ry="2" stroke="#fff" stroke-width="0.8" fill="none"/>
+                              <!-- Longitude line -->
+                              <ellipse cx="12" cy="12" rx="4" ry="9" stroke="#fff" stroke-width="0.8" fill="none"/>
+                              <!-- IP address dots (representing network nodes) -->
+                              <circle cx="8" cy="8" r="1.2" fill="#fff"/>
+                              <circle cx="16" cy="8" r="1.2" fill="#fff"/>
+                              <circle cx="8" cy="16" r="1.2" fill="#fff"/>
+                              <circle cx="16" cy="16" r="1.2" fill="#fff"/>
+                              <!-- Magnifying glass overlay -->
+                              <circle cx="18" cy="6" r="3" stroke="#fff" stroke-width="1.5" fill="none"/>
+                              <line x1="20.5" y1="8.5" x2="22" y2="10" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
                           </svg>
                       </a>
                   </div>
