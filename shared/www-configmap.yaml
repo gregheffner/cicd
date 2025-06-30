@@ -1305,12 +1305,13 @@ data:
             <li><a href="https://medium.com/@light.pen8923">Medium, Blog Re-Post</a> A carbon copy of the <a href="https://greg.heffner.live/blog.html">Blogs</a> I post just for more SEO reach.</li>
           </ul>
           Please like and follow
-          <h3>You cant be a nerd without a favorite Weather Station or Ham Radio Network:</h3>
+          <h3>My Tools</h3>
           <ul>
-            <li><a href="https://www.spaghettimodels.com">Spaghetti Models</a> Great website for weather watching</li>
-            <li>Radio Dashboards <a href="https://brandmeister.network">Brandmeister DMR Dashboard</a></li>
-            <li><a href="http://192.223.28.176:42420/CallWatch">LiveLogs</a> DMR-SE Realtime Logs</li>
-            <li><a href="http://stats.allstarlink.org/stats/510740/networkMap">AllStar Network Map</a>
+            <li><a href="https://radar.heffner.live">Weather</a>Radar used for car shows and crusing</li>
+            <li><a href="https://ip-analysis.heffner.live">IP Analysis</a>I use this to investigate IPs and wether or not to block them</li>
+            <li><a href="https://text-to-image-template.heffner.workers.dev">Image Generator</a>Fun cloudflare project</li>
+            <li><a href="https://search.heffner.live">Search</a>Playing with search engins without ads</li>
+            <li><a href="https://chat.heffner.live">Chat</a>Encrypted chat with no logging</li>
           </ul>
           <h3>How to Learn:</h3>
           <ul>
@@ -1328,7 +1329,13 @@ data:
                     <a href="https://firstcoastdmr.org/index.php/dmr-info/">Jax DMR Site</a> <->
                       <a href="https://gchq.github.io/CyberChef/">CyberChef</a> <->
                         <a href="https://radar.weather.gov/ridge/standard/SOUTHEAST_loop.gif">Radar Loop SE</a> <->
-                          <a href="https://ui.com/introduction">Shop Network Gear</a>
+                          <a href="https://ui.com/introduction">Shop Network Gear</a> <->
+                            <a href="https://www.spaghettimodels.com">Spaghetti Models</a> <->
+                              <a href="https://brandmeister.network">Brandmeister DMR </a> <->
+                                <a href="http://192.223.28.176:42420/CallWatch">DMR Logs </a> <->
+                                  <a href="http://stats.allstarlink.org/stats/510740/networkMap">Allstar Radio Map</a>
+
+
           </ul>
         </div>
         <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
