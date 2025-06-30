@@ -1307,11 +1307,11 @@ data:
           Please like and follow
           <h3>My Tools</h3>
           <ul>
-            <li><a href="https://radar.heffner.live">Weather</a>Radar used for car shows and crusing</li>
-            <li><a href="https://ip-analysis.heffner.live">IP Analysis</a>I use this to investigate IPs and wether or not to block them</li>
-            <li><a href="https://text-to-image-template.heffner.workers.dev">Image Generator</a>Fun cloudflare project</li>
-            <li><a href="https://search.heffner.live">Search</a>Playing with search engins without ads</li>
-            <li><a href="https://chat.heffner.live">Chat</a>Encrypted chat with no logging</li>
+            <li><a href="https://radar.heffner.live">Weather</a>: Radar used for car shows and crusing</li>
+            <li><a href="https://ip-analysis.heffner.live">IP Analysis</a>: I use this to investigate IPs and wether or not to block them</li>
+            <li><a href="https://text-to-image-template.heffner.workers.dev">: Image Generator</a>Fun cloudflare project. Right now it makes pictures servers burning lol</li>
+            <li><a href="https://search.heffner.live">Search</a>: Playing with search engins without ads</li>
+            <li><a href="https://chat.heffner.live">Chat</a>: Encrypted chat with no logging</li>
           </ul>
           <h3>How to Learn:</h3>
           <ul>
