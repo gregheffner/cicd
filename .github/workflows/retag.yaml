@@ -105,33 +105,45 @@ jobs:
           print(f"Latest tag: {latest_tag}")
           print(f"Previous tag: {previous_tag}")
           
-          # Find all nginx image references
-          nginx_pattern = r'technotuba/nginx:[^\s\]`]*'
-          nginx_refs = re.findall(nginx_pattern, content)
-          print(f"Found nginx references: {nginx_refs}")
+          # Find the Deployment Overview section
+          deployment_start = content.find("## Deployment Overview")
+          if deployment_start == -1:
+              print("Deployment Overview section not found")
+              exit(1)
+          
+          # Find the end of the deployment section (next ## heading or end of file)
+          deployment_end = content.find("\n##", deployment_start + 1)
+          if deployment_end == -1:
+              deployment_end = len(content)
+          
+          deployment_section = content[deployment_start:deployment_end]
+          print(f"Deployment section found: {len(deployment_section)} chars")
+          
+          # Find nginx references only in the deployment section
+          nginx_pattern = r'\[`technotuba/nginx:[^`]*`\]'
+          nginx_refs = re.findall(nginx_pattern, deployment_section)
+          print(f"Found nginx references in deployment section: {nginx_refs}")
           
           if len(nginx_refs) >= 2:
-              # Replace first occurrence (Green Environment) with latest
+              # Update Green Environment (first occurrence) with latest
               old_green = nginx_refs[0]
-              new_green = f'technotuba/nginx:{latest_tag}'
-              content = content.replace(old_green, new_green, 1)
+              new_green = f'[`technotuba/nginx:{latest_tag}`]'
+              deployment_section = deployment_section.replace(old_green, new_green, 1)
               print(f"Replaced Green: {old_green} -> {new_green}")
               
-              # Replace second occurrence (Blue Environment) with previous
-              old_blue = nginx_refs[1] 
-              new_blue = f'technotuba/nginx:{previous_tag}'
-              content = content.replace(old_blue, new_blue, 1)
+              # Update Blue Environment (second occurrence) with previous
+              old_blue = nginx_refs[1]
+              new_blue = f'[`technotuba/nginx:{previous_tag}`]'
+              deployment_section = deployment_section.replace(old_blue, new_blue, 1)
               print(f"Replaced Blue: {old_blue} -> {new_blue}")
-          
+              
+              # Replace the deployment section in the full content
+              content = content[:deployment_start] + deployment_section + content[deployment_end:]
+              
           elif len(nginx_refs) == 1:
-              # Only one reference found, update it to latest
-              old_ref = nginx_refs[0]
-              new_ref = f'technotuba/nginx:{latest_tag}'
-              content = content.replace(old_ref, new_ref, 1)
-              print(f"Replaced single reference: {old_ref} -> {new_ref}")
-          
+              print("Only one nginx reference found in deployment section")
           else:
-              print("No nginx references found in README")
+              print("No nginx references found in deployment section")
           
           # Write back to README
           with open('README.md', 'w') as f:
