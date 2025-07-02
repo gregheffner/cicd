@@ -18,7 +18,7 @@ This repository showcases a blue-green deployment strategy using Kubernetes, ena
 - **Green Environment (Disaster Recovery)**
   - **Type:** DaemonSet
   - **Manifest:** `DR/nginx-green.yaml`
-  - **Image:** [`technotuba/nginx:vYYYY.MM`](https://hub.docker.com/r/technotuba/nginx/tags)
+  - **Image:** [`technotuba/nginx:v2025.07`](https://hub.docker.com/r/technotuba/nginx/tags)
   - **Purpose:** Runs the new version on every node for high availability, testing, and backup.
 
 - **Blue Environment (Production)**
