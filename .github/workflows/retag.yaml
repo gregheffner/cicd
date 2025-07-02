@@ -86,10 +86,44 @@ jobs:
       - name: Update blue deployment to use previous image
         run: sed -i "s#technotuba/nginx:[^\"']*#technotuba/nginx:${{ steps.tags.outputs.PREVIOUS }}#g" prod/nginx-blue.yaml
 
+      - name: Update README with current tags
+        run: |
+          python3 <<EOF
+          import re
+          
+          # Read the README file
+          with open('README.md', 'r') as f:
+              content = f.read()
+          
+          # Define the tags
+          latest_tag = "${{ steps.tags.outputs.LATEST }}"
+          previous_tag = "${{ steps.tags.outputs.PREVIOUS }}"
+          
+          # Update Green Environment (first occurrence) with latest tag
+          content = re.sub(
+              r'(\*\*Green Environment.*?- \*\*Image:\*\* \[`technotuba/nginx:)[^`]*(`\])',
+              r'\g<1>' + latest_tag + r'\g<2>',
+              content,
+              flags=re.DOTALL
+          )
+          
+          # Update Blue Environment (second occurrence) with previous tag  
+          content = re.sub(
+              r'(\*\*Blue Environment.*?- \*\*Image:\*\* \[`technotuba/nginx:)[^`]*(`\])',
+              r'\g<1>' + previous_tag + r'\g<2>',
+              content,
+              flags=re.DOTALL
+          )
+          
+          # Write back to README
+          with open('README.md', 'w') as f:
+              f.write(content)
+          EOF
+
       - name: Commit and push updated YAMLs
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
           git add DR/nginx-green.yaml prod/nginx-blue.yaml README.md
           git commit -m "chore: update deployment images to latest and previous" || echo "No changes to commit"
-          git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }}.git HEAD:${{ github.ref }}
+          git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }}.git HEAD:${{ github.ref }}`
