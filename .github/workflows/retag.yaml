@@ -146,4 +146,4 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git add DR/nginx-green.yaml prod/nginx-blue.yaml README.md
           git commit -m "chore: update deployment images to latest and previous" || echo "No changes to commit"
-          git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }}.git HEAD:${{ github.ref }}`
+          git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }}.git HEAD:${{ github.ref }}
