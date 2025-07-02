@@ -1,13 +1,10 @@
 # cicd
 
-
 <img alt="Green Image" src="https://img.shields.io/badge/green--image-technotuba/nginx:latest-brightgreen?style=for-the-badge&logo=docker&logoColor=white">
 <img alt="Blue Image" src="https://img.shields.io/badge/blue--image-technotuba/nginx:latest-blue?style=for-the-badge&logo=docker&logoColor=white">
 <img alt="Prod Silo" src="https://img.shields.io/badge/Prod%20Silo-blue-blue?style=for-the-badge">
 <img alt="Cloudflare Block" src="https://img.shields.io/badge/cloudflare--block-2-red?logo=cloudflare&style=for-the-badge">
 <img alt="Cloudflare Cache Clear" src="https://img.shields.io/badge/Cloudflare%20Cache%20Clear-2025--06--30%2013:10%20UTC-orange?logo=cloudflare&style=for-the-badge">
-
-
 
 ![Blue-Green Deployment Diagram](screenshot.png)
 
@@ -18,7 +15,7 @@ This repository showcases a blue-green deployment strategy using Kubernetes, ena
 - **Green Environment (Disaster Recovery)**
   - **Type:** DaemonSet
   - **Manifest:** `DR/nginx-green.yaml`
-  - **Image:** [`technotuba/nginx:v2025.07`](https://hub.docker.com/r/technotuba/nginx/tags)
+  - **Image:** [`technotuba/nginx:vYYYY.MM`](https://hub.docker.com/r/technotuba/nginx/tags)
   - **Purpose:** Runs the new version on every node for high availability, testing, and backup.
 
 - **Blue Environment (Production)**
@@ -57,6 +54,7 @@ This structure allows you to test updates thoroughly in the DR environment befor
 > Manifests for the green (DR) environment are in the `DR` folder, while blue (production) manifests are in the `prod` folder.
 
 **Benefits of this separation:**
+
 - **Clarity:** Instantly see which resources belong to which environment.
 - **Safety:** Reduces the risk of accidental changes to production.
 - **Simplicity:** Makes automation, CI/CD, and manual operations easier and less error-prone.
