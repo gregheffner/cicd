@@ -88,7 +88,7 @@ jobs:
 
       - name: Update README with current tags
         run: |
-          python3 <<EOF
+          python3 <<'EOF'
           import re
           
           # Read the README file
@@ -105,40 +105,39 @@ jobs:
           print(f"Latest tag: {latest_tag}")
           print(f"Previous tag: {previous_tag}")
           
-          # Simple approach: find and replace all nginx image references
-          # First, update any nginx image reference that comes after "Green Environment"
-          green_pattern = r'(Green Environment.*?technotuba/nginx:)[^`\s\]]*'
-          if re.search(green_pattern, content, re.DOTALL):
-              content = re.sub(green_pattern, r'\1' + latest_tag, content, flags=re.DOTALL)
-              print("Updated Green Environment")
-          else:
-              print("Green Environment pattern not found")
-          
-          # Then update any nginx image reference that comes after "Blue Environment"  
-          blue_pattern = r'(Blue Environment.*?technotuba/nginx:)[^`\s\]]*'
-          if re.search(blue_pattern, content, re.DOTALL):
-              content = re.sub(blue_pattern, r'\1' + previous_tag, content, flags=re.DOTALL)
-              print("Updated Blue Environment")
-          else:
-              print("Blue Environment pattern not found")
-          
-          # Fallback: simple global replace approach
-          # Count occurrences of technotuba/nginx
-          nginx_refs = re.findall(r'technotuba/nginx:[^`\s\]]*', content)
+          # Find all nginx image references
+          nginx_pattern = r'technotuba/nginx:[^\s\]`]*'
+          nginx_refs = re.findall(nginx_pattern, content)
           print(f"Found nginx references: {nginx_refs}")
           
           if len(nginx_refs) >= 2:
-              # Replace first occurrence (Green) with latest
-              content = content.replace(nginx_refs[0], f'technotuba/nginx:{latest_tag}', 1)
-              # Replace second occurrence (Blue) with previous  
-              content = content.replace(nginx_refs[1], f'technotuba/nginx:{previous_tag}', 1)
-              print("Used fallback replacement method")
+              # Replace first occurrence (Green Environment) with latest
+              old_green = nginx_refs[0]
+              new_green = f'technotuba/nginx:{latest_tag}'
+              content = content.replace(old_green, new_green, 1)
+              print(f"Replaced Green: {old_green} -> {new_green}")
+              
+              # Replace second occurrence (Blue Environment) with previous
+              old_blue = nginx_refs[1] 
+              new_blue = f'technotuba/nginx:{previous_tag}'
+              content = content.replace(old_blue, new_blue, 1)
+              print(f"Replaced Blue: {old_blue} -> {new_blue}")
+          
+          elif len(nginx_refs) == 1:
+              # Only one reference found, update it to latest
+              old_ref = nginx_refs[0]
+              new_ref = f'technotuba/nginx:{latest_tag}'
+              content = content.replace(old_ref, new_ref, 1)
+              print(f"Replaced single reference: {old_ref} -> {new_ref}")
+          
+          else:
+              print("No nginx references found in README")
           
           # Write back to README
           with open('README.md', 'w') as f:
               f.write(content)
               
-          print("README updated successfully")
+          print("README update completed")
           EOF
 
       - name: Commit and push updated YAMLs
