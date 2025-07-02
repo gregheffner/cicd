@@ -105,45 +105,14 @@ jobs:
           print(f"Latest tag: {latest_tag}")
           print(f"Previous tag: {previous_tag}")
           
-          # Find the Deployment Overview section
-          deployment_start = content.find("## Deployment Overview")
-          if deployment_start == -1:
-              print("Deployment Overview section not found")
-              exit(1)
+          # Update only the Blue Image badge with the version tag
+          blue_badge_pattern = r'(<img alt="Blue Image" src="https://img\.shields\.io/badge/blue--image-technotuba/nginx:)[^-]*(-blue\?style=for-the-badge&logo=docker&logoColor=white">)'
           
-          # Find the end of the deployment section (next ## heading or end of file)
-          deployment_end = content.find("\n##", deployment_start + 1)
-          if deployment_end == -1:
-              deployment_end = len(content)
-          
-          deployment_section = content[deployment_start:deployment_end]
-          print(f"Deployment section found: {len(deployment_section)} chars")
-          
-          # Find nginx references only in the deployment section
-          nginx_pattern = r'\[`technotuba/nginx:[^`]*`\]'
-          nginx_refs = re.findall(nginx_pattern, deployment_section)
-          print(f"Found nginx references in deployment section: {nginx_refs}")
-          
-          if len(nginx_refs) >= 2:
-              # Update Green Environment (first occurrence) with latest
-              old_green = nginx_refs[0]
-              new_green = f'[`technotuba/nginx:{latest_tag}`]'
-              deployment_section = deployment_section.replace(old_green, new_green, 1)
-              print(f"Replaced Green: {old_green} -> {new_green}")
-              
-              # Update Blue Environment (second occurrence) with previous
-              old_blue = nginx_refs[1]
-              new_blue = f'[`technotuba/nginx:{previous_tag}`]'
-              deployment_section = deployment_section.replace(old_blue, new_blue, 1)
-              print(f"Replaced Blue: {old_blue} -> {new_blue}")
-              
-              # Replace the deployment section in the full content
-              content = content[:deployment_start] + deployment_section + content[deployment_end:]
-              
-          elif len(nginx_refs) == 1:
-              print("Only one nginx reference found in deployment section")
+          if re.search(blue_badge_pattern, content):
+              content = re.sub(blue_badge_pattern, r'\1' + previous_tag + r'\2', content)
+              print(f"Updated Blue Image badge to use tag: {previous_tag}")
           else:
-              print("No nginx references found in deployment section")
+              print("Blue Image badge pattern not found")
           
           # Write back to README
           with open('README.md', 'w') as f:
