@@ -95,29 +95,50 @@ jobs:
           with open('README.md', 'r') as f:
               content = f.read()
           
+          print("Original README content (first 500 chars):")
+          print(content[:500])
+          
           # Define the tags
           latest_tag = "${{ steps.tags.outputs.LATEST }}"
           previous_tag = "${{ steps.tags.outputs.PREVIOUS }}"
           
-          # Update Green Environment (first occurrence) with latest tag
-          content = re.sub(
-              r'(\*\*Green Environment.*?- \*\*Image:\*\* \[`technotuba/nginx:)[^`]*(`\])',
-              r'\g<1>' + latest_tag + r'\g<2>',
-              content,
-              flags=re.DOTALL
-          )
+          print(f"Latest tag: {latest_tag}")
+          print(f"Previous tag: {previous_tag}")
           
-          # Update Blue Environment (second occurrence) with previous tag  
-          content = re.sub(
-              r'(\*\*Blue Environment.*?- \*\*Image:\*\* \[`technotuba/nginx:)[^`]*(`\])',
-              r'\g<1>' + previous_tag + r'\g<2>',
-              content,
-              flags=re.DOTALL
-          )
+          # Simple approach: find and replace all nginx image references
+          # First, update any nginx image reference that comes after "Green Environment"
+          green_pattern = r'(Green Environment.*?technotuba/nginx:)[^`\s\]]*'
+          if re.search(green_pattern, content, re.DOTALL):
+              content = re.sub(green_pattern, r'\1' + latest_tag, content, flags=re.DOTALL)
+              print("Updated Green Environment")
+          else:
+              print("Green Environment pattern not found")
+          
+          # Then update any nginx image reference that comes after "Blue Environment"  
+          blue_pattern = r'(Blue Environment.*?technotuba/nginx:)[^`\s\]]*'
+          if re.search(blue_pattern, content, re.DOTALL):
+              content = re.sub(blue_pattern, r'\1' + previous_tag, content, flags=re.DOTALL)
+              print("Updated Blue Environment")
+          else:
+              print("Blue Environment pattern not found")
+          
+          # Fallback: simple global replace approach
+          # Count occurrences of technotuba/nginx
+          nginx_refs = re.findall(r'technotuba/nginx:[^`\s\]]*', content)
+          print(f"Found nginx references: {nginx_refs}")
+          
+          if len(nginx_refs) >= 2:
+              # Replace first occurrence (Green) with latest
+              content = content.replace(nginx_refs[0], f'technotuba/nginx:{latest_tag}', 1)
+              # Replace second occurrence (Blue) with previous  
+              content = content.replace(nginx_refs[1], f'technotuba/nginx:{previous_tag}', 1)
+              print("Used fallback replacement method")
           
           # Write back to README
           with open('README.md', 'w') as f:
               f.write(content)
+              
+          print("README updated successfully")
           EOF
 
       - name: Commit and push updated YAMLs
