@@ -319,7 +319,15 @@ data:
         <div class="row">
             <div class="leftcolumn">
                 <div class="card">
-
+                            <section id="Article25-CICD">
+                            <div class="blog-box" onclick="location.href='/image/pages/2025/July/cicd.html';">
+                                <div class="blog-description">
+                                    <h3>Build, Test, Deploy: The CI/CD Adventure (with a Dash of Argo CD Magic)</h3>
+                                    <p>Greg Heffner July 3rd, 2025</p>
+                                </div>
+                                <div class="blog-image-container" style="background-image: url('/image/blog/2025/July/CICD2.png');"></div>
+                            </div>
+                            </section>
                             <section id="Article24-WebSec">
                             <div class="blog-box" onclick="location.href='/image/pages/2025/June/websecurity.html';">
                                 <div class="blog-description">
@@ -616,6 +624,7 @@ data:
                         <li><a href="#Article22-AOC">Advent of Cyber: Time for some Holiday fun with TryHackMe!</a></li><br>
                         <li><a href="#Article23-GitAdv">Github advanced features: Short-cycle your processes</a></li><br>
                         <li><a href="#Article24-GitAdv">Web Security: Blocking Bots from the Edge with Fail2Ban + Cloudflare</a></li><br>
+                        <li><a href="#Article25-CICD">Build, Test, Deploy: The CI/CD Adventure (with a Dash of Argo CD Magic)</a></li><br>
                         -->
                     </nav>
                   </div>
@@ -2040,6 +2049,12 @@ data:
         <url>
           <loc>https://greg.heffner.live/image/pages/2025/June/githubadv.html</loc>
           <lastmod>2025-06-15</lastmod>
+          <changefreq>daily</changefreq>
+          <priority>1.0</priority>
+        </url>
+        <url>
+          <loc>https://greg.heffner.live/image/pages/2025/July/cicd.html</loc>
+          <lastmod>2025-07-03</lastmod>
           <changefreq>daily</changefreq>
           <priority>1.0</priority>
         </url>
