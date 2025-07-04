@@ -86,6 +86,41 @@ jobs:
       - name: Update blue deployment to use previous image
         run: sed -i "s#technotuba/nginx:[^\"']*#technotuba/nginx:${{ steps.tags.outputs.PREVIOUS }}#g" prod/nginx-blue.yaml
 
+      - name: Update README with current tags
+        run: |
+          python3 <<'EOF'
+          import re
+          
+          # Read the README file
+          with open('README.md', 'r') as f:
+              content = f.read()
+          
+          print("Original README content (first 500 chars):")
+          print(content[:500])
+          
+          # Define the tags
+          latest_tag = "${{ steps.tags.outputs.LATEST }}"
+          previous_tag = "${{ steps.tags.outputs.PREVIOUS }}"
+          
+          print(f"Latest tag: {latest_tag}")
+          print(f"Previous tag: {previous_tag}")
+          
+          # Update only the Blue Image badge with the version tag
+          blue_badge_pattern = r'(<img alt="Blue Image" src="https://img\.shields\.io/badge/blue--image-technotuba/nginx:)[^-]*(-blue\?style=for-the-badge&logo=docker&logoColor=white">)'
+          
+          if re.search(blue_badge_pattern, content):
+              content = re.sub(blue_badge_pattern, r'\1' + previous_tag + r'\2', content)
+              print(f"Updated Blue Image badge to use tag: {previous_tag}")
+          else:
+              print("Blue Image badge pattern not found")
+          
+          # Write back to README
+          with open('README.md', 'w') as f:
+              f.write(content)
+              
+          print("README update completed")
+          EOF
+
       - name: Commit and push updated YAMLs
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
