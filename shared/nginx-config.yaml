@@ -20,6 +20,10 @@ data:
         include       /etc/nginx/mime.types;
         default_type  application/octet-stream;
 
+        ssl_protocols TLSv1.2 TLSv1.3;
+        ssl_ciphers 'HIGH:!aNULL:!MD5:!3DES';
+        ssl_prefer_server_ciphers on;
+
         map $http_x_forwarded_for $real_client_ip {
             ~^(?<ip>[^,]+) $ip;
             default $remote_addr;
