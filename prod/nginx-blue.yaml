@@ -33,7 +33,7 @@
       spec:
         containers:
         - name: nginx
-          image: technotuba/nginx:v2025.07
+          image: technotuba/nginx:latest
           ports:
           - containerPort: 80
           - containerPort: 81
