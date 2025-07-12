@@ -319,6 +319,15 @@ data:
         <div class="row">
             <div class="leftcolumn">
                 <div class="card">
+                            <section id="Article26-Crontab">
+                            <div class="blog-box" onclick="location.href='/image/pages/2025/July/cron.html';">
+                                <div class="blog-description">
+                                    <h3>Crontab: Automating Tasks with Cron Jobs</h3>
+                                    <p>Greg Heffner July 11th, 2025</p>
+                                </div>
+                                <div class="blog-image-container" style="background-image: url('/image/blog/2025/July/CronScheduler.jpeg');"></div>
+                            </div>
+                            </section>
                             <section id="Article25-CICD">
                             <div class="blog-box" onclick="location.href='/image/pages/2025/July/cicd.html';">
                                 <div class="blog-description">
@@ -625,6 +634,7 @@ data:
                         <li><a href="#Article23-GitAdv">Github advanced features: Short-cycle your processes</a></li><br>
                         <li><a href="#Article24-GitAdv">Web Security: Blocking Bots from the Edge with Fail2Ban + Cloudflare</a></li><br>
                         <li><a href="#Article25-CICD">Build, Test, Deploy: The CI/CD Adventure (with a Dash of Argo CD Magic)</a></li><br>
+                        <li><a href="#Article26-Crontab">Crontab: Automating Tasks with Cron Jobs</a></li><br>
                         -->
                     </nav>
                   </div>
@@ -1874,187 +1884,193 @@ data:
       <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
         <url>
           <loc>https://greg.heffner.live/</loc>
-          <lastmod>2024-07-20</lastmod>
+          <lastmod>2025-07-11</lastmod>
           <changefreq>daily</changefreq>
           <priority>1.0</priority>
         </url>
         <url>
           <loc>https://greg.heffner.live/photos.html</loc>
-          <lastmod>2024-07-01</lastmod>
+          <lastmod>2025-07-11</lastmod>
           <changefreq>weekly</changefreq>
           <priority>0.9</priority>
         </url>
         <url>
           <loc>https://greg.heffner.live/blog.html</loc>
-          <lastmod>2024-07-23</lastmod>
+          <lastmod>2025-07-11</lastmod>
           <changefreq>daily</changefreq>
           <priority>1.0</priority>
         </url>
         <url>
           <loc>https://greg.heffner.live/privacy.html</loc>
-          <lastmod>2024-07-01</lastmod>
+          <lastmod>2025-07-11</lastmod>
           <changefreq>never</changefreq>
           <priority>0.1</priority>
         </url>
         <url>
           <loc>https://greg.heffner.live/cookie.html</loc>
-          <lastmod>2024-07-01</lastmod>
+          <lastmod>2025-07-11</lastmod>
           <changefreq>never</changefreq>
           <priority>0.2</priority>
         </url>
         <url>
           <loc>https://greg.heffner.live/image/pages/initial.html</loc>
-          <lastmod>2024-07-09</lastmod>
+          <lastmod>2025-07-11</lastmod>
           <changefreq>daily</changefreq>
           <priority>1.0</priority>
         </url>
         <url>
           <loc>https://greg.heffner.live/image/pages/2024/July/GitHub.html</loc>
-          <lastmod>2024-07-23</lastmod>
+          <lastmod>2025-07-11</lastmod>
           <changefreq>daily</changefreq>
           <priority>1.0</priority>
         </url>
         <url>
           <loc>https://greg.heffner.live/image/pages/2024/July/Pi-Hole.html</loc>
-          <lastmod>2024-07-23</lastmod>
+          <lastmod>2025-07-11</lastmod>
           <changefreq>daily</changefreq>
           <priority>1.0</priority>
         </url>
         <url>
           <loc>https://greg.heffner.live/image/pages/2024/July/LB.html</loc>
-          <lastmod>2024-07-23</lastmod>
+          <lastmod>2025-07-11</lastmod>
           <changefreq>daily</changefreq>
           <priority>1.0</priority>
         </url>
         <url>
           <loc>https://greg.heffner.live/image/pages/2024/July/DockerHub.html</loc>
-          <lastmod>2024-07-23</lastmod>
+          <lastmod>2025-07-11</lastmod>
           <changefreq>daily</changefreq>
           <priority>1.0</priority>
         </url>   
         <url>
           <loc>https://greg.heffner.live/image/pages/2024/July/VPNs.html</loc>
-          <lastmod>2024-07-23</lastmod>
+          <lastmod>2025-07-11</lastmod>
           <changefreq>daily</changefreq>
           <priority>1.0</priority>
         </url>  
         <url>
           <loc>https://greg.heffner.live/image/pages/2024/July/thecloud.html</loc>
-          <lastmod>2024-07-23</lastmod>
+          <lastmod>2025-07-11</lastmod>
           <changefreq>daily</changefreq>
           <priority>1.0</priority>
         </url>
         <url>
           <loc>https://greg.heffner.live/image/pages/2024/July/wifi.html</loc>
-          <lastmod>2024-07-27</lastmod>
+          <lastmod>2025-07-11</lastmod>
           <changefreq>daily</changefreq>
           <priority>1.0</priority>
         </url>     
         <url>
           <loc>https://greg.heffner.live/image/pages/2024/July/homebuild.html</loc>
-          <lastmod>2024-07-31</lastmod>
+          <lastmod>2025-07-11</lastmod>
           <changefreq>daily</changefreq>
           <priority>1.0</priority>
         </url>
         <url>
           <loc>https://greg.heffner.live/image/pages/2024/Aug/k8s.html</loc>
-          <lastmod>2024-08-03</lastmod>
+          <lastmod>2025-07-11</lastmod>
           <changefreq>daily</changefreq>
           <priority>1.0</priority>
         </url>
         <url>
           <loc>https://greg.heffner.live/image/pages/2024/Aug/ansible.html</loc>
-          <lastmod>2024-08-06</lastmod>
+          <lastmod>2025-07-11</lastmod>
           <changefreq>daily</changefreq>
           <priority>1.0</priority>
         </url>
         <url>
           <loc>https://greg.heffner.live/image/pages/2024/Aug/dockerupdate.html</loc>
-          <lastmod>2024-08-11</lastmod>
+          <lastmod>2025-07-11</lastmod>
           <changefreq>daily</changefreq>
           <priority>1.0</priority>
         </url>
         <url>
           <loc>https://greg.heffner.live/image/pages/2024/Aug/travelrouter.html</loc>
-          <lastmod>2024-08-14</lastmod>
+          <lastmod>2025-07-11</lastmod>
           <changefreq>daily</changefreq>
           <priority>1.0</priority>
         </url>
         <url>
           <loc>https://greg.heffner.live/image/pages/2024/Aug/secrets.html</loc>
-          <lastmod>2024-08-18</lastmod>
+          <lastmod>2025-07-11</lastmod>
           <changefreq>daily</changefreq>
           <priority>1.0</priority>
         </url>
         <url>
           <loc>https://greg.heffner.live/image/pages/2024/Aug/twingate.html</loc>
-          <lastmod>2024-08-21</lastmod>
+          <lastmod>2025-07-11</lastmod>
           <changefreq>daily</changefreq>
           <priority>1.0</priority>
         </url>
         <url>
           <loc>https://greg.heffner.live/image/pages/2024/Aug/dmrradios.html</loc>
-          <lastmod>2024-08-24</lastmod>
+          <lastmod>2025-07-11</lastmod>
           <changefreq>daily</changefreq>
           <priority>1.0</priority>
         </url>
         <url>
           <loc>https://greg.heffner.live/image/pages/2024/Aug/tryhackme.html</loc>
-          <lastmod>2024-08-28</lastmod>
+          <lastmod>2025-07-11</lastmod>
           <changefreq>daily</changefreq>
           <priority>1.0</priority>
         </url>
         <url>
           <loc>https://greg.heffner.live/image/pages/2024/Sept/techimplants.html</loc>
-          <lastmod>2024-09-01</lastmod>
+          <lastmod>2025-07-11</lastmod>
           <changefreq>daily</changefreq>
           <priority>1.0</priority>
         </url>
         <url>
           <loc>https://greg.heffner.live/forum.html</loc>
-          <lastmod>2024-09-01</lastmod>
+          <lastmod>2025-07-11</lastmod>
           <changefreq>daily</changefreq>
           <priority>1.0</priority>
         </url>
         <url>
           <loc>https://greg.heffner.live/image/pages/2024/Sept/upstreamdns.html</loc>
-          <lastmod>2024-09-03</lastmod>
+          <lastmod>2025-07-11</lastmod>
           <changefreq>daily</changefreq>
           <priority>1.0</priority>
         </url>
         <url>
           <loc>https://greg.heffner.live/image/pages/2024/Sept/classetup.html</loc>
-          <lastmod>2024-09-07</lastmod>
+          <lastmod>2025-07-11</lastmod>
           <changefreq>daily</changefreq>
           <priority>1.0</priority>
         </url>
         <url>
           <loc>https://greg.heffner.live/image/pages/2024/Sept/smoketest.html</loc>
-          <lastmod>2024-09-11</lastmod>
+          <lastmod>2025-07-11</lastmod>
           <changefreq>daily</changefreq>
           <priority>1.0</priority>
         </url>
         <url>
           <loc>https://greg.heffner.live/image/pages/2024/Sept/tools.html</loc>
-          <lastmod>2024-09-15</lastmod>
+          <lastmod>2025-07-11</lastmod>
           <changefreq>daily</changefreq>
           <priority>1.0</priority>
         </url>
         <url>
           <loc>https://greg.heffner.live/image/pages/2024/Nov/AOC.html</loc>
-          <lastmod>2024-10-23</lastmod>
+          <lastmod>2025-07-11</lastmod>
           <changefreq>daily</changefreq>
           <priority>1.0</priority>
         </url>
         <url>
           <loc>https://greg.heffner.live/image/pages/2025/June/githubadv.html</loc>
-          <lastmod>2025-06-15</lastmod>
+          <lastmod>2025-07-11</lastmod>
           <changefreq>daily</changefreq>
           <priority>1.0</priority>
         </url>
         <url>
           <loc>https://greg.heffner.live/image/pages/2025/July/cicd.html</loc>
-          <lastmod>2025-07-03</lastmod>
+          <lastmod>2025-07-11</lastmod>
+          <changefreq>daily</changefreq>
+          <priority>1.0</priority>
+        </url>
+        <url>
+          <loc>https://greg.heffner.live/image/pages/2025/July/cron.html</loc>
+          <lastmod>2025-07-11</lastmod>
           <changefreq>daily</changefreq>
           <priority>1.0</priority>
         </url>
