@@ -2472,8 +2472,8 @@ data:
                   </tr>
                   <tr>
                       <td>
-                          <a href="youtube://www.youtube.com/tv">
-                              <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/youtube.svg" alt="YouTube TV">
+                          <a href="https://greg.heffner.live/traffic.html">
+                              <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/youtube.svg" alt="Traffic Cams">
                           </a>
                       </td>
                       <td>
@@ -2693,3 +2693,111 @@ data:
           </body>
 
           </html>
+  traffic.html: |
+        <!DOCTYPE html>
+            <html lang="en">
+
+            <head>
+              <meta charset="UTF-8">
+              <title>Traffic Cams</title>
+              <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
+              <style>
+                body {
+                  margin: 0;
+                  min-height: 100vh;
+                  background: linear-gradient(120deg, #e0eafc 0%, #cfdef3 100%);
+                  font-family: 'Roboto', Arial, sans-serif;
+                  color: #222;
+                  display: flex;
+                  flex-direction: column;
+                  align-items: center;
+                }
+
+                .container {
+                  max-width: 900px;
+                  width: 100%;
+                  margin: 40px auto 0 auto;
+                  background: #fff;
+                  border-radius: 18px;
+                  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+                  padding: 32px 24px 24px 24px;
+                  display: flex;
+                  flex-direction: column;
+                  align-items: center;
+                }
+
+                h1 {
+                  font-size: 2.2rem;
+                  font-weight: 700;
+                  margin-bottom: 0.5em;
+                  color: #1a4e8a;
+                  letter-spacing: 1px;
+                }
+
+                .desc {
+                  font-size: 1.1rem;
+                  margin-bottom: 1.5em;
+                  color: #444;
+                  text-align: center;
+                }
+
+                .info {
+                  font-size: 0.98rem;
+                  color: #666;
+                  margin-bottom: 1.2em;
+                  text-align: center;
+                }
+
+                a {
+                  color: #1a4e8a;
+                  text-decoration: none;
+                  font-weight: 500;
+                  transition: color 0.2s;
+                }
+
+                a:hover {
+                  color: #d64123;
+                  text-decoration: underline;
+                }
+
+                .map-window {
+                  width: 100%;
+                  height: 600px;
+                  border-radius: 12px;
+                  overflow: hidden;
+                  box-shadow: 0 4px 16px 0 rgba(31, 38, 135, 0.10);
+                  margin-top: 18px;
+                  background: #f5f7fa;
+                  border: 1px solid #e0eafc;
+                }
+
+                @media (max-width: 700px) {
+                  .container {
+                    padding: 12px 2vw 18px 2vw;
+                  }
+
+                  .map-window {
+                    height: 350px;
+                  }
+
+                  h1 {
+                    font-size: 1.3rem;
+                  }
+                }
+              </style>
+            </head>
+
+            <body>
+              <div class="container">
+                <h1>Jacksonville, FL Traffic Cameras &amp; Live Map</h1>
+                <div class="desc">Explore real-time traffic conditions and camera feeds for Jacksonville, Florida.</div>
+                <div class="info">Click on camera icons to view live feeds, or use the map to check current traffic. <br>Some cameras may not be available or may require additional permissions.<br>Drive safe for your girls</div>
+                <div class="map-window">
+                  <iframe title="Jacksonville FL Live Traffic Map"
+                    src="https://fl511.com/map/EmbeddedMap?lat=30.3322&lng=-81.6557&zoom=11&layers=TrafficSpeeds,Closures,Incidents,RoadConditionIncident,Congestion,Construction,Cameras"
+                    width="100%" height="100%" frameborder="0" style="border:0" allowfullscreen></iframe>
+                </div>
+              </div>
+            </body>
+
+        </html>
