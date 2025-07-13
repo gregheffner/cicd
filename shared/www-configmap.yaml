@@ -2632,3 +2632,64 @@ data:
           </body>
 
           </html>
+  loops.html: |
+        <!DOCTYPE html>
+          <html lang="en">
+
+          <head>
+              <meta charset="UTF-8">
+              <title>Multi-Window Dashboard</title>
+              <style>
+                  body {
+                      margin: 0;
+                      display: flex;
+                      flex-wrap: wrap;
+                      height: 100vh;
+                  }
+
+                  .window {
+                      flex: 1 1 50%;
+                      min-width: 400px;
+                      min-height: 300px;
+                      box-sizing: border-box;
+                      border: 2px solid #333;
+                      overflow: hidden;
+                  }
+
+                  iframe,
+                  img {
+                      width: 100%;
+                      height: 100%;
+                      border: none;
+                      display: block;
+                  }
+
+                  .window img {
+                      width: 100%;
+                      height: 100%;
+                      object-fit: contain;
+                      display: block;
+                  }
+              </style>
+          </head>
+
+          <body>
+              <div class="window">
+                  <iframe src="https://ambientweather.net/dashboard/d56b80c3e548645e17ed09ac56ba4487"></iframe>
+              </div>
+              <div class="window">
+                  <img src="https://radar.weather.gov/ridge/standard/SOUTHEAST_loop.gif"
+                      alt="Southeast loop">        
+              </div>
+
+              <div class="window">
+                  <img src="https://cdn.star.nesdis.noaa.gov/GOES19/ABI/SECTOR/ga/Sandwich/GOES19-GA-Sandwich-1000x1000.gif"
+                      alt="Sandwich Image">        
+              </div>
+              <div class="window">
+                  <img src="https://cdn.star.nesdis.noaa.gov/GOES19/GLM/CONUS/EXTENT3/GOES19-CONUS-EXTENT3-625x375.gif"
+                      alt="GOES19 Image">
+              </div>
+          </body>
+
+          </html>
