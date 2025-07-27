@@ -243,6 +243,22 @@ data:
                 font-size: 16px;
             }
 
+            .mobile-stamp {
+                position: absolute;
+                bottom: 8px;
+                left: 8px;
+                background: #2ecc40;
+                color: #fff;
+                font-size: 0.85em;
+                font-weight: bold;
+                padding: 4px 10px;
+                border-radius: 8px;
+                box-shadow: 0 2px 6px #0003;
+                z-index: 2;
+                letter-spacing: 0.04em;
+                opacity: 0.92;
+            }
+
         </style>
         
     <meta name="title" content="Greg Heffner: Nerdsense">
@@ -346,6 +362,9 @@ data:
                                 <div class="blog-image-container" style="background-image: url('/image/blog/2025/July/CICD2.png');"></div>
                             </div>
                             </section>
+
+                            <p>Mobile Update - <span class="mobile-stamp">Updated</span></p>
+                            
                             <section id="Article24-WebSec">
                             <div class="blog-box" onclick="location.href='/image/pages/2025/June/websecurity.html';">
                                 <div class="blog-description">
