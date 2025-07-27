@@ -1356,12 +1356,6 @@ data:
         <priority>0.1</priority>
       </url>
       <url>
-        <loc>https://greg.heffner.live/cookie.html</loc>
-        <lastmod>2025-07-26</lastmod>
-        <changefreq>never</changefreq>
-        <priority>0.2</priority>
-      </url>
-      <url>
         <loc>https://greg.heffner.live/image/pages/initial.html</loc>
         <lastmod>2025-07-26</lastmod>
         <changefreq>daily</changefreq>
