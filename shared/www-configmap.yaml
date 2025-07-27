@@ -361,9 +361,10 @@ data:
                                 </div>
                                 <div class="blog-image-container" style="background-image: url('/image/blog/2025/July/CICD2.png');"></div>
                             </div>
+                            <span class="mobile-stamp">Updated Mobile View</span>
                             </section>
 
-                            <span class="mobile-stamp">Updated Mobile View</span>
+                            
 
                             <section id="Article24-WebSec">
                             <div class="blog-box" onclick="location.href='/image/pages/2025/June/websecurity.html';">
