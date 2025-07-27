@@ -22,7 +22,7 @@ data:
         <link rel="icon" type="image/png" sizes="32x32" href="/image/favicon-32x32.png">
         <link rel="icon" type="image/png" sizes="16x16" href="/image/favicon-16x16.png">
         <link rel="manifest" href="/image/site.webmanifest">
-        <link rel="stylesheet" href="styles.css">
+        <link rel="stylesheet" href="/image/assets/styles.css">
         <meta name="title" content="Greg Heffner: Nerdsense">
         <meta name="description" content="A personal writeup about different
     things">
