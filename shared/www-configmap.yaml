@@ -503,6 +503,21 @@ data:
       
       
       <style>
+        body {
+            background-color: #282c34;
+            color: #ffffff;
+            font-family: 'trebuchet ms', sans-serif;
+            padding: 20px;
+        }
+        .navbar {
+            display: flex;
+            justify-content: flex-end;
+            width: 100%;
+            background-color: transparent !important;
+            font-family: 'trebuchet ms', sans-serif;
+            padding-right: 15px;
+            padding-left: 15px;
+        }
         .header {
           background-image: url('image/photo/header.jpg');
           background-size: cover;
