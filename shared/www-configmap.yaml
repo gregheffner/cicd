@@ -333,9 +333,6 @@ data:
                                 <div class="blog-description">
                                     <h3>Crontab: Automating Tasks with Cron Jobs</h3>
                                     <p>Greg Heffner July 11th, 2025</p>
-                                    <br>
-                                    <br>
-                                    <p>Mobile friendly pages moving forward!!!</p>
                                 </div>
                                 <div class="blog-image-container" style="background-image: url('/image/blog/2025/July/CronScheduler.jpeg');"></div>
                             </div>
@@ -345,6 +342,9 @@ data:
                                 <div class="blog-description">
                                     <h3>Build, Test, Deploy: The CI/CD Adventure (with a Dash of Argo CD Magic)</h3>
                                     <p>Greg Heffner July 3rd, 2025</p>
+                                    <br>
+                                    <br>
+                                    <p>Mobile friendly blogs moving forward!!!</p>
                                 </div>
                                 <div class="blog-image-container" style="background-image: url('/image/blog/2025/July/CICD2.png');"></div>
                             </div>
