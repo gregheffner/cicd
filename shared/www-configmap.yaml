@@ -247,7 +247,7 @@ data:
                 position: absolute;
                 bottom: 8px;
                 left: 8px;
-                background: #2ecc40;
+                background: #0074D9;
                 color: #fff;
                 font-size: 0.85em;
                 font-weight: bold;
@@ -363,8 +363,8 @@ data:
                             </div>
                             </section>
 
-                            <p>Mobile Update - <span class="mobile-stamp">Updated</span></p>
-                            
+                            <span class="mobile-stamp">Updated Mobile View</span>
+
                             <section id="Article24-WebSec">
                             <div class="blog-box" onclick="location.href='/image/pages/2025/June/websecurity.html';">
                                 <div class="blog-description">
