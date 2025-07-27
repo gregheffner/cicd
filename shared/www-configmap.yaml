@@ -324,6 +324,9 @@ data:
                                 <div class="blog-description">
                                     <h3>Homelab and Virtualization in 2025</h3>
                                     <p>Greg Heffner July 26th, 2025</p>
+                                    <br>
+                                    <br>
+                                    <p>Cleaner css moving forward!!!</p>
                                 </div>
                                 <div class="blog-image-container" style="background-image: url('/image/blog/2025/July/homelab.png');"></div>
                             </div>
