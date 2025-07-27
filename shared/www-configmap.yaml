@@ -479,42 +479,29 @@ data:
     </html>
   index.html: |
     <!doctype html>
-    <html>
+    <html lang="en-US">
     <head>
-      <script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="6a06e0ff-3af4-42b9-ab66-dd32f9e600e0" data-blockingmode="auto" type="text/javascript"></script>
-      <!-- Google tag (gtag.js) -->
-      <script async src="https://www.googletagmanager.com/gtag/js?id=G-SXLQTMF14Q"></script>
-      <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', 'G-SXLQTMF14Q');
-      </script>
-      <script async src="https://fundingchoicesmessages.google.com/i/pub-3941951641805897?ers=1" nonce="Ztq0ynxpsv8cjaOR_8lnZw"></script><script nonce="Ztq0ynxpsv8cjaOR_8lnZw">(function() {function signalGooglefcPresent() {if (!window.frames['googlefcPresent']) {if (document.body) {const iframe = document.createElement('iframe'); iframe.style = 'width: 0; height: 0; border: none; z-index: -1000; left: -1000px; top: -1000px;'; iframe.style.display = 'none'; iframe.name = 'googlefcPresent'; document.body.appendChild(iframe);} else {setTimeout(signalGooglefcPresent, 0);}}}signalGooglefcPresent();})();</script>
-      <!-- Clarity tracking code for https://greg.heffner.live/ --><script>    (function(c,l,a,r,i,t,y){        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i+"?ref=bwt";        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);    })(window, document, "clarity", "script", "nry25es3go");</script>
-      <script type="text/javascript">
-                (function(c,l,a,r,i,t,y){
-                    c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-                    t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-                    y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-                })(window, document, "clarity", "script", "nry25es3go");
-            </script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="apple-touch-icon" sizes="180x180" href="/image/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/image/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/image/favicon-16x16.png">
+    <link rel="manifest" href="/image/site.webmanifest">
+    <link rel="stylesheet" href="/image/assets/styles.css">
+    <meta name="keywords"
+        content="Python, web development, automation, cloud platforms, cybersecurity, machine learning, ethical hacking, kubernetes">
+    <meta name="language" content="English">
+    <meta http-equiv="content-language" content="en-US">
+    <meta name="author" content="Greg Heffner">
+    <meta http-equiv="Content-Type" content="text/html;>
+    <meta name="robots" content="index, follow">
+    <meta name="description"
+        content="A dad currently passionate about web development (HTML, CSS), automation (Bash scripting), and cloud platforms (AWS, Azure, GCP). Also interested in cybersecurity, machine learning, and ethical hacking">
+    <meta name="title" content="Greg Heffner">  
+    <title>Greg Heffner</title>
+    
       
       
-      <!-- Google Tag Manager -->
-      <script type="915998925114be6a38098363-text/javascript">(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-            })(window,document,'script','dataLayer','GTM-MQMRMNL5');</script>
-      <!-- End Google Tag Manager -->
-
-
-      <link rel="apple-touch-icon" sizes="180x180" href="/image/apple-touch-icon.png">
-      <link rel="icon" type="image/png" sizes="32x32" href="/image/favicon-32x32.png">
-      <link rel="icon" type="image/png" sizes="16x16" href="/image/favicon-16x16.png">
-      <link rel="manifest" href="/image/site.webmanifest">
       <style>
         .header {
           background-image: url('image/photo/header.jpg');
@@ -600,114 +587,13 @@ data:
         .clear {
           clear: both;
         }
-
-        body {
-          background-color: #282c34;
-          color: #ffffff;
-        }
-
-        .navbar {
-          display: flex;
-          justify-content: flex-end;
-          width: 100%;
-          background-color: transparent !important;
-          font-family: 'trebuchet ms', sans-serif;
-          padding-right: 15px;
-          padding-left: 15px;
-        }
-
-        .navdiv {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-        }
-
-        .navbar button {
-          background-color: transparent;
-          margin-left: 10px;
-          border-radius: 10px;
-          padding: 10px;
-          width: 90px;
-        }
-
-        .navbar button a {
-          color: transparent;
-          font-weight: bold;
-          font-size: 15px;
-        }
-
-        .navbar li {
-          list-style: none;
-          display: inline-block;
-        }
-
-        .navbar li a {
-          color: white;
-          font-size: 18px;
-          font-weight: bold;
-          margin-right: 25px;
-          font-family: 'trebuchet ms', sans-serif;
-        }
-
-        .navbar button {
-          background-color: black;
-          margin-left: 10px;
-          border-radius: 10px;
-          padding: 10px;
-          width: 90px;
-        }
-
-        .navbar button a {
-          color: white;
-          font-weight: bold;
-          font-size: 15px;
-          font-family: 'trebuchet ms', sans-serif;
-        }
-      </style>
-
-      <title>Greg Heffner</title>
-
-      <meta name="title" content="Greg Heffner">
-      <meta name="description"
-        content="A dad currently passionate about web development (HTML, CSS), automation (Bash scripting), and cloud platforms (AWS, Azure, GCP). Also interested in cybersecurity, machine learning, and ethical hacking">
-      <meta name="keywords"
-        content="Python, web development, automation, cloud platforms, cybersecurity, machine learning, ethical hacking, kubernetes">
-      <meta name="robots" content="index, follow">
-      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-      <meta name="language" content="English">
-      <meta http-equiv='content-language' content='en-gb'>
-      <meta name="author" content="Greg Heffner">
-
-      
-      <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3941951641805897"
-     crossorigin="anonymous"></script>
-
-      <script async src="https://fundingchoicesmessages.google.com/i/pub-3941951641805897?ers=1"
-        nonce="drPCtL_hPnvLGFPUGtHsFQ" type="915998925114be6a38098363-text/javascript"></script>
-      <script nonce="drPCtL_hPnvLGFPUGtHsFQ" type="915998925114be6a38098363-text/javascript"> (function() {
-            function signalGooglefcPresent() {
-                if (!window.frames['googlefcPresent']) {
-                    if (document.body) {
-                        const iframe = document.createElement('iframe');
-                        iframe.style = 'width: 0; height: 0; border: none; z-index: -1000; left: -1000px; top: -1000px;';
-                        iframe.style.display = 'none';
-                        iframe.name = 'googlefcPresent';
-                        document.body.appendChild(iframe);
-                    } else {
-                        setTimeout(signalGooglefcPresent, 0);
-                    }
-                }
-            }
-            signalGooglefcPresent();
-        })();  
-        </script>
-
+        </style>
     </head>
+
+
     <body>
-      <!-- Google Tag Manager (noscript) -->
       <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MQMRMNL5" height="0" width="0"
           style="display:none;visibility:hidden"></iframe></noscript>
-      <!-- End Google Tag Manager (noscript) -->
       <nav class="navbar">
                     <div class="navdiv">
                       <ul>
@@ -810,13 +696,14 @@ data:
           </ul>
         </div>
         <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
-        <script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js"
-          data-cf-settings="915998925114be6a38098363-|49" defer></script>
-        <script defer
-          src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015"
-          integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ=="
-          data-cf-beacon='{"rayId":"89de9bdeeba2b051","r":1,"version":"2024.4.1","token":"58654ca0c624448c9c52f5291ddf5bec"}'
-          crossorigin="anonymous"></script>
+    <script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js"
+        data-cf-settings="f2199bb571cfda9c96d3d8cf-|49" defer></script>
+    <script defer
+        src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015"
+        integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ=="
+        data-cf-beacon='{"rayId":"8a0c47bffe7b53f3","r":1,"version":"2024.4.1","token":"58654ca0c624448c9c52f5291ddf5bec"}'
+        crossorigin="anonymous"></script>
+    <script src="/image/assets/scripts.js"></script>
     </body>
     </html>
   pgp-key.html: |
