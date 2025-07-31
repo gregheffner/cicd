@@ -482,7 +482,6 @@ data:
     <html lang="en-US">
     <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="apple-touch-icon" sizes="180x180" href="/image/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/image/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/image/favicon-16x16.png">
@@ -1361,12 +1360,6 @@ data:
       </url>
       <url>
         <loc>https://greg.heffner.live/image/pages/2024/Sept/techimplants.html</loc>
-        <lastmod>2025-07-26</lastmod>
-        <changefreq>daily</changefreq>
-        <priority>1.0</priority>
-      </url>
-      <url>
-        <loc>https://greg.heffner.live/forum.html</loc>
         <lastmod>2025-07-26</lastmod>
         <changefreq>daily</changefreq>
         <priority>1.0</priority>
