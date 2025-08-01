@@ -30,7 +30,7 @@ data:
         <meta name="language" content="English">
         <meta http-equiv="Content-Type" content="text/html;>
         <meta name="author" content="Greg Heffner">
-        <title>Nerdsense - A Blog</title>ad>
+        <title>Nerdsense - A Blog</title>
         <style> 
             .blog-box {
                 display: flex;
