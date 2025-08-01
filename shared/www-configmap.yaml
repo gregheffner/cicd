@@ -32,11 +32,13 @@ data:
         <meta property="og:title" content="Greg Heffner: Nerdsense">
         <meta property="og:description" content="Nerdsense is a blog by Greg Heffner, covering topics in technology, programming, and more. Easy to understand and fun!">
         <meta property="og:url" content="https://greg.heffner.live">
+        <meta property="og:image" content="https://greg.heffner.live/image/photo/header.jpg">
         <meta property="og:site_name" content="Nerdsense">
         <meta property="og:image:width" content="1200">
         <meta property="og:image:height" content="630">
         <meta name="twitter:card" content="summary_large_image">
         <meta name="twitter:title" content="Greg Heffner: Nerdsense">
+        <meta name="twitter:image" content="https://greg.heffner.live/image/photo/header.jpg">
         <meta name="twitter:description" content="Nerdsense is a blog by Greg Heffner, covering topics in technology, programming, and more. Easy to understand and fun!">
         <script type="application/ld+json">
         {
@@ -529,10 +531,11 @@ data:
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:locale" content="en_US">
+    <meta property="og:image" content="https://greg.heffner.live/image/photo/header.jpg">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Greg Heffner - Father, Veteran, Tech Enthusiast">
     <meta name="twitter:description" content="A personal webpage of Greg Heffner, a father, veteran, and tech enthusiast. Explore my journey in the military and my passion for technology.">
-    <meta name="twitter:image" content="https://greg.heffner.live/image/og-image.jpg">
+    <meta name="twitter:image" content="https://greg.heffner.live/image/photo/header.jpg">
     <title>Greg Heffner and his wild adventures!</title>
     <script type="application/ld+json">
     {
