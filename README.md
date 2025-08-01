@@ -3,7 +3,7 @@
 <img alt="Green Image" src="https://img.shields.io/badge/green--image-technotuba/nginx:latest-brightgreen?style=for-the-badge&logo=docker&logoColor=white">
 <img alt="Blue Image" src="https://img.shields.io/badge/blue--image-technotuba/nginx:v2025.08-blue?style=for-the-badge&logo=docker&logoColor=white">
 <img alt="Prod Silo" src="https://img.shields.io/badge/Prod%20Silo-blue-blue?style=for-the-badge">
-<img alt="Cloudflare Block" src="https://img.shields.io/badge/cloudflare--block-3-red?logo=cloudflare&style=for-the-badge">
+<img alt="Cloudflare Block" src="https://img.shields.io/badge/cloudflare--block-1-red?logo=cloudflare&style=for-the-badge">
 <img alt="Cloudflare Cache Clear" src="https://img.shields.io/badge/Cloudflare%20Cache%20Clear-2025--08--01%2001:31%20UTC-orange?logo=cloudflare&style=for-the-badge">
 
 ![Blue-Green Deployment Diagram](screenshot.png)
