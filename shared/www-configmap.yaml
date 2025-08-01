@@ -15,7 +15,6 @@ data:
   blog.html: >
     <!doctype html>
     <html lang="en-US">
-
     <head>
         <meta charset="utf-8">
         <link rel="apple-touch-icon" sizes="180x180" href="/image/apple-touch-icon.png">
@@ -24,12 +23,38 @@ data:
         <link rel="manifest" href="/image/site.webmanifest">
         <link rel="stylesheet" href="/image/assets/styles.css">
         <meta name="title" content="Greg Heffner: Nerdsense">
-        <meta name="description" content="A personal writeup about different
-    things">
+        <meta name="description" content="Nerdsence is a blog by Greg Heffner, covering topics in technology, programming, and more. Easy to understand and fun!">
         <meta name="keywords" content="blog, tech, writeups">
         <meta name="language" content="English">
         <meta http-equiv="Content-Type" content="text/html;>
         <meta name="author" content="Greg Heffner">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="Greg Heffner: Nerdsense">
+        <meta property="og:description" content="Nerdsense is a blog by Greg Heffner, covering topics in technology, programming, and more. Easy to understand and fun!">
+        <meta property="og:url" content="https://greg.heffner.live">
+        <meta property="og:site_name" content="Nerdsense">
+        <meta property="og:image:width" content="1200">
+        <meta property="og:image:height" content="630">
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="Greg Heffner: Nerdsense">
+        <meta name="twitter:description" content="Nerdsense is a blog by Greg Heffner, covering topics in technology, programming, and more. Easy to understand and fun!">
+        <script type="application/ld+json">
+        {
+        "@context": "https://schema.org",
+        "@type": "Blog",
+        "name": "Nerdsense",
+        "description": "A blog by Greg Heffner covering technology, programming, and more",
+        "url": "https://greg.heffner.live",
+        "author": {
+            "@type": "Person",
+            "name": "Greg Heffner"
+        },
+        "publisher": {
+            "@type": "Person",
+            "name": "Greg Heffner"
+        }
+        }
+        </script>
         <title>Nerdsense - A Blog</title>
         <style> 
             .blog-box {
@@ -494,10 +519,36 @@ data:
     <meta http-equiv="Content-Type" content="text/html;>
     <meta name="robots" content="index, follow">
     <meta name="description"
-        content="A dad currently passionate about web development (HTML, CSS), automation (Bash scripting), and cloud platforms (AWS, Azure, GCP). Also interested in cybersecurity, machine learning, and ethical hacking">
+        content=" A personal webpage of Greg Heffner, a father, veteran, and tech enthusiast. Explore my journey in the military and my passion for technology.">
     <meta name="title" content="Greg Heffner">  
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Greg Heffner - Father, Veteran, Tech Enthusiast">
+    <meta property="og:description" content="A personal webpage of Greg Heffner, a father, veteran, and tech enthusiast. Explore my journey in the military and my passion for technology.">
+    <meta property="og:url" content="https://greg.heffner.live">
+    <meta property="og:site_name" content="Greg Heffner">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:locale" content="en_US">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Greg Heffner - Father, Veteran, Tech Enthusiast">
+    <meta name="twitter:description" content="A personal webpage of Greg Heffner, a father, veteran, and tech enthusiast. Explore my journey in the military and my passion for technology.">
+    <meta name="twitter:image" content="https://greg.heffner.live/image/og-image.jpg">
     <title>Greg Heffner and his wild adventures!</title>
-    
+    <script type="application/ld+json">
+    {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Greg Heffner",
+    "description": "Father, veteran, and tech enthusiast",
+    "url": "https://greg.heffner.live",
+    "jobTitle": "Father, Student, and IT Leader at Heffner Industries",
+    "knowsAbout": ["Python", "Web Development", "Automation", "Cloud Platforms", "Cybersecurity", "Machine Learning", "Kubernetes"],
+    "alumniOf": {
+        "@type": "Organization",
+        "name": "Heffner.live"
+    }
+    }
+    </script>
       
       
       <style>
