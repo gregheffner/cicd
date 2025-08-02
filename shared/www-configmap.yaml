@@ -134,7 +134,7 @@ data:
                                     <br>
                                     <p>Cleaner css moving forward!!!</p>
                                 </div>
-                                <div class="blog-image-container" style="background-image: url('/image/blog/2025/July/homelab.png');"></div>
+        <div class="blog-image-container"><img src="/image/blog/2025/July/homelab.png" alt="Homelab and Virtualization in 2025 - blog post image" style="width:100%;height:auto;object-fit:contain;"></div>
                             </div>
                             </section>
                             <section id="Article26-Crontab">
@@ -143,7 +143,7 @@ data:
                                     <h3>Crontab: Automating Tasks with Cron Jobs</h3>
                                     <p>Greg Heffner July 11th, 2025</p>
                                 </div>
-                                <div class="blog-image-container" style="background-image: url('/image/blog/2025/July/CronScheduler.jpeg');"></div>
+        <div class="blog-image-container"><img src="/image/blog/2025/July/CronScheduler.jpeg" alt="Crontab: Automating Tasks with Cron Jobs - blog post image" style="width:100%;height:auto;object-fit:contain;"></div>
                             </div>
                             </section>
                             <section id="Article25-CICD">
@@ -154,7 +154,7 @@ data:
                                     <br>
                                     <p>Mobile friendly blogs moving forward!!!</p>
                                 </div>
-                                <div class="blog-image-container" style="background-image: url('/image/blog/2025/July/CICD2.png');"></div>
+        <div class="blog-image-container"><img src="/image/blog/2025/July/CICD2.png" alt="Build, Test, Deploy: The CI/CD Adventure (with a Dash of Argo CD Magic) - blog post image" style="width:100%;height:auto;object-fit:contain;"></div>
                             </div>
                             </section>
                             <section id="Article24-WebSec">
@@ -163,7 +163,7 @@ data:
                                     <h3>Web Security: Blocking Bots from the Edge with Fail2Ban + Cloudflare</h3>
                                     <p>Greg Heffner June 25, 2025</p>
                                 </div>
-                                <div class="blog-image-container" style="background-image: url('/image/blog/2025/June/websec.png');"></div>
+        <div class="blog-image-container"><img src="/image/blog/2025/June/websec.png" alt="Web Security: Blocking Bots from the Edge with Fail2Ban + Cloudflare - blog post image" style="width:100%;height:auto;object-fit:contain;"></div>
                             </div>
                             </section>
                             <section id="Article23-GitAdv">
@@ -172,7 +172,7 @@ data:
                                     <h3>Github advanced features: Short-cycle your processes</h3>
                                     <p>Greg Heffner June 15, 2025</p>
                                 </div>
-                                <div class="blog-image-container" style="background-image: url('/image/blog/2025/June/githubadv.png');"></div>
+        <div class="blog-image-container"><img src="/image/blog/2025/June/githubadv.png" alt="Github advanced features: Short-cycle your processes - blog post image" style="width:100%;height:auto;object-fit:contain;"></div>
                             </div>
                             </section>
                             <section id="Article22-AOC">
@@ -181,7 +181,7 @@ data:
                                     <h3>Advent of Cyber: Time for some Holiday fun with TryHackMe!</h3>
                                     <p>Greg Heffner November 23, 2024</p>
                                 </div>
-                                <div class="blog-image-container" style="background-image: url('/image/blog/2024/Nov/aocblog.jpeg');"></div>
+        <div class="blog-image-container"><img src="/image/blog/2024/Nov/aocblog.jpeg" alt="Advent of Cyber: Time for some Holiday fun with TryHackMe! - blog post image" style="width:100%;height:auto;object-fit:contain;"></div>
                             </div>
                             </section>
                             <section id="Article21-Tools">
@@ -190,7 +190,7 @@ data:
                                     <h3>Terraform vs. Ansible: Navigating the Cloud with a Sail and a Spark</h3>
                                     <p>Greg Heffner September 15, 2024</p>
                                 </div>
-                                <div class="blog-image-container" style="background-image: url('/image/blog/2024/Sept/tools.png');"></div>
+        <div class="blog-image-container"><img src="/image/blog/2024/Sept/tools.png" alt="Terraform vs. Ansible: Navigating the Cloud with a Sail and a Spark - blog post image" style="width:100%;height:auto;object-fit:contain;"></div>
                             </div>
                             </section>
                             <section id="Article20-SmokeTest">
@@ -199,7 +199,7 @@ data:
                                     <h3>Smoke Tests: The Production Combine</h3>
                                     <p>Greg Heffner September 11, 2024</p>
                                 </div>
-                                <div class="blog-image-container" style="background-image: url('/image/blog/2024/Sept/smoketest.png');"></div>
+        <div class="blog-image-container"><img src="/image/blog/2024/Sept/smoketest.png" alt="Smoke Tests: The Production Combine - blog post image" style="width:100%;height:auto;object-fit:contain;"></div>
                             </div>
                             </section>
                             <section id="Article19-ClassSetup">
@@ -208,7 +208,7 @@ data:
                                     <h3>Class Setup: My learning tech stack - Learn for Free</h3>
                                     <p>Greg Heffner September 8, 2024</p>
                                 </div>
-                                <div class="blog-image-container" style="background-image: url('/image/blog/2024/Sept/classsetup.png');"></div>
+        <div class="blog-image-container"><img src="/image/blog/2024/Sept/classsetup.png" alt="Class Setup: My learning tech stack - Learn for Free - blog post image" style="width:100%;height:auto;object-fit:contain;"></div>
                             </div>
                             </section>
                             <section id="Article18-UpstreamDNS">
@@ -217,7 +217,7 @@ data:
                                     <h3>Upstream DNS Servers: Put the internet to work</h3>
                                     <p>Greg Heffner September 4, 2024</p>
                                 </div>
-                                <div class="blog-image-container" style="background-image: url('/image/blog/2024/Sept/upstreamdns.png');"></div>
+        <div class="blog-image-container"><img src="/image/blog/2024/Sept/upstreamdns.png" alt="Upstream DNS Servers: Put the internet to work - blog post image" style="width:100%;height:auto;object-fit:contain;"></div>
                             </div>
                             </section>
                             <section id="Article17-TechImplants">
@@ -226,7 +226,7 @@ data:
                                     <h3>Tech Implants: LED and NFC Lighting Up the Future Under Your Skin</h3>
                                     <p>Greg Heffner September 1, 2024</p>
                                 </div>
-                                <div class="blog-image-container" style="background-image: url('/image/blog/2024/Sept/xsiid.JPG');"></div>
+        <div class="blog-image-container"><img src="/image/blog/2024/Sept/xsiid.JPG" alt="Tech Implants: LED and NFC Lighting Up the Future Under Your Skin - blog post image" style="width:100%;height:auto;object-fit:contain;"></div>
                             </div>
                             </section>
                             <section id="Article16-TryHackMe">
@@ -235,7 +235,7 @@ data:
                                     <h3>TryHackMe: Command Line Confessions</h3>
                                     <p>Greg Heffner August 28, 2024</p>
                                 </div>
-                                <div class="blog-image-container" style="background-image: url('/image/blog/2024/Aug/tryhackme.png');"></div>
+        <div class="blog-image-container"><img src="/image/blog/2024/Aug/tryhackme.png" alt="TryHackMe: Command Line Confessions - blog post image" style="width:100%;height:auto;object-fit:contain;"></div>
                             </div>
                             </section>
                             <section id="Article15-DMRRadios">
@@ -244,7 +244,7 @@ data:
                                     <h3>DMR Radios: Its giving radio-nerd vibes</h3>
                                     <p>Greg Heffner August 25, 2024</p>
                                 </div>
-                                <div class="blog-image-container" style="background-image: url('/image/blog/2024/Aug/hamradio.png');"></div>
+        <div class="blog-image-container"><img src="/image/blog/2024/Aug/hamradio.png" alt="DMR Radios: Its giving radio-nerd vibes - blog post image" style="width:100%;height:auto;object-fit:contain;"></div>
                             </div>
                             </section>
                             <section id="Article14-Twingate">
@@ -253,7 +253,7 @@ data:
                                     <h3>Twingate: Your Key to Remote Networks</h3>
                                     <p>Greg Heffner August 21, 2024</p>
                                 </div>
-                                <div class="blog-image-container" style="background-image: url('/image/blog/2024/Aug/twingate.png');"></div>
+        <div class="blog-image-container"><img src="/image/blog/2024/Aug/twingate.png" alt="Twingate: Your Key to Remote Networks - blog post image" style="width:100%;height:auto;object-fit:contain;"></div>
                             </div>
                             </section>
                             <section id="Article13-Secrets">
@@ -262,7 +262,7 @@ data:
                                     <h3>Secrets: Password Managers and Hardware Keys</h3>
                                     <p>Greg Heffner August 18, 2024</p>
                                 </div>
-                                <div class="blog-image-container" style="background-image: url('/image/blog/2024/Aug/secrets.png');"></div>
+        <div class="blog-image-container"><img src="/image/blog/2024/Aug/secrets.png" alt="Secrets: Password Managers and Hardware Keys - blog post image" style="width:100%;height:auto;object-fit:contain;"></div>
                             </div>
                             </section>
                             <section id="Article12-TravelRouter">
@@ -271,7 +271,7 @@ data:
                                     <h3>Travel Router: How I stay secure on work trips</h3>
                                     <p>Greg Heffner August 14, 2024</p>
                                 </div>
-                                <div class="blog-image-container" style="background-image: url('/image/blog/2024/Aug/travelrouter.png');"></div>
+        <div class="blog-image-container"><img src="/image/blog/2024/Aug/travelrouter.png" alt="Travel Router: How I stay secure on work trips - blog post image" style="width:100%;height:auto;object-fit:contain;"></div>
                             </div>
                             </section>
                             <section id="Article11-DockerUpdate">
@@ -280,7 +280,7 @@ data:
                                     <h3>Docker Updates: 4 steps to secure your images</h3>
                                     <p>Greg Heffner August 11, 2024</p>
                                 </div>
-                                <div class="blog-image-container" style="background-image: url('/image/blog/2024/Aug/dockerupdates.png');"></div>
+        <div class="blog-image-container"><img src="/image/blog/2024/Aug/dockerupdates.png" alt="Docker Updates: 4 steps to secure your images - blog post image" style="width:100%;height:auto;object-fit:contain;"></div>
                             </div>
                             </section>
                             <section id="Article10-Ansible">
@@ -289,7 +289,7 @@ data:
                                     <h3>Ansible: Let me put you on patch game</h3>
                                     <p>Greg Heffner August 7, 2024</p>
                                 </div>
-                                <div class="blog-image-container" style="background-image: url('/image/blog/2024/Aug/ansible.png');"></div>
+        <div class="blog-image-container"><img src="/image/blog/2024/Aug/ansible.png" alt="Ansible: Let me put you on patch game - blog post image" style="width:100%;height:auto;object-fit:contain;"></div>
                             </div>
                             </section>
                             <section id="Article9-Kubernetes">
@@ -298,7 +298,7 @@ data:
                                     <h3>Kubernetes: 86 the Prime Rib</h3>
                                     <p>Greg Heffner August 4, 2024</p>
                                 </div>
-                                <div class="blog-image-container" style="background-image: url('/image/blog/2024/Aug/k8s.png');"></div>
+        <div class="blog-image-container"><img src="/image/blog/2024/Aug/k8s.png" alt="Kubernetes: 86 the Prime Rib - blog post image" style="width:100%;height:auto;object-fit:contain;"></div>
                             </div>
                             </section>
                             <section id="Article8-HomeBuild">
@@ -307,7 +307,7 @@ data:
                                     <h3>A Home Build: If I were to build it today</h3>
                                     <p>Greg Heffner July 31, 2024</p>
                                 </div>
-                                <div class="blog-image-container" style="background-image: url('/image/blog/2024/July/homebuild.png');"></div>
+        <div class="blog-image-container"><img src="/image/blog/2024/July/homebuild.png" alt="A Home Build: If I were to build it today - blog post image" style="width:100%;height:auto;object-fit:contain;"></div>
                             </div>
                             </section>
                             <section id="Article7-WiFi">
@@ -316,7 +316,7 @@ data:
                                     <h3>WiFi: Wireless internet magic</h3>
                                     <p>Greg Heffner July 28, 2024</p>
                                 </div>
-                                <div class="blog-image-container" style="background-image: url('/image/blog/2024/July/WiFi2.png');"></div>
+        <div class="blog-image-container"><img src="/image/blog/2024/July/WiFi2.png" alt="WiFi: Wireless internet magic - blog post image" style="width:100%;height:auto;object-fit:contain;"></div>
                             </div>
                             </section>
                             <section id="Article6-TheCloud">
@@ -325,7 +325,7 @@ data:
                                     <h3>The Cloud: Not the Floridian Cumulonimbus kind</h3>
                                     <p>Greg Heffner July 24, 2024</p>
                                 </div>
-                                <div class="blog-image-container" style="background-image: url('/image/blog/2024/July/cloud4.png');"></div>
+        <div class="blog-image-container"><img src="/image/blog/2024/July/cloud4.png" alt="The Cloud: Not the Floridian Cumulonimbus kind - blog post image" style="width:100%;height:auto;object-fit:contain;"></div>
                             </div>
                             </section>
                             <section id="Article5-VPNs">
@@ -334,7 +334,7 @@ data:
                                     <h3>VPNs: Web browsing and IP masking</h3>
                                     <p>Greg Heffner July 21, 2024</p>
                                 </div>
-                                <div class="blog-image-container" style="background-image: url('/image/blog/2024/July/vpn.png');"></div>
+        <div class="blog-image-container"><img src="/image/blog/2024/July/vpn.png" alt="VPNs: Web browsing and IP masking - blog post image" style="width:100%;height:auto;object-fit:contain;"></div>
                             </div>
                             </section>
                             <section id="Article4-DockerHub">
@@ -343,7 +343,7 @@ data:
                                     <h3>DockerHub: Because Ship Happens</h3>
                                     <p>Greg Heffner July 17, 2024</p>
                                 </div>
-                                <div class="blog-image-container" style="background-image: url('/image/blog/2024/July/dockerhub.png');"></div>
+        <div class="blog-image-container"><img src="/image/blog/2024/July/dockerhub.png" alt="DockerHub: Because Ship Happens - blog post image" style="width:100%;height:auto;object-fit:contain;"></div>
                             </div>
                             </section>
                             <section id="Article3-Loadbalancers">
@@ -352,7 +352,7 @@ data:
                                     <h3>Loadbalancing: Boots & cats &</h3>
                                     <p>Greg Heffner July 14, 2024</p>
                                 </div>
-                                <div class="blog-image-container" style="background-image: url('/image/blog/2024/July/LB.png');"></div>
+        <div class="blog-image-container"><img src="/image/blog/2024/July/LB.png" alt="Loadbalancing: Boots & cats & - blog post image" style="width:100%;height:auto;object-fit:contain;"></div>
                             </div>
                             </section>
                             <section id="Article2-GitHub">
@@ -361,7 +361,7 @@ data:
                                     <h3>GitHub: What's the fuss about?</h3>
                                     <p>Greg Heffner July 10, 2024</p>
                                 </div>
-                                <div class="blog-image-container" style="background-image: url('/image/blog/2024/July/github.jpg');"></div>
+        <div class="blog-image-container"><img src="/image/blog/2024/July/github.jpg" alt="GitHub: What's the fuss about? - blog post image" style="width:100%;height:auto;object-fit:contain;"></div>
                             </div>
                             </section>
                             <section id="Article1-Pihole">
@@ -370,7 +370,7 @@ data:
                                     <h3>Pi-Hole: What is it and why you might want to use it</h3>
                                     <p>Greg Heffner July 7, 2024</p>
                                 </div>
-                                <div class="blog-image-container" style="background-image: url('/image/blog/2024/July/pihole.jpg');"></div>
+        <div class="blog-image-container"><img src="/image/blog/2024/July/pihole.jpg" alt="Pi-Hole: What is it and why you might want to use it - blog post image" style="width:100%;height:auto;object-fit:contain;"></div>
                             </div>
                             </section>
                             <section id="initial">
@@ -379,7 +379,7 @@ data:
                                     <h3>Beginners Journey: Greg Starts His Blog</h3>
                                     <p>Greg Heffner</p>
                                 </div>
-                                <div class="blog-image-container" style="background-image: url('/image/blog/2024/July/blog1.jpg');"></div>
+        <div class="blog-image-container"><img src="/image/blog/2024/July/blog1.jpg" alt="Beginners Journey: Greg Starts His Blog - blog post image" style="width:100%;height:auto;object-fit:contain;"></div>
                             </div>
                             </section>
                 </div>
