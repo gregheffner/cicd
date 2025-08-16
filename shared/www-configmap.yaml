@@ -1181,6 +1181,12 @@ data:
                 </a>
                 <div class="desc">Backyard Nights</div>
             </div>
+            <div class="gallery">
+                <a target="_blank" href="image/photo/defcon33.avif">
+                    <img src="image/photo/defcon33.avif" alt="DEFCON 2025" title="DEFCON 2025">
+                </a>
+                <div class="desc">DEFCON 2025</div>
+            </div>
         </div>
     </body>
 
