@@ -125,6 +125,16 @@ data:
         <div class="row">
             <div class="leftcolumn">
                 <div class="card">
+                            <section id="Article30-PiholeAdv">
+                            <div class="blog-box" onclick="location.href='/image/pages/2025/Sept/piholeadv.html';" style="display: flex; align-items: stretch;">
+                                <div class="blog-description" style="flex: 1; padding-right: 20px; display: flex; flex-direction: column; justify-content: center;">
+                                    <h3>Pihole - Advanced Use Cases</h3>
+                                    <p>Greg Heffner September 2nd, 2025</p>
+                                </div>
+                                <div class="blog-image-container" style="flex: 1; display: flex; align-items: center; justify-content: center; height: 95%;">
+                                    <img src="/image/blog/2025/Sept/piholeadv.jpeg" alt="PiholeADV" style="max-width:100%; max-height:100%; object-fit:contain; display:block;">
+                                </div>
+                            </div> 
                             <section id="Article29-UV">
                             <div class="blog-box" onclick="location.href='/image/pages/2025/Aug/UV.html';" style="display: flex; align-items: stretch;">
                                 <div class="blog-description" style="flex: 1; padding-right: 20px; display: flex; flex-direction: column; justify-content: center;">
@@ -477,6 +487,7 @@ data:
                         <li><a href="#Article27-HomeLab">Homelab and Virtualization in 2025</a></li><br>
                         <li><a href="#Article28-DEFCON">DEFCON Dive: Three Days of Tech, Tin Foil, and Total Chaos</a></li><br>
                         <li><a href="#Article29-UV">UV and and why you dont want to block this python tool</a></li><br>
+                        <li><a href="#Article30-PiholeAdv">Pihole - Advanced Use Cases</a></li><br>
                         -->
                       </ul>
                     </nav>
@@ -1522,6 +1533,12 @@ data:
     <url>
     <loc>https://greg.heffner.live/image/pages/2025/Aug/UV.html</loc>
     <lastmod>2025-08-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+    </url>
+    <url>
+    <loc>https://greg.heffner.live/image/pages/2025/Sept/piholeadv.html</loc>
+    <lastmod>2025-09-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     </url>
