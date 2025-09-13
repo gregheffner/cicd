@@ -1,6 +1,6 @@
 # cicd
 
-<img alt="Green Image" src="https://img.shields.io/badge/green--image-technotuba/nginx:latest-brightgreen?style=for-the-badge&logo=docker&logoColor=white">
+<img alt="Green Image" src="https://img.shields.io/badge/green--image-technotuba/nginx:latest-brightgreen?style=for-the-badge<img alt="Green Image" src="https://img.shields.io/badge/green--image-technotuba/nginx:latest-brightgreen?style=for-the-badge&logo=docker&logoColor=white">logo=docker<img alt="Green Image" src="https://img.shields.io/badge/green--image-technotuba/nginx:latest-brightgreen?style=for-the-badge&logo=docker&logoColor=white">logoColor=white">
 <img alt="Blue Image" src="https://img.shields.io/badge/blue--image-technotuba/nginx:v2025.09-blue?style=for-the-badge&logo=docker&logoColor=white">
 <img alt="Prod Silo" src="https://img.shields.io/badge/Prod%20Silo-blue-blue?style=for-the-badge">
 <img alt="Cloudflare Block" src="https://img.shields.io/badge/cloudflare--block-7-red?logo=cloudflare&style=for-the-badge">
