@@ -22,12 +22,13 @@ jobs:
           sed -i 's|<img alt="Prod Silo" src="https://img.shields.io/badge/Prod%20Silo-.*-.*?style=for-the-badge">|<img alt="Prod Silo" src="https://img.shields.io/badge/Prod%20Silo-green-green?style=for-the-badge">|' README.md
       
       - name: Update blue deployment to latest
-        run: sed -i 's#technotuba/nginx:[^"]*#technotuba/nginx:latest#g' prod/nginx-blue.yaml
+        run: |
+          sed -i 's#technotuba/nginx:[^"]*#technotuba/nginx:latest#g' prod/nginx-blue.yaml
       
-      - name: Update blue badge in README to latest 
-        run: | 
-          sed -E -i 's|(technotuba/nginx:)[^"-]*(-(bright)?blue?style=for-the-badge&logo=docker&logoColor=white")>|\1latest\2>|' README.md
-          
+      - name: Update blue badge in README to latest
+        run: |
+          sed -E -i 's|(alt="Blue Image" src="https://img\.shields\.io/badge/blue--image-technotuba/nginx:)[^"-]*(\-blue\?style=for-the-badge&logo=docker&logoColor=white")|\1latest\2|' README.md
+    
       - name: Commit and push updated YAMLs
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
