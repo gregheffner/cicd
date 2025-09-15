@@ -1209,6 +1209,12 @@ data:
                 </a>
                 <div class="desc">DEFCON 2025</div>
             </div>
+            <div class="gallery">
+                <a target="_blank" href="image/photo/deflizardhunters.jpg">
+                    <img src="image/photo/deflizardhunters.jpg" alt="Lizard Hunters" title="Lizard Hunters">
+                </a>
+                <div class="desc">Lizard Hunters</div>
+            </div>
         </div>
     </body>
 
