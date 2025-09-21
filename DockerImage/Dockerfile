@@ -13,6 +13,11 @@ ENV NGINX_VERSION=1.28.0 \
 RUN set -x && \
     rm -rf /var/lib/apt/lists/*
 
+RUN apk add --no-cache tzdata && \
+    cp /usr/share/zoneinfo/America/New_York /etc/localtime && \
+    echo "America/New_York" > /etc/timezone
+ENV TZ=America/New_York
+
 COPY docker-entrypoint.sh /
 COPY docker-entrypoint.d/ /docker-entrypoint.d/
 
