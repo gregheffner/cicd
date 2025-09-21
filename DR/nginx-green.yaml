@@ -33,6 +33,7 @@
         containers:
         - name: nginx
           image: technotuba/nginx:latest
+          imagePullPolicy: Always
           ports:
           - containerPort: 80
           - containerPort: 81
