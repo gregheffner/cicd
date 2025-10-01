@@ -3,7 +3,7 @@ name: Update PROD to nginx:latest
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 23 1-7 * 6'
+    - cron: '0 23 7 * *'
 
 jobs:
   switch-service-to-green:
