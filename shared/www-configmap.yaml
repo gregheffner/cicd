@@ -752,7 +752,7 @@ data:
       <!-- Im not the only nerd if youre reading this -->
       <div class="text-container">
         <div class="column">
-            <div style="margin-bottom: 12px;"><b>Hey!</b> If you found this page, you probably care about tech, learning, or just want to see what a real home lab nerd is up to. Glad you're here.
+            <div style="margin-bottom: 12px;"><b>Hey!</b> Step inside a home lab where GitHub repositories and sequential thinking aren’t just tools—they’re survival instincts. Here, every automation script is a hypothesis, every deployment a philosophical experiment, and every rollback a lesson in humility. With a CI/CD pipeline that’s as relentless as my curiosity, and an MCP server that ponders each step like a chess grandmaster, this site is proof that infrastructure can be both reliable and a little bit weird. If you’re looking for a place where code, radio waves, and weather maps collide in the name of learning, you’ve just found it. Glad you're here.
             </div>
             <h3>Who Am I?</h3>
             <ul style="margin-bottom: 0.5em;">
