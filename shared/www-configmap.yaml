@@ -803,7 +803,7 @@ data:
                                 <b>Security & Maintenance:</b> I keep my site safe and up to date using my own <a href="https://galaxy.ansible.com/ui/repo/published/gregheffner/ubuntu_patching/">Ansible collection</a> for server hardening, and I run weekly patching actions to apply the latest security updates automatically. This means vulnerabilities are fixed quickly and configuration drift is kept in check.<br><br>
                                 <b>Automation & Transparency:</b> All automation, security scanning, and documentation for infrastructure changes are handled by open source tools and workflows. Every patch, deployment, and compliance check is tracked, auditable, and visible in my public repos—so you can see exactly how things run and stay secure. Explore the code and workflows here:
                                 <ul style="margin-top: 6px;">
-                                    <li><a href="https://galaxy.ansible.com/ui/repo/published/gregheffner/ubuntu_patching/>Ansible Collection (Server Hardening)</a></li>
+                                    <li><a href="https://galaxy.ansible.com/ui/repo/published/gregheffner/ubuntu_patching/">Ansible Collection (Server Hardening)</a></li>
                                     <li><a href="https://github.com/gregheffner/ansible-collection-ubuntu-patching">Weekly Patching Actions</a></li>
                                     <li><a href="https://github.com/GregHeffner/cicd">CI/CD & Infra as Code</a></li>
                                 </ul>
