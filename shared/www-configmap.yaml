@@ -772,13 +772,6 @@ data:
                 <li><b>CI/CD & Monitoring:</b> Everything is versioned, tested, and monitored. If it breaks, I want to know before anyone else does.</li>
                 <li><b>Learning in Public:</b> My blog and GitHub README are living docs. Check them for my latest experiments, guides, and rants.</li>
             </ul>
-            <h3>Current Projects</h3>
-            <ul>
-                <li>WeatherMap: Real-time radar, alerts, and open data for my area (<a href="https://radar.heffner.live">see it live</a>, <a href="https://github.com/GregHeffner/weathermap">source</a>).</li>
-                <li>Homegrown CI/CD: Blue green Nginx, ArgoCD, and GitHub Actions for my own infra (<a href="https://github.com/GregHeffner/cicd">repo</a>).</li>
-                <li>Learning Stack: TryHackMe, Advent of Code, and custom guides for hands-on learning (<a href="https://github.com/GregHeffner/learning-stack">repo</a>).</li>
-                <li>Open Source Everything: If it's useful, I publish it. If it's broken, I fix it in public (<a href="https://github.com/GregHeffner">GitHub</a>).</li>
-            </ul>
             <h3>Handy Links</h3>
             <div style="margin-bottom: 6px; color: #222; font-size: 1em;">Useful resources and favorite tools I use for radio, weather, and network monitoring:</div>
             <ul style="list-style: none; padding-left: 0;">
