@@ -578,11 +578,11 @@ data:
     <meta http-equiv="Content-Type" content="text/html;>
     <meta name="robots" content="index, follow">
     <meta name="description"
-        content=" A personal webpage of Greg Heffner, a father, veteran, and tech enthusiast. Explore my journey in the military and my passion for technology.">
+    content="A personal webpage of Greg Heffner, a father, veteran, and tech enthusiast. Explore my journey in the military and my passion for technology. Updated November 9, 2025.">
     <meta name="title" content="Greg Heffner - Father, Veteran, Tech Enthusiast">  
     <meta property="og:type" content="website">
     <meta property="og:title" content="Greg Heffner - Father, Veteran, Tech Enthusiast">
-    <meta property="og:description" content="A personal webpage of Greg Heffner, a father, veteran, and tech enthusiast. Explore my journey in the military and my passion for technology.">
+    <meta property="og:description" content="A personal webpage of Greg Heffner, a father, veteran, and tech enthusiast. Explore my journey in the military and my passion for technology. Updated November 9, 2025.">
     <meta property="og:url" content="https://greg.heffner.live">
     <meta property="og:site_name" content="Greg Heffner">
     <meta property="og:image:width" content="1200">
@@ -591,7 +591,7 @@ data:
     <meta property="og:image" content="https://greg.heffner.live/image/photo/header.jpg">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Greg Heffner - Father, Veteran, Tech Enthusiast">
-    <meta name="twitter:description" content="A personal webpage of Greg Heffner, a father, veteran, and tech enthusiast. Explore my journey in the military and my passion for technology.">
+    <meta name="twitter:description" content="A personal webpage of Greg Heffner, a father, veteran, and tech enthusiast. Explore my journey in the military and my passion for technology. Updated November 9, 2025.">
     <meta name="twitter:image" content="https://greg.heffner.live/image/photo/header.jpg">
     <title>Greg Heffner | Free Learning, Family Moments & Blogs</title>
     <script type="application/ld+json">
@@ -606,120 +606,125 @@ data:
     "alumniOf": {
         "@type": "Organization",
         "name": "Heffner.live"
-    }
+    },
+    "dateModified": "2025-11-09"
     }
     </script>
       
       
-      <style>
-        body {
-            background-color: #282c34;
-            color: #ffffff;
-            font-family: 'trebuchet ms', sans-serif;
-            padding: 20px;
-        }
-        .navbar {
-            display: flex;
-            justify-content: flex-end;
-            width: 100%;
-            background-color: transparent !important;
-            font-family: 'trebuchet ms', sans-serif;
-            padding-right: 15px;
-            padding-left: 15px;
-        }
-        .header {
-          background-image: url('image/photo/header.jpg');
-          background-size: cover;
-          background-position: center;
-          height: 200px;
-          display: flex;
-          justify-content: center;
-          align-items: center;
+    <style>
+      body {
+          background-color: #282c34;
+          color: #ffffff;
           font-family: 'trebuchet ms', sans-serif;
-        }
-
-        .header-text {
-          color: black;
-          font-size: 5em;
-          text-shadow: 2px 2px 2px #ffffff;
-          font-weight: bold;
-          text-align: center;
-          font-display: swap;
-          font-family: 'trebuchet ms', sans-serif;
-        }
-
-        .sub-header {
-          text-align: center;
-          font-size: 3em;
-          margin-top: 20px;
-          font-display: swap;
-          font-family: 'trebuchet ms', sans-serif;
-        }
-
-        .header-logo.left {
-          left: 5%;
-          display: flex;
-          width: 100%;
-          height: auto;
-          max-width: 100%;
-        }
-
-        .header-logo.right {
-          right: 5%;
-          display: flex;
-        }
-
-        .header-logo.left,
-        .header-logo.right {
-          position: absolute;
-          top: 10%;
-          max-width: 300px;
-          height: auto;
-        }
-
-        .text-container {
-          background-color: rgb(102, 102, 102);
           padding: 20px;
-          width: 100%;
-          margin: 0 auto;
-          margin-top: 25px;
+      }
+      .navbar {
           display: flex;
-          justify-content: space-between;
+          justify-content: flex-end;
+          width: 100%;
+          background-color: transparent !important;
           font-family: 'trebuchet ms', sans-serif;
-        }
+          padding-right: 15px;
+          padding-left: 15px;
+      }
+      .header {
+        background-image: url('image/photo/header.jpg');
+        background-size: cover;
+        background-position: center;
+        height: 200px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: 'trebuchet ms', sans-serif;
+      }
 
-        .column {
-          width: calc(50% - 10px);
-          box-sizing: border-box;
-          background-color: #ffffff;
-          color: #000000;
-          padding: 20px;
-          max-width: 100%;
-          box-sizing: border-box;
-        }
+      .header-text {
+        color: black;
+        font-size: 5em;
+        text-shadow: 2px 2px 2px #ffffff;
+        font-weight: bold;
+        text-align: center;
+        font-display: swap;
+        font-family: 'trebuchet ms', sans-serif;
+      }
 
-        corner-image {
-          position: absolute;
-          top: 10px;
-          right: 10px;
-          z-index: 1;
-          width: 30px;
-          height: 30px;
-          object-fit: cover;
-        }
+      .sub-header {
+        text-align: center;
+        font-size: 3em;
+        margin-top: 20px;
+        font-display: swap;
+        font-family: 'trebuchet ms', sans-serif;
+      }
 
-        .clear {
-          clear: both;
+      .header-logo.left {
+        left: 5%;
+        display: flex;
+        width: 100%;
+        height: auto;
+        max-width: 100%;
+      }
+
+      .header-logo.right {
+        right: 5%;
+        display: flex;
+      }
+
+      .header-logo.left,
+      .header-logo.right {
+        position: absolute;
+        top: 10%;
+        max-width: 300px;
+        height: auto;
+      }
+
+      .text-container {
+        background-color: rgb(102, 102, 102);
+        padding: 20px;
+        width: 100%;
+        margin: 0 auto;
+        margin-top: 25px;
+        display: flex;
+        justify-content: space-between;
+        font-family: 'trebuchet ms', sans-serif;
+      }
+
+            .column {
+                width: calc(50% - 10px);
+                box-sizing: border-box;
+                background-color: #ffffff;
+                color: #000000;
+                padding: 20px;
+                max-width: 100%;
+                font-size: 1.1em;
+                box-sizing: border-box;
+            }
+            .column h3, .column ul, .column li, .column p {
+                font-size: inherit;
+            }
+
+      corner-image {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        z-index: 1;
+        width: 30px;
+        height: 30px;
+        object-fit: cover;
+      }
+
+      .clear {
+        clear: both;
+      }
+      .visually-hidden {
+          position: absolute !important;
+          width: 1px; height: 1px;
+          padding: 0; margin: -1px;
+          overflow: hidden;
+          clip: rect(0,0,0,0);
+          border: 0;
         }
-        .visually-hidden {
-            position: absolute !important;
-            width: 1px; height: 1px;
-            padding: 0; margin: -1px;
-            overflow: hidden;
-            clip: rect(0,0,0,0);
-            border: 0;
-          }
-        </style>
+      </style>
     </head>
 
 
@@ -747,87 +752,88 @@ data:
       <!-- Im not the only nerd if youre reading this -->
       <div class="text-container">
         <div class="column">
-          <h3>Military Service</h3>
-          <p>
-            I served in the U.S. Army, specializing in network communications. As a Network Switching Systems
-            Operator-Maintainer, I ensured seamless communication across military installations specializing in Air
-            Defense Artillery technologies. My attention to detail and troubleshooting skills were critical in
-            maintaining secure connections during deployments and training exercises.
-          </p>
-          <h3>Tech Enthusiast</h3>
-          <p>
-            Beyond my military role, my passion continued to lie in technology. I am an avid learner, keeping up with the
-            latest
-            trends in networking, cybersecurity, and cloud computing. Finding the root cause to technical problems is my
-            forte. I think
-            outside the box and make data driven decisions.
-          </p>
-          <h3> Interests</h3>
-          <p>
-            Some interests of mine are Python, Pandas, HTML, CSS, Bash Scripting, Prometheus, Graphana,
-            Git, Docker, Kubernetes, Crowdstrike, Rapid7, Cisco, Palo Alto, Ubiquiti, Raspberri Pi, nginx, AWS, Azure, GCP,
-            Kali, Ubuntu, centOS, SLES, RHEL, WIN OS, Mac OSX, Ansible,
-            Terraform, CircleCI, Jira, Scrum, Kanban, Cybersecurity, Machine Learning, Ethical Hacking, Penetration Testing,
-            Operating System Security,
-            Risk Management, Incident Response, Disaster Recovery, Business Continuity, Capture the Flag, King of the
-            Mountain, and advent of Code.
-          </p>
-          <h3>Future Goals</h3>
-          <p>
-            I dream of launching a tech mentorship program for girls, inspiring them to pursue STEM careers.
-            I envision a world where gender barriers in tech are shattered. Im also working to be a better
-            father/son/brother/friend.
-          </p>
-          <p>
-            <img src="https://api.checklyhq.com/v1/badges/checks/11771641-2c74-4a47-a505-9e3bc9572465?style=flat&theme=dark&responseTime=true"
-              alt="Checkly Badge"></p>
+            <div style="margin-bottom: 12px;"><b>Hey, I'm Greg. Welcome!</b> This is my digital home base, where I share what I'm building, learning, and thinking about. If you found this page, you probably care about tech, learning, or just want to see what a real home lab nerd is up to. Glad you're here.
+    <div style="margin-bottom: 12px;"><b>Hey, I'm Greg. Welcome!</b> This is my digital home base, where I share what I'm building, learning, and thinking about. If you found this page, you probably care about tech, learning, or just want to see what a real home lab nerd is up to. Glad you're here.
+            </div>
+            <h3>Who Am I?</h3>
+            <ul style="margin-bottom: 0.5em;">
+                <li><b>Builder & Automator:</b> I love making things work, from blue green deployments and CI/CD pipelines to weather maps and home automation. If it can be automated, I'll try it.</li>
+                <li><b>Veteran & Team Player:</b> U.S. Army, Air Defense Artillery, comms specialist. I believe in reliability, clear comms, and always having a backup plan.</li>
+                <li><b>Open Source Advocate:</b> I share my code, docs, and ideas so others can learn, remix, and improve. My GitHub is my lab notebook.</li>
+                <li><b>Lifelong Learner:</b> I chase curiosity, from Python and Kubernetes to radio, weather, and cybersecurity. I document what I learn so others can skip the pain.</li>
+            </ul>
+            <h3>Philosophy</h3>
+            <p style="margin-bottom: 0.5em;">
+                <b>Build in public. Automate the boring stuff. Share what works (and what doesn't).</b> I believe tech should be accessible, fun, and a little bit weird. My home lab is my playground, and my blog is where I share the journey: wins, fails, and all.
+            </p>
+            <h3>What Makes Me Tick?</h3>
+            <h3>What Drives Me?</h3>
+            <h3>What Makes Me Tick?</h3>
+            <ul style="margin-bottom: 0.5em;">
+                <li><b>Blue Green Deployments:</b> I run my own blue green Nginx clusters, with live cutovers and zero downtime updates. GitOps and ArgoCD keep it honest.</li>
+                <li><b>Weather & Radio:</b> Built a live weather radar and radio dashboard for my local community. If it's on the air or in the cloud, I want to see it.</li>
+                <li><b>CI/CD & Monitoring:</b> Everything is versioned, tested, and monitored. If it breaks, I want to know before anyone else does.</li>
+                <li><b>Learning in Public:</b> My blog and GitHub README are living docs. Check them for my latest experiments, guides, and rants.</li>
+            </ul>
+            <h3>Current Projects</h3>
+            <ul>
+                <li>WeatherMap: Real-time radar, alerts, and open data for my area (<a href="https://radar.heffner.live">see it live</a>, <a href="https://github.com/GregHeffner/weathermap">source</a>).</li>
+                <li>Homegrown CI/CD: Blue green Nginx, ArgoCD, and GitHub Actions for my own infra (<a href="https://github.com/GregHeffner/cicd">repo</a>).</li>
+                <li>Learning Stack: TryHackMe, Advent of Code, and custom guides for hands-on learning (<a href="https://github.com/GregHeffner/learning-stack">repo</a>).</li>
+                <li>Open Source Everything: If it's useful, I publish it. If it's broken, I fix it in public (<a href="https://github.com/GregHeffner">GitHub</a>).</li>
+            </ul>
         </div>
         <div class="column">
-          <h3>Check out my online repos:</h3>
-          <ul>
-            <li><a href="https://github.com/GregHeffner">GitHub_Repo</a>: Scripts, playbooks, automations, configs</li>
-            <li><a href="https://hub.docker.com/u/technotuba">DockerHubImages</a>: Custom images
-              like the one I used to create this site</li>
-          </ul>
-          <h3>I have a blog do some video game live streams:</h3>
-          <ul>
-            <li><a href="https://greg.heffner.live/blog.html">Nerdsense - A Blog</a> Various tech topics. Feel free to give ideas or topics in my contact link above</li>
-            <li><a href="https://www.youtube.com/channel/UC1vfbsGFZC8-KCWGQuYfEOw">Youtube</a> and <a href="https://www.twitch.tv/technotubaa">Twitch</a> This is mostly video games with my kids and family</li>
-            <li><a href="https://medium.com/@light.pen8923">Medium, Blog Re-Post</a> A carbon copy of the <a href="https://greg.heffner.live/blog.html">Blogs</a> I post just for more SEO reach.</li>
-          </ul>
-          Please like and follow
-          <h3>Homegrown Tools</h3>
-          <ul>
-            <li><a href="https://radar.heffner.live">Weather</a>: Radar used for car shows and crusing</li>
-            <li><a href="https://ip-analysis.heffner.live">IP Analysis</a>: I use this to investigate IPs and wether or not to block them</li>
-            <li><a href="https://text-to-image-template.heffner.workers.dev">Image Generator</a>: Fun cloudflare project. Right now it makes pictures servers burning lol</li>
-            <li><a href="https://search.heffner.live">Search</a>: Playing with search engins without ads</li>
-            <li><a href="https://chat.heffner.live">Chat</a>: Encrypted chat with no logging</li>
-          </ul>
-          <h3>How to Learn:</h3>
-          <ul>
-            <a href="https://tryhackme.com">TryHackMe</a> (yes, I know it sounds phishy but it's legit) is a great place if
-            you want to dabble in some CTF's or learn some code. You can even do FREE courses!<br>
-            Check out these two blogs specifically aboutTryHackMe.com <br>
-            <a href="https://greg.heffner.live/image/pages/2024/Aug/tryhackme.html">TryHackMe: Command Line Confessions</a> or <a href="https://greg.heffner.live/image/pages/2024/Sept/classsetup.html">Class Setup: My learning tech stack - Learn for Free</a>
-          </ul>
-          <h3>Handy Links:</h3>
-          <ul>
-            <a href="https://greg.heffner.live/traffic.html">Live Traffic Cams</a> <->
-              <a href="https://sarnetfl.org/uploads/6/1/7/0/61701057/20230910_sarnet_map.pdf">SARNET</a> <->
-                <a href="http://stats.allstarlink.org/stats/52914">Radio Map</a> <->
-                  <a href="https://jaxpiercam.com">Jax Beach Pier Live</a> <->
-                    <a href="https://firstcoastdmr.org/index.php/dmr-info/">Jax DMR Site</a> <->
-                      <a href="https://gchq.github.io/CyberChef/">CyberChef</a> <->
-                        <a href="https://radar.weather.gov/ridge/standard/SOUTHEAST_loop.gif">Radar Loop SE</a> <->
-                          <a href="https://ui.com/introduction">Shop Network Gear</a> <->
-                            <a href="https://www.spaghettimodels.com">Spaghetti Models</a> <->
-                              <a href="https://brandmeister.network">Brandmeister DMR </a> <->
-                                <a href="http://192.223.28.176:42420/CallWatch">DMR Logs </a> <->
-                                  <a href="https://stats.allstarlink.org/stats/52914/networkMap">Allstar Radio Map</a>
-
-
-          </ul>
+            <h3>Explore My Online Repos</h3>
+            <ul>
+                <li><a href="https://github.com/GregHeffner"><b>GitHub</b></a>: Automation scripts, playbooks, and my latest experiments.</li>
+                <li><a href="https://hub.docker.com/u/technotuba"><b>DockerHub</b></a>: Custom container images that power this site and my projects.</li>
+                <li><a href="https://galaxy.ansible.com/GregHeffner"><b>Ansible Galaxy</b></a>: Curated roles & collections for infrastructure as code.</li>
+            </ul>
+            <h3>Read My Blog</h3>
+            <ul>
+                <li><a href="https://greg.heffner.live/blog.html"><b>Nerdsense – A Blog</b></a>: Deep dives into tech, automation, and learning. Suggest topics via my contact link!</li>
+                <li><a href="https://medium.com/@light.pen8923"><b>Medium (Blog Re-Post)</b></a>: Mirror of my main blog for wider reach.</li>
+            </ul>
+            <h3>How My Site Runs</h3>
+            <div style="margin-bottom: 8px; color: #222; font-size: 1em;">
+                This site is powered by Kubernetes and automated CI/CD pipelines using ArgoCD. Every update, deployment, and rollback is handled by GitOps workflows, so the site stays reliable and up to date with minimal manual work.<br><br>
+                        <div style="margin-bottom: 8px; color: #222; font-size: 1em;">
+                                This site is powered by Kubernetes and automated CI/CD pipelines using ArgoCD. Every update, deployment, and rollback is handled by GitOps workflows, so the site stays reliable and up to date with minimal manual work.<br><br>
+                                <b>Security & Maintenance:</b> I keep my site safe and up to date using my own <a href="https://galaxy.ansible.com/GregHeffner">Ansible collection</a> for server hardening, and I run weekly patching actions to apply the latest security updates automatically. This means vulnerabilities are fixed quickly and configuration drift is kept in check.<br><br>
+                                <b>Automation & Transparency:</b> All automation, security scanning, and documentation for infrastructure changes are handled by open source tools and workflows. Every patch, deployment, and compliance check is tracked, auditable, and visible in my public repos—so you can see exactly how things run and stay secure. Explore the code and workflows here:
+                                <ul style="margin-top: 6px;">
+                                    <li><a href="https://github.com/GregHeffner/ansible-collection-heffner">Ansible Collection (Server Hardening)</a></li>
+                                    <li><a href="https://github.com/GregHeffner/patching-actions">Weekly Patching Actions</a></li>
+                                    <li><a href="https://github.com/GregHeffner/cicd">CI/CD & Infra as Code</a></li>
+                                </ul>
+            </div>
+            <ul>
+                <li>GitOps: All changes are version-controlled and deployed automatically</li>
+                <li>ArgoCD: Manages rollouts, syncs, and health checks for every service</li>
+                <li>Kubernetes: Provides self-healing, scaling, and high availability</li>
+                <li>Ansible: Automates server hardening and config management</li>
+                <li>Weekly Patching: Automated GitHub Actions keep everything secure and current</li>
+            </ul>
+            <h3>How to Learn</h3>
+            <ul>
+                <li><a href="https://tryhackme.com"><b>TryHackMe</b></a>: My go-to for CTFs, hands-on labs, and free courses.</li>
+                <li>See my blog for guides:
+                    <ul>
+                        <li><a href="https://greg.heffner.live/image/pages/2024/Aug/tryhackme.html">Command Line Confessions</a></li>
+                        <li><a href="https://greg.heffner.live/image/pages/2024/Sept/classsetup.html">Class Setup: My Learning Tech Stack</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <h3>Handy Links</h3>
+            <div style="margin-bottom: 6px; color: #222; font-size: 1em;">Useful resources and favorite tools I use for radio, weather, and network monitoring:</div>
+            <ul style="list-style: none; padding-left: 0;">
+                <li><a href="https://greg.heffner.live/traffic.html">Live Traffic Cams</a> &bull; <a href="https://sarnetfl.org/uploads/6/1/7/0/61701057/20230910_sarnet_map.pdf">SARNET</a> &bull; <a href="http://stats.allstarlink.org/stats/52914">Radio Map</a> &bull; <a href="https://jaxpiercam.com">Jax Beach Pier Live</a> &bull; <a href="https://firstcoastdmr.org/index.php/dmr-info/">Jax DMR Site</a> &bull; <a href="https://gchq.github.io/CyberChef/">CyberChef</a> &bull; <a href="https://radar.weather.gov/ridge/standard/SOUTHEAST_loop.gif">Radar Loop SE</a> &bull; <a href="https://ui.com/introduction">Shop Network Gear</a> &bull; <a href="https://www.spaghettimodels.com">Spaghetti Models</a> &bull; <a href="https://brandmeister.network">Brandmeister DMR</a> &bull; <a href="http://192.223.28.176:42420/CallWatch">DMR Logs</a> &bull; <a href="https://stats.allstarlink.org/stats/52914/networkMap">Allstar Radio Map</a></li>
+            </ul>
+            <h3>What I'm Working On</h3>
+            <div style="margin-bottom: 8px; color: #222; font-size: 1em;">
+                Curious about my latest projects? <b>Follow me on <a href="https://github.com/GregHeffner">GitHub</a></b> or check out my <a href="https://greg.heffner.live/blog.html">blog</a> for inspiration, updates, and ways to connect. I love collaborating and sharing ideas—reach out if you want to build something cool!
+            </div>
         </div>
         <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
     <script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js"
