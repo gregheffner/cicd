@@ -752,8 +752,7 @@ data:
       <!-- Im not the only nerd if youre reading this -->
       <div class="text-container">
         <div class="column">
-            <div style="margin-bottom: 12px;"><b>Hey, I'm Greg. Welcome!</b> This is my digital home base, where I share what I'm building, learning, and thinking about. If you found this page, you probably care about tech, learning, or just want to see what a real home lab nerd is up to. Glad you're here.
-    <div style="margin-bottom: 12px;"><b>Hey, I'm Greg. Welcome!</b> This is my digital home base, where I share what I'm building, learning, and thinking about. If you found this page, you probably care about tech, learning, or just want to see what a real home lab nerd is up to. Glad you're here.
+            <div style="margin-bottom: 12px;"><b>Hey!</b> If you found this page, you probably care about tech, learning, or just want to see what a real home lab nerd is up to. Glad you're here.
             </div>
             <h3>Who Am I?</h3>
             <ul style="margin-bottom: 0.5em;">
@@ -766,8 +765,6 @@ data:
             <p style="margin-bottom: 0.5em;">
                 <b>Build in public. Automate the boring stuff. Share what works (and what doesn't).</b> I believe tech should be accessible, fun, and a little bit weird. My home lab is my playground, and my blog is where I share the journey: wins, fails, and all.
             </p>
-            <h3>What Makes Me Tick?</h3>
-            <h3>What Drives Me?</h3>
             <h3>What Makes Me Tick?</h3>
             <ul style="margin-bottom: 0.5em;">
                 <li><b>Blue Green Deployments:</b> I run my own blue green Nginx clusters, with live cutovers and zero downtime updates. GitOps and ArgoCD keep it honest.</li>
@@ -796,8 +793,6 @@ data:
                 <li><a href="https://medium.com/@light.pen8923"><b>Medium (Blog Re-Post)</b></a>: Mirror of my main blog for wider reach.</li>
             </ul>
             <h3>How My Site Runs</h3>
-            <div style="margin-bottom: 8px; color: #222; font-size: 1em;">
-                This site is powered by Kubernetes and automated CI/CD pipelines using ArgoCD. Every update, deployment, and rollback is handled by GitOps workflows, so the site stays reliable and up to date with minimal manual work.<br><br>
                         <div style="margin-bottom: 8px; color: #222; font-size: 1em;">
                                 This site is powered by Kubernetes and automated CI/CD pipelines using ArgoCD. Every update, deployment, and rollback is handled by GitOps workflows, so the site stays reliable and up to date with minimal manual work.<br><br>
                                 <b>Security & Maintenance:</b> I keep my site safe and up to date using my own <a href="https://galaxy.ansible.com/GregHeffner">Ansible collection</a> for server hardening, and I run weekly patching actions to apply the latest security updates automatically. This means vulnerabilities are fixed quickly and configuration drift is kept in check.<br><br>
@@ -830,10 +825,6 @@ data:
             <ul style="list-style: none; padding-left: 0;">
                 <li><a href="https://greg.heffner.live/traffic.html">Live Traffic Cams</a> &bull; <a href="https://sarnetfl.org/uploads/6/1/7/0/61701057/20230910_sarnet_map.pdf">SARNET</a> &bull; <a href="http://stats.allstarlink.org/stats/52914">Radio Map</a> &bull; <a href="https://jaxpiercam.com">Jax Beach Pier Live</a> &bull; <a href="https://firstcoastdmr.org/index.php/dmr-info/">Jax DMR Site</a> &bull; <a href="https://gchq.github.io/CyberChef/">CyberChef</a> &bull; <a href="https://radar.weather.gov/ridge/standard/SOUTHEAST_loop.gif">Radar Loop SE</a> &bull; <a href="https://ui.com/introduction">Shop Network Gear</a> &bull; <a href="https://www.spaghettimodels.com">Spaghetti Models</a> &bull; <a href="https://brandmeister.network">Brandmeister DMR</a> &bull; <a href="http://192.223.28.176:42420/CallWatch">DMR Logs</a> &bull; <a href="https://stats.allstarlink.org/stats/52914/networkMap">Allstar Radio Map</a></li>
             </ul>
-            <h3>What I'm Working On</h3>
-            <div style="margin-bottom: 8px; color: #222; font-size: 1em;">
-                Curious about my latest projects? <b>Follow me on <a href="https://github.com/GregHeffner">GitHub</a></b> or check out my <a href="https://greg.heffner.live/blog.html">blog</a> for inspiration, updates, and ways to connect. I love collaborating and sharing ideas—reach out if you want to build something cool!
-            </div>
         </div>
         <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
     <script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js"
