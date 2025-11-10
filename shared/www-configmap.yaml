@@ -752,7 +752,12 @@ data:
       <!-- Im not the only nerd if youre reading this -->
       <div class="text-container">
         <div class="column">
-            <div style="margin-bottom: 12px;"><b>Hey!</b> Step inside a home lab where GitHub repositories and sequential thinking aren’t just tools—they’re survival instincts. Here, every automation script is a hypothesis, every deployment a philosophical experiment, and every rollback a lesson in humility. With a CI/CD pipeline that’s as relentless as my curiosity, and an MCP server that ponders each step like a chess grandmaster, this site is proof that infrastructure can be both reliable and a little bit weird. If you’re looking for a place where code, radio waves, and weather maps collide in the name of learning, you’ve just found it. Glad you're here.
+            <br>
+            <div style="margin-bottom: 12px;"><b>Hello!</b> Step into my home lab, where GitHub is my playground and sequential thinking is just how I keep the lights on. Around
+            here, automation scripts are my favorite experiments, deployments keep me on my toes, and the occasional rollback is
+            just a good story for later. With a CI/CD pipeline that never takes a day off and an MCP server that likes to
+            second-guess everything, this is where curiosity and reliability try to outdo each other. If you want to see what
+            happens when code, radio, and weather maps all fight for attention, you are in the right place. Glad you're here.
             </div>
             <h3>Who Am I?</h3>
             <ul style="margin-bottom: 0.5em;">
@@ -765,6 +770,7 @@ data:
             <p style="margin-bottom: 0.5em;">
                 <b>Build in public. Automate the boring stuff. Share what works (and what doesn't).</b> I believe tech should be accessible, fun, and a little bit weird. My home lab is my playground, and my blog is where I share the journey: wins, fails, and all.
             </p>
+            <br>
             <h3>What Makes Me Tick?</h3>
             <ul style="margin-bottom: 0.5em;">
                 <li><b>Blue Green Deployments:</b> I run my own blue green Nginx clusters, with live cutovers and zero downtime updates. GitOps and ArgoCD keep it honest.</li>
