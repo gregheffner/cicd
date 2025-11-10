@@ -753,18 +753,15 @@ data:
       <div class="text-container">
         <div class="column">
             <br>
-            <div style="margin-bottom: 12px;"><b>Hello!</b> Step into my home lab, where GitHub is my playground and sequential thinking is just how I keep the lights on. Around
-            here, automation scripts are my favorite experiments, deployments keep me on my toes, and the occasional rollback is
-            just a good story for later. With a CI/CD pipeline that never takes a day off and an MCP server that likes to
-            second-guess everything, this is where curiosity and reliability try to outdo each other. If you want to see what
-            happens when code, radio, and weather maps all fight for attention, you are in the right place. Glad you're here.
+            <div style="margin-bottom: 12px;"><b>Hello!</b> Welcome to my home lab. Here, automation is a daily habit, and curiosity drives every project. I'm Greg Heffner: builder, veteran, and digital transformation leader. Code, radio, and weather maps all get their turn, and every deployment is a new lesson. This GitHub is my playground and lab notebook, focused on reliability, innovation, and always getting better. Glad you're here.
             </div>
             <h3>Who Am I?</h3>
             <ul style="margin-bottom: 0.5em;">
-                <li><b>Builder & Automator:</b> I love making things work, from blue green deployments and CI/CD pipelines to weather maps and home automation. If it can be automated, I'll try it.</li>
-                <li><b>Veteran & Team Player:</b> U.S. Army, Air Defense Artillery, comms specialist. I believe in reliability, clear comms, and always having a backup plan.</li>
-                <li><b>Open Source Advocate:</b> I share my code, docs, and ideas so others can learn, remix, and improve. My GitHub is my lab notebook.</li>
-                <li><b>Lifelong Learner:</b> I chase curiosity, from Python and Kubernetes to radio, weather, and cybersecurity. I document what I learn so others can skip the pain.</li>
+                <li><b>Senior Technology Leader: </b>Over 20 years of enterprise operations and digital transformation experience, leading teams and architecting solutions for mission-critical environments.</li>
+                <li><b>Strategic Automator: </b>I design self-healing infrastructure, CI/CD pipelines, and zero-downtime deployments. If it can be automated, I want to make it work better.</li>
+                <li><b>Veteran:</b> U.S. Army Air Defense, communications specialist. I value discipline, clear communication, and always having a backup plan.</li>
+                <li><b>Open Source Advocate:</b> I share code, documentation, and ideas so others can learn and build on them.</li>
+                <li><b>Lifelong Learner:</b> From Kubernetes to cybersecurity, I follow my curiosity and document what I learn to help others avoid the same roadblocks.</li>
             </ul>
             <h3>Philosophy</h3>
             <p style="margin-bottom: 0.5em;">
