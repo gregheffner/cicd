@@ -1,4 +1,4 @@
-name: Switch Traffic to Blue Deployment
+name: Switch Traffic to Blue
 
 on:
   workflow_dispatch:

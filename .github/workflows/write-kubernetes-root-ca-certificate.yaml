@@ -1,4 +1,5 @@
 name: Write Kubernetes Root CA Certificate
+# Retained the name but clarified its purpose
 
 on:
   workflow_dispatch:
