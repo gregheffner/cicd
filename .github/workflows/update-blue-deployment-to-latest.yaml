@@ -1,4 +1,4 @@
-name: Update PROD to nginx:latest
+name: Update Blue Deployment to Latest
 
 on:
   workflow_dispatch:

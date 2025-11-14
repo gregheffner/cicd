@@ -1,4 +1,4 @@
-name: Monthly build and retag
+name: Monthly Docker Image Retag
 
 on:
   workflow_dispatch:
