@@ -1,4 +1,4 @@
-name: Switch Traffic to Green Deployment
+name: Switch Traffic to Green
 
 on:
   workflow_dispatch:
