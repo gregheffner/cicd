@@ -19,7 +19,6 @@ data:
     http {
         include       /etc/nginx/mime.types;
         default_type  application/octet-stream;
-
         ssl_protocols TLSv1.2 TLSv1.3;
         ssl_ciphers 'HIGH:!aNULL:!MD5:!3DES';
         ssl_prefer_server_ciphers on;
@@ -35,41 +34,28 @@ data:
             ~^[23]  1;
             default 0;
         }
-
         map $request_method $loggable {
             default 1;
             HEAD 0;
         }
-
-        # Use the new log format for access_log
         access_log  /var/log/nginx/access.log  fail2ban;
         access_log /dev/stdout fail2ban;
-
         sendfile        on;
         tcp_nopush     on;
-
         keepalive_timeout  65;
-
-        # Add gzip configuration here
         gzip  on;
         gzip_types text/plain text/html text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
         gzip_min_length 256;
         gzip_comp_level 5;
         gzip_vary on;
-
         include /etc/nginx/conf.d/*.conf;
 
         server {
           listen 80;
-
-          # Block all wlwmanifest.xml and xmlrpc.php requests, anywhere
           location ~* wlwmanifest\.xml$ { return 444; }
           location ~* xmlrpc\.php { return 444; }
-
-          # Block WordPress login
           location = /wp-login.php { deny all; return 444; }
           location ~* ^/(wp-admin|wp-includes) { deny all; return 444; }
-          
           location /image/ {
               root /usr/share/nginx/html/image;
               expires 1y;
