@@ -46,7 +46,7 @@ data:
         access_log /dev/stdout fail2ban;
 
         sendfile        on;
-        #tcp_nopush     on;
+        tcp_nopush     on;
 
         keepalive_timeout  65;
 
