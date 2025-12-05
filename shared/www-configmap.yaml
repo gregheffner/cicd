@@ -1948,7 +1948,7 @@ data:
                           </a>
                       </td>
                       <td>
-                          <a href="https://argo.tier0.local:30083">
+                          <a href="https://192.168.1.190:30083">
                               <img src="https://argo-cd.readthedocs.io/en/stable/assets/logo.png" alt="Argo">
                           </a>
                       </td>
