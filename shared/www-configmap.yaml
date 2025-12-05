@@ -1968,13 +1968,13 @@ data:
                   <tr>
                       <td>
                           <a href="https://greg.heffner.live/traffic.html">
-                              <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/youtube.svg" alt="Traffic Cams">
+                              <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/googlemaps.svg" alt="Traffic Cams">
                           </a>
                       </td>
                       <td>
-                          <a href="https://cloudflare.com/">
-                              <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/cloudflare.svg"
-                                  alt="Cloudflare">
+                          <a href="https://controld.com/">
+                              <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/controld.svg"
+                                  alt="ControlD">
                           </a>
                       </td>
                   </tr>
