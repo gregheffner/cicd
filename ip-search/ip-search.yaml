@@ -31,7 +31,7 @@ metadata:
   labels:
     app: ip-analysis
 spec:
-  replicas: 2
+  replicas: 0
   selector:
     matchLabels:
       app: ip-analysis
@@ -126,7 +126,7 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: ip-analysis
-  minReplicas: 2
+  minReplicas: 0
   maxReplicas: 5
   metrics:
   - type: Resource
