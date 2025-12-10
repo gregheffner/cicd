@@ -126,7 +126,7 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: ip-analysis
-  minReplicas: 0
+  minReplicas: 1
   maxReplicas: 5
   metrics:
   - type: Resource
