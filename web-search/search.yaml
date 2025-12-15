@@ -72,7 +72,7 @@ metadata:
   name: whoogle
   namespace: searxng
 spec:
-  replicas: 1
+  replicas: 0
   selector:
     matchLabels:
       app: whoogle
