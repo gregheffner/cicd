@@ -3,7 +3,7 @@ name: Clear Cloudflare Cache
 on:
   workflow_dispatch:
   schedule:
-    - cron: '59 23 * * *'
+    - cron: '59 23 * * 0'
 
 jobs:
   clear-cache:
