@@ -43,7 +43,7 @@ jobs:
           python-version: '3.x'
       
       - name: Install dependencies
-        run: pip install requests
+        run: pip install requests packaging
       
       - name: Generate Dockerfile with latest versions
         run: python .github/scripts/generate_dockerfile.py
