@@ -1,21 +1,55 @@
 import datetime
-import requests
+import os
 import re
 
+import requests
+from packaging import version
+
+
 def get_stable_nginx_version():
-    url = "https://nginx.org/en/download.html"
-    resp = requests.get(url)
-    # Find the "Stable version" section and extract the first nginx-X.Y.Z occurrence after it
-    stable_section = re.search(r"Stable version.*?nginx-(\d+\.\d+\.\d+)", resp.text, re.DOTALL)
-    if stable_section:
-        return stable_section.group(1)
-    return "1.28.0"
+    # Allow override by environment variable
+    override = os.environ.get("NGINX_VERSION")
+    if override:
+        print(f"[INFO] Using NGINX_VERSION override: {override}")
+        return override
+
+    print("[INFO] Fetching latest stable nginx version from Docker Hub...")
+    tags = []
+    url = "https://hub.docker.com/v2/repositories/library/nginx/tags/?page_size=100"
+    while url:
+        try:
+            resp = requests.get(url, timeout=10)
+            resp.raise_for_status()
+            data = resp.json()
+            tags.extend([t["name"] for t in data["results"]])
+            url = data.get("next")
+        except Exception as e:
+            print(f"[ERROR] Failed to fetch nginx tags from Docker Hub: {e}")
+            break
+
+    # Filter tags like '1.29.0-alpine-slim' or '1.29-alpine-slim'
+    version_tags = []
+    for tag in tags:
+        m = re.match(r"^(\d+\.\d+(?:\.\d+)?)-alpine-slim$", tag)
+        if m:
+            version_tags.append(m.group(1))
+
+    if not version_tags:
+        print("[WARN] No version tags found, falling back to 1.28.0")
+        return "1.28.0"
+
+    # Sort and get the latest
+    latest = max(version_tags, key=version.parse)
+    print(f"[INFO] Latest stable nginx version found: {latest}")
+    return latest
+
 
 def get_latest_njs_version():
     url = "https://api.github.com/repos/nginx/njs/releases/latest"
     resp = requests.get(url)
     data = resp.json()
     return data["tag_name"].lstrip("v")
+
 
 def get_latest_njs_debian_release():
     url = "https://sources.debian.org/api/src/njs/"
@@ -28,6 +62,7 @@ def get_latest_njs_debian_release():
                 upstream, debrel = ver.split("-", 1)
                 return debrel, debrel
     return "3~bookworm", "1~bookworm"
+
 
 NGINX_VERSION = get_stable_nginx_version()
 NJS_VERSION = get_latest_njs_version()
