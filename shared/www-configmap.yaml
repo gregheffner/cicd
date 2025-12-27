@@ -564,173 +564,189 @@ data:
     <!doctype html>
     <html lang="en-US">
     <head>
-    <meta charset="utf-8">
-    <link rel="apple-touch-icon" sizes="180x180" href="/image/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="/image/favicon-96x96.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="/image/favicon-96x96.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/image/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/image/favicon-16x16.png">
-    <link rel="icon" href="/image/favicon.ico">
-    <link rel="manifest" href="/image/site.webmanifest">
-    <link rel="stylesheet" href="/image/assets/styles.css">
-    <meta name="apple-mobile-web-app-title" content="Nerdsense">
-    <meta name="keywords"
-        content="Python, web development, automation, cloud platforms, cybersecurity, machine learning, ethical hacking, kubernetes">
-    <meta name="language" content="English">
-    <meta http-equiv="content-language" content="en-US">
-    <meta name="author" content="Greg Heffner">
-    <meta http-equiv="Content-Type" content="text/html;>
-    <meta name="robots" content="index, follow">
-    <meta name="description"
-    content="A personal webpage of Greg Heffner, a father, veteran, and tech enthusiast. Explore my journey in the military and my passion for technology. Updated November 9, 2025.">
-    <meta name="title" content="Greg Heffner - Father, Veteran, Tech Enthusiast">  
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="Greg Heffner - Father, Veteran, Tech Enthusiast">
-    <meta property="og:description" content="A personal webpage of Greg Heffner, a father, veteran, and tech enthusiast. Explore my journey in the military and my passion for technology. Updated November 9, 2025.">
-    <meta property="og:url" content="https://greg.heffner.live">
-    <meta property="og:site_name" content="Greg Heffner">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta property="og:locale" content="en_US">
-    <meta property="og:image" content="https://greg.heffner.live/image/photo/header.jpg">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Greg Heffner - Father, Veteran, Tech Enthusiast">
-    <meta name="twitter:description" content="A personal webpage of Greg Heffner, a father, veteran, and tech enthusiast. Explore my journey in the military and my passion for technology. Updated November 9, 2025.">
-    <meta name="twitter:image" content="https://greg.heffner.live/image/photo/header.jpg">
-    <title>Greg Heffner | Free Learning, Family Moments & Blogs</title>
-    <script type="application/ld+json">
-    {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    "name": "Greg Heffner",
-    "description": "Father, veteran, and tech enthusiast",
-    "url": "https://greg.heffner.live",
-    "jobTitle": "Father, Student, and IT Leader at Heffner Industries",
-    "knowsAbout": ["Python", "Web Development", "Automation", "Cloud Platforms", "Cybersecurity", "Machine Learning", "Kubernetes"],
-    "alumniOf": {
-        "@type": "Organization",
-        "name": "Heffner.live"
-    },
-    "dateModified": "2025-11-09"
-    }
-    </script>
-      
-      
-    <style>
-      body {
-          background-color: #282c34;
-          color: #ffffff;
-          font-family: 'trebuchet ms', sans-serif;
-          padding: 20px;
-      }
-      .navbar {
-          display: flex;
-          justify-content: flex-end;
-          width: 100%;
-          background-color: transparent !important;
-          font-family: 'trebuchet ms', sans-serif;
-          padding-right: 15px;
-          padding-left: 15px;
-      }
-      .header {
-        background-image: url('image/photo/header.jpg');
-        background-size: cover;
-        background-position: center;
-        height: 200px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-family: 'trebuchet ms', sans-serif;
-      }
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Greg Heffner | Free Learning, Family Moments & Blogs</title>
 
-      .header-text {
-        color: black;
-        font-size: 5em;
-        text-shadow: 2px 2px 2px #ffffff;
-        font-weight: bold;
-        text-align: center;
-        font-display: swap;
-        font-family: 'trebuchet ms', sans-serif;
-      }
+        <!-- Favicons and Manifest -->
+        <link rel="apple-touch-icon" sizes="180x180" href="/image/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="96x96" href="/image/favicon-96x96.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/image/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/image/favicon-16x16.png">
+        <link rel="icon" href="/image/favicon.ico">
+        <link rel="manifest" href="/image/site.webmanifest">
 
-      .sub-header {
-        text-align: center;
-        font-size: 3em;
-        margin-top: 20px;
-        font-display: swap;
-        font-family: 'trebuchet ms', sans-serif;
-      }
+        <!-- Stylesheet -->
+        <link rel="stylesheet" href="/image/assets/styles.css">
 
-      .header-logo.left {
-        left: 5%;
-        display: flex;
-        width: 100%;
-        height: auto;
-        max-width: 100%;
-      }
+        <!-- App Title for iOS -->
+        <meta name="apple-mobile-web-app-title" content="Nerdsense">
+        <meta name="theme-color" content="#ffffff">
+        <meta name="background-color" content="#ffffff">
 
-      .header-logo.right {
-        right: 5%;
-        display: flex;
-      }
+        <!-- Canonical URL -->
+        <link rel="canonical" href="https://greg.heffner.live/">
 
-      .header-logo.left,
-      .header-logo.right {
-        position: absolute;
-        top: 10%;
-        max-width: 300px;
-        height: auto;
-      }
+        <!-- SEO Meta Tags -->
+        <meta name="description" content="A personal webpage of Greg Heffner, a father, veteran, and tech enthusiast. Explore my journey in the military and my passion for technology. Updated November 9, 2025.">
+        <meta name="keywords" content="Python, web development, automation, cloud platforms, cybersecurity, machine learning, ethical hacking, kubernetes">
+        <meta name="author" content="Greg Heffner">
+        <meta name="robots" content="index, follow">
+        <meta name="language" content="English">
+        <meta http-equiv="content-language" content="en-US">
+        <meta name="title" content="Greg Heffner - Father, Veteran, Tech Enthusiast">
 
-      .text-container {
-        background-color: rgb(102, 102, 102);
-        padding: 20px;
-        width: 100%;
-        margin: 0 auto;
-        margin-top: 25px;
-        display: flex;
-        justify-content: space-between;
-        font-family: 'trebuchet ms', sans-serif;
-      }
+        <!-- Open Graph Meta Tags -->
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="Greg Heffner - Father, Veteran, Tech Enthusiast">
+        <meta property="og:description" content="A personal webpage of Greg Heffner, a father, veteran, and tech enthusiast. Explore my journey in the military and my passion for technology. Updated November 9, 2025.">
+        <meta property="og:url" content="https://greg.heffner.live">
+        <meta property="og:site_name" content="Greg Heffner">
+        <meta property="og:image" content="https://greg.heffner.live/image/photo/header.jpg">
+        <meta property="og:image:width" content="1200">
+        <meta property="og:image:height" content="630">
+        <meta property="og:locale" content="en_US">
 
-            .column {
-                width: calc(50% - 10px);
-                box-sizing: border-box;
-                background-color: #ffffff;
-                color: #000000;
-                padding: 20px;
-                max-width: 100%;
-                font-size: 1.1em;
-                box-sizing: border-box;
-            }
-            .column h3, .column ul, .column li, .column p {
-                font-size: inherit;
-            }
+        <!-- Twitter Meta Tags -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="Greg Heffner - Father, Veteran, Tech Enthusiast">
+        <meta name="twitter:description" content="A personal webpage of Greg Heffner, a father, veteran, and tech enthusiast. Explore my journey in the military and my passion for technology. Updated November 9, 2025.">
+        <meta name="twitter:image" content="https://greg.heffner.live/image/photo/header.jpg">
 
-      corner-image {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        z-index: 1;
-        width: 30px;
-        height: 30px;
-        object-fit: cover;
-      }
-
-      .clear {
-        clear: both;
-      }
-      .visually-hidden {
-          position: absolute !important;
-          width: 1px; height: 1px;
-          padding: 0; margin: -1px;
-          overflow: hidden;
-          clip: rect(0,0,0,0);
-          border: 0;
+        <!-- Structured Data (JSON-LD) -->
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "Person",
+            "name": "Greg Heffner",
+            "description": "Father, veteran, and tech enthusiast",
+            "url": "https://greg.heffner.live",
+            "jobTitle": "Father, Student, and IT Leader at Heffner Industries",
+            "knowsAbout": ["Python", "Web Development", "Automation", "Cloud Platforms", "Cybersecurity", "Machine Learning", "Kubernetes"],
+            "alumniOf": {
+            "@type": "Organization",
+            "name": "Heffner.live"
+            },
+            "dateModified": "2025-11-09"
         }
-      </style>
-    </head>
+        </script>
 
+      
+      
+        <style>
+        body {
+            background-color: #282c34;
+            color: #ffffff;
+            font-family: 'trebuchet ms', sans-serif;
+            padding: 20px;
+        }
+        .navbar {
+            display: flex;
+            justify-content: flex-end;
+            width: 100%;
+            background-color: transparent !important;
+            font-family: 'trebuchet ms', sans-serif;
+            padding-right: 15px;
+            padding-left: 15px;
+        }
+        .header {
+            background-image: url('image/photo/header.jpg');
+            background-size: cover;
+            background-position: center;
+            height: 200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'trebuchet ms', sans-serif;
+        }
+
+        .header-text {
+            color: black;
+            font-size: 5em;
+            text-shadow: 2px 2px 2px #ffffff;
+            font-weight: bold;
+            text-align: center;
+            font-display: swap;
+            font-family: 'trebuchet ms', sans-serif;
+        }
+
+        .sub-header {
+            text-align: center;
+            font-size: 3em;
+            margin-top: 20px;
+            font-display: swap;
+            font-family: 'trebuchet ms', sans-serif;
+        }
+
+        .header-logo.left {
+            left: 5%;
+            display: flex;
+            width: 100%;
+            height: auto;
+            max-width: 100%;
+        }
+
+        .header-logo.right {
+            right: 5%;
+            display: flex;
+        }
+
+        .header-logo.left,
+        .header-logo.right {
+            position: absolute;
+            top: 10%;
+            max-width: 300px;
+            height: auto;
+        }
+
+        .text-container {
+            background-color: rgb(102, 102, 102);
+            padding: 20px;
+            width: 100%;
+            margin: 0 auto;
+            margin-top: 25px;
+            display: flex;
+            justify-content: space-between;
+            font-family: 'trebuchet ms', sans-serif;
+        }
+
+                .column {
+                    width: calc(50% - 10px);
+                    box-sizing: border-box;
+                    background-color: #ffffff;
+                    color: #000000;
+                    padding: 20px;
+                    max-width: 100%;
+                    font-size: 1.1em;
+                    box-sizing: border-box;
+                }
+                .column h3, .column ul, .column li, .column p {
+                    font-size: inherit;
+                }
+
+        corner-image {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 1;
+            width: 30px;
+            height: 30px;
+            object-fit: cover;
+        }
+
+        .clear {
+            clear: both;
+        }
+        .visually-hidden {
+            position: absolute !important;
+            width: 1px; height: 1px;
+            padding: 0; margin: -1px;
+            overflow: hidden;
+            clip: rect(0,0,0,0);
+            border: 0;
+            }
+        </style>
+    </head>
 
     <body>
       <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MQMRMNL5" height="0" width="0"
