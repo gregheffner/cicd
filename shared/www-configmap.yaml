@@ -588,7 +588,7 @@ data:
         <link rel="canonical" href="https://greg.heffner.live/">
 
         <!-- SEO Meta Tags -->
-        <meta name="description" content="A personal webpage of Greg Heffner, a father, veteran, and tech enthusiast. Explore my journey in the military and my passion for technology. Updated November 9, 2025.">
+        <meta name="description" content="A personal webpage of Greg Heffner, a father, veteran, and tech enthusiast. Explore my journey in the military and my passion for technology.">
         <meta name="keywords" content="Python, web development, automation, cloud platforms, cybersecurity, machine learning, ethical hacking, kubernetes">
         <meta name="author" content="Greg Heffner">
         <meta name="robots" content="index, follow">
@@ -599,7 +599,7 @@ data:
         <!-- Open Graph Meta Tags -->
         <meta property="og:type" content="website">
         <meta property="og:title" content="Greg Heffner - Father, Veteran, Tech Enthusiast">
-        <meta property="og:description" content="A personal webpage of Greg Heffner, a father, veteran, and tech enthusiast. Explore my journey in the military and my passion for technology. Updated November 9, 2025.">
+        <meta property="og:description" content="A personal webpage of Greg Heffner, a father, veteran, and tech enthusiast. Explore my journey in the military and my passion for technology.">
         <meta property="og:url" content="https://greg.heffner.live">
         <meta property="og:site_name" content="Greg Heffner">
         <meta property="og:image" content="https://greg.heffner.live/image/photo/header.jpg">
@@ -610,7 +610,7 @@ data:
         <!-- Twitter Meta Tags -->
         <meta name="twitter:card" content="summary_large_image">
         <meta name="twitter:title" content="Greg Heffner - Father, Veteran, Tech Enthusiast">
-        <meta name="twitter:description" content="A personal webpage of Greg Heffner, a father, veteran, and tech enthusiast. Explore my journey in the military and my passion for technology. Updated November 9, 2025.">
+        <meta name="twitter:description" content="A personal webpage of Greg Heffner, a father, veteran, and tech enthusiast. Explore my journey in the military and my passion for technology.">
         <meta name="twitter:image" content="https://greg.heffner.live/image/photo/header.jpg">
 
         <!-- Structured Data (JSON-LD) -->
