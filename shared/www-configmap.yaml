@@ -621,7 +621,7 @@ data:
             "name": "Greg Heffner",
             "description": "Father, veteran, and tech enthusiast",
             "url": "https://greg.heffner.live",
-            "jobTitle": "Father, Student, and IT Leader at Heffner Industries",
+            "jobTitle": "Father, Student, and IT Leader",
             "knowsAbout": ["Python", "Web Development", "Automation", "Cloud Platforms", "Cybersecurity", "Machine Learning", "Kubernetes"],
             "alumniOf": {
             "@type": "Organization",
