@@ -94,6 +94,22 @@ data:
                 padding: 10px;
                 font-size: 16px;
             }
+            /* Responsive: stack blog-box vertically on small screens */
+            @media (max-width: 700px) {
+                .blog-box {
+                    flex-direction: column;
+                    width: 98vw;
+                    height: auto;
+                    min-width: 0;
+                }
+                .blog-description {
+                    padding-right: 0;
+                    font-size: 18px;
+                }
+                .blog-image-container {
+                    height: 200px;
+                }
+            }
         </style>
 
     <body>
