@@ -564,52 +564,72 @@ data:
     <!doctype html>
     <html lang="en-US">
     <head>
-    <meta charset="utf-8">
-    <link rel="apple-touch-icon" sizes="180x180" href="/image/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/image/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/image/favicon-16x16.png">
-    <link rel="manifest" href="/image/site.webmanifest">
-    <link rel="stylesheet" href="/image/assets/styles.css">
-    <meta name="keywords"
-        content="Python, web development, automation, cloud platforms, cybersecurity, machine learning, ethical hacking, kubernetes">
-    <meta name="language" content="English">
-    <meta http-equiv="content-language" content="en-US">
-    <meta name="author" content="Greg Heffner">
-    <meta http-equiv="Content-Type" content="text/html;>
-    <meta name="robots" content="index, follow">
-    <meta name="description"
-    content="A personal webpage of Greg Heffner, a father, veteran, and tech enthusiast. Explore my journey in the military and my passion for technology. Updated November 9, 2025.">
-    <meta name="title" content="Greg Heffner - Father, Veteran, Tech Enthusiast">  
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="Greg Heffner - Father, Veteran, Tech Enthusiast">
-    <meta property="og:description" content="A personal webpage of Greg Heffner, a father, veteran, and tech enthusiast. Explore my journey in the military and my passion for technology. Updated November 9, 2025.">
-    <meta property="og:url" content="https://greg.heffner.live">
-    <meta property="og:site_name" content="Greg Heffner">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta property="og:locale" content="en_US">
-    <meta property="og:image" content="https://greg.heffner.live/image/photo/header.jpg">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Greg Heffner - Father, Veteran, Tech Enthusiast">
-    <meta name="twitter:description" content="A personal webpage of Greg Heffner, a father, veteran, and tech enthusiast. Explore my journey in the military and my passion for technology. Updated November 9, 2025.">
-    <meta name="twitter:image" content="https://greg.heffner.live/image/photo/header.jpg">
-    <title>Greg Heffner | Free Learning, Family Moments & Blogs</title>
-    <script type="application/ld+json">
-    {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    "name": "Greg Heffner",
-    "description": "Father, veteran, and tech enthusiast",
-    "url": "https://greg.heffner.live",
-    "jobTitle": "Father, Student, and IT Leader at Heffner Industries",
-    "knowsAbout": ["Python", "Web Development", "Automation", "Cloud Platforms", "Cybersecurity", "Machine Learning", "Kubernetes"],
-    "alumniOf": {
-        "@type": "Organization",
-        "name": "Heffner.live"
-    },
-    "dateModified": "2025-11-09"
-    }
-    </script>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Greg Heffner | Free Learning, Family Moments & Blogs</title>
+
+        <!-- Favicons and Manifest -->
+        <link rel="apple-touch-icon" sizes="180x180" href="/image/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="96x96" href="/image/favicon-96x96.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/image/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/image/favicon-16x16.png">
+        <link rel="icon" href="/image/favicon.ico">
+        <link rel="manifest" href="/image/site.webmanifest">
+
+        <!-- Stylesheet -->
+        <link rel="stylesheet" href="/image/assets/styles.css">
+
+        <!-- App Title for iOS -->
+        <meta name="apple-mobile-web-app-title" content="Nerdsense">
+        <meta name="theme-color" content="#ffffff">
+        <meta name="background-color" content="#ffffff">
+
+        <!-- Canonical URL -->
+        <link rel="canonical" href="https://greg.heffner.live/">
+
+        <!-- SEO Meta Tags -->
+        <meta name="description" content="A personal webpage of Greg Heffner, a father, veteran, and tech enthusiast. Explore my journey in the military and my passion for technology.">
+        <meta name="keywords" content="Python, web development, automation, cloud platforms, cybersecurity, machine learning, ethical hacking, kubernetes">
+        <meta name="author" content="Greg Heffner">
+        <meta name="robots" content="index, follow">
+        <meta name="language" content="English">
+        <meta http-equiv="content-language" content="en-US">
+        <meta name="title" content="Greg Heffner - Father, Veteran, Tech Enthusiast">
+
+        <!-- Open Graph Meta Tags -->
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="Greg Heffner - Father, Veteran, Tech Enthusiast">
+        <meta property="og:description" content="A personal webpage of Greg Heffner, a father, veteran, and tech enthusiast. Explore my journey in the military and my passion for technology.">
+        <meta property="og:url" content="https://greg.heffner.live">
+        <meta property="og:site_name" content="Greg Heffner">
+        <meta property="og:image" content="https://greg.heffner.live/image/photo/header.jpg">
+        <meta property="og:image:width" content="1200">
+        <meta property="og:image:height" content="630">
+        <meta property="og:locale" content="en_US">
+
+        <!-- Twitter Meta Tags -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="Greg Heffner - Father, Veteran, Tech Enthusiast">
+        <meta name="twitter:description" content="A personal webpage of Greg Heffner, a father, veteran, and tech enthusiast. Explore my journey in the military and my passion for technology.">
+        <meta name="twitter:image" content="https://greg.heffner.live/image/photo/header.jpg">
+
+        <!-- Structured Data (JSON-LD) -->
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "Person",
+            "name": "Greg Heffner",
+            "description": "Father, veteran, and tech enthusiast",
+            "url": "https://greg.heffner.live",
+            "jobTitle": "Father, Student, and IT Leader",
+            "knowsAbout": ["Python", "Web Development", "Automation", "Cloud Platforms", "Cybersecurity", "Machine Learning", "Kubernetes"],
+            "alumniOf": {
+            "@type": "Organization",
+            "name": "Heffner.live"
+            },
+            "dateModified": "2025-11-09"
+        }
+        </script>
       
       
     <style>
