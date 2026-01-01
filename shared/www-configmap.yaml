@@ -1391,211 +1391,223 @@ data:
     <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
     <loc>https://greg.heffner.live/</loc>
-    <lastmod>2025-08-16</lastmod>
+    <lastmod>2026-01-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/photos.html</loc>
-    <lastmod>2025-08-16</lastmod>
+    <lastmod>2026-01-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/blog.html</loc>
-    <lastmod>2025-08-16</lastmod>
+    <lastmod>2026-01-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/privacy.html</loc>
-    <lastmod>2025-08-16</lastmod>
+    <lastmod>2026-01-01</lastmod>
     <changefreq>never</changefreq>
     <priority>0.1</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/image/pages/initial.html</loc>
-    <lastmod>2025-08-16</lastmod>
+    <lastmod>2026-01-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/image/pages/2024/July/GitHub.html</loc>
-    <lastmod>2025-08-16</lastmod>
+    <lastmod>2026-01-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/image/pages/2024/July/Pi-Hole.html</loc>
-    <lastmod>2025-08-16</lastmod>
+    <lastmod>2026-01-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/image/pages/2024/July/LB.html</loc>
-    <lastmod>2025-08-16</lastmod>
+    <lastmod>2026-01-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/image/pages/2024/July/DockerHub.html</loc>
-    <lastmod>2025-08-16</lastmod>
+    <lastmod>2026-01-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/image/pages/2024/July/VPNs.html</loc>
-    <lastmod>2025-08-16</lastmod>
+    <lastmod>2026-01-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/image/pages/2024/July/thecloud.html</loc>
-    <lastmod>2025-08-16</lastmod>
+    <lastmod>2026-01-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/image/pages/2024/July/wifi.html</loc>
-    <lastmod>2025-08-16</lastmod>
+    <lastmod>2026-01-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/image/pages/2024/July/homebuild.html</loc>
-    <lastmod>2025-08-16</lastmod>
+    <lastmod>2026-01-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/image/pages/2024/Aug/k8s.html</loc>
-    <lastmod>2025-08-16</lastmod>
+    <lastmod>2026-01-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/image/pages/2024/Aug/ansible.html</loc>
-    <lastmod>2025-08-16</lastmod>
+    <lastmod>2026-01-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/image/pages/2024/Aug/dockerupdate.html</loc>
-    <lastmod>2025-08-16</lastmod>
+    <lastmod>2026-01-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/image/pages/2024/Aug/travelrouter.html</loc>
-    <lastmod>2025-08-16</lastmod>
+    <lastmod>2026-01-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/image/pages/2024/Aug/secrets.html</loc>
-    <lastmod>2025-08-16</lastmod>
+    <lastmod>2026-01-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/image/pages/2024/Aug/twingate.html</loc>
-    <lastmod>2025-08-16</lastmod>
+    <lastmod>2026-01-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/image/pages/2024/Aug/dmrradios.html</loc>
-    <lastmod>2025-08-16</lastmod>
+    <lastmod>2026-01-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/image/pages/2024/Aug/tryhackme.html</loc>
-    <lastmod>2025-08-16</lastmod>
+    <lastmod>2026-01-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/image/pages/2024/Sept/techimplants.html</loc>
-    <lastmod>2025-08-16</lastmod>
+    <lastmod>2026-01-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/image/pages/2024/Sept/upstreamdns.html</loc>
-    <lastmod>2025-08-16</lastmod>
+    <lastmod>2026-01-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/image/pages/2024/Sept/classsetup.html</loc>
-    <lastmod>2025-08-16</lastmod>
+    <lastmod>2026-01-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/image/pages/2024/Sept/smoketest.html</loc>
-    <lastmod>2025-08-16</lastmod>
+    <lastmod>2026-01-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/image/pages/2024/Sept/tools.html</loc>
-    <lastmod>2025-08-16</lastmod>
+    <lastmod>2026-01-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/image/pages/2024/Nov/AOC.html</loc>
-    <lastmod>2025-08-16</lastmod>
+    <lastmod>2026-01-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/image/pages/2025/June/githubadv.html</loc>
-    <lastmod>2025-08-16</lastmod>
+    <lastmod>2026-01-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/image/pages/2025/July/cicd.html</loc>
-    <lastmod>2025-08-16</lastmod>
+    <lastmod>2026-01-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/image/pages/2025/July/cron.html</loc>
-    <lastmod>2025-08-16</lastmod>
+    <lastmod>2026-01-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/image/pages/2025/July/homelab.html</loc>
-    <lastmod>2025-08-16</lastmod>
+    <lastmod>2026-01-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/image/pages/2025/Aug/DEFCON.html</loc>
-    <lastmod>2025-08-16</lastmod>
+    <lastmod>2026-01-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/image/pages/2025/Aug/UV.html</loc>
-    <lastmod>2025-08-16</lastmod>
+    <lastmod>2026-01-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/image/pages/2025/Sept/piholeadv.html</loc>
-    <lastmod>2025-09-02</lastmod>
+    <lastmod>2026-01-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/image/pages/2025/Sept/agenticAI.html</loc>
-    <lastmod>2025-09-05</lastmod>
+    <lastmod>2026-01-01</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+    </url>
+    url>
+    <loc>https://greg.heffner.live/image/pages/2025/Sept/MCP.html</loc>
+    <lastmod>2026-01-01</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+    </url>
+    url>
+    <loc>https://greg.heffner.live/image/pages/2025/Dec/web-blocks.html</loc>
+    <lastmod>2026-01-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     </url>
