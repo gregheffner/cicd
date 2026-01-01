@@ -1599,13 +1599,13 @@ data:
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     </url>
-    url>
+    <url>
     <loc>https://greg.heffner.live/image/pages/2025/Sept/MCP.html</loc>
     <lastmod>2026-01-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     </url>
-    url>
+    <url>
     <loc>https://greg.heffner.live/image/pages/2025/Dec/web-blocks.html</loc>
     <lastmod>2026-01-01</lastmod>
     <changefreq>daily</changefreq>
