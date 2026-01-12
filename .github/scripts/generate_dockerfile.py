@@ -71,7 +71,6 @@ NJS_RELEASE, PKG_RELEASE = get_latest_njs_debian_release()
 base_image = f"nginx:{NGINX_VERSION}-alpine-slim"
 
 dockerfile_content = f"""\
-
 FROM {base_image}
 
 LABEL description="Built by technotuba for K8s NGINX WWW"
@@ -79,21 +78,24 @@ LABEL maintainer="main.plan5783@fastmail.com"
 LABEL ClusterAge="{datetime.datetime.now().strftime('%a %b %d %I:%M:%S %p %Z %Y')}"
 LABEL source="https://github.com/gregheffner/k8-nginx-webpage"
 
-ENV NGINX_VERSION={NGINX_VERSION} \
-    NJS_VERSION={NJS_VERSION} \
-    NJS_RELEASE={NJS_RELEASE} \
+ENV NGINX_VERSION={NGINX_VERSION} \\
+    NJS_VERSION={NJS_VERSION} \\
+    NJS_RELEASE={NJS_RELEASE} \\
     PKG_RELEASE={PKG_RELEASE}
 
-RUN set -x && apk add --no-cache tzdata && \
+RUN set -x && \\
+    rm -rf /var/lib/apt/lists/*
+
+RUN apk add --no-cache tzdata && \
     cp /usr/share/zoneinfo/America/New_York /etc/localtime && \
-    echo "America/New_York" > /etc/timezone && \
-    chmod +x /docker-entrypoint.sh && \
-    chmod +x /docker-entrypoint.d/*.sh || true
+    echo "America/New_York" > /etc/timezone
+ENV TZ=America/New_York
 
 COPY DockerImage/docker-entrypoint.sh /
 COPY DockerImage/docker-entrypoint.d/ /docker-entrypoint.d/
 
-ENV TZ=America/New_York
+RUN chmod +x /docker-entrypoint.sh && \\
+    chmod +x /docker-entrypoint.d/*.sh || true
 
 EXPOSE 80
 
