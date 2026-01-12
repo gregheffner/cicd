@@ -83,7 +83,6 @@ ENV NGINX_VERSION={NGINX_VERSION} \
     NJS_VERSION={NJS_VERSION} \
     NJS_RELEASE={NJS_RELEASE} \
     PKG_RELEASE={PKG_RELEASE}
-ENV TZ=America/New_York
 
 RUN set -x && apk add --no-cache tzdata && \
     cp /usr/share/zoneinfo/America/New_York /etc/localtime && \
@@ -93,6 +92,8 @@ RUN set -x && apk add --no-cache tzdata && \
 
 COPY DockerImage/docker-entrypoint.sh /
 COPY DockerImage/docker-entrypoint.d/ /docker-entrypoint.d/
+
+ENV TZ=America/New_York
 
 EXPOSE 80
 
