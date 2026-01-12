@@ -71,6 +71,7 @@ NJS_RELEASE, PKG_RELEASE = get_latest_njs_debian_release()
 base_image = f"nginx:{NGINX_VERSION}-alpine-slim"
 
 dockerfile_content = f"""\
+
 FROM {base_image}
 
 LABEL description="Built by technotuba for K8s NGINX WWW"
