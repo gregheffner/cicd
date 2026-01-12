@@ -1,0 +1,31 @@
+# VCS
+.git
+.gitignore
+
+# Python artifacts
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+.venv
+venv/
+env/
+
+# Editor / OS files
+.DS_Store
+*.swp
+*.swo
+
+# Docker files you don't want in context (if any)
+DockerImage/tests/
+node_modules/
+coverage/
+dist/
+build/
+
+# Secrets / config
+*.pem
+*.key
+secrets/
+config/local.yml
