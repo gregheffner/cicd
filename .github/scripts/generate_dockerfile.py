@@ -78,10 +78,11 @@ LABEL maintainer="main.plan5783@fastmail.com"
 LABEL ClusterAge="{datetime.datetime.now().strftime('%a %b %d %I:%M:%S %p %Z %Y')}"
 LABEL source="https://github.com/gregheffner/k8-nginx-webpage"
 
-ENV NGINX_VERSION={NGINX_VERSION} \\
-    NJS_VERSION={NJS_VERSION} \\
-    NJS_RELEASE={NJS_RELEASE} \\
-    PKG_RELEASE={PKG_RELEASE}
+    ENV NGINX_VERSION={NGINX_VERSION} \
+        NJS_VERSION={NJS_VERSION} \
+        NJS_RELEASE={NJS_RELEASE} \
+        PKG_RELEASE={PKG_RELEASE}
+    
 ENV TZ=America/New_York
 
 RUN set -x && apk add --no-cache tzdata && \
