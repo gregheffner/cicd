@@ -1,7 +1,21 @@
+
 name: Delete all Pods
 
 on:
   workflow_dispatch:
+    inputs:
+      namespace:
+        description: 'Namespace to delete pods from'
+        required: true
+        default: 'all'
+        type: choice
+        options:
+          - all
+          - automation
+          - kubernetes-dashboard
+          - default
+          - prod
+          - radar
 
 jobs:
   delete-pods:
@@ -14,6 +28,10 @@ jobs:
 
       - name: Delete pods in selected namespaces
         run: |
-          for ns in automation kubernetes-dashboard default prod radar; do
-            kubectl delete pods --all -n "$ns"
-          done
+          if [ "${{ github.event.inputs.namespace }}" = "all" ]; then
+            for ns in automation kubernetes-dashboard default prod radar; do
+              kubectl delete pods --all -n "$ns"
+            done
+          else
+            kubectl delete pods --all -n "${{ github.event.inputs.namespace }}"
+          fi
