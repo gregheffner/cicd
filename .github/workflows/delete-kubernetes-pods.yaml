@@ -1,5 +1,5 @@
 
-name: Delete all Pods
+name: Delete all Pods (Selection)
 
 on:
   workflow_dispatch:
