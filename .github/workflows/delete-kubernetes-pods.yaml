@@ -33,7 +33,7 @@ jobs:
       - name: Delete pods in selected namespaces
         run: |
           if [ "${{ github.event.inputs.namespace }}" = "all" ]; then
-            for ns in automation kubernetes-dashboard default prod radar; do
+            for ns in automation kubernetes-dashboard default prod radar kube-system kube-flannel; do
               kubectl delete pods --all -n "$ns"
             done
           else
