@@ -16,6 +16,8 @@ on:
           - default
           - prod
           - radar
+          - kube-system
+          - kube-flannel
   schedule:
     - cron: '0 6 * * 6'
 
