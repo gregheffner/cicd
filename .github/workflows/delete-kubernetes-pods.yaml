@@ -16,6 +16,8 @@ on:
           - default
           - prod
           - radar
+  schedule:
+    - cron: '0 6 * * 6'
 
 jobs:
   delete-pods:
