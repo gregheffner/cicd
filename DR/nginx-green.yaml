@@ -29,6 +29,7 @@
                 ]
               }
             }
+          ad.datadoghq.com/nginx.logs: '[{"source":"nginx","service":"nginx"}]'
       spec:
         containers:
         - name: nginx
