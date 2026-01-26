@@ -91,6 +91,7 @@ data:
       listen 81;
       location /nginx_status {
         stub_status;
+        access_log off;
         allow all;  # or your agent's IP, or 'allow all;' for testing
         server_tokens on;
       }
