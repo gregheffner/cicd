@@ -19,7 +19,7 @@ on:
           - kube-system
           - kube-flannel
   schedule:
-    - cron: '0 6 * * 6'
+    - cron: '0 7 * * 6'
 
 jobs:
   delete-pods:
