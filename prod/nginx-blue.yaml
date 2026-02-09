@@ -30,10 +30,11 @@
                 ]
               }
             }
+          ad.datadoghq.com/nginx.logs: '[{"source":"nginx","service":"nginx"}]'
       spec:
         containers:
         - name: nginx
-          image: technotuba/nginx:v2026.01
+          image: technotuba/nginx:latest
           imagePullPolicy: Always
           ports:
           - containerPort: 80

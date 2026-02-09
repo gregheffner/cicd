@@ -1,0 +1,14 @@
+name: Truncate Nginx Logs
+
+on:
+  workflow_dispatch:
+
+jobs:
+  truncate-nginx-logs:
+    runs-on: self-hosted
+    env:
+      KUBECONFIG: ${{ github.workspace }}/kubeconfig
+    steps:
+      - name: Truncate Nginx access and error logs
+        run: |
+          ansible k8s_cluster -m command -a "sudo truncate -s 0 /var/log/nginx/access.log /var/log/nginx/error.log"
