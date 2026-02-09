@@ -1,4 +1,5 @@
-name: Delete Kubernetes Pods
+
+name: Delete all Pods (Selection)
 
 on:
   workflow_dispatch:
@@ -6,11 +7,19 @@ on:
       namespace:
         description: 'Namespace to delete pods from'
         required: true
-        default: 'prod'
-      label_selector:
-        description: 'Label selector for pods (optional, e.g. app=nginx-web)'
-        required: true
-        default: 'app=nginx-web'
+        default: 'all'
+        type: choice
+        options:
+          - all
+          - automation
+          - kubernetes-dashboard
+          - default
+          - prod
+          - radar
+          - kube-system
+          - kube-flannel
+  schedule:
+    - cron: '0 8 * * 6'
 
 jobs:
   delete-pods:
@@ -18,18 +27,15 @@ jobs:
     env:
       KUBECONFIG: ${{ github.workspace }}/kubeconfig
     steps:
-      - name: Set up kubectl
-        uses: azure/setup-kubectl@v3
-        with:
-          version: 'latest'
-
       - name: Configure Kubeconfig
         run: echo "${{ secrets.KUBECONFIG }}" > kubeconfig
 
-      - name: Delete pods in namespace
+      - name: Delete pods in selected namespaces
         run: |
-          if [ -z "${{ github.event.inputs.label_selector }}" ]; then
-            kubectl delete pods --all -n "${{ github.event.inputs.namespace }}"
+          if [ "${{ github.event.inputs.namespace }}" = "all" ]; then
+            for ns in automation kubernetes-dashboard default prod radar kube-system kube-flannel; do
+              kubectl delete pods --all -n "$ns"
+            done
           else
-            kubectl delete pods -n "${{ github.event.inputs.namespace }}" -l "${{ github.event.inputs.label_selector }}"
+            kubectl delete pods --all -n "${{ github.event.inputs.namespace }}"
           fi
