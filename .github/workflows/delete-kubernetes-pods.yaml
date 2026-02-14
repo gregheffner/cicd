@@ -32,10 +32,12 @@ jobs:
 
       - name: Delete pods in selected namespaces
         run: |
-          if [ "${{ github.event.inputs.namespace }}" = "all" ]; then
+          NS="${{ github.event_name == 'workflow_dispatch' && inputs.namespace || 'all' }}"
+      
+          if [ "$NS" = "all" ]; then
             for ns in automation kubernetes-dashboard default prod radar kube-system kube-flannel; do
               kubectl delete pods --all -n "$ns"
             done
           else
-            kubectl delete pods --all -n "${{ github.event.inputs.namespace }}"
+            kubectl delete pods --all -n "$NS"
           fi
