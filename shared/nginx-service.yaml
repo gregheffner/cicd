@@ -16,7 +16,7 @@ spec:
       port: 81
   selector:
     app: nginx-web
-    version: green
+    version: blue
   type: LoadBalancer
 ---
 apiVersion: autoscaling/v2
