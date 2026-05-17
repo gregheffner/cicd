@@ -128,7 +128,7 @@ data:
                             <section id="Article36-ClaudeSkills">
                             <div class="blog-box" onclick="location.href='/image/pages/2026/May/ClaudeSkills.html';" style="display: flex; align-items: stretch;">
                                 <div class="blog-description" style="flex: 1; padding-right: 20px; display: flex; flex-direction: column; justify-content: center;">
-                                    <h3>Getting Real Work Out of Claude Code Skills</h3>
+                                    <h3>Claude Agents: The 7 Building Blocks (and 8 Tips for Using Them)</h3>
                                     <p>Greg Heffner May 17th, 2026</p>
                                 </div>
                                 <div class="blog-image-container" style="flex: 1; display: flex; align-items: center; justify-content: center; height: 95%;">
@@ -553,7 +553,7 @@ data:
                         <li><a href="#Article33-Blocks">Blocks for the Year: A review</a></li><br>
                         <li><a href="#Article34-ActionCheck">ActionCheck: The Terminal Dashboard That Knows Your CI/CD</a></li><br>
                         <li><a href="#Article35-WassuhandNessus">Nessus & Wazuh: Watching the Watchers at Home/a></li><br>
-                        <li><a href="#Article36-ClaudeSkills">Getting Real Work Out of Claude Code Skills</a></li><br>
+                        <li><a href="#Article36-ClaudeSkills">Claude Agents: The 7 Building Blocks (and 8 Tips for Using Them)</a></li><br>
                         -->
                       </ul>
                     </nav>
