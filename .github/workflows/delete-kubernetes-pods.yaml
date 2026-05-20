@@ -1,4 +1,3 @@
-
 name: Delete all Pods (Selection)
 
 on:
@@ -24,16 +23,11 @@ on:
 jobs:
   delete-pods:
     runs-on: self-hosted
-    env:
-      KUBECONFIG: ${{ github.workspace }}/kubeconfig
     steps:
-      - name: Configure Kubeconfig
-        run: echo "${{ secrets.KUBECONFIG }}" > kubeconfig
-
       - name: Delete pods in selected namespaces
         run: |
           NS="${{ github.event_name == 'workflow_dispatch' && inputs.namespace || 'all' }}"
-      
+
           if [ "$NS" = "all" ]; then
             for ns in automation kubernetes-dashboard default prod radar kube-system kube-flannel; do
               kubectl delete pods --all -n "$ns"
