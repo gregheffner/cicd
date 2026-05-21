@@ -6,6 +6,8 @@ on:
 jobs:
   switch-service-to-green:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -30,4 +32,4 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git add shared/nginx-service.yaml README.md
           git commit -m "chore: switch nginx service selector to green" || echo "No changes to commit"
-          git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }}.git HEAD:${{ github.ref }}
+          git push
