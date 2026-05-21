@@ -8,6 +8,8 @@ on:
 jobs:
   clear-cache:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
 
       - name: Checkout code
@@ -36,4 +38,4 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git add README.md
           git commit -m "docs: update last Cloudflare cache clear date [skip ci]" || echo "No changes to commit"
-          git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }}.git HEAD:${{ github.ref }}
+          git push
