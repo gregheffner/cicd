@@ -6,8 +6,6 @@ on:
 jobs:
   truncate-nginx-logs:
     runs-on: self-hosted
-    env:
-      KUBECONFIG: ${{ github.workspace }}/kubeconfig
     steps:
       - name: Truncate Nginx access and error logs
         run: |
