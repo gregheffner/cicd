@@ -1,8 +1,8 @@
 # cicd
 
 <img alt="Green Image" src="https://img.shields.io/badge/green--image-technotuba/nginx:latest-brightgreen?style=for-the-badge&logo=docker&logoColor=white">
-<img alt="Blue Image" src="https://img.shields.io/badge/blue--image-technotuba/nginx:v2026.06-blue?style=for-the-badge&logo=docker&logoColor=white">
-<img alt="Prod Silo" src="https://img.shields.io/badge/Prod%20Silo-blue-blue?style=for-the-badge">
+<img alt="Blue Image" src="https://img.shields.io/badge/blue--image-technotuba/nginx:latest-blue?style=for-the-badge&logo=docker&logoColor=white">
+<img alt="Prod Silo" src="https://img.shields.io/badge/Prod%20Silo-green-green?style=for-the-badge">
 <img alt="Cloudflare Block" src="https://img.shields.io/badge/cloudflare--block-5-red?logo=cloudflare&style=for-the-badge">
 <img alt="Cloudflare Cache Clear" src="https://img.shields.io/badge/Cloudflare%20Cache%20Clear-2026--06--05%2011:46%20UTC-orange?logo=cloudflare&style=for-the-badge">
 
