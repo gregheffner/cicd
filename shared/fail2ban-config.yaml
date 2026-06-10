@@ -37,9 +37,3 @@ data:
     [Definition]
     failregex = ^<HOST> - .*\s"[^"]*" 404
     ignoreregex =
-  nginx-botsearch.conf: |
-    [Definition]
-    failregex = ^<HOST> - .*\s"[^"]*"
-    (444|403|400|499|495|496|497|500|501|502|503|504|520|521|522|523|524|525|526|530)
-    ignoreregex =
-  nginx-open.conf: |
