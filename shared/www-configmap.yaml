@@ -23,10 +23,10 @@ data:
         <link rel="manifest" href="/image/site.webmanifest">
         <link rel="stylesheet" href="/image/assets/styles.css">
         <meta name="title" content="Greg Heffner: Nerdsense">
-        <meta name="description" content="Nerdsence is a blog by Greg Heffner, covering topics in technology, programming, and more. Easy to understand and fun!">
+        <meta name="description" content="Nerdsense is a blog by Greg Heffner, covering topics in technology, programming, and more. Easy to understand and fun!">
         <meta name="keywords" content="blog, tech, writeups">
         <meta name="language" content="English">
-        <meta http-equiv="Content-Type" content="text/html;>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <meta name="author" content="Greg Heffner">
         <meta property="og:type" content="website">
         <meta property="og:title" content="Greg Heffner: Nerdsense">
@@ -71,15 +71,27 @@ data:
             .blog-image-container {
                 flex: 1;
                 height: 95%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
                 background-size: contain;
                 background-position: center;
                 background-repeat: no-repeat;
                 /* Fit the entire image within the container */
             }
+            .blog-image-container img {
+                max-width: 100%;
+                max-height: 100%;
+                object-fit: contain;
+                display: block;
+            }
             .blog-description {
                 flex: 1;
                 padding-right: 20px;
                 font-size: 20px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
             }
             #search-container {
                 margin-bottom: 20px;
@@ -95,6 +107,7 @@ data:
                 font-size: 16px;
             }
         </style>
+    </head>
 
     <body>
         <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MQMRMNL5" height="0" width="0"
@@ -126,105 +139,115 @@ data:
             <div class="leftcolumn">
                 <div class="card">
                             <section id="Article38-TokensDownStack">
-                            <div class="blog-box" onclick="location.href='/image/pages/2026/June/TokensDownTheStack.html';" style="display: flex; align-items: stretch;">
-                                <div class="blog-description" style="flex: 1; padding-right: 20px; display: flex; flex-direction: column; justify-content: center;">
+                            <div class="blog-box" onclick="location.href='/image/pages/2026/June/TokensDownTheStack.html';">
+                                <div class="blog-description">
                                     <h3>Push the Knowledge Down the Stack: Cheaper Agents Through Skills</h3>
                                     <p>Greg Heffner June 5th, 2026</p>
                                 </div>
-                                <div class="blog-image-container" style="flex: 1; display: flex; align-items: center; justify-content: center; height: 95%;">
-                                    <img src="/image/blog/2026/June/hero-push-knowledge-down-stack.png" alt="Push the Knowledge Down the Stack: Cheaper Agents Through Skills" style="max-width:100%; max-height:100%; object-fit:contain; display:block;">
+                                <div class="blog-image-container">
+                                    <img src="/image/blog/2026/June/hero-push-knowledge-down-stack.png" alt="Push the Knowledge Down the Stack: Cheaper Agents Through Skills">
                                 </div>
                             </div>
+                            </section>
                             <section id="Article37-ClaudeBigRepo">
-                            <div class="blog-box" onclick="location.href='/image/pages/2026/May/ClaudeBigRepo.html';" style="display: flex; align-items: stretch;">
-                                <div class="blog-description" style="flex: 1; padding-right: 20px; display: flex; flex-direction: column; justify-content: center;">
+                            <div class="blog-box" onclick="location.href='/image/pages/2026/May/ClaudeBigRepo.html';">
+                                <div class="blog-description">
                                     <h3>Why Claude Code Wanders in Big Repos (And Three Fixes)</h3>
                                     <p>Greg Heffner May 22nd, 2026</p>
                                 </div>
-                                <div class="blog-image-container" style="flex: 1; display: flex; align-items: center; justify-content: center; height: 95%;">
-                                    <img src="/image/blog/2026/May/hero-claude-wanders-big-repos.png" alt="Why Claude Code Wanders in Big Repos" style="max-width:100%; max-height:100%; object-fit:contain; display:block;">
+                                <div class="blog-image-container">
+                                    <img src="/image/blog/2026/May/hero-claude-wanders-big-repos.png" alt="Why Claude Code Wanders in Big Repos">
                                 </div>
                             </div>
+                            </section>
                             <section id="Article36-ClaudeSkills">
-                            <div class="blog-box" onclick="location.href='/image/pages/2026/May/ClaudeSkills.html';" style="display: flex; align-items: stretch;">
-                                <div class="blog-description" style="flex: 1; padding-right: 20px; display: flex; flex-direction: column; justify-content: center;">
+                            <div class="blog-box" onclick="location.href='/image/pages/2026/May/ClaudeSkills.html';">
+                                <div class="blog-description">
                                     <h3>Claude Agents: The 7 Building Blocks (and 8 Tips for Using Them)</h3>
                                     <p>Greg Heffner May 17th, 2026</p>
                                 </div>
-                                <div class="blog-image-container" style="flex: 1; display: flex; align-items: center; justify-content: center; height: 95%;">
-                                    <img src="/image/blog/2026/May/blogclaudeskills.png" alt="ClaudeSkills" style="max-width:100%; max-height:100%; object-fit:contain; display:block;">
+                                <div class="blog-image-container">
+                                    <img src="/image/blog/2026/May/blogclaudeskills.png" alt="ClaudeSkills">
                                 </div>
                             </div>
+                            </section>
                             <section id="Article35-WassuhandNessus">
-                            <div class="blog-box" onclick="location.href='/image/pages/2026/May/NessusandWazuh.html';" style="display: flex; align-items: stretch;">
-                                <div class="blog-description" style="flex: 1; padding-right: 20px; display: flex; flex-direction: column; justify-content: center;">
+                            <div class="blog-box" onclick="location.href='/image/pages/2026/May/NessusandWazuh.html';">
+                                <div class="blog-description">
                                     <h3>Nessus & Wazuh: Watching the Watchers at Home</h3>
                                     <p>Greg Heffner May 3rd, 2026</p>
                                 </div>
-                                <div class="blog-image-container" style="flex: 1; display: flex; align-items: center; justify-content: center; height: 95%;">
-                                    <img src="/image/blog/2026/May/nessus-wazuh.png" alt="NessusWazuh" style="max-width:100%; max-height:100%; object-fit:contain; display:block;">
+                                <div class="blog-image-container">
+                                    <img src="/image/blog/2026/May/nessus-wazuh.png" alt="NessusWazuh">
                                 </div>
                             </div> 
+                            </section>
                             <section id="Article34-ActionCheck">
-                            <div class="blog-box" onclick="location.href='/image/pages/2026/Jan/actioncheck.html';" style="display: flex; align-items: stretch;">
-                                <div class="blog-description" style="flex: 1; padding-right: 20px; display: flex; flex-direction: column; justify-content: center;">
+                            <div class="blog-box" onclick="location.href='/image/pages/2026/Jan/actioncheck.html';">
+                                <div class="blog-description">
                                     <h3>ActionCheck: The TUI that Knows Your CI/CD</h3>
                                     <p>Greg Heffner January 7th, 2026</p>
                                 </div>
-                                <div class="blog-image-container" style="flex: 1; display: flex; align-items: center; justify-content: center; height: 95%;">
-                                    <img src="/image/blog/2026/Jan/blogactioncheck.png" alt="ActionCheck" style="max-width:100%; max-height:100%; object-fit:contain; display:block;">
+                                <div class="blog-image-container">
+                                    <img src="/image/blog/2026/Jan/blogactioncheck.png" alt="ActionCheck">
                                 </div>
                             </div> 
+                            </section>
                             <section id="Article33-Blocks">
-                            <div class="blog-box" onclick="location.href='/image/pages/2025/Dec/web-blocks.html';" style="display: flex; align-items: stretch;">
-                                <div class="blog-description" style="flex: 1; padding-right: 20px; display: flex; flex-direction: column; justify-content: center;">
+                            <div class="blog-box" onclick="location.href='/image/pages/2025/Dec/web-blocks.html';">
+                                <div class="blog-description">
                                     <h3>Blocks for the Year: A review</h3>
                                     <p>Greg Heffner December 30th, 2025</p>
                                 </div>
-                                <div class="blog-image-container" style="flex: 1; display: flex; align-items: center; justify-content: center; height: 95%;">
-                                    <img src="/image/blog/2025/Dec/waffle-security.png" alt="Blocks" style="max-width:100%; max-height:100%; object-fit:contain; display:block;">
+                                <div class="blog-image-container">
+                                    <img src="/image/blog/2025/Dec/waffle-security.png" alt="Blocks">
                                 </div>
                             </div> 
+                            </section>
                             <section id="Article32-MCP">
-                            <div class="blog-box" onclick="location.href='/image/pages/2025/Sept/MCP.html';" style="display: flex; align-items: stretch;">
-                                <div class="blog-description" style="flex: 1; padding-right: 20px; display: flex; flex-direction: column; justify-content: center;">
+                            <div class="blog-box" onclick="location.href='/image/pages/2025/Sept/MCP.html';">
+                                <div class="blog-description">
                                     <h3>Can I get a MCP hype-train in the chat?</h3>
                                     <p>Greg Heffner September 28th, 2025</p>
                                 </div>
-                                <div class="blog-image-container" style="flex: 1; display: flex; align-items: center; justify-content: center; height: 95%;">
-                                    <img src="/image/blog/2025/Sept/MCP.png" alt="MCP" style="max-width:100%; max-height:100%; object-fit:contain; display:block;">
+                                <div class="blog-image-container">
+                                    <img src="/image/blog/2025/Sept/MCP.png" alt="MCP">
                                 </div>
                             </div> 
+                            </section>
                             <section id="Article31-AgenticAI">
-                            <div class="blog-box" onclick="location.href='/image/pages/2025/Sept/agenticAI.html';" style="display: flex; align-items: stretch;">
-                                <div class="blog-description" style="flex: 1; padding-right: 20px; display: flex; flex-direction: column; justify-content: center;">
+                            <div class="blog-box" onclick="location.href='/image/pages/2025/Sept/agenticAI.html';">
+                                <div class="blog-description">
                                     <h3>Agentic AI - The Future of Automation</h3>
                                     <p>Greg Heffner September 5th, 2025</p>
                                 </div>
-                                <div class="blog-image-container" style="flex: 1; display: flex; align-items: center; justify-content: center; height: 95%;">
-                                    <img src="/image/blog/2025/Sept/agenticai.jpeg" alt="AgenticAI" style="max-width:100%; max-height:100%; object-fit:contain; display:block;">
+                                <div class="blog-image-container">
+                                    <img src="/image/blog/2025/Sept/agenticai.jpeg" alt="AgenticAI">
                                 </div>
                             </div> 
+                            </section>
                             <section id="Article30-PiholeAdv">
-                            <div class="blog-box" onclick="location.href='/image/pages/2025/Sept/piholeadv.html';" style="display: flex; align-items: stretch;">
-                                <div class="blog-description" style="flex: 1; padding-right: 20px; display: flex; flex-direction: column; justify-content: center;">
+                            <div class="blog-box" onclick="location.href='/image/pages/2025/Sept/piholeadv.html';">
+                                <div class="blog-description">
                                     <h3>Pihole - Advanced Use Cases</h3>
                                     <p>Greg Heffner September 2nd, 2025</p>
                                 </div>
-                                <div class="blog-image-container" style="flex: 1; display: flex; align-items: center; justify-content: center; height: 95%;">
-                                    <img src="/image/blog/2025/Sept/pihole.jpeg" alt="PiholeADV" style="max-width:100%; max-height:100%; object-fit:contain; display:block;">
+                                <div class="blog-image-container">
+                                    <img src="/image/blog/2025/Sept/pihole.jpeg" alt="PiholeADV">
                                 </div>
                             </div> 
+                            </section>
                             <section id="Article29-UV">
-                            <div class="blog-box" onclick="location.href='/image/pages/2025/Aug/UV.html';" style="display: flex; align-items: stretch;">
-                                <div class="blog-description" style="flex: 1; padding-right: 20px; display: flex; flex-direction: column; justify-content: center;">
+                            <div class="blog-box" onclick="location.href='/image/pages/2025/Aug/UV.html';">
+                                <div class="blog-description">
                                     <h3>UV and and why you dont want to block this python tool</h3>
                                     <p>Greg Heffner August 16th, 2025</p>
                                 </div>
-                                <div class="blog-image-container" style="flex: 1; display: flex; align-items: center; justify-content: center; height: 95%;">
-                                    <img src="/image/blog/2025/Aug/uv-blog.jpeg" alt="UV" style="max-width:100%; max-height:100%; object-fit:contain; display:block;">
+                                <div class="blog-image-container">
+                                    <img src="/image/blog/2025/Aug/uv-blog.jpeg" alt="UV">
                                 </div>
                             </div>
+                            </section>
                             <section id="Article28-DEFCON">
                             <div class="blog-box" onclick="location.href='/image/pages/2025/Aug/DEFCON.html';">
                                 <div class="blog-description">
@@ -233,6 +256,7 @@ data:
                                 </div>
         <div class="blog-image-container"><img src="/image/blog/2025/Aug/defconblog.jpeg" alt="DEFCON" style="width:100%;height:auto;object-fit:contain;"></div>
                             </div>
+                            </section>
                             <section id="Article27-HomeLab">
                             <div class="blog-box" onclick="location.href='/image/pages/2025/July/homelab.html';">
                                 <div class="blog-description">
@@ -536,47 +560,6 @@ data:
                         <li><a href="#Article16-TryHackMe">TryHackMe: Command Line Confessions</a></li><br>
                         <li><a href="#Article15-DMRRadios">DMR Radios: Its giving radio-nerd vibes</a></li><br>
                         <li><a href="#Article9-Kubernetes">Kubernetes: 86 the Prime Rib</a></li><br>
-
-                        <!--
-                        <li><a href="#Article1-Pihole">Pi-Hole: What is it and why you might want to use it</a></li><br>
-                        <li><a href="#Article2-GitHub">Github: Whats the fuss about?</a></li><br>
-                        <li><a href="#Article3-Loadbalancers">Loadbalancing: Boots & cats &</a></li><br>
-                        <li><a href="#Article4-DockerHub">DockerHub: Because Ship Happens</a></li><br>
-                        <li><a href="#Article5-VPNs">VPNs: Web browsing and IP masking</a></li><br>
-                        <li><a href="#Article6-TheCloud">The Cloud: Not the Floridian Cumulonimbus kind</a></li><br>
-                        <li><a href="#Article7-WiFi">WiFi: Wireless internet magic</a></li><br>
-                        <li><a href="#Article8-HomeBuild">A Home Build: If I were to build it today</a></li><br>
-                        <li><a href="#Article9-Kubernetes">Kubernetes: 86 the Prime Rib</a></li><br>
-                        <li><a href="#Article10-Ansible">Ansible: Let me put you on patch game</a></li><br>
-                        <li><a href="#Article11-DockerUpdate">Docker Updates: 4 steps to secure your images</a></li><br>
-                        <li><a href="#Article12-TravelRouter">Traveling: How I stay secure on work trips</a></li><br>
-                        <li><a href="#Article13-Secrets">Secrets: Password Managers and Hardware Keys</a></li><br>
-                        <li><a href="#Article14-Twingate">Twingate: Your Key to Remote Networks</a></li><br>
-                        <li><a href="#Article15-DMRRadios">DMR Radios: Its giving radio-nerd vibes</a></li><br>
-                        <li><a href="#Article16-TryHackMe">TryHackMe: Command Line Confessions</a></li><br>
-                        <li><a href="#Article17-TechImplants">Tech Implants: LED and NFC Lighting Up the Future Under Your Skin</a></li><br>
-                        <li><a href="#Article18-UpstreamDNS">Upstream DNS Servers: Put the internet to work</a></li><br>
-                        <li><a href="#Article19-ClassSetup">Class Setup: My learning tech stack - Learn for Free</a></li><br>
-                        <li><a href="#Article20-SmokeTest">Smoke Tests: The Production Combine</a></li><br>Article21-Tools
-                        <li><a href="#Article21-Tools">Terraform vs. Ansible: Navigating the Cloud with a Sail and a Spark</a></li><br>
-                        <li><a href="#Article22-AOC">Advent of Cyber: Time for some Holiday fun with TryHackMe!</a></li><br>
-                        <li><a href="#Article23-GitAdv">Github advanced features: Short-cycle your processes</a></li><br>
-                        <li><a href="#Article24-GitAdv">Web Security: Blocking Bots from the Edge with Fail2Ban + Cloudflare</a></li><br>
-                        <li><a href="#Article25-CICD">Build, Test, Deploy: The CI/CD Adventure (with a Dash of Argo CD Magic)</a></li><br>
-                        <li><a href="#Article26-Crontab">Crontab: Automating Tasks with Cron Jobs</a></li><br>
-                        <li><a href="#Article27-HomeLab">Homelab and Virtualization in 2025</a></li><br>
-                        <li><a href="#Article28-DEFCON">DEFCON Dive: Three Days of Tech, Tin Foil, and Total Chaos</a></li><br>
-                        <li><a href="#Article29-UV">UV and and why you dont want to block this python tool</a></li><br>
-                        <li><a href="#Article30-PiholeAdv">Pihole - Advanced Use Cases</a></li><br>
-                        <li><a href="#Article31-AgenticAI">Agentic AI - The Future of Automation</a></li><br>
-                        <li><a href="#Article32-MCP">Can I get a MCP hype-train in the chat?</a></li><br>
-                        <li><a href="#Article33-Blocks">Blocks for the Year: A review</a></li><br>
-                        <li><a href="#Article34-ActionCheck">ActionCheck: The Terminal Dashboard That Knows Your CI/CD</a></li><br>
-                        <li><a href="#Article35-WassuhandNessus">Nessus & Wazuh: Watching the Watchers at Home/a></li><br>
-                        <li><a href="#Article36-ClaudeSkills">Claude Agents: The 7 Building Blocks (and 8 Tips for Using Them)</a></li><br>
-                        <li><a href="#Article37-ClaudeBigRepo">Why Claude Code Wanders in Big Repos (And Three Fixes)</a></li><br>
-                        <li><a href="#Article38-TokensDownStack">Push the Knowledge Down the Stack: Cheaper Agents Through Skills</a></li><br>
-                        -->
                       </ul>
                     </nav>
                   </div>
@@ -782,7 +765,6 @@ data:
                 padding: 20px;
                 max-width: 100%;
                 font-size: 1.1em;
-                box-sizing: border-box;
             }
             .column h3, .column ul, .column li, .column p {
                 font-size: inherit;
@@ -1112,20 +1094,6 @@ data:
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
-            }
-
-            .navbar button {
-                background-color: transparent;
-                margin-left: 10px;
-                border-radius: 10px;
-                padding: 10px;
-                width: 90px;
-            }
-
-            .navbar button a {
-                color: transparent;
-                font-weight: bold;
-                font-size: 15px;
             }
 
             .navbar li {
@@ -2177,55 +2145,6 @@ data:
                         }
                     }
 
-                    #matrix-greeting {
-                        position: fixed;
-                        top: 18px;
-                        left: 24px;
-                        z-index: 200;
-                        text-align: left;
-                        pointer-events: none;
-                    }
-
-                    .matrix-text {
-                        color: #00ff00;
-                        font-family: 'Fira Mono', 'Consolas', 'Menlo', 'monospace';
-                        font-size: 2rem;
-                        font-weight: bold;
-                        letter-spacing: 0.04em;
-                        text-shadow: 0 0 8px #00ff00, 0 0 2px #0f0;
-                        display: block;
-                        line-height: 1.1;
-                    }
-
-                    .matrix-cursor {
-                        display: inline-block;
-                        width: 1ch;
-                        animation: blink 1s steps(1) infinite;
-                        color: #00ff00;
-                        font-weight: bold;
-                    }
-
-                    @keyframes blink {
-
-                        0%,
-                        50% {
-                            opacity: 1;
-                        }
-
-                        51%,
-                        100% {
-                            opacity: 0;
-                        }
-                    }
-
-                    .matrix-time {
-                        color: #00ff00;
-                        font-family: 'Fira Mono', 'Consolas', 'Menlo', 'monospace';
-                        font-size: 1.5rem;
-                        font-weight: normal;
-                        margin-top: 0.2em;
-                        text-shadow: 0 0 8px #00ff00, 0 0 2px #0f0;
-                    }
                 </style>
             </head>
 
@@ -2575,15 +2494,7 @@ data:
                         car.addEventListener('touchstart', dragStart, { passive: false });
                     }
 
-                    function updateMatrixTime() {
-                        const el = document.getElementById('matrix-time');
-                        if (!el) return;
-                        const now = new Date();
-                        el.textContent = now.toLocaleTimeString();
-                    }
-                    setInterval(updateMatrixTime, 1000);
                     window.addEventListener('DOMContentLoaded', () => {
-                        updateMatrixTime();
                         initCarDrag();
                     });
                 </script>
