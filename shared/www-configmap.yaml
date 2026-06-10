@@ -1162,7 +1162,7 @@ data:
                 <li><a href="https://medium.com/@light.pen8923"><b>Medium (Blog Re-Post)</b></a>: Mirror of my main blog for wider reach.</li>
             </ul>
             <h3>How My Site Runs</h3>
-                        <div style="margin-bottom: 8px; color: #8b949e; font-size: 1em;">
+                        <div style="margin-bottom: 8px; font-size: 1em;">
                                 This site is powered by Kubernetes and automated CI/CD pipelines using ArgoCD. Every update, deployment, and rollback is handled by GitOps workflows, so the site stays reliable and up to date with minimal manual work.<br><br>
                                 <b>Security & Maintenance:</b> I keep my site safe and up to date using my own <a href="https://galaxy.ansible.com/ui/repo/published/gregheffner/ubuntu_patching/">Ansible collection</a> for server hardening, and I run weekly patching actions to apply the latest security updates automatically. This means vulnerabilities are fixed quickly and configuration drift is kept in check.<br><br>
                                 <b>Automation & Transparency:</b> All automation, security scanning, and documentation for infrastructure changes are handled by open source tools and workflows. Every patch, deployment, and compliance check is tracked, auditable, and visible in my public repos—so you can see exactly how things run and stay secure. Explore the code and workflows here:
