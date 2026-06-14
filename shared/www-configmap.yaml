@@ -302,6 +302,17 @@ data:
         <div class="row">
             <div class="leftcolumn">
                 <div class="card">
+            <section id="Article39-AgenticMTTR">
+                <div class="blog-box">
+                    <div class="blog-description">
+                        <h3><a href="/image/pages/2026/June/AgenticMTTR.html">Machine-Speed Triage: Compressing MTTR with Claude Code Dynamic Workflows</a></h3>
+                        <p>Greg Heffner <time datetime="2026-06-14">June 14th, 2026</time></p>
+                    </div>
+                    <div class="blog-image-container">
+                        <img src="/image/blog/2026/June/agenticMTTR.png" alt="Machine-Speed Triage: Compressing MTTR with Claude Code Dynamic Workflows - blog post image" width="1200" height="630" decoding="async">
+                    </div>
+                </div>
+            </section>
             <section id="Article38-TokensDownStack">
                 <div class="blog-box">
                     <div class="blog-description">
@@ -779,6 +790,7 @@ data:
                         <li><a href="#Article16-TryHackMe">TryHackMe: Command Line Confessions</a></li>
                         <li><a href="#Article15-DMRRadios">DMR Radios: Its giving radio-nerd vibes</a></li>
                         <li><a href="#Article9-Kubernetes">Kubernetes: 86 the Prime Rib</a></li>
+                        <li><a href="#Article39-AgenticMTTR">Machine-Speed Triage: Compressing MTTR with Claude Code Dynamic Workflows</a></li><br>
                       </ul>
                     </nav>
                   </div>
@@ -1963,6 +1975,12 @@ data:
     <url>
     <loc>https://greg.heffner.live/image/pages/2026/June/TokensDownTheStack.html</loc>
     <lastmod>2026-06-05</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+    </url>
+    <url>
+    <loc>https://greg.heffner.live/image/pages/2026/June/AgenticMTTR.html</loc>
+    <lastmod>2026-06-14</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     </url>
