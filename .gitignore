@@ -22,3 +22,8 @@ venv/
 # Logs / temp
 *.log
 tmp.yaml
+
+# Editor / tooling
+.vscode/
+.github/instructions/
+graphify-out/
