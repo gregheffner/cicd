@@ -41,14 +41,11 @@ spec:
       resource:
         name: cpu
         target:
-          type: AverageValue
-          averageValue: "3000m"
+          type: Utilization            # was AverageValue "3000m" (vs 100m req -> never scaled); blue now requests 250m
+          averageUtilization: 70
 ---
-# P5 (Step A): HPA for the green Deployment so green is promotable + autoscaling-symmetric.
-# Utilization 70% is meaningful because the green nginx container requests cpu: 250m.
-# (The blue HPA above stays on its existing AverageValue until Step C, which pairs the
-# fix with blue's requests bump to 250m — changing it here while blue still requests
-# 100m is deferred to avoid coupling a blue change into the green-only step.)
+# P5: HPA for the green Deployment so green is promotable + autoscaling-symmetric.
+# Both colors use Utilization 70% (each nginx container requests cpu: 250m).
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
