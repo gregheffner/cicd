@@ -13,6 +13,10 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "1"   # apply AFTER the kyverno controller/CRDs (wave 0)
 spec:
+  validationFailureAction: Enforce       # No `validate` rules here (verifyImages only), so this is
+                                         # inert at runtime — set explicitly so the ClusterPolicy stops
+                                         # defaulting to/displaying "Audit". Real image gate is the
+                                         # per-rule failureAction below.
   webhookConfiguration:
     failurePolicy: Fail                  # ENFORCE: fail-closed. Verified Kyverno-pod egress to
                                          # fulcio+rekor + imageVerifyCache(60m) bound the outage blast
