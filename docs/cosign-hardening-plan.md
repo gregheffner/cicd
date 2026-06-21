@@ -42,7 +42,7 @@ Trust is defined in three places: the implicit `cosign sign` identity, the CI `c
 - **OIDC issuer (literal, never a regexp):** `https://token.actions.githubusercontent.com`
 - **Identity (anchored, dot-escaped, pinned to `main` ONLY — tag refs deliberately removed):**
   ```
-  ^https://github\.com/gregheffner/cicd/\.github/workflows/monthly-docker-image-retag\.yaml@refs/heads/main$
+  ^https://github\.com/gregheffner/cicd/\.github/workflows/build-stage-scan\.yaml@refs/heads/main$
   ```
   Anchored `^…$`, dots escaped (an unanchored fragment would also match `cicd-evil`). **Never** a wildcard identity (`'.+'`) — with public Fulcio, *anyone* can mint a valid Sigstore signature, so a wildcard verifies "signed by someone," not "signed by MY workflow." Tag refs are excluded because the monthly workflow runs on `schedule`/`workflow_dispatch` against `main` and never needs a tag ref to sign; allowing `tags/*` would let an unprotected tag push mint a valid signature.
 
@@ -192,7 +192,7 @@ Add this job to **`monthly-docker-image-retag.yaml`** and **`update-blue-deploym
           echo "Verifying technotuba/nginx@${DIGEST}"
           cosign verify "technotuba/nginx@${DIGEST}" \
             --certificate-oidc-issuer "https://token.actions.githubusercontent.com" \
-            --certificate-identity-regexp '^https://github\.com/gregheffner/cicd/\.github/workflows/monthly-docker-image-retag\.yaml@refs/heads/main$'
+            --certificate-identity-regexp '^https://github\.com/gregheffner/cicd/\.github/workflows/build-stage-scan\.yaml@refs/heads/main$'
 ```
 
 Then gate the commit job:
@@ -323,7 +323,7 @@ spec:
   ```
   cosign verify technotuba/nginx@sha256:<digest> \
     --certificate-oidc-issuer "https://token.actions.githubusercontent.com" \
-    --certificate-identity-regexp '^https://github\.com/gregheffner/cicd/\.github/workflows/monthly-docker-image-retag\.yaml@refs/heads/main$'
+    --certificate-identity-regexp '^https://github\.com/gregheffner/cicd/\.github/workflows/build-stage-scan\.yaml@refs/heads/main$'
   ```
   Expect `Verified OK`.
 

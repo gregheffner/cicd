@@ -1,0 +1,47 @@
+# security/verify-nginx-signature.yaml
+# Scoped keyless cosign verification for technotuba/nginx in ns prod ONLY.
+# AUDIT FIRST. fail2ban + all other images fall through unverified.
+#
+# API NOTE: kyverno.io/v1 ClusterPolicy verifyImages is DEPRECATED-NOT-REMOVED in
+# Kyverno 1.18. It still functions on v1.18.x (validated by the Audit PolicyReport gate).
+# Forward migration path before any chart bump past the deprecation window is
+# ImageValidatingPolicy (policies.kyverno.io/v1). Do NOT switch now.
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: verify-technotuba-nginx
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"   # apply AFTER the kyverno controller/CRDs (wave 0)
+spec:
+  webhookConfiguration:
+    failurePolicy: Ignore                # AUDIT WINDOW: fail-open while enforcement does nothing.
+                                         # Tighten to Fail in the SAME commit that flips to Enforce.
+  webhookTimeoutSeconds: 30              # max; tolerate slow Sigstore
+  background: false                      # verifyImages is admission-time only; no background scan
+  rules:
+    - name: verify-nginx-keyless
+      match:
+        any:
+          - resources:
+              kinds:
+                - Pod
+              namespaces:
+                - prod                    # both blue + green Deployments live here
+      verifyImages:
+        - imageReferences:
+            - "docker.io/technotuba/nginx*"
+            - "technotuba/nginx*"         # SCOPE: ONLY this image. fail2ban/system images untouched.
+          failureAction: Audit            # PHASE 1 report-only. Flip to Enforce in a SEPARATE commit.
+          required: true                  # a matching image with NO valid signature is a violation
+          mutateDigest: true              # no-op now (already @sha256); rewrites any residual tag at admission
+          verifyDigest: true
+          attestors:
+            - count: 1
+              entries:
+                - keyless:
+                    issuer: "https://token.actions.githubusercontent.com"
+                    subjectRegExp: "^https://github\\.com/gregheffner/cicd/\\.github/workflows/build-stage-scan\\.yaml@refs/heads/main$"
+                    rekor:
+                      url: https://rekor.sigstore.dev
+                    ctlog:
+                      ignoreSCT: false    # require SCT — full transparency-log verification
