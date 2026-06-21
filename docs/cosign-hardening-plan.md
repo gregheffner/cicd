@@ -1,6 +1,14 @@
-> Status: APPROVED by Greg (keyless). STAGED — not implemented. Adversarially verified 2026-06-20.
-> Version corrections since draft: Kyverno chart 3.8.1 (app v1.18.1), cosign v2.6.3 — confirm on cluster before deploy.
-> Integration note: signing+verify+digest-pin fold into the Phase 1 redesign workflows (build-stage-scan / soak-gate-promote), NOT the soon-to-be-deleted monthly-retag. Kyverno admission is the standalone new piece. Branch+tag protection on the repo is a REQUIRED manual prerequisite.
+> ⚠️ REALIZED STATE (2026-06-21): keyless cosign signing is IMPLEMENTED in
+> `.github/workflows/build-stage-scan.yaml` (sign+verify the pushed digest) and
+> re-verified in `.github/workflows/soak-gate-promote.yaml`. The trusted identity is
+> `^https://github\.com/gregheffner/cicd/\.github/workflows/build-stage-scan\.yaml@refs/heads/main$`
+> (issuer `https://token.actions.githubusercontent.com`). The workflow names in the
+> plan below (`monthly-docker-image-retag.yaml`, `update-blue-deployment-to-latest.yaml`,
+> `switch-traffic-*`) are from the EARLIER design and have since been DELETED/replaced —
+> read them as historical. Kyverno cluster admission is still a standalone NOT-YET-DONE follow-up.
+>
+> Status: APPROVED by Greg (keyless). Adversarially verified 2026-06-20.
+> Version note: Kyverno chart 3.8.1 (app v1.18.1), cosign v2.6.3 — confirm on cluster before deploy.
 
 # Cosign Supply-Chain Hardening — FINAL (corrected) — gregheffner/cicd / technotuba/nginx
 

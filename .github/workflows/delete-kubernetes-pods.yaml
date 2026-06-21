@@ -17,12 +17,14 @@ on:
           - radar
           - kube-system
           - kube-flannel
-  # schedule DISARMED 2026-06-21: the Saturday NS=all run does `kubectl delete pods
-  # --all -n automation`, which bounces ArgoCD itself and can stall reconciliation
-  # mid-rollout. Dispatch-only during the Phase-1 prereq window. The branch
-  # feat/weekly-soak-bluegreen carries a standby-only replacement for re-arming.
-  # schedule:
-  #   - cron: '0 8 * * 6'
+  # No schedule: dispatch-only. The weekly-soak pipeline deploys via digest-pin +
+  # ArgoCD, so no scheduled pod-bounce is needed. (P7)
+
+# Serialize against the build/promote pipeline so a manual pod-delete never races
+# a stage or a flip.
+concurrency:
+  group: nginx-pipeline
+  cancel-in-progress: false
 
 jobs:
   delete-pods:
@@ -32,8 +34,12 @@ jobs:
         run: |
           NS="${{ github.event_name == 'workflow_dispatch' && inputs.namespace || 'all' }}"
 
+          # The 'all' sweep intentionally EXCLUDES 'prod' (live customer traffic —
+          # deleting both blue+green colors at once = outage) and 'automation'
+          # (ArgoCD itself — bouncing it stalls reconciliation). Target those
+          # explicitly by name only if you really mean to. (P7)
           if [ "$NS" = "all" ]; then
-            for ns in automation kubernetes-dashboard default prod radar kube-system kube-flannel; do
+            for ns in kubernetes-dashboard default radar kube-system kube-flannel; do
               kubectl delete pods --all -n "$ns"
             done
           else

@@ -16,11 +16,9 @@ name: soak-gate-promote
 
 on:
   workflow_dispatch:
-  # CRON DISABLED for staged dry-run (Step E). Run manually after a candidate has
-  # soaked; verify a clean gated promote, then UNCOMMENT (with the build cron) to arm.
-  # schedule:
-  #   # Daily 07:30 UTC (30 min after the weekly build cron; never the same minute).
-  #   - cron: '30 7 * * *'
+  schedule:
+    # Daily 07:30 UTC. No-ops unless a candidate has soaked >= 72h (gate-checked).
+    - cron: '30 7 * * *'
 
 concurrency:
   group: nginx-pipeline
