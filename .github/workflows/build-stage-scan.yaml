@@ -18,11 +18,9 @@ name: build-stage-scan
 
 on:
   workflow_dispatch:
-  # CRON DISABLED for staged dry-run (Step E). Run manually via "Run workflow"
-  # first; watch a full stage->72h soak->promote cycle, then UNCOMMENT to arm.
-  # schedule:
-  #   # Mondays 07:00 UTC -> first promote-eligible Thursday 07:00 UTC (+72h).
-  #   - cron: '0 7 * * 1'
+  schedule:
+    # Mondays 07:00 UTC -> a candidate becomes promote-eligible 72h later (Thu 07:00).
+    - cron: '0 7 * * 1'
 
 # Shared with soak-gate-promote.yaml and delete-kubernetes-pods.yaml so a build,
 # a promote, and a (standby-only) pod-delete never interleave at the cluster.
