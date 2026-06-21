@@ -1,0 +1,29 @@
+# P4 (Step D): PodDisruptionBudgets for both colors so a node drain / voluntary
+# eviction can never take more than one nginx pod down at a time. maxUnavailable: 1
+# (not minAvailable: 2) keeps the one-at-a-time guarantee across the full HPA range
+# (replicas 3->10) and never wedges a drain (it can't yield 0 allowed disruptions).
+# Additive only (shared-services app, prune=false). Note: rolling updates and plain
+# kubectl-delete are NOT PDB-gated; this only constrains voluntary evictions/drains.
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: nginx-web-blue
+  namespace: prod
+spec:
+  maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: nginx-web
+      version: blue
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: nginx-web-green
+  namespace: prod
+spec:
+  maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: nginx-web
+      version: green
