@@ -39,7 +39,7 @@
       spec:
         containers:
         - name: nginx
-          image: technotuba/nginx@sha256:a4d88848452f4cca22afd98d47768ebe3c2f9c9c002e56faad9f25895681a3e1   # P0: pinned to current running digest
+          image: technotuba/nginx@sha256:e950cef191dc3fda85c707c833954e7d61cfd0ea5dd7e6df55d12bf2df25a38a   # P0: pinned to current running digest
           imagePullPolicy: IfNotPresent     # P0: was Always
           ports:
           - containerPort: 80
