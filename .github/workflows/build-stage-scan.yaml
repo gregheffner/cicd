@@ -7,7 +7,7 @@
 # soak-gate-promote.yaml. Replaces the deploy behavior of the 4 legacy workflows.
 #
 # Runner: ubuntu-latest only (registry-only; yq preinstalled; cosign via installer;
-# id-token for keyless OIDC). Nothing runs on k8-primary in the build path.
+# id-token for keyless OIDC). Nothing runs on the self-hosted cluster runner in the build path.
 #
 # HARD PREREQ P0: BOTH color manifests must already be @sha256 digest-pinned with
 # imagePullPolicy: IfNotPresent. This workflow REFUSES to run while a live manifest

@@ -8,9 +8,9 @@
 # VERIFYING the rollback landed. Then mark promoted, pin old-live color, purge CF.
 # Idempotent + self-reconciling. Every gate fails CLOSED to "no flip".
 #
-# Runner: self-hosted k8-primary (read-only kubectl health gates). cosign + Trivy
-# run inside throwaway official containers via the docker already on k8-primary, so
-# NOTHING new is installed there. All YAML edits use python3 (no yq on k8-primary).
+# Runner: self-hosted (read-only kubectl health gates). cosign + Trivy run as
+# SHA256-checksum-verified downloaded binaries (this runner has no docker daemon).
+# All YAML edits use python3 (no yq dependency on the runner).
 
 name: soak-gate-promote
 
@@ -134,7 +134,7 @@ jobs:
           fi
           echo "Soak satisfied."; echo "go=true" >> "$GITHUB_OUTPUT"
 
-      # ---- Install trivy + cosign as BINARIES. This runner (k8-primary) is a
+      # ---- Install trivy + cosign as BINARIES. This runner is a
       # containerd k8s node with NO docker daemon, so `docker run` cannot work here.
       # Both tools operate straight from the registry (trivy --image-src remote;
       # cosign keyless verify) — no docker/containerd socket needed. Pinned versions,
@@ -360,7 +360,7 @@ jobs:
           done
           echo "Live selector is now $S."
 
-      # ---- Post-flip smoke (ClusterIP:80, reachable from k8-primary regardless of
+      # ---- Post-flip smoke (ClusterIP:80, reachable from the runner regardless of
       # ETP/nodePort); auto-rollback via git on failure AND verify rollback landed. ----
       - name: Post-flip smoke; rollback via git on failure
         if: steps.soak.outputs.go == 'true' && steps.reconcile.outputs.reconcile == 'false'
@@ -368,7 +368,7 @@ jobs:
           set -euo pipefail
           S="${{ steps.colors.outputs.standby }}"
           PREV="${{ steps.colors.outputs.expect_live }}"
-          # ClusterIP is programmed by kube-proxy on every node incl. k8-primary; it
+          # ClusterIP is programmed by kube-proxy on every node; it
           # exercises the Service data path independent of ETP=Local and nodePort.
           CIP=$(kubectl get svc nginx-service -n "$NS" -o jsonpath='{.spec.clusterIP}')
           [ -n "$CIP" ] || { echo "::error::could not resolve ClusterIP for smoke"; exit 1; }
