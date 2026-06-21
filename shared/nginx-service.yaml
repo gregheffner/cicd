@@ -7,7 +7,12 @@ metadata:
   name: nginx-service
   namespace: prod
 spec:
-  externalTrafficPolicy: Local
+  # P1 (Step B): Cluster (was Local). Ingress is a Cloudflare Tunnel (cloudflared on
+  # host m1) -> node:nodePort; it does NOT use the Service healthCheckNodePort that
+  # Local allocates, and Cloudflare supplies the real client IP via X-Forwarded-For
+  # (which fail2ban bans on), so SNAT under Cluster does not break bans. Cluster also
+  # lets any node route to a Ready pod, which makes the eventual blue/green flip safe.
+  externalTrafficPolicy: Cluster
   ipFamilyPolicy: SingleStack
   ports:
     - name: http
