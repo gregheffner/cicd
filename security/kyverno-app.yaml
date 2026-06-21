@@ -1,0 +1,39 @@
+# security/kyverno-app.yaml
+# Installs Kyverno via Helm as a NEW ArgoCD Application. sync-wave 0 so the
+# controller + CRDs are Ready BEFORE the ClusterPolicy (wave 1) — no selfHeal flap.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kyverno
+  namespace: automation                 # ArgoCD lives here (same as heffner-prod/dr/shared-services)
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  project: default
+  source:
+    repoURL: https://kyverno.github.io/kyverno
+    chart: kyverno
+    targetRevision: 3.8.1               # app v1.18.1. RE-CONFIRM via the live-confirmations before applying.
+    helm:
+      values: |
+        admissionController:
+          replicas: 3                    # HA across the 3 amd64 workers
+        # --- verification-result caching (load-bearing once failurePolicy: Fail is on) ---
+        # Caches successful image-verification results so a cold Sigstore/egress outage
+        # only rejects FRESH (cold-cache) nginx pods, never already-verified digests.
+        features:
+          imageVerifyCache:
+            enabled: true
+            maxSize: 1000
+            ttl: 60m
+        # kube-system + kyverno's own namespace are auto-excluded from webhooks by default.
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: kyverno
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: false                       # don't let a transient parse error prune the controller
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true             # Kyverno CRDs are large; SSA avoids last-applied annotation bloat

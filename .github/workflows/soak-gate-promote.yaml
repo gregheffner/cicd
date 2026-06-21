@@ -32,7 +32,9 @@ env:
   NS: prod
   BRANCH: main
   TRIVY_VERSION: '0.71.2'    # trivy binary (self-hosted runner is a containerd k8s node, NO docker daemon)
+  TRIVY_SHA256: '0510e71e2fd39bf863856d499c8dc19feb4e7336546394c502a8f5cc7ab27460'   # trivy_0.71.2_Linux-64bit.tar.gz
   COSIGN_VERSION: '2.6.3'    # cosign binary, v2.x line (keyless verify is registry-native; no docker needed)
+  COSIGN_SHA256: '7c78a7f2efc00088bd788a758db6e0928e79f3e0eb83eb5d3c499ed98da4c4f4'   # cosign-linux-amd64
 
 jobs:
   soak-gate-promote:
@@ -142,8 +144,14 @@ jobs:
         run: |
           set -euo pipefail
           BIN="${RUNNER_TEMP:-/tmp}/promotebin"; mkdir -p "$BIN"
-          curl -fsSL "https://github.com/aquasecurity/trivy/releases/download/v${TRIVY_VERSION}/trivy_${TRIVY_VERSION}_Linux-64bit.tar.gz" | tar -xz -C "$BIN" trivy
+          # Download to disk, VERIFY SHA256 against the pinned digest, THEN install.
+          # A supply-chain compromise of the release asset is caught here before the
+          # binary ever runs (these tools gate a production promotion).
+          curl -fsSL -o "$BIN/trivy.tgz" "https://github.com/aquasecurity/trivy/releases/download/v${TRIVY_VERSION}/trivy_${TRIVY_VERSION}_Linux-64bit.tar.gz"
+          echo "${TRIVY_SHA256}  ${BIN}/trivy.tgz"   | sha256sum -c -
+          tar -xz -C "$BIN" trivy -f "$BIN/trivy.tgz"
           curl -fsSL -o "$BIN/cosign" "https://github.com/sigstore/cosign/releases/download/v${COSIGN_VERSION}/cosign-linux-amd64"
+          echo "${COSIGN_SHA256}  ${BIN}/cosign"     | sha256sum -c -
           chmod +x "$BIN/trivy" "$BIN/cosign"
           echo "$BIN" >> "$GITHUB_PATH"
           "$BIN/trivy" --version | head -1

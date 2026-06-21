@@ -74,11 +74,50 @@ NGINX_VERSION = get_stable_nginx_version()
 NJS_VERSION = get_latest_njs_version()
 NJS_RELEASE, PKG_RELEASE = get_latest_njs_debian_release()
 
-base_image = f"nginx:{NGINX_VERSION}-alpine-slim"
+
+def resolve_base_digest(tag):
+    """Resolve the floating base tag (e.g. nginx:1.30.3-alpine-slim) to an immutable
+    library/nginx@sha256:... so the build is reproducible and a poisoned upstream
+    RE-TAG of the same name cannot silently enter between builds. Falls back to the
+    floating tag (with a warning) if the registry can't be reached."""
+    repo = "library/nginx"
+    try:
+        token = requests.get(
+            "https://auth.docker.io/token",
+            params={"service": "registry.docker.io", "scope": f"repository:{repo}:pull"},
+            timeout=10,
+        ).json()["token"]
+        r = requests.get(
+            f"https://registry-1.docker.io/v2/{repo}/manifests/{tag}",
+            headers={
+                "Authorization": f"Bearer {token}",
+                "Accept": "application/vnd.docker.distribution.manifest.list.v2+json,"
+                          "application/vnd.oci.image.index.v1+json,"
+                          "application/vnd.docker.distribution.manifest.v2+json",
+            },
+            timeout=10,
+        )
+        r.raise_for_status()
+        digest = r.headers["Docker-Content-Digest"]
+        if not digest.startswith("sha256:"):
+            raise RuntimeError(f"unexpected digest {digest!r}")
+        print(f"[INFO] Base nginx:{tag} -> {digest}")
+        return digest
+    except Exception as e:
+        print(f"[WARN] Could not resolve base digest for nginx:{tag} ({e}); "
+              f"using floating tag (NOT reproducible).")
+        return None
+
+
+_base_tag = f"{NGINX_VERSION}-alpine-slim"
+_base_digest = resolve_base_digest(_base_tag)
+# Immutable @sha256 ref when resolvable; else the floating tag as a fallback.
+base_image = f"nginx@{_base_digest}" if _base_digest else f"nginx:{_base_tag}"
 
 dockerfile_content = f"""\
 
 FROM {base_image}
+# base tag at build time: nginx:{_base_tag}
 
 LABEL description="Built by technotuba for K8s NGINX WWW"
 LABEL maintainer="main.plan5783@fastmail.com"
