@@ -12,6 +12,13 @@ data:
     actionban = /usr/local/bin/fail2ban-cloudflare-ban.sh <ip>
     actionunban =
   jail.local: |-
+    [DEFAULT]
+    # Internal/SNAT sources are never real external attackers. With the Service on
+    # externalTrafficPolicy: Cluster, cross-node traffic is SNAT'd and XFF-less
+    # internal probes log a pod/node IP (e.g. 10.244.x) instead of a public IP.
+    # Never ban these ranges: loopback, flannel pod net, k8s service net, LAN/nodes.
+    ignoreip = 127.0.0.1/8 ::1 10.244.0.0/16 10.96.0.0/12 192.168.0.0/16
+
     [nginx-404]
     enabled = true
     port    = http,https
