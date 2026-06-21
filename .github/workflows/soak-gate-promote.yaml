@@ -1,0 +1,445 @@
+# .github/workflows/soak-gate-promote.yaml
+#
+# DAILY gate. If a candidate has soaked >=72h AND re-scans clean AND cosign-verifies
+# AND prereqs P0/P1/P2/P3/P5 hold AND the standby pods are healthy + actually serving
+# the staged digest AND there is no drift, FLIP live traffic by committing the
+# Service selector AND the ledger state in ONE atomic commit (ArgoCD syncs it).
+# Post-flip smoke (ClusterIP:80); auto-rollback by committing the selector back and
+# VERIFYING the rollback landed. Then mark promoted, pin old-live color, purge CF.
+# Idempotent + self-reconciling. Every gate fails CLOSED to "no flip".
+#
+# Runner: self-hosted k8-primary (read-only kubectl health gates). cosign + Trivy
+# run inside throwaway official containers via the docker already on k8-primary, so
+# NOTHING new is installed there. All YAML edits use python3 (no yq on k8-primary).
+
+name: soak-gate-promote
+
+on:
+  workflow_dispatch:
+  # CRON DISABLED for staged dry-run (Step E). Run manually after a candidate has
+  # soaked; verify a clean gated promote, then UNCOMMENT (with the build cron) to arm.
+  # schedule:
+  #   # Daily 07:30 UTC (30 min after the weekly build cron; never the same minute).
+  #   - cron: '30 7 * * *'
+
+concurrency:
+  group: nginx-pipeline
+  cancel-in-progress: false
+
+permissions:
+  contents: write     # commit the atomic flip+ledger / rollback / promote to main
+
+env:
+  IMAGE: technotuba/nginx
+  NS: prod
+  BRANCH: main
+  TRIVY_IMAGE: aquasec/trivy:0.58.1                      # VERIFY tag/digest before merge
+  COSIGN_IMAGE: gcr.io/projectsigstore/cosign:v2.4.1     # VERIFY tag/digest before merge
+
+jobs:
+  soak-gate-promote:
+    runs-on: self-hosted
+    steps:
+      # SHA-pinned: actions/checkout v4.2.2 — VERIFY SHA before merge.
+      - name: Checkout main (full history for rebase/retry push)
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: main
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      # ---- P0 GATE: refuse to promote while EITHER live manifest is on :latest ----
+      - name: P0 refuse — both color manifests must be digest-pinned (no :latest)
+        run: |
+          set -euo pipefail
+          git fetch origin "$BRANCH" --quiet
+          fail=0
+          for f in prod/nginx-blue.yaml DR/nginx-green.yaml; do
+            git show "origin/${BRANCH}:$f" > /tmp/m.yaml
+            IMG=$(python3 - "$f" <<'PY'
+          import sys,re
+          c=open("/tmp/m.yaml").read()
+          # nginx container image line (NOT fail2ban). nginx block precedes fail2ban.
+          m=re.search(r'-\s*name:\s*nginx\b.*?image:\s*(\S+)', c, re.S)
+          print(m.group(1) if m else "MISSING")
+          PY
+          )
+            case "$IMG" in
+              *"@sha256:"*) echo "OK   $f nginx -> $IMG" ;;
+              *) echo "::error::$f nginx image is '$IMG' (prereq P0: must be @sha256). Refusing to promote."; fail=1 ;;
+            esac
+          done
+          [ "$fail" = "0" ] || exit 1
+
+      # ---- G0: read ledger from origin/main; corrupt is LOUD; bail unless promotable ----
+      - name: Read ledger; decide whether to proceed
+        id: ledger
+        run: |
+          set -euo pipefail
+          if ! git cat-file -e "origin/${BRANCH}:.github/state/candidate.json" 2>/dev/null; then
+            echo "No ledger; nothing to promote."; echo "go=false" >> "$GITHUB_OUTPUT"; exit 0
+          fi
+          git show "origin/${BRANCH}:.github/state/candidate.json" > /tmp/ledger.json
+          python3 - <<'PY'
+          import json,os,sys
+          out=open(os.environ["GITHUB_OUTPUT"],"a")
+          try:
+              d=json.load(open("/tmp/ledger.json"))
+          except Exception as e:
+              # Corrupt ledger is LOUD, not a silent no-op (could mask a soaking candidate).
+              sys.stderr.write(f"::error::ledger corrupt; refusing to promote: {e}\n")
+              sys.exit(1)
+          state=d.get("state")
+          # 'promoting' = a prior run committed the flip atomically but died before
+          # the follow-ups completed. We resume it (idempotent finish), not flip again.
+          if state not in ("soaking","promoting"):
+              print(f"State is '{state}', not soaking/promoting; no-op.")
+              out.write("go=false\n"); sys.exit(0)
+          for k in ("digest","standby_color","standby_object","standby_file",
+                    "image_ref","promote_eligible_after_epoch","immutable_tag"):
+              out.write(f"{k}={d[k]}\n")
+          out.write(f"state={state}\n")
+          out.write("go=true\n")
+          PY
+
+      # Derive expected colors (no hardcoding).
+      - name: Derive colors
+        id: colors
+        if: steps.ledger.outputs.go == 'true'
+        run: |
+          set -euo pipefail
+          STANDBY="${{ steps.ledger.outputs.standby_color }}"
+          case "$STANDBY" in
+            blue)  EXPECT_LIVE=green ;;
+            green) EXPECT_LIVE=blue  ;;
+            *) echo "::error::bad standby_color '$STANDBY'"; exit 1 ;;
+          esac
+          echo "standby=$STANDBY"          >> "$GITHUB_OUTPUT"
+          echo "expect_live=$EXPECT_LIVE"  >> "$GITHUB_OUTPUT"
+
+      # Soak-time gate (>=72h). 'promoting' resume skips the time check (already passed).
+      - name: Soak-time gate (>=72h)
+        id: soak
+        if: steps.ledger.outputs.go == 'true'
+        run: |
+          set -euo pipefail
+          if [ "${{ steps.ledger.outputs.state }}" = "promoting" ]; then
+            echo "Resuming an in-flight promotion; soak already satisfied."
+            echo "go=true" >> "$GITHUB_OUTPUT"; exit 0
+          fi
+          NOW=$(date -u +%s); ELIGIBLE=${{ steps.ledger.outputs.promote_eligible_after_epoch }}
+          if [ "$NOW" -lt "$ELIGIBLE" ]; then
+            REM=$(( ELIGIBLE - NOW ))
+            echo "Soak not met: ${REM}s (~$(( REM/3600 ))h) remaining. No-op."
+            echo "go=false" >> "$GITHUB_OUTPUT"; exit 0
+          fi
+          echo "Soak satisfied."; echo "go=true" >> "$GITHUB_OUTPUT"
+
+      # ---- RESUME path: a prior run already committed the atomic flip (state=promoting).
+      # Confirm committed-git == live == standby AND cosign verify, then finish follow-ups.
+      - name: Detect resume (state=promoting, flip already committed)
+        id: resume
+        if: steps.soak.outputs.go == 'true'
+        run: |
+          set -euo pipefail
+          if [ "${{ steps.ledger.outputs.state }}" = "promoting" ]; then
+            echo "resume=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "resume=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      # ---- G0b RECONCILE (hardened): cluster already serving standby but ledger says
+      # soaking. Only rubber-stamp if COMMITTED git selector == live == standby AND the
+      # staged digest still cosign-verifies (never trust the live selector alone, which
+      # may be a transient pre-selfHeal state or an unvetted human/attacker edit). ----
+      - name: Reconcile already-flipped cluster (git==live==standby + cosign)
+        id: reconcile
+        if: steps.soak.outputs.go == 'true' && steps.resume.outputs.resume == 'false'
+        run: |
+          set -euo pipefail
+          S="${{ steps.colors.outputs.standby }}"
+          COMMITTED=$(git show "origin/${BRANCH}:shared/nginx-service.yaml" \
+            | python3 -c 'import sys,re;m=re.search(r"selector:\s*\n\s*app:\s*nginx-web\s*\n\s*version:\s*(blue|green)",sys.stdin.read());print(m.group(1) if m else "")')
+          LIVE_NOW=$(kubectl get svc nginx-service -n "$NS" -o jsonpath='{.spec.selector.version}')
+          if [ "$COMMITTED" = "$S" ] && [ "$LIVE_NOW" = "$S" ]; then
+            echo "git+live both already serving $S; verifying staged digest before reconcile."
+            docker run --rm "$COSIGN_IMAGE" verify "${{ steps.ledger.outputs.image_ref }}" \
+              --certificate-oidc-issuer 'https://token.actions.githubusercontent.com' \
+              --certificate-identity-regexp '^https://github\.com/gregheffner/cicd/\.github/workflows/build-stage-scan\.yaml@refs/heads/main$' \
+              > /dev/null
+            echo "reconcile=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "reconcile=false (committed=$COMMITTED live=$LIVE_NOW want=$S)" 
+            echo "reconcile=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      # All pre-flip gates run only for a fresh promotion (not resume, not reconcile).
+      # ---- GB: fresh-DB Trivy re-scan of the EXACT staged digest ----
+      - name: Fresh-DB Trivy re-scan of staged digest
+        if: steps.soak.outputs.go == 'true' && steps.resume.outputs.resume == 'false' && steps.reconcile.outputs.reconcile == 'false'
+        run: |
+          set -euo pipefail
+          docker run --rm "$TRIVY_IMAGE" image \
+            --scanners vuln --vuln-type os,library \
+            --severity HIGH,CRITICAL --ignore-unfixed \
+            --exit-code 1 --format table "${{ steps.ledger.outputs.image_ref }}"
+
+      # ---- GC: cosign verify the staged digest (identity = build-stage-scan @main) ----
+      - name: Cosign verify staged digest
+        if: steps.soak.outputs.go == 'true' && steps.resume.outputs.resume == 'false' && steps.reconcile.outputs.reconcile == 'false'
+        run: |
+          set -euo pipefail
+          docker run --rm "$COSIGN_IMAGE" verify "${{ steps.ledger.outputs.image_ref }}" \
+            --certificate-oidc-issuer 'https://token.actions.githubusercontent.com' \
+            --certificate-identity-regexp '^https://github\.com/gregheffner/cicd/\.github/workflows/build-stage-scan\.yaml@refs/heads/main$' \
+            > /dev/null
+          echo "cosign verify OK"
+
+      # ---- GD: strict drift gate (committed == live == expected pre-flip peer) ----
+      - name: Drift gate
+        if: steps.soak.outputs.go == 'true' && steps.resume.outputs.resume == 'false' && steps.reconcile.outputs.reconcile == 'false'
+        run: |
+          set -euo pipefail
+          COMMITTED=$(git show "origin/${BRANCH}:shared/nginx-service.yaml" \
+            | python3 -c 'import sys,re;m=re.search(r"selector:\s*\n\s*app:\s*nginx-web\s*\n\s*version:\s*(blue|green)",sys.stdin.read());print(m.group(1) if m else "")')
+          LIVE=$(kubectl get svc nginx-service -n "$NS" -o jsonpath='{.spec.selector.version}')
+          EXPECT="${{ steps.colors.outputs.expect_live }}"
+          echo "committed=$COMMITTED live=$LIVE expect=$EXPECT"
+          { [ "$COMMITTED" = "$LIVE" ] && [ "$LIVE" = "$EXPECT" ]; } \
+            || { echo "::error::drift (committed=$COMMITTED live=$LIVE expect=$EXPECT); refusing to flip"; exit 1; }
+
+      # ---- PREREQ REFUSE GATES (P1/P2/P3/P5): no flip if unsafe ----
+      - name: Prereq gates (ETP=Cluster + Deployment + readinessProbe + HPA on incoming)
+        if: steps.soak.outputs.go == 'true' && steps.resume.outputs.resume == 'false' && steps.reconcile.outputs.reconcile == 'false'
+        run: |
+          set -euo pipefail
+          S="${{ steps.colors.outputs.standby }}"
+          OBJ="${{ steps.ledger.outputs.standby_object }}"
+          # P1: ETP MUST be Cluster. With Local + selector-flip + no cloud VIP, nodes
+          # without a local ready pod of the incoming color BLACKHOLE on flip. This is
+          # an active outage source, not a nicety. fail2ban bans on the CF client-IP
+          # header, so Local->Cluster does NOT break bans. Promotion is BLOCKED by
+          # design until ETP=Cluster.
+          ETP=$(kubectl get svc nginx-service -n "$NS" -o jsonpath='{.spec.externalTrafficPolicy}')
+          [ "$ETP" = "Cluster" ] \
+            || { echo "::error::externalTrafficPolicy=$ETP (prereq P1 requires Cluster). Local+flip can blackhole nodes. Refusing flip."; exit 1; }
+          # P2: incoming color must be a Deployment (symmetric, HPA-able flip).
+          KIND=$(kubectl get "$OBJ" -n "$NS" -o jsonpath='{.kind}' 2>/dev/null || echo MISSING)
+          [ "$KIND" = "Deployment" ] \
+            || { echo "::error::incoming $S object '$OBJ' is '$KIND' not Deployment (prereq P2). Refusing flip."; exit 1; }
+          # P3: readinessProbe must exist on the nginx container (else Ready is hollow,
+          # and the GE endpoint-ready gate is meaningless).
+          kubectl get "$OBJ" -n "$NS" \
+            -o jsonpath='{.spec.template.spec.containers[?(@.name=="nginx")].readinessProbe}' \
+            | grep -q httpGet \
+            || { echo "::error::incoming $S nginx has no httpGet readinessProbe (prereq P3). Refusing flip."; exit 1; }
+          # P5: incoming color must have an HPA (capacity symmetry).
+          kubectl get hpa "nginx-web-$S" -n "$NS" >/dev/null 2>&1 \
+            || { echo "::error::no HPA for incoming $S (prereq P5). Refusing flip."; exit 1; }
+          echo "Prereqs P1/P2/P3/P5 satisfied for incoming $S."
+
+      # ---- GE: standby Ready + serving the staged digest + >=1 Ready endpoint ----
+      - name: Health gate — standby Ready and serving staged digest
+        if: steps.soak.outputs.go == 'true' && steps.resume.outputs.resume == 'false' && steps.reconcile.outputs.reconcile == 'false'
+        run: |
+          set -euo pipefail
+          S="${{ steps.colors.outputs.standby }}"
+          OBJ="${{ steps.ledger.outputs.standby_object }}"
+          DIGEST="${{ steps.ledger.outputs.digest }}"
+          kubectl rollout status "$OBJ" -n "$NS" --timeout=120s
+          kubectl wait --for=condition=ready pod -n "$NS" -l app=nginx-web,version="$S" --timeout=120s
+          RUNNING=$(kubectl get pods -n "$NS" -l app=nginx-web,version="$S" \
+            -o jsonpath='{range .items[*]}{.status.containerStatuses[?(@.name=="nginx")].imageID}{"\n"}{end}' | sort -u)
+          echo "running imageIDs:"; echo "$RUNNING"
+          echo "$RUNNING" | grep -q "$DIGEST" \
+            || { echo "::error::standby $S not serving $DIGEST yet; refusing flip"; exit 1; }
+          READY=$(kubectl get endpointslices -n "$NS" \
+            -l kubernetes.io/service-name=nginx-service \
+            -o jsonpath='{range .items[*].endpoints[*]}{.conditions.ready}{"\n"}{end}' \
+            | grep -c '^true' || true)
+          [ "${READY:-0}" -ge 1 ] \
+            || { echo "::error::0 ready endpoints in nginx-service slices; refusing flip"; exit 1; }
+          echo "Standby $S Ready, serving $DIGEST, ready-endpoints=$READY"
+
+      # ---- GG: FENCE just before the atomic flip — ledger unchanged since gate start ----
+      - name: Fence — ledger unchanged since gate start
+        if: steps.soak.outputs.go == 'true' && steps.resume.outputs.resume == 'false' && steps.reconcile.outputs.reconcile == 'false'
+        run: |
+          set -euo pipefail
+          git fetch origin "$BRANCH" --quiet
+          git show "origin/${BRANCH}:.github/state/candidate.json" > /tmp/ledger_now.json
+          NOWDIG=$(python3 -c 'import json;print(json.load(open("/tmp/ledger_now.json"))["digest"])')
+          NOWST=$(python3  -c 'import json;print(json.load(open("/tmp/ledger_now.json"))["state"])')
+          { [ "$NOWDIG" = "${{ steps.ledger.outputs.digest }}" ] && [ "$NOWST" = "soaking" ]; } \
+            || { echo "::error::ledger changed mid-promote (dig=$NOWDIG state=$NOWST); aborting flip"; exit 1; }
+
+      # ---- THE ATOMIC FLIP: selector + ledger state=promoting in ONE commit ----
+      # The cluster source-of-truth (selector) and the ledger can NEVER disagree.
+      # If this run dies after this commit, the next run sees state=promoting and
+      # RESUMES the idempotent follow-ups (it does not flip again).
+      - name: Atomic flip (selector -> standby AND ledger -> promoting) in one commit
+        id: flip
+        if: steps.soak.outputs.go == 'true' && steps.resume.outputs.resume == 'false' && steps.reconcile.outputs.reconcile == 'false'
+        run: |
+          set -euo pipefail
+          S="${{ steps.colors.outputs.standby }}"
+          for i in 1 2 3 4 5 6 7 8; do
+            git fetch origin "$BRANCH" --quiet
+            git checkout "origin/${BRANCH}" -- shared/nginx-service.yaml .github/state/candidate.json
+            # Flip ONLY the Service selector's version block.
+            python3 - "$S" <<'PY'
+          import re,sys
+          f="shared/nginx-service.yaml"; new=sys.argv[1]
+          c=open(f).read()
+          c2=re.sub(r'(selector:\s*\n\s*app:\s*nginx-web\s*\n\s*version:\s*)(blue|green)',
+                    r'\g<1>'+new, c, count=1)
+          assert c2!=c, "selector flip made no change"
+          open(f,"w").write(c2)
+          PY
+            # Atomically move the ledger to 'promoting' in the SAME working tree.
+            python3 - <<'PY'
+          import json
+          f=".github/state/candidate.json"; d=json.load(open(f))
+          d["state"]="promoting"
+          json.dump(d,open(f,"w"),indent=2); open(f,"a").write("\n")
+          PY
+            grep -A2 'selector:' shared/nginx-service.yaml | grep -q "version: $S" \
+              || { echo "::error::selector not set to $S after edit"; exit 1; }
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git config user.name  "github-actions[bot]"
+            git add shared/nginx-service.yaml .github/state/candidate.json
+            git commit -m "ci(promote): atomic flip live -> $S; state=promoting [skip ci]"
+            if git push origin "HEAD:${BRANCH}"; then
+              echo "flip_sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+              echo "atomic flip pushed"; exit 0
+            fi
+            echo "flip push attempt $i lost race; retrying"; git reset --hard "origin/${BRANCH}"; sleep $((i*3))
+          done
+          echo "::error::could not push atomic flip after retries; NO flip committed (safe)"; exit 1
+
+      # ---- Wait for ArgoCD to apply the committed selector (read-only kubectl poll) ----
+      - name: Wait for ArgoCD to converge the flip
+        if: steps.soak.outputs.go == 'true' && steps.reconcile.outputs.reconcile == 'false'
+        run: |
+          set -euo pipefail
+          S="${{ steps.colors.outputs.standby }}"
+          deadline=$(( SECONDS + 240 ))
+          until [ "$(kubectl get svc nginx-service -n "$NS" -o jsonpath='{.spec.selector.version}')" = "$S" ]; do
+            [ $SECONDS -ge $deadline ] && { echo "::error::ArgoCD did not apply selector=$S in time"; exit 1; }
+            echo "waiting for live selector to become $S"; sleep 10
+          done
+          echo "Live selector is now $S."
+
+      # ---- Post-flip smoke (ClusterIP:80, reachable from k8-primary regardless of
+      # ETP/nodePort); auto-rollback via git on failure AND verify rollback landed. ----
+      - name: Post-flip smoke; rollback via git on failure
+        if: steps.soak.outputs.go == 'true' && steps.reconcile.outputs.reconcile == 'false'
+        run: |
+          set -euo pipefail
+          S="${{ steps.colors.outputs.standby }}"
+          PREV="${{ steps.colors.outputs.expect_live }}"
+          # ClusterIP is programmed by kube-proxy on every node incl. k8-primary; it
+          # exercises the Service data path independent of ETP=Local and nodePort.
+          CIP=$(kubectl get svc nginx-service -n "$NS" -o jsonpath='{.spec.clusterIP}')
+          [ -n "$CIP" ] || { echo "::error::could not resolve ClusterIP for smoke"; exit 1; }
+          ok=0
+          for i in 1 2 3 4 5 6 7 8; do
+            code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 10 "http://${CIP}:80/" || echo 000)
+            echo "smoke try $i -> $code (http://${CIP}:80/)"
+            [ "$code" = "200" ] && { ok=1; break; }
+            sleep 5
+          done
+          if [ "$ok" = "1" ]; then echo "Post-flip smoke OK on $S."; exit 0; fi
+
+          echo "::error::smoke failed after flip; rolling back to $PREV via git commit"
+          rolled=0
+          for i in 1 2 3 4 5 6 7 8; do
+            git fetch origin "$BRANCH" --quiet
+            git checkout "origin/${BRANCH}" -- shared/nginx-service.yaml .github/state/candidate.json
+            python3 - "$PREV" <<'PY'
+          import re,sys
+          f="shared/nginx-service.yaml"; new=sys.argv[1]
+          c=open(f).read()
+          c2=re.sub(r'(selector:\s*\n\s*app:\s*nginx-web\s*\n\s*version:\s*)(blue|green)',
+                    r'\g<1>'+new, c, count=1)
+          open(f,"w").write(c2)
+          PY
+            python3 - <<'PY'
+          import json
+          f=".github/state/candidate.json"; d=json.load(open(f))
+          d["state"]="rolled_back"
+          json.dump(d,open(f,"w"),indent=2); open(f,"a").write("\n")
+          PY
+            git add shared/nginx-service.yaml .github/state/candidate.json
+            git commit -m "ci(rollback): smoke failed, revert live -> $PREV [skip ci]"
+            git push origin "HEAD:${BRANCH}" && { rolled=1; break; }
+            echo "rollback push attempt $i lost race; retrying"; git reset --hard "origin/${BRANCH}"; sleep $((i*3))
+          done
+          # Verify the rollback ACTUALLY landed on origin/main; do not trust the loop.
+          git fetch origin "$BRANCH" --quiet
+          COMMITTED=$(git show "origin/${BRANCH}:shared/nginx-service.yaml" \
+            | python3 -c 'import sys,re;m=re.search(r"selector:\s*\n\s*app:\s*nginx-web\s*\n\s*version:\s*(blue|green)",sys.stdin.read());print(m.group(1) if m else "")')
+          if [ "$rolled" != "1" ] || [ "$COMMITTED" != "$PREV" ]; then
+            echo "::error::ROLLBACK DID NOT LAND (rolled=$rolled committed=$COMMITTED want=$PREV)."
+            echo "::error::LIVE TRAFFIC MAY BE ON A BROKEN COLOR. MANUAL INTERVENTION REQUIRED NOW."
+            exit 1
+          fi
+          echo "Rollback to $PREV committed and verified on origin/main."
+          exit 1
+
+      # ---- Mark ledger promoted; pin now-previous color to same digest; commit ----
+      # Runs for the normal flip, the resume path, AND the reconcile path.
+      - name: Mark ledger promoted (and pin old-live color to same digest)
+        if: steps.soak.outputs.go == 'true'
+        run: |
+          set -euo pipefail
+          DIGEST="${{ steps.ledger.outputs.digest }}"
+          REF="${{ steps.ledger.outputs.image_ref }}"
+          PREV="${{ steps.colors.outputs.expect_live }}"   # now-previous (old live) color
+          if [ "$PREV" = "blue" ]; then PFILE=prod/nginx-blue.yaml; else PFILE=DR/nginx-green.yaml; fi
+          for i in 1 2 3 4 5 6 7 8; do
+            git fetch origin "$BRANCH" --quiet
+            git checkout "origin/${BRANCH}" -- .github/state/candidate.json "$PFILE"
+            python3 - <<'PY'
+          import json,datetime
+          f=".github/state/candidate.json"; d=json.load(open(f))
+          d["state"]="promoted"
+          d["promoted_timestamp_utc"]=datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
+          json.dump(d,open(f,"w"),indent=2); open(f,"a").write("\n")
+          PY
+            python3 - "$PFILE" "$REF" "$DIGEST" <<'PY'
+          import re,sys
+          f,ref,dig=sys.argv[1],sys.argv[2],sys.argv[3]
+          c=open(f).read()
+          # Pin ONLY the nginx container image (the nginx block precedes fail2ban).
+          c2=re.sub(r'(-\s*name:\s*nginx\b.*?image:\s*)technotuba/nginx[:@][^\s"]*',
+                    r'\1'+ref, c, count=1, flags=re.S)
+          c2=re.sub(r'(-\s*name:\s*nginx\b.*?imagePullPolicy:\s*)\w+',
+                    r'\1IfNotPresent', c2, count=1, flags=re.S)
+          assert ('technotuba/nginx@'+dig) in c2, "prev-color pin failed"
+          assert 'crazymax/fail2ban:latest' in c2, "fail2ban line changed"
+          open(f,"w").write(c2)
+          PY
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git config user.name  "github-actions[bot]"
+            git add .github/state/candidate.json "$PFILE"
+            if git diff --cached --quiet; then echo "nothing to commit (already promoted/pinned)"; exit 0; fi
+            git commit -m "ci(promote): mark promoted; pin $PREV to $DIGEST [skip ci]"
+            git push origin "HEAD:${BRANCH}" && { echo "promote-mark pushed"; exit 0; }
+            echo "promote-mark push attempt $i lost race; retrying"; git reset --hard "origin/${BRANCH}"; sleep $((i*3))
+          done
+          echo "::error::could not push promote-mark after retries (flip already live; ledger stale -> next run resumes)"; exit 1
+
+      # ---- Purge Cloudflare cache (only on a real flip or resume, not reconcile-noop) ----
+      - name: Purge Cloudflare cache
+        if: steps.soak.outputs.go == 'true' && steps.reconcile.outputs.reconcile == 'false'
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
+        run: |
+          set -euo pipefail
+          curl -s -X POST "https://api.cloudflare.com/client/v4/zones/$CLOUDFLARE_ZONE_ID/purge_cache" \
+            -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+            -H "Content-Type: application/json" \
+            --data '{"purge_everything":true}' \
+            | python3 -c 'import sys,json;print("purge ok" if json.load(sys.stdin).get("success") else sys.exit("purge failed"))'

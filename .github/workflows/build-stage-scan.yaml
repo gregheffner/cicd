@@ -1,0 +1,323 @@
+# .github/workflows/build-stage-scan.yaml
+#
+# WEEKLY patched-image build + Trivy gate + keyless cosign sign/verify + digest-pin
+# of the STANDBY color manifest + candidate.json ledger write (state: soaking).
+# ArgoCD (heffner-prod / heffner-dr) then rolls the standby color from the commit.
+# This workflow does NO cluster mutation; the 72h soak + promotion live in
+# soak-gate-promote.yaml. Replaces the deploy behavior of the 4 legacy workflows.
+#
+# Runner: ubuntu-latest only (registry-only; yq preinstalled; cosign via installer;
+# id-token for keyless OIDC). Nothing runs on k8-primary in the build path.
+#
+# HARD PREREQ P0: BOTH color manifests must already be @sha256 digest-pinned with
+# imagePullPolicy: IfNotPresent. This workflow REFUSES to run while a live manifest
+# still references technotuba/nginx:latest (mutable :latest would let an unsoaked
+# image reach live on any pod restart, defeating the 72h soak). See section 5.
+
+name: build-stage-scan
+
+on:
+  workflow_dispatch:
+  # CRON DISABLED for staged dry-run (Step E). Run manually via "Run workflow"
+  # first; watch a full stage->72h soak->promote cycle, then UNCOMMENT to arm.
+  # schedule:
+  #   # Mondays 07:00 UTC -> first promote-eligible Thursday 07:00 UTC (+72h).
+  #   - cron: '0 7 * * 1'
+
+# Shared with soak-gate-promote.yaml and delete-kubernetes-pods.yaml so a build,
+# a promote, and a (standby-only) pod-delete never interleave at the cluster.
+# NOTE: concurrency only serializes RUNS; it is NOT what makes delete-pods safe.
+concurrency:
+  group: nginx-pipeline
+  cancel-in-progress: false
+
+permissions:
+  contents: write     # commit manifest + ledger to main
+  id-token: write     # keyless cosign signing via GitHub OIDC -> Fulcio/Rekor
+
+env:
+  IMAGE: technotuba/nginx
+  BRANCH: main
+  SOAK_SECONDS: '259200'   # 72h
+
+jobs:
+  build-stage-scan:
+    runs-on: ubuntu-latest
+    steps:
+      # SHA-pinned: actions/checkout v4.2.2 — VERIFY SHA before merge.
+      - name: Checkout main (full history for rebase/retry push)
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: main
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      # ---- P0 GATE: refuse to build if EITHER live manifest is still on :latest ----
+      # Read from origin/main (ArgoCD's source of truth). yq preinstalled on ubuntu.
+      - name: P0 refuse — both color manifests must be digest-pinned (no :latest)
+        run: |
+          set -euo pipefail
+          git fetch origin "$BRANCH" --quiet
+          fail=0
+          for f in prod/nginx-blue.yaml DR/nginx-green.yaml; do
+            git show "origin/${BRANCH}:$f" > /tmp/m.yaml
+            NGINX_IMG=$(yq '.. | select(has("name") and .name=="nginx") | .image' /tmp/m.yaml | head -n1)
+            case "$NGINX_IMG" in
+              *"@sha256:"*) echo "OK   $f nginx -> $NGINX_IMG" ;;
+              *) echo "::error::$f nginx image is '$NGINX_IMG' (prereq P0: must be @sha256, not :latest). Refusing to build."; fail=1 ;;
+            esac
+          done
+          [ "$fail" = "0" ] || exit 1
+
+      # ---- Resolve LIVE color from COMMITTED Service selector, derive STANDBY ----
+      - name: Resolve live/standby color from committed selector
+        id: color
+        run: |
+          set -euo pipefail
+          git show "origin/${BRANCH}:shared/nginx-service.yaml" > /tmp/svc.yaml
+          # Order-independent: select the Service doc explicitly (file also has an HPA doc).
+          LIVE=$(yq 'select(.kind=="Service") | .spec.selector.version' /tmp/svc.yaml)
+          case "$LIVE" in
+            blue)  STANDBY=green; SFILE=DR/nginx-green.yaml ;;
+            green) STANDBY=blue;  SFILE=prod/nginx-blue.yaml ;;
+            *) echo "::error::committed Service selector is '$LIVE' (want blue|green)"; exit 1 ;;
+          esac
+          # Resolve the STANDBY object KIND dynamically from its manifest (.kind),
+          # so green-as-DaemonSet vs green-as-Deployment is handled automatically.
+          git show "origin/${BRANCH}:$SFILE" > /tmp/standby.yaml
+          KIND=$(yq '.kind' /tmp/standby.yaml | tr '[:upper:]' '[:lower:]')
+          case "$KIND" in
+            deployment) OBJ="deployment/nginx-web-${STANDBY}" ;;
+            daemonset)  OBJ="daemonset/nginx-web-${STANDBY}" ;;
+            *) echo "::error::standby $SFILE kind='$KIND' (want Deployment|DaemonSet)"; exit 1 ;;
+          esac
+          echo "live=$LIVE"        >> "$GITHUB_OUTPUT"
+          echo "standby=$STANDBY"  >> "$GITHUB_OUTPUT"
+          echo "sfile=$SFILE"      >> "$GITHUB_OUTPUT"
+          echo "object=$OBJ"       >> "$GITHUB_OUTPUT"
+          echo "Live=$LIVE  Standby=$STANDBY  File=$SFILE  Object=$OBJ"
+
+      # SHA-pinned: docker/setup-buildx-action v3.7.1 — VERIFY SHA before merge.
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@c47758b77c9736f4b2ef4073d4d51994fabfe349
+
+      # SHA-pinned: docker/login-action v3.3.0 — VERIFY SHA before merge.
+      - name: Log in to DockerHub
+        uses: docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      # SHA-pinned: actions/setup-python v5.3.0 — VERIFY SHA before merge.
+      - name: Set up Python
+        uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b
+        with:
+          python-version: '3.x'
+
+      - name: Install Dockerfile-generator deps
+        run: pip install requests packaging
+
+      - name: Generate Dockerfile (stable nginx + apk upgrade + chmod-after-COPY)
+        run: python .github/scripts/generate_dockerfile.py
+
+      - name: Show generated Dockerfile
+        run: cat Dockerfile
+
+      - name: Compute immutable date tag
+        id: date
+        run: echo "tag=v$(date -u +'%Y.%m.%d')" >> "$GITHUB_OUTPUT"
+
+      # Build SINGLE-ARCH linux/amd64 and LOAD locally so we can scan BEFORE publish.
+      # Single-arch is load-bearing: the running pod's imageID digest == the manifest
+      # digest, which is how soak-gate-promote confirms the standby serves the staged
+      # image (a multi-arch index digest would not equal the per-pod imageID).
+      # SHA-pinned: docker/build-push-action v6.10.0 — VERIFY SHA before merge.
+      - name: Build candidate (load locally, do NOT push yet)
+        uses: docker/build-push-action@48aba3b46d1b1fec4febb7c5d0c644b249a11355
+        with:
+          context: .
+          platforms: linux/amd64
+          load: true
+          push: false
+          provenance: false
+          tags: ${{ env.IMAGE }}:candidate
+
+      # Trivy GATE: fail on any FIXABLE HIGH/CRITICAL before publishing.
+      # SHA-pinned: aquasecurity/trivy-action v0.36.0 — VERIFY SHA before merge.
+      - name: Trivy security gate (fail on fixable HIGH/CRITICAL)
+        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25
+        with:
+          image-ref: ${{ env.IMAGE }}:candidate
+          scan-type: image
+          scanners: vuln
+          vuln-type: os,library
+          severity: 'HIGH,CRITICAL'
+          ignore-unfixed: true
+          format: table
+          exit-code: '1'
+
+      # Push ONLY the immutable :vYYYY.MM.DD tag. We DO NOT push :latest: nothing
+      # references :latest after P0, and pushing it would re-create the mutable-tag
+      # poisoning vector this whole pipeline exists to close.
+      - name: Push immutable tag and resolve digest
+        id: push
+        run: |
+          set -euo pipefail
+          TAG="${{ steps.date.outputs.tag }}"
+          docker tag "${IMAGE}:candidate" "${IMAGE}:${TAG}"
+          docker push "${IMAGE}:${TAG}"
+          DIGEST=$(docker buildx imagetools inspect "${IMAGE}:${TAG}" --format '{{json .Manifest.Digest}}' | tr -d '"')
+          echo "$DIGEST" | grep -Eq '^sha256:[0-9a-f]{64}$' || { echo "::error::bad digest '$DIGEST'"; exit 1; }
+          echo "digest=$DIGEST"          >> "$GITHUB_OUTPUT"
+          echo "ref=${IMAGE}@${DIGEST}"  >> "$GITHUB_OUTPUT"
+          echo "Resolved ${IMAGE}@${DIGEST}"
+
+      # SHA-pinned: sigstore/cosign-installer v3.7.0 — VERIFY SHA before merge.
+      - name: Install cosign
+        uses: sigstore/cosign-installer@dc72c7d5c4d10cd6bcb8cf6e3fd625a9e5e537da
+        with:
+          cosign-release: 'v2.4.1'
+
+      - name: Cosign sign the digest (keyless, GitHub OIDC)
+        run: cosign sign --yes "${{ steps.push.outputs.ref }}"
+
+      # CI verify the digest BEFORE pinning it into a manifest. Identity pinned to
+      # THIS workflow file on refs/heads/main (anchored + dot-escaped). MUST match
+      # docs/cosign-hardening-plan.md (which must be updated to build-stage-scan).
+      - name: Cosign verify the digest (identity pinned to this workflow @main)
+        run: |
+          set -euo pipefail
+          cosign verify "${{ steps.push.outputs.ref }}" \
+            --certificate-oidc-issuer 'https://token.actions.githubusercontent.com' \
+            --certificate-identity-regexp '^https://github\.com/gregheffner/cicd/\.github/workflows/build-stage-scan\.yaml@refs/heads/main$' \
+            > /dev/null
+          echo "cosign verify OK for ${{ steps.push.outputs.ref }}"
+
+      # ---- LEDGER SUPERSEDE (fail-loud, decided semantics: newer build wins) ----
+      # If a DIFFERENT digest is still soaking, the NEW (more-patched) build
+      # SUPERSEDES it: we reset the soak clock and log LOUDLY. We do NOT hard-fail
+      # (that would wedge every future build behind a stuck candidate). If the SAME
+      # digest is already soaking (byte-identical rebuild — rare given apk upgrade),
+      # we keep the original clock.
+      - name: Supersede guard (newer build supersedes un-promoted soaking candidate)
+        id: guard
+        env:
+          NEW_DIGEST: ${{ steps.push.outputs.digest }}
+        run: |
+          set -euo pipefail
+          PRESERVE=false
+          if git cat-file -e "origin/${BRANCH}:.github/state/candidate.json" 2>/dev/null; then
+            git show "origin/${BRANCH}:.github/state/candidate.json" > /tmp/ledger.json
+            python3 -c 'import json;json.load(open("/tmp/ledger.json"))' \
+              || { echo "::error::ledger unparseable; refusing to overwrite"; exit 1; }
+            PREV_STATE=$(python3 -c 'import json;print(json.load(open("/tmp/ledger.json"))["state"])')
+            PREV_DIG=$(python3   -c 'import json;print(json.load(open("/tmp/ledger.json"))["digest"])')
+            if [ "$PREV_STATE" = "soaking" ] || [ "$PREV_STATE" = "promoting" ]; then
+              if [ "$PREV_DIG" = "$NEW_DIGEST" ]; then
+                PRESERVE=true
+                echo "Idempotent rebuild of $NEW_DIGEST; preserving soak clock."
+              else
+                echo "::warning::SUPERSEDING un-promoted candidate $PREV_DIG (state=$PREV_STATE)."
+                echo "::warning::New build $NEW_DIGEST is presumably more-patched; soak clock RESETS."
+              fi
+            fi
+          fi
+          echo "preserve=$PRESERVE" >> "$GITHUB_OUTPUT"
+
+      # ---- Pin ONLY the nginx container image of the STANDBY manifest to @sha256 ----
+      # Select the nginx container by name; fail2ban (crazymax/fail2ban) is never
+      # matched. imagePullPolicy: IfNotPresent is safe because the ref is immutable.
+      - name: Pin standby manifest to digest (nginx container only)
+        env:
+          REF: ${{ steps.push.outputs.ref }}
+          SFILE: ${{ steps.color.outputs.sfile }}
+        run: |
+          set -euo pipefail
+          yq -i '
+            (.. | select(has("name") and .name == "nginx") | .image) = strenv(REF) |
+            (.. | select(has("name") and .name == "nginx") | .imagePullPolicy) = "IfNotPresent"
+          ' "$SFILE"
+          grep -q "technotuba/nginx@${{ steps.push.outputs.digest }}" "$SFILE" \
+            || { echo "::error::digest pin failed in $SFILE"; exit 1; }
+          grep -q "image: crazymax/fail2ban:latest" "$SFILE" \
+            || { echo "::error::fail2ban image line changed in $SFILE; aborting"; exit 1; }
+
+      # ---- Write candidate.json ledger (state: soaking) ----
+      - name: Write candidate.json ledger
+        env:
+          DIGEST: ${{ steps.push.outputs.digest }}
+          REF: ${{ steps.push.outputs.ref }}
+          TAG: ${{ steps.date.outputs.tag }}
+          LIVE: ${{ steps.color.outputs.live }}
+          STANDBY: ${{ steps.color.outputs.standby }}
+          SFILE: ${{ steps.color.outputs.sfile }}
+          OBJ: ${{ steps.color.outputs.object }}
+          PRESERVE: ${{ steps.guard.outputs.preserve }}
+        run: |
+          set -euo pipefail
+          mkdir -p .github/state
+          NOW_EPOCH=$(date -u +%s)
+          NOW_ISO=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+          if [ "$PRESERVE" = "true" ]; then
+            BUILD_EPOCH=$(python3 -c 'import json;print(json.load(open("/tmp/ledger.json"))["build_epoch"])')
+            ELIGIBLE=$(python3   -c 'import json;print(json.load(open("/tmp/ledger.json"))["promote_eligible_after_epoch"])')
+            BUILD_ISO=$(python3  -c 'import json;print(json.load(open("/tmp/ledger.json"))["build_timestamp_utc"])')
+          else
+            BUILD_EPOCH="$NOW_EPOCH"
+            ELIGIBLE=$(( NOW_EPOCH + SOAK_SECONDS ))
+            BUILD_ISO="$NOW_ISO"
+          fi
+          export DIGEST REF TAG LIVE STANDBY SFILE OBJ BUILD_EPOCH ELIGIBLE BUILD_ISO
+          export RUN_URL="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          python3 - <<'PY'
+          import json,os
+          d={
+            "schema":3,
+            "immutable_tag":os.environ["TAG"],
+            "digest":os.environ["DIGEST"],
+            "image_ref":os.environ["REF"],
+            "standby_color":os.environ["STANDBY"],
+            "standby_object":os.environ["OBJ"],
+            "standby_file":os.environ["SFILE"],
+            "live_color_at_build":os.environ["LIVE"],
+            "build_timestamp_utc":os.environ["BUILD_ISO"],
+            "build_epoch":int(os.environ["BUILD_EPOCH"]),
+            "build_scan_status":"pass",
+            "cosign_signed":True,
+            "promote_eligible_after_epoch":int(os.environ["ELIGIBLE"]),
+            "state":"soaking",
+            "flip_committed_sha":None,
+            "promoted_timestamp_utc":None,
+            "run_url":os.environ["RUN_URL"],
+          }
+          json.dump(d,open(".github/state/candidate.json","w"),indent=2)
+          open(".github/state/candidate.json","a").write("\n")
+          PY
+          python3 -c 'import json;json.load(open(".github/state/candidate.json"))' \
+            || { echo "::error::generated ledger is not valid JSON"; exit 1; }
+          cat .github/state/candidate.json
+
+      # ---- Commit standby manifest + ledger to main (fetch/rebase/retry push) ----
+      - name: Commit and push (fetch+rebase+retry)
+        env:
+          SFILE: ${{ steps.color.outputs.sfile }}
+          STANDBY: ${{ steps.color.outputs.standby }}
+          TAG: ${{ steps.date.outputs.tag }}
+        run: |
+          set -euo pipefail
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name  "github-actions[bot]"
+          git add "$SFILE" .github/state/candidate.json
+          if git diff --cached --quiet; then
+            echo "No changes to commit (identical rebuild, identical ledger)."; exit 0
+          fi
+          # [skip ci]: deploy/ledger commit; ArgoCD reconciles main on its own cadence.
+          git commit -m "ci(build): stage ${TAG} on standby ${STANDBY}; soak start [skip ci]"
+          for i in 1 2 3 4 5; do
+            git fetch origin "$BRANCH"
+            if git rebase "origin/${BRANCH}" && git push origin "HEAD:${BRANCH}"; then
+              echo "pushed"; exit 0
+            fi
+            echo "push attempt $i failed; retrying"; sleep $((i*3))
+          done
+          echo "::error::could not push standby+ledger after retries"; exit 1
