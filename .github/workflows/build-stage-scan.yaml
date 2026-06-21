@@ -44,9 +44,8 @@ jobs:
   build-stage-scan:
     runs-on: ubuntu-latest
     steps:
-      # SHA-pinned: actions/checkout v4.2.2 — VERIFY SHA before merge.
       - name: Checkout main (full history for rebase/retry push)
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0  # v7.0.0 (node24)
         with:
           ref: main
           fetch-depth: 0
@@ -97,20 +96,17 @@ jobs:
           echo "object=$OBJ"       >> "$GITHUB_OUTPUT"
           echo "Live=$LIVE  Standby=$STANDBY  File=$SFILE  Object=$OBJ"
 
-      # SHA-pinned: docker/setup-buildx-action v3.7.1 — VERIFY SHA before merge.
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@c47758b77c9736f4b2ef4073d4d51994fabfe349
+        uses: docker/setup-buildx-action@d7f5e7f509e45cec5c76c4d5afdd7de93d0b3df5  # v4.1.0 (node24)
 
-      # SHA-pinned: docker/login-action v3.3.0 — VERIFY SHA before merge.
       - name: Log in to DockerHub
-        uses: docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567
+        uses: docker/login-action@650006c6eb7dba73a995cc03b0b2d7f5ca915bee  # v4.2.0 (node24)
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      # SHA-pinned: actions/setup-python v5.3.0 — VERIFY SHA before merge.
       - name: Set up Python
-        uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b
+        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405  # v6.2.0 (node24)
         with:
           python-version: '3.x'
 
@@ -131,9 +127,8 @@ jobs:
       # Single-arch is load-bearing: the running pod's imageID digest == the manifest
       # digest, which is how soak-gate-promote confirms the standby serves the staged
       # image (a multi-arch index digest would not equal the per-pod imageID).
-      # SHA-pinned: docker/build-push-action v6.10.0 — VERIFY SHA before merge.
       - name: Build candidate (load locally, do NOT push yet)
-        uses: docker/build-push-action@48aba3b46d1b1fec4febb7c5d0c644b249a11355
+        uses: docker/build-push-action@f9f3042f7e2789586610d6e8b85c8f03e5195baf  # v7.2.0 (node24)
         with:
           context: .
           platforms: linux/amd64
@@ -143,7 +138,6 @@ jobs:
           tags: ${{ env.IMAGE }}:candidate
 
       # Trivy GATE: fail on any FIXABLE HIGH/CRITICAL before publishing.
-      # SHA-pinned: aquasecurity/trivy-action v0.36.0 — VERIFY SHA before merge.
       - name: Trivy security gate (fail on fixable HIGH/CRITICAL)
         uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25
         with:
@@ -172,9 +166,8 @@ jobs:
           echo "ref=${IMAGE}@${DIGEST}"  >> "$GITHUB_OUTPUT"
           echo "Resolved ${IMAGE}@${DIGEST}"
 
-      # SHA-pinned: sigstore/cosign-installer v3.7.0 — VERIFY SHA before merge.
       - name: Install cosign
-        uses: sigstore/cosign-installer@dc72c7d5c4d10cd6bcb8cf6e3fd625a9e5e537da
+        uses: sigstore/cosign-installer@6f9f17788090df1f26f669e9d70d6ae9567deba6  # v4.1.2 (composite)
         with:
           cosign-release: 'v2.4.1'
 
