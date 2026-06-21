@@ -38,22 +38,28 @@ def get_stable_nginx_version():
         print("[WARN] No version tags found, falling back to 1.28.0")
         return "1.28.0"
 
-    # Sort and get the latest
-    latest = max(version_tags, key=version.parse)
-    print(f"[INFO] Latest stable nginx version found: {latest}")
+    # nginx STABLE branches have an EVEN minor (1.28, 1.30, ...); ODD is mainline
+    # (1.29, 1.31). max() over all tags picks mainline despite this function's name,
+    # so filter to the stable (even-minor) branch first.
+    stable_tags = [v for v in version_tags if version.parse(v).release[1] % 2 == 0]
+    if not stable_tags:
+        print("[WARN] No even-minor stable tags; falling back to newest available.")
+        stable_tags = version_tags
+    latest = max(stable_tags, key=version.parse)
+    print(f"[INFO] Latest STABLE nginx version found: {latest}")
     return latest
 
 
 def get_latest_njs_version():
     url = "https://api.github.com/repos/nginx/njs/releases/latest"
-    resp = requests.get(url)
+    resp = requests.get(url, timeout=10)
     data = resp.json()
     return data["tag_name"].lstrip("v")
 
 
 def get_latest_njs_debian_release():
     url = "https://sources.debian.org/api/src/njs/"
-    resp = requests.get(url)
+    resp = requests.get(url, timeout=10)
     data = resp.json()
     for version in data.get("versions", []):
         if "bookworm" in version["suites"]:
@@ -85,14 +91,23 @@ ENV NGINX_VERSION={NGINX_VERSION} \
     PKG_RELEASE={PKG_RELEASE}
 ENV TZ=America/New_York
 
-RUN set -x && apk add --no-cache tzdata && \
+# apk upgrade picks up patched OS packages from the Alpine repo (e.g. openssl
+# libssl3/libcrypto3 3.5.6-r0 -> 3.5.7-r0, an ABI-stable .so swap) so the monthly
+# rebuild ships current security fixes even when the upstream base lags.
+RUN set -eux && \
+    apk upgrade --no-cache && \
+    apk add --no-cache tzdata && \
     cp /usr/share/zoneinfo/America/New_York /etc/localtime && \
-    echo "America/New_York" > /etc/timezone && \
-    chmod +x /docker-entrypoint.sh && \
-    chmod +x /docker-entrypoint.d/*.sh || true
+    echo "America/New_York" > /etc/timezone
 
 COPY DockerImage/docker-entrypoint.sh /
 COPY DockerImage/docker-entrypoint.d/ /docker-entrypoint.d/
+
+# chmod AFTER the COPY (the previous chmod-before-COPY ran against base-image files
+# and was a no-op on the project scripts, silently masked by `|| true`).
+RUN set -eux && \
+    chmod +x /docker-entrypoint.sh && \
+    chmod +x /docker-entrypoint.d/*.sh
 
 EXPOSE 80
 

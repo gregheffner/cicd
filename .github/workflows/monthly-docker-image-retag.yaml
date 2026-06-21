@@ -36,9 +36,6 @@ jobs:
       - name: Push new tag
         run: docker push technotuba/nginx:${{ steps.date.outputs.TAG }}
 
-      - name: Checkout code
-        uses: actions/checkout@v4
-
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -53,18 +50,32 @@ jobs:
       - name: Show generated Dockerfile
         run: cat Dockerfile
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Build and push Docker image
+      # Build and LOAD locally first so the image can be scanned BEFORE it is published.
+      - name: Build candidate image (load locally, do NOT push yet)
         uses: docker/build-push-action@v5
         with:
           context: .
-          push: true
-          tags: technotuba/nginx:latest   
-          
-      - name: Checkout code
-        uses: actions/checkout@v4
+          load: true
+          push: false
+          tags: technotuba/nginx:latest
+
+      # Security gate: fail the run (and skip the push) on any FIXABLE HIGH/CRITICAL CVE.
+      # ignore-unfixed keeps unfixable upstream noise from blocking; a fixable CVE (e.g.
+      # the OpenSSL libssl3/libcrypto3 findings now resolved by `apk upgrade`) blocks publish.
+      - name: Trivy security gate (fail on fixable HIGH/CRITICAL before publishing)
+        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25  # v0.36.0
+        with:
+          image-ref: technotuba/nginx:latest
+          scan-type: image
+          scanners: vuln
+          vuln-type: os,library
+          severity: 'HIGH,CRITICAL'
+          ignore-unfixed: true
+          format: table
+          exit-code: '1'
+
+      - name: Push image after passing scan gate
+        run: docker push technotuba/nginx:latest
 
       - name: Pull latest changes
         run: git pull --rebase
@@ -148,5 +159,6 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
           git add DR/nginx-green.yaml prod/nginx-blue.yaml README.md shared/nginx-service.yaml
-          git commit -m "chore: update deployment images to latest and previous" || echo "No changes to commit"
+          # Fail loudly on a real commit error; only no-op when there is genuinely nothing staged.
+          git diff --cached --quiet || git commit -m "chore: update deployment images to latest and previous"
           git push
