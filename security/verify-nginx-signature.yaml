@@ -14,8 +14,9 @@ metadata:
     argocd.argoproj.io/sync-wave: "1"   # apply AFTER the kyverno controller/CRDs (wave 0)
 spec:
   webhookConfiguration:
-    failurePolicy: Ignore                # AUDIT WINDOW: fail-open while enforcement does nothing.
-                                         # Tighten to Fail in the SAME commit that flips to Enforce.
+    failurePolicy: Fail                  # ENFORCE: fail-closed. Verified Kyverno-pod egress to
+                                         # fulcio+rekor + imageVerifyCache(60m) bound the outage blast
+                                         # radius to FRESH technotuba/nginx digests only.
   webhookTimeoutSeconds: 30              # max; tolerate slow Sigstore
   background: false                      # verifyImages is admission-time only; no background scan
   rules:
@@ -31,7 +32,7 @@ spec:
         - imageReferences:
             - "docker.io/technotuba/nginx*"
             - "technotuba/nginx*"         # SCOPE: ONLY this image. fail2ban/system images untouched.
-          failureAction: Audit            # PHASE 1 report-only. Flip to Enforce in a SEPARATE commit.
+          failureAction: Enforce          # ENFORCE: reject an unsigned/foreign-signed technotuba/nginx pod.
           required: true                  # a matching image with NO valid signature is a violation
           mutateDigest: true              # no-op now (already @sha256); rewrites any residual tag at admission
           verifyDigest: true
