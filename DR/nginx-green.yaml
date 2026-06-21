@@ -1,5 +1,5 @@
   apiVersion: apps/v1
-  kind: DaemonSet
+  kind: Deployment                      # P2: was DaemonSet
   metadata:
     labels:
       app: nginx-web
@@ -8,6 +8,12 @@
     name: nginx-web-green
     namespace: prod
   spec:
+    replicas: 3                         # P2: mirror blue
+    strategy:                           # surge-first: never drop below desired Ready
+      type: RollingUpdate
+      rollingUpdate:
+        maxSurge: 1
+        maxUnavailable: 0
     selector:
       matchLabels:
         app: nginx-web
@@ -31,16 +37,49 @@
             }
           ad.datadoghq.com/nginx.logs: '[{"source":"nginx","service":"nginx"}]'
       spec:
+        terminationGracePeriodSeconds: 30   # P4
+        affinity:
+          nodeAffinity:                     # P2: only schedule where the images hostPath exists (all 3 workers confirmed)
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+              - matchExpressions:
+                - key: kubernetes.io/hostname
+                  operator: In
+                  values: ["worker1", "worker2", "worker3"]
+          podAntiAffinity:                  # spread the 3 replicas across nodes
+            preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                topologyKey: kubernetes.io/hostname
+                labelSelector:
+                  matchLabels:
+                    app: nginx-web
+                    version: green
         containers:
         - name: nginx
-          image: technotuba/nginx:latest
-          imagePullPolicy: Always
+          image: technotuba/nginx@sha256:a4d88848452f4cca22afd98d47768ebe3c2f9c9c002e56faad9f25895681a3e1   # P0: pinned to current running digest
+          imagePullPolicy: IfNotPresent     # P0: was Always
           ports:
           - containerPort: 80
           - containerPort: 81
-          resources:
+          readinessProbe:                   # P3
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 3
+            successThreshold: 1
+            failureThreshold: 3
+          lifecycle:                        # P4
+            preStop:
+              exec:
+                command: ["/bin/sh", "-c", "sleep 5; nginx -s quit"]
+          resources:                        # P5: realistic request so HPA Utilization is meaningful
             requests:
-              cpu: 100m
+              cpu: 250m
+            limits:
+              cpu: "1"
           volumeMounts:
           - mountPath: /usr/share/nginx/html
             name: www-volume
