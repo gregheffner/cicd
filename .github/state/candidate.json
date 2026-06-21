@@ -11,7 +11,7 @@
   "build_epoch": 1782056575,
   "build_scan_status": "pass",
   "cosign_signed": true,
-  "promote_eligible_after_epoch": 1782315775,
+  "promote_eligible_after_epoch": 1782056575,
   "state": "soaking",
   "flip_committed_sha": null,
   "promoted_timestamp_utc": null,
