@@ -10,6 +10,7 @@
 ![cosign](https://img.shields.io/badge/cosign-keyless-FFCA28?logo=sigstore&logoColor=black)
 ![Trivy](https://img.shields.io/badge/Trivy-vuln%20gate-1904DA?logo=aquasecurity&logoColor=white)
 ![Cloudflare Tunnel](https://img.shields.io/badge/Cloudflare-Tunnel-F38020?logo=cloudflare&logoColor=white)
+![Cloudflare blocks](https://img.shields.io/badge/Cloudflare%20blocks-0-red?logo=cloudflare&logoColor=white)
 
 </div>
 
