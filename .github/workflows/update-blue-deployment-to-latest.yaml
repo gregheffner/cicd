@@ -2,8 +2,10 @@ name: Update Blue Deployment to Latest
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '0 23 7 * *'
+  # schedule DISARMED 2026-06-21: legacy calendar flip (seds blue->:latest and flips
+  # selector). Superseded by the state-aware soak-gate-promote.yaml. Dispatch-only.
+  # schedule:
+  #   - cron: '0 23 7 * *'
 
 jobs:
   switch-service-to-green:
