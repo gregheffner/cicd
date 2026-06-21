@@ -27,3 +27,6 @@ tmp.yaml
 .vscode/
 .github/instructions/
 graphify-out/
+
+# Private operator runbook + internal design docs (never publish — internal topology)
+ops-local/
