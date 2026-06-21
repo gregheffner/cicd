@@ -333,16 +333,24 @@ jobs:
           done
           echo "::error::could not push atomic flip after retries; NO flip committed (safe)"; exit 1
 
-      # ---- Wait for ArgoCD to apply the committed selector (read-only kubectl poll) ----
-      - name: Wait for ArgoCD to converge the flip
+      # ---- Force ArgoCD to apply the committed selector NOW, then confirm ----
+      - name: Force ArgoCD sync of the flip, then wait for convergence
         if: steps.soak.outputs.go == 'true' && steps.reconcile.outputs.reconcile == 'false'
         run: |
           set -euo pipefail
           S="${{ steps.colors.outputs.standby }}"
+          # Don't wait for ArgoCD's poll (can be ~5min and exceed our deadline -> would
+          # otherwise need a manual sync). shared-services has automated+selfHeal sync,
+          # so a hard refresh makes the controller reconcile the just-committed selector
+          # immediately. Runner RBAC to patch applications.argoproj.io is verified; no
+          # argocd CLI on this runner. Non-fatal if it can't annotate -> fall back to poll.
+          kubectl -n automation annotate application shared-services \
+            argocd.argoproj.io/refresh=hard --overwrite \
+            || echo "::warning::could not force ArgoCD refresh; falling back to its poll"
           deadline=$(( SECONDS + 240 ))
           until [ "$(kubectl get svc nginx-service -n "$NS" -o jsonpath='{.spec.selector.version}')" = "$S" ]; do
             [ $SECONDS -ge $deadline ] && { echo "::error::ArgoCD did not apply selector=$S in time"; exit 1; }
-            echo "waiting for live selector to become $S"; sleep 10
+            echo "waiting for live selector to become $S"; sleep 5
           done
           echo "Live selector is now $S."
 
@@ -391,6 +399,13 @@ jobs:
             git push origin "HEAD:${BRANCH}" && { rolled=1; break; }
             echo "rollback push attempt $i lost race; retrying"; git reset --hard "origin/${BRANCH}"; sleep $((i*3))
           done
+          # Force ArgoCD to apply the rollback NOW (don't wait for its poll) so live
+          # returns to the healthy color immediately.
+          if [ "$rolled" = "1" ]; then
+            kubectl -n automation annotate application shared-services \
+              argocd.argoproj.io/refresh=hard --overwrite \
+              || echo "::warning::could not force ArgoCD refresh on rollback; ArgoCD poll will still apply it"
+          fi
           # Verify the rollback ACTUALLY landed on origin/main; do not trust the loop.
           git fetch origin "$BRANCH" --quiet
           COMMITTED=$(git show "origin/${BRANCH}:shared/nginx-service.yaml" \
