@@ -2,8 +2,12 @@ name: Monthly Docker Image Retag
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '0 0 1 * *'
+  # schedule DISARMED 2026-06-21: this legacy workflow re-pushes :latest, rewrites
+  # both color manifests to mutable tags, and flips the Service selector — it would
+  # un-pin P0 digests and move live traffic. Superseded by build-stage-scan.yaml +
+  # soak-gate-promote.yaml. Kept dispatch-only until removed at Phase-1 cutover.
+  # schedule:
+  #   - cron: '0 0 1 * *'
 jobs:
   retag-latest:
     runs-on: ubuntu-latest
