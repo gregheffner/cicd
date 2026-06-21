@@ -184,6 +184,28 @@ jobs:
             > /dev/null
           echo "cosign verify OK for ${{ steps.push.outputs.ref }}"
 
+      # ---- Docker Scout CVE scan of the EXACT pushed+signed digest ----
+      # Scans technotuba/nginx@<digest> — precisely what soak/promote deploys — so
+      # Scout coverage is TAG-INDEPENDENT and never depends on a vYYYY.MM.DD tag
+      # surviving on Docker Hub. (A deleted/expired daily tag previously left the
+      # running image visible to Scout only as an unscannable cosign .sig artifact.)
+      # REPORT-ONLY: Trivy (pre-push, fixable HIGH/CRITICAL) is the blocking gate.
+      # Gating here would reject an already-pushed+signed image and strand a dangling
+      # signed orphan on the registry — the exact failure mode this step illuminates.
+      - name: Docker Scout CVEs on deployed digest (report-only)
+        continue-on-error: true     # visibility step: a Scout infra/entitlement error must never block a build
+        uses: docker/scout-action@cd72f264beff1cd72735de31148b9d3244a0234a  # v1.21.0
+        with:
+          command: cves
+          image: ${{ steps.push.outputs.ref }}
+          only-severities: critical,high
+          only-fixed: true          # mirror the Trivy gate (fixable only)
+          exit-code: false          # report-only; never fail the build here
+          summary: true             # render a CVE table into the job summary
+        env:
+          DOCKER_SCOUT_HUB_USER: ${{ secrets.DOCKERHUB_USERNAME }}
+          DOCKER_SCOUT_HUB_PASSWORD: ${{ secrets.DOCKERHUB_TOKEN }}
+
       # ---- LEDGER SUPERSEDE (fail-loud, decided semantics: newer build wins) ----
       # If a DIFFERENT digest is still soaking, the NEW (more-patched) build
       # SUPERSEDES it: we reset the soak clock and log LOUDLY. We do NOT hard-fail
