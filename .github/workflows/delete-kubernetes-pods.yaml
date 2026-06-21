@@ -17,8 +17,12 @@ on:
           - radar
           - kube-system
           - kube-flannel
-  schedule:
-    - cron: '0 8 * * 6'
+  # schedule DISARMED 2026-06-21: the Saturday NS=all run does `kubectl delete pods
+  # --all -n automation`, which bounces ArgoCD itself and can stall reconciliation
+  # mid-rollout. Dispatch-only during the Phase-1 prereq window. The branch
+  # feat/weekly-soak-bluegreen carries a standby-only replacement for re-arming.
+  # schedule:
+  #   - cron: '0 8 * * 6'
 
 jobs:
   delete-pods:
