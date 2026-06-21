@@ -1,0 +1,30 @@
+# security/heffner-security-app.yaml  (apply once as cluster-admin during bootstrap)
+# Syncs ONLY the ClusterPolicy from security/. ArgoCD owns it after bootstrap.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: heffner-security
+  namespace: automation
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/gregheffner/cicd
+    targetRevision: main
+    path: security
+    directory:
+      include: 'verify-nginx-signature.yaml'   # ONLY the ClusterPolicy, not the App YAMLs in this dir
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: kyverno                          # ClusterPolicy is cluster-scoped; ns is just the App default
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
+    retry:
+      limit: 5
+      backoff:
+        duration: 30s
+        factor: 2
+        maxDuration: 5m                          # tolerate webhook-not-ready races
