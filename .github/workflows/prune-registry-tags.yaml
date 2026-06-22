@@ -1,0 +1,297 @@
+# .github/workflows/prune-registry-tags.yaml
+#
+# Mechanical cleanup of technotuba/nginx Docker Hub tags. NO AI in the loop —
+# this is pure set logic (bash + grep + jq + curl). The SCHEDULED (weekly cron) run
+# APPLIES — it actually deletes per the retention policy. A manual workflow_dispatch
+# defaults to DRY-RUN (prints the plan, deletes nothing) unless apply=true is ticked,
+# so you can always preview on demand. Safety: it still NEVER deletes an in-use or
+# rollback-reachable digest or its .sig, and fails loud on any error (see below).
+#
+# RETENTION (Greg's rule): keep every weekly vYYYY.MM.DD tag from the last
+# RETENTION_MONTHS months, keep the last build of each YEAR forever, delete the
+# rest. On top of that, a NON-NEGOTIABLE safety overlay (read live from git) keeps
+# any digest that is in use now OR reachable by a git-revert within ROLLBACK_WEEKS,
+# plus its cosign .sig. The overlay lives entirely inside the 3-month window, so it
+# never fights the retention rule.
+#
+# WHY THIS EXISTS / the two traps it must never spring (see build-stage-scan.yaml,
+# soak-gate-promote.yaml, and the Kyverno enforce policy):
+#   1. Git is the source of truth for which digest is live. During a 72h soak the
+#      blue and green manifests pin TWO different digests; after a promote they pin
+#      ONE. We read prod/nginx-blue.yaml, DR/nginx-green.yaml and candidate.json
+#      from origin/main EVERY run — never hardcode, never trust the tag age alone.
+#   2. Every signed digest has a sibling Hub tag "sha256-<digest>.sig". Kyverno is
+#      Enforce/failurePolicy:Fail — deleting a .sig whose digest can still be
+#      admitted (pod restart / node reboot / git revert) is a PRODUCTION OUTAGE, and
+#      deleting the last plain tag of a live digest leaves an unscannable orphan
+#      (the exact bug that already happened once). So a .sig is reaped ONLY in
+#      lockstep, after its digest is provably fully retired.
+#
+# Runner: ubuntu-latest (registry-only; internet egress; jq/curl/python3 present).
+# Never touches the cluster. Shares concurrency group nginx-pipeline with the build
+# and promote workflows so it can never run while either is mutating tags/manifests.
+
+name: prune-registry-tags
+
+on:
+  schedule:
+    # Mon 08:00 UTC — one hour AFTER build-stage-scan (Mon 07:00) so the week's new
+    # vYYYY.MM.DD tag + its .sig are already pushed and committed before we evaluate.
+    - cron: '0 8 * * 1'
+  workflow_dispatch:
+    inputs:
+      apply:
+        description: 'MANUAL runs only: set true to actually delete (default false = dry-run). Scheduled cron runs always apply.'
+        type: boolean
+        default: false
+      retention_months:
+        description: 'Keep every weekly vYYYY.MM.DD tag newer than this many months'
+        type: string
+        default: '3'
+      rollback_weeks:
+        description: 'Treat every digest pinned in git history within this many weeks as un-deletable (must be <= retention window)'
+        type: string
+        default: '8'
+      prune_nondate:
+        description: 'Also delete tags with no parseable date (e.g. initial, latest). Year archives vYYYY.MM and weeklies vYYYY.MM.DD are unaffected. Default false = keep them.'
+        type: boolean
+        default: false
+
+# LOAD-BEARING: byte-identical group to build-stage-scan.yaml and
+# soak-gate-promote.yaml. This serialises prune behind any in-flight build (which
+# pushes a tag/sig) or promote (which re-pins a manifest, changing the protected
+# set). Do NOT rename. cancel-in-progress:false so we never starve build/promote.
+concurrency:
+  group: nginx-pipeline
+  cancel-in-progress: false
+
+permissions:
+  contents: read     # reads origin/main only; never commits, never signs (no id-token)
+
+env:
+  REPO: technotuba/nginx
+  HUB: https://hub.docker.com/v2/repositories/technotuba/nginx
+  REG: https://registry-1.docker.io/v2/technotuba/nginx
+  AUTH: 'https://auth.docker.io/token?service=registry.docker.io'
+
+jobs:
+  prune:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main (full history for the rollback-reachability walk)
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0  # v7.0.0 (node24)
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Prune (all set-logic; mechanical, no AI)
+        env:
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          DOCKERHUB_TOKEN:    ${{ secrets.DOCKERHUB_TOKEN }}
+          EVENT:             ${{ github.event_name }}
+          APPLY_INPUT:       ${{ inputs.apply || 'false' }}
+          RETENTION_MONTHS:  ${{ inputs.retention_months || '3' }}
+          ROLLBACK_WEEKS:    ${{ inputs.rollback_weeks || '8' }}
+          PRUNE_NONDATE:     ${{ inputs.prune_nondate || 'false' }}
+        run: |
+          set -euo pipefail
+          SUM="${GITHUB_STEP_SUMMARY:-/dev/stdout}"
+          # Scheduled cron runs APPLY (real cleanup, per design); a manual dispatch
+          # defaults to DRY-RUN unless apply=true was ticked.
+          if [ "$EVENT" = "schedule" ]; then APPLY=true; else APPLY="$APPLY_INPUT"; fi
+          mode=$([ "$APPLY" = "true" ] && echo APPLY || echo DRY-RUN)
+          echo "## prune-registry-tags ($mode)" >> "$SUM"
+
+          # ---- 0. config asserts (the window must cover the rollback horizon) -----
+          [[ "$RETENTION_MONTHS" =~ ^[0-9]+$ ]] || { echo "::error::retention_months not int"; exit 1; }
+          [[ "$ROLLBACK_WEEKS"   =~ ^[0-9]+$ ]] || { echo "::error::rollback_weeks not int"; exit 1; }
+          (( RETENTION_MONTHS >= 1 )) || { echo "::error::retention_months floor is 1"; exit 1; }
+          TODAY=$(date -u +%Y.%m.%d)
+          RET_CUTOFF=$(date -u -d "$RETENTION_MONTHS months ago" +%Y.%m.%d)
+          RB_CUTOFF=$(date -u -d "$ROLLBACK_WEEKS weeks ago" +%Y.%m.%d)
+          # retention window must reach at least as far back as the rollback horizon,
+          # else weekly churn could age out a rollback target's tag/.sig (outage).
+          [[ ! "$RET_CUTOFF" > "$RB_CUTOFF" ]] || { echo "::error::retention window ($RET_CUTOFF) shorter than rollback horizon ($RB_CUTOFF)"; exit 1; }
+
+          git fetch origin main --quiet
+          BR=origin/main
+
+          # nginx app image is the only technotuba/nginx@sha256 line; fail2ban is
+          # crazymax/* so this can never match the sidecar. Empty => :latest or
+          # unparseable => fail loud below.
+          dig_of() { git show "$BR:$1" 2>/dev/null | grep -oE 'technotuba/nginx@sha256:[0-9a-f]{64}' | head -1 | grep -oE 'sha256:[0-9a-f]{64}' || true; }
+
+          # ---- 1. PROTECTED (HEAD) = blue + green pins + soaking/promoting cand ----
+          BLUE=$(dig_of prod/nginx-blue.yaml)
+          GREEN=$(dig_of DR/nginx-green.yaml)
+          for d in "$BLUE" "$GREEN"; do
+            [[ "$d" =~ ^sha256:[0-9a-f]{64}$ ]] || { echo "::error::bad/absent nginx digest pin (got '$d') — on :latest or unparseable; refusing to prune"; exit 1; }
+          done
+          CJSON=$(git show "$BR:.github/state/candidate.json")
+          CAND_DIG=$(jq -r '.digest // empty' <<<"$CJSON")  || { echo "::error::candidate.json unparseable"; exit 1; }
+          CAND_STATE=$(jq -r '.state // empty' <<<"$CJSON") || { echo "::error::candidate.json unparseable"; exit 1; }
+          # HEAD = digests live RIGHT NOW (must keep a plain tag, else imminent outage).
+          # BASE = the full delete-protection overlay (HEAD plus rollback-reachable history).
+          declare -A HEAD=() BASE=()
+          HEAD[$BLUE]=1; HEAD[$GREEN]=1; BASE[$BLUE]=1; BASE[$GREEN]=1
+          if [[ "$CAND_STATE" == "soaking" || "$CAND_STATE" == "promoting" ]]; then
+            [[ "$CAND_DIG" =~ ^sha256:[0-9a-f]{64}$ ]] || { echo "::error::soaking/promoting candidate has bad digest"; exit 1; }
+            HEAD[$CAND_DIG]=1; BASE[$CAND_DIG]=1
+          fi
+
+          # ---- 2. ROLLBACK-REACHABLE: every nginx digest pinned in the last
+          #         ROLLBACK_WEEKS of git history of the three truth files. Closes
+          #         the git-revert -> reaped-.sig -> Kyverno-outage path. ----------
+          for f in prod/nginx-blue.yaml DR/nginx-green.yaml .github/state/candidate.json; do
+            for sha in $(git log "$BR" --since="$ROLLBACK_WEEKS weeks ago" --format=%H -- "$f"); do
+              blob=$(git show "$sha:$f" 2>/dev/null) || continue
+              if [[ "$f" == *.json ]]; then
+                d=$(jq -r '.digest // empty' <<<"$blob" 2>/dev/null || true)
+              else
+                d=$(grep -oE 'technotuba/nginx@sha256:[0-9a-f]{64}' <<<"$blob" | head -1 | grep -oE 'sha256:[0-9a-f]{64}' || true)
+              fi
+              [[ "$d" =~ ^sha256:[0-9a-f]{64}$ ]] && BASE[$d]=1
+            done
+          done
+
+          # ---- 3. anonymous registry pull token + authoritative tag->digest -------
+          # (Hub's tag-listing API lags after writes; registry-1 is strongly consistent.)
+          PTOK=$(curl -fsSL "$AUTH&scope=repository:$REPO:pull" | jq -r .token)
+          [ -n "$PTOK" ] && [ "$PTOK" != null ] || { echo "::error::no registry pull token"; exit 1; }
+          resolve() {  # $1=tag -> sha256:... (empty on 404/5xx = UNKNOWN)
+            curl -fsSI -H "Authorization: Bearer $PTOK" \
+              -H "Accept: application/vnd.docker.distribution.manifest.v2+json" \
+              "$REG/manifests/$1" 2>/dev/null | tr -d '\r' \
+              | awk -F': ' 'tolower($1)=="docker-content-digest"{print $2}'
+          }
+
+          # ---- 4. list tags (Hub list = names; registry tags/list = lag-proof set) -
+          HUB_TAGS=(); url="$HUB/tags/?page_size=100"
+          while [ -n "$url" ] && [ "$url" != "null" ]; do
+            page=$(curl -fsSL "$url")
+            while read -r t; do [ -n "$t" ] && HUB_TAGS+=("$t"); done < <(jq -r '.results[].name' <<<"$page")
+            url=$(jq -r '.next' <<<"$page")
+          done
+          mapfile -t REG_TAGS < <(curl -fsSL -H "Authorization: Bearer $PTOK" "$REG/tags/list" | jq -r '.tags[]?')
+          in_reg() { printf '%s\n' "${REG_TAGS[@]}" | grep -qxF "$1"; }
+
+          # Parse a date tag into a comparable, validated, non-future date string.
+          # Accepts BOTH the weekly vYYYY.MM.DD and the year-end archive vYYYY.MM
+          # (Greg's existing v2025.12 / v2024.12 are vYYYY.MM); a month tag normalises
+          # to YYYY.MM.00 so a real same-month weekly always sorts later than it.
+          # Echoes the normalised "YYYY.MM.DD" on success; non-zero (no echo) on a
+          # malformed (v2026.13 / v2026.02.30) or future-dated tag.
+          parse_date() {
+            local y m d
+            if [[ "$1" =~ ^v([0-9]{4})\.([0-9]{2})\.([0-9]{2})$ ]]; then
+              y=${BASH_REMATCH[1]} m=${BASH_REMATCH[2]} d=${BASH_REMATCH[3]}
+            elif [[ "$1" =~ ^v([0-9]{4})\.([0-9]{2})$ ]]; then
+              y=${BASH_REMATCH[1]} m=${BASH_REMATCH[2]} d=00
+            else return 1; fi
+            (( 10#$m >= 1 && 10#$m <= 12 )) || return 1
+            if [ "$d" != "00" ]; then
+              local n; n=$(date -u -d "$y-$m-$d" +%Y-%m-%d 2>/dev/null) || return 1
+              [ "$n" = "$y-$m-$d" ] || return 1            # rejects 2026.02.30 etc.
+            fi
+            [[ "$y.$m.$d" > "$TODAY" ]] && return 1         # rejects future tags
+            echo "$y.$m.$d"
+          }
+
+          # ---- 5. classify every tag (resolve ALL of them so any kept tag keeps its .sig)
+          declare -A KEEP=() TAGDIG=() ND=() YRTAG=() YRMAX=()
+          DATETAGS=(); SIGS=(); NONDATE=()
+          for t in "${HUB_TAGS[@]}"; do
+            if [[ "$t" =~ ^sha256-[0-9a-f]{64}\.sig$ ]]; then SIGS+=("$t"); continue; fi
+            dig=$(resolve "$t")
+            if [ -z "$dig" ]; then echo "::warning::cannot resolve $t -> UNKNOWN, keeping (never delete an unresolved tag)"; KEEP[$t]=1; continue; fi
+            TAGDIG[$t]=$dig
+            if nd=$(parse_date "$t"); then
+              y=${nd%%.*}; ND[$t]=$nd; DATETAGS+=("$t")
+              # last-of-year winner = max normalised date within the year (covers both formats)
+              if [ -z "${YRMAX[$y]:-}" ] || [[ "$nd" > "${YRMAX[$y]}" ]]; then YRMAX[$y]=$nd; YRTAG[$y]=$t; fi
+            else
+              NONDATE+=("$t")   # initial, latest, future/malformed tags, repair tags, ...
+            fi
+          done
+
+          # ---- 6. KEEP tiers (union): in-window, last-of-year, safety overlay ------
+          for t in "${DATETAGS[@]}"; do
+            [[ ! "${ND[$t]}" < "$RET_CUTOFF" ]] && KEEP[$t]=1   # within last RETENTION_MONTHS
+            [ -n "${BASE[${TAGDIG[$t]}]:-}" ] && KEEP[$t]=1     # safety overlay (in-use / rollback)
+          done
+          for t in "${YRTAG[@]}"; do KEEP[$t]=1; done           # last-of-year, forever
+          # truly non-date tags (initial, latest) kept unless explicitly told to prune them
+          if [ "$PRUNE_NONDATE" != "true" ]; then for t in "${NONDATE[@]}"; do KEEP[$t]=1; done; fi
+
+          # ---- 7. KEEP_DIGESTS = overlay ∪ digest of EVERY kept tag (date or not) --
+          declare -A KEEPDIG=(); for d in "${!BASE[@]}"; do KEEPDIG[$d]=1; done
+          for t in "${!KEEP[@]}"; do [ -n "${TAGDIG[$t]:-}" ] && KEEPDIG[${TAGDIG[$t]}]=1; done
+
+          # ---- 8. no-orphan invariant ----------------------------------------------
+          # A live (HEAD) digest with no kept plain tag = imminent outage -> HARD FAIL.
+          # A rollback-history digest that is ALREADY orphaned (e.g. an old pre-patch
+          # digest whose tag+.sig were hand-deleted long ago) cannot be fixed from here
+          # and a revert to it is already un-admittable under Kyverno -> loud WARNING,
+          # not a failure (else one stale digest would block the cleaner forever).
+          has_kept_tag() { local d=$1 t; for t in "${!KEEP[@]}"; do [ "${TAGDIG[$t]:-}" = "$d" ] && return 0; done; return 1; }
+          for d in "${!HEAD[@]}"; do
+            has_kept_tag "$d" || { echo "::error::LIVE digest $d has NO kept plain tag (would orphan it behind only its .sig). Refusing to delete anything."; exit 1; }
+          done
+          for d in "${!BASE[@]}"; do
+            [ -n "${HEAD[$d]:-}" ] && continue
+            has_kept_tag "$d" || {
+              echo "::warning::rollback-reachable digest $d already has no plain tag on Hub; a git-revert to it is already un-admittable. Re-sign/re-tag it or lower rollback_weeks to exclude it."
+              echo "- NOTE: rollback-reachable $d is already orphaned (pre-existing); not blocking." >> "$SUM"
+            }
+          done
+
+          # ---- 9. compute deletions: plain date tags not kept; .sig in lockstep ----
+          DEL=(); for t in "${DATETAGS[@]}"; do [ -z "${KEEP[$t]:-}" ] && DEL+=("$t"); done
+          if [ "$PRUNE_NONDATE" = "true" ]; then
+            for t in "${NONDATE[@]}"; do [ -z "${KEEP[$t]:-}" ] && DEL+=("$t"); done
+          fi
+          SIGDEL=()
+          for s in "${SIGS[@]}"; do
+            d="sha256:$(sed -E 's/^sha256-([0-9a-f]{64})\.sig$/\1/' <<<"$s")"
+            if [ -n "${KEEPDIG[$d]:-}" ]; then KEEP[$s]=1; else SIGDEL+=("$s"); fi  # reap only when digest fully retired
+          done
+
+          # ---- 10. plan -> summary -------------------------------------------------
+          {
+            echo "- window: keep weeklies >= $RET_CUTOFF (last $RETENTION_MONTHS mo); rollback horizon $RB_CUTOFF (${ROLLBACK_WEEKS}w)"
+            echo "- safety overlay digests (never delete): ${!BASE[*]}"
+            echo "- yearly archives kept: ${YRTAG[*]:-none}"
+            echo "- DELETE plain (${#DEL[@]}): ${DEL[*]:-none}"
+            echo "- DELETE .sig (${#SIGDEL[@]}): ${SIGDEL[*]:-none}"
+          } >> "$SUM"
+          printf 'KEEP:\n'; printf '  %s\n' "${!KEEP[@]}" | sort
+          printf 'DELETE:\n'; printf '  %s\n' "${DEL[@]}" "${SIGDEL[@]}" 2>/dev/null | sort
+
+          if [ "$APPLY" != "true" ]; then echo "DRY-RUN: no mutations made." | tee -a "$SUM"; exit 0; fi
+
+          # ---- 11. APPLY: Hub JWT, then ordered deletes (plain first, then .sig) ----
+          JWT=$(curl -fsSL -H 'Content-Type: application/json' \
+                  -d "{\"username\":\"$DOCKERHUB_USERNAME\",\"password\":\"$DOCKERHUB_TOKEN\"}" \
+                  https://hub.docker.com/v2/users/login/ | jq -r .token)
+          [ -n "$JWT" ] && [ "$JWT" != null ] || { echo "::error::empty Hub JWT — does DOCKERHUB_TOKEN carry DELETE scope?"; exit 1; }
+          fails=0
+          del() {  # $1=tag — refuse if its digest is in the safety overlay
+            local t=$1 d="${TAGDIG[$1]:-}" code
+            [ -n "$d" ] && [ -n "${BASE[$d]:-}" ] && { echo "::error::refusing to delete $t (digest in safety overlay)"; fails=$((fails+1)); return; }
+            code=$(curl -s -o /dev/null -w '%{http_code}' -X DELETE -H "Authorization: Bearer $JWT" "$HUB/tags/$t/")
+            case "$code" in
+              204) echo "deleted $t" ;;
+              404) echo "skip $t (already gone)" ;;
+              *)   echo "::error::DELETE $t -> HTTP $code"; fails=$((fails+1)) ;;
+            esac
+          }
+          for t in $(printf '%s\n' "${DEL[@]}"    | sort); do del "$t"; done
+          for s in $(printf '%s\n' "${SIGDEL[@]}" | sort); do del "$s"; done
+          (( fails == 0 )) || { echo "::error::$fails deletion(s) FAILED — see log above"; exit 1; }
+
+          # ---- 12. post-run invariant: every LIVE (HEAD) digest still has a plain tag
+          for d in "${!HEAD[@]}"; do
+            has_kept_tag "$d" || { echo "::error::POST-RUN: live digest $d lost its last plain tag — MANUAL INTERVENTION"; exit 1; }
+            sig="sha256-${d#sha256:}.sig"; in_reg "$sig" || echo "::warning::post-run: $sig not in tags/list (listing lag?)"
+          done
+          echo "done — deleted ${#DEL[@]} plain + ${#SIGDEL[@]} sig." | tee -a "$SUM"
