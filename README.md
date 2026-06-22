@@ -151,6 +151,44 @@ All workflows are GitHub Actions. **None are push-triggered.** `workflow_dispatc
 
 ---
 
+## ⏱️ Schedule &amp; cadence
+
+Scheduled (cron) triggers for this repo, in **UTC**. Every workflow is **also** `workflow_dispatch`. (Generated from the live workflow definitions via `action-check/github_action_schedule_scraper.py`.)
+
+| Workflow | Cron (UTC) | When | Frequency |
+|---|---|---|---|
+| `build-stage-scan.yaml` | `0 7 * * 1` | Monday 07:00 | Weekly |
+| `soak-gate-promote.yaml` | `30 7 * * *` | Daily 07:30 | Daily |
+| `update-cloudflare-block-badge.yaml` | `0 9 * * *` | Daily 09:00 | Daily |
+| `clear-cloudflare-cache.yaml` | `59 23 * * 0` | Sunday 23:59 | Weekly |
+
+### Analysis — the weekly patch rhythm
+
+Build and promotion are **deliberately decoupled by a 72-hour soak**, so one patch flows to live traffic across the week. The build only ever touches the **standby** color; the daily promote job is what eventually flips live:
+
+| When (UTC) | Event | Effect |
+|---|---|---|
+| **Mon 07:00** | `build-stage-scan` | Builds → Trivy-gates → cosign-signs the patched image, **pins it to the standby color**, starts the 72h soak clock. Live color untouched. |
+| Mon 07:00 → Thu 07:00 | ⏳ **72h soak** | Standby runs the new digest; each daily promote **no-ops** (candidate not yet eligible). |
+| **Thu 07:30** | `soak-gate-promote` (first eligible run) | Soak satisfied → full gate suite → **atomic traffic flip to standby**, or **fails closed**. |
+
+A **Monday build becomes live on Thursday ≈07:30 UTC** — an effective **build-to-live interval of ≈3 days (72h soak + the 30-min offset to the next daily promote window)**. The other six daily `soak-gate-promote` runs each week are intentional no-ops whose only job is to catch a candidate the moment it clears soak.
+
+### Intervals
+
+| Interval | Value | Between |
+|---|---|---|
+| Build cadence | **7 days** | each `build-stage-scan` (Mon 07:00) |
+| Soak before promote-eligible | **72h** | build (Mon 07:00) → eligible (Thu 07:00) |
+| Promote-check cadence | **24h** | each `soak-gate-promote` (07:30); promotes only a candidate past its soak |
+| **Build → live** | **≈72.5h** | Mon 07:00 build → Thu 07:30 flip (normal weekly flow) |
+| Cloudflare cache purge | **7 days** | `clear-cloudflare-cache` (Sun 23:59) |
+| Block-badge refresh | **24h** | `update-cloudflare-block-badge` (daily 09:00) |
+
+> Off-schedule, the same path runs via manual `workflow_dispatch` of `build-stage-scan` then `soak-gate-promote` (once the candidate has soaked).
+
+---
+
 ## 🗂️ Repository layout
 
 ```
