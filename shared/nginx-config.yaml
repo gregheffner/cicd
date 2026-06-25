@@ -79,7 +79,7 @@ data:
           location = /wp-login.php { deny all; return 444; }
           location ~* ^/(wp-admin|wp-includes) { deny all; return 444; }
           location /image/ {
-              root /usr/share/nginx/html/image;
+              root /usr/share/nginx/html;   # fix: 'root' appends the URI; .../html/image doubled to /image/image/* -> 404 on every image (assets are the volume mounted at .../html/image)
               expires 1y;
               add_header Cache-Control "public, max-age=31536000, no-transform";
               add_header Content-Security-Policy "default-src 'self'; style-src 'self' 'unsafe-inline';";
