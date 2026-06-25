@@ -1,0 +1,34 @@
+# datadog/datadog-agent-app.yaml  (apply once as cluster-admin during bootstrap)
+# Syncs ONLY datadog-agent.yaml (the DatadogAgent CR) from this dir. sync-wave 1 so it
+# applies AFTER the operator + CRD (wave 0). The retry/backoff tolerates the
+# CRD-not-ready race on first bootstrap, same as heffner-security.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: datadog-agent
+  namespace: automation
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/gregheffner/cicd
+    targetRevision: main
+    path: datadog
+    directory:
+      include: 'datadog-agent.yaml'      # ONLY the CR, not the App YAMLs in this dir
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: datadog
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
+    syncOptions:
+      - CreateNamespace=true
+    retry:
+      limit: 5
+      backoff:
+        duration: 30s
+        factor: 2
+        maxDuration: 5m                   # tolerate CRD-not-ready races on first sync

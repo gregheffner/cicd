@@ -1,0 +1,45 @@
+# datadog/datadog-operator-app.yaml  (apply once as cluster-admin during bootstrap)
+# Installs the Datadog Operator via Helm into the `datadog` namespace, replacing the
+# old `helm install` that lived in `default`. sync-wave 0 so the operator + the
+# DatadogAgent CRD are Ready BEFORE the DatadogAgent CR (datadog-agent-app, wave 1).
+#
+# DEVIATION FROM THE OLD INSTALL (intentional): datadogAgent.enabled is FALSE here so
+# the chart does NOT create its own DatadogAgent. The agent is declared explicitly in
+# datadog-agent.yaml (single source of truth, fully version-controlled) instead of a
+# Helm stub + manual kubectl edits.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: datadog-operator
+  namespace: automation                 # ArgoCD lives here (same as kyverno / heffner-prod / shared-services)
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  project: default
+  source:
+    repoURL: https://helm.datadoghq.com
+    chart: datadog-operator
+    targetRevision: 2.9.2               # operator app v1.14.0 — matches the current live release
+    helm:
+      releaseName: datadog-operator
+      values: |
+        datadogAgent:
+          enabled: false               # CR is managed explicitly (datadog-agent.yaml), not by the chart
+        installCRDs: true
+        collectOperatorMetrics: true
+        datadogCRDs:
+          crds:
+            datadogAgents: true
+            datadogMetrics: true
+            datadogMonitors: true
+            datadogPodAutoscalers: true
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: datadog
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: false                     # don't let a transient parse error prune the operator
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true           # DatadogAgent CRD is large; SSA avoids last-applied bloat

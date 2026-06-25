@@ -1,0 +1,98 @@
+# datadog/datadog-agent.yaml
+# The DatadogAgent CR — full, explicit reproduction of the spec currently running in
+# the `default` namespace (captured live before migration). This is now the single
+# source of truth for agent features; do NOT kubectl edit it — change it here.
+#
+# The API key is supplied OUT OF BAND: Secret `datadog-secret` (key `api-key`) must
+# exist in the `datadog` namespace before this syncs. It is NOT stored in this repo.
+apiVersion: datadoghq.com/v2alpha1
+kind: DatadogAgent
+metadata:
+  name: datadog
+  namespace: datadog
+spec:
+  global:
+    clusterName: heffner.k8s
+    site: us5.datadoghq.com
+    credentials:
+      apiSecret:
+        secretName: datadog-secret
+        keyName: api-key
+    tags:
+      - env:prod
+  features:
+    apm:
+      instrumentation:
+        enabled: true
+        targets:
+          - name: default-target
+            ddTraceVersions:
+              dotnet: "3"
+              java: "1"
+              js: "5"
+              php: "1"
+              python: "3"
+    asm:
+      threats:
+        enabled: true
+    cws:
+      enabled: true
+    logCollection:
+      enabled: true
+      containerCollectAll: true
+    npm:
+      enabled: true
+    orchestratorExplorer:
+      enabled: true
+    otelCollector:
+      enabled: true
+      ports:
+        - name: otel-grpc
+          containerPort: 4317
+          hostPort: 4317
+          protocol: TCP
+        - name: otel-http
+          containerPort: 4318
+          hostPort: 4318
+          protocol: TCP
+    prometheusScrape:
+      enabled: true
+      enableServiceEndpoints: true
+      additionalConfigs: |-
+        - autodiscovery:
+            kubernetes_services:
+              - automation/argocd-metrics
+          configurations:
+            - openmetrics_endpoint: "http://argocd-metrics.automation.svc.cluster.local:8082/metrics"
+              namespace: "argocd"
+              metrics:
+                - ".*"
+    usm:
+      enabled: true
+  override:
+    nodeAgent:
+      image:
+        name: gcr.io/datadoghq/agent:latest-full
+        pullPolicy: Always
+      containers:
+        agent:
+          env:
+            - name: DD_PROCESS_CONFIG_PROCESS_COLLECTION_ENABLED
+              value: "true"
+            - name: DD_PROCESS_AGENT_ENABLED
+              value: "true"
+            - name: DD_KUBELET_TLS_VERIFY
+              value: "false"
+            - name: DD_CONTAINER_INCLUDE
+              value: name:heffner.live
+        otel-agent:
+          env:
+            - name: DD_OTELCOLLECTOR_ENABLED
+              value: "true"
+      tolerations:                        # run on the control-plane node too (4/4 nodes)
+        - key: node-role.kubernetes.io/control-plane
+          operator: Exists
+          effect: NoSchedule
+        - key: node-role.kubernetes.io/master
+          operator: Exists
+          effect: NoSchedule
