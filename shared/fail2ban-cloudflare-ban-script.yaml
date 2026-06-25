@@ -21,6 +21,87 @@ data:
         },
         "notes": "Blocked by fail2ban on '"$DATE_MMDDYY $TIME_HHMMSS"' (ASN: '"$ASN"')"
       }'
+  fail2ban-cloudflare-unban.sh: |-
+    IP="$1"
+    ZONE_ID=$(cat /etc/cloudflare/ZONE_ID)
+    API_TOKEN=$(cat /etc/cloudflare/API_TOKEN)
+    BASE="https://api.cloudflare.com/client/v4/zones/$ZONE_ID/firewall/access_rules/rules"
+
+    # Find the Cloudflare block rule(s) for exactly this IP and delete them, so a
+    # fail2ban unban also clears the edge block (the original ban POSTs a rule but
+    # records no id, so look it up by configuration.value). No jq in image -> python3.
+    IDS=$(curl -s -H "Authorization: Bearer $API_TOKEN" \
+      "$BASE?mode=block&configuration.target=ip&configuration.value=$IP&per_page=50" \
+      | python3 -c "import sys,json;d=json.load(sys.stdin);print('\n'.join(r.get('id','') for r in (d.get('result') or [])))")
+
+    for id in $IDS; do
+      [ -n "$id" ] && curl -s -X DELETE \
+        -H "Authorization: Bearer $API_TOKEN" \
+        "$BASE/$id" >/dev/null
+    done
+  is-dd-synthetic.sh: |-
+    #!/usr/bin/python3
+    # fail2ban ignorecommand: exit 0 => ignore this IP (it is a Datadog synthetic source),
+    # exit 1 => not a Datadog synthetic (proceed with normal ban logic).
+    # Fail-closed: any error determining membership => exit 1 (do NOT ignore).
+    # Range list is fetched from Datadog's published endpoint and cached locally for 24h,
+    # so it never goes stale and needs no manual refresh.
+    import sys, os, json, time, urllib.request, ipaddress
+
+    CACHE = "/var/cache/dd-synthetics.json"
+    TTL = 86400  # 24h
+    URL = "https://ip-ranges.datadoghq.com/"
+    KEYS = ("synthetics", "synthetics-private-locations")
+
+
+    def load_prefixes():
+        try:
+            st = os.stat(CACHE)
+            if st.st_size > 0 and (time.time() - st.st_mtime) < TTL:
+                with open(CACHE) as f:
+                    return json.load(f)
+        except Exception:
+            pass
+        req = urllib.request.Request(URL, headers={"User-Agent": "fail2ban-ignorecommand"})
+        with urllib.request.urlopen(req, timeout=8) as r:
+            data = json.load(r)
+        prefixes = []
+        for k in KEYS:
+            blk = data.get(k) or {}
+            prefixes += blk.get("prefixes_ipv4") or []
+            prefixes += blk.get("prefixes_ipv6") or []
+        try:
+            tmp = CACHE + ".tmp"
+            with open(tmp, "w") as f:
+                json.dump(prefixes, f)
+            os.replace(tmp, CACHE)
+        except Exception:
+            pass
+        return prefixes
+
+
+    def main():
+        if len(sys.argv) < 2:
+            return 1
+        try:
+            ip = ipaddress.ip_address(sys.argv[1].strip())
+        except ValueError:
+            return 1
+        try:
+            prefixes = load_prefixes()
+        except Exception:
+            return 1  # fail-closed
+        for p in prefixes:
+            try:
+                if ip in ipaddress.ip_network(p, strict=False):
+                    return 0  # Datadog synthetic -> ignore
+            except ValueError:
+                continue
+        return 1
+
+
+    if __name__ == "__main__":
+        sys.exit(main())
 kind: ConfigMap
 metadata:
   name: fail2ban-cloudflare-ban-script

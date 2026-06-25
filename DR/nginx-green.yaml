@@ -88,6 +88,12 @@ spec:
             - mountPath: /usr/local/bin/fail2ban-cloudflare-ban.sh
               name: ban-script
               subPath: fail2ban-cloudflare-ban.sh
+            - mountPath: /usr/local/bin/fail2ban-cloudflare-unban.sh
+              name: ban-script
+              subPath: fail2ban-cloudflare-unban.sh
+            - mountPath: /usr/local/bin/is-dd-synthetic.sh
+              name: ban-script
+              subPath: is-dd-synthetic.sh
             - mountPath: /etc/fail2ban/fail2ban.conf
               name: fail2ban-main-config
               subPath: fail2ban.conf

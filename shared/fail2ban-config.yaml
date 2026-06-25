@@ -10,7 +10,7 @@ data:
     actionstop =
     actioncheck =
     actionban = /usr/local/bin/fail2ban-cloudflare-ban.sh <ip>
-    actionunban =
+    actionunban = /usr/local/bin/fail2ban-cloudflare-unban.sh <ip>
   jail.local: |-
     [DEFAULT]
     # Internal/SNAT sources are never real external attackers. With the Service on
@@ -18,6 +18,13 @@ data:
     # internal probes log a pod/node IP (e.g. 10.244.x) instead of a public IP.
     # Never ban these ranges: loopback, flannel pod net, k8s service net, LAN/nodes.
     ignoreip = 127.0.0.1/8 ::1 10.244.0.0/16 10.96.0.0/12 192.168.0.0/16
+    # Never ban Datadog Synthetics monitors. The browser synthetic uses a real
+    # browser UA (so a UA ignoreregex can't catch it) and rotates across cloud IPs,
+    # so match by Datadog's published synthetic ranges via an ignorecommand that
+    # fetches + caches them 24h (never stale, no manual refresh). Exit 0 => ignore.
+    # ignorecache caches the per-IP verdict so the command isn't re-run on every 404.
+    ignorecommand = /usr/local/bin/is-dd-synthetic.sh <ip>
+    ignorecache = key="<ip>", max-time=1d
 
     [nginx-404]
     enabled = true
