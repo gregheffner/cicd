@@ -5,6 +5,8 @@ on:
   schedule:
     - cron: '59 23 * * 0'
 
+permissions: {}   # rec #12: no checkout / no GitHub API — drop all GITHUB_TOKEN scopes
+
 jobs:
   clear-cache:
     runs-on: ubuntu-latest

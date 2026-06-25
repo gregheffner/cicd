@@ -18,9 +18,8 @@ spec:
     - name: http
       port: 80
       targetPort: http
-    - name: nginx-status
-      port: 81
-      targetPort: nginx-status
+    # rec #13: stub_status (:81 -> targetPort nginx-status/8081) removed from the public
+    # LoadBalancer. Datadog scrapes it on the pod IP (:8081) directly, not via the Service.
   selector:
     app: nginx-web
     version: blue

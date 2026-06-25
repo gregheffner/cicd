@@ -26,6 +26,8 @@ concurrency:
   group: nginx-pipeline
   cancel-in-progress: false
 
+permissions: {}   # rec #12: kubectl via the self-hosted runner's own kubeconfig — no GITHUB_TOKEN scopes needed
+
 jobs:
   delete-pods:
     runs-on: self-hosted

@@ -19,6 +19,12 @@ data:
     http {
         include       /etc/nginx/mime.types;
         default_type  application/octet-stream;
+        server_tokens off;                       # rec #13: don't leak nginx version
+
+        open_file_cache max=1000 inactive=20s;   # rec #10: cache static fd/metadata
+        open_file_cache_valid 30s;
+        open_file_cache_min_uses 2;
+        open_file_cache_errors on;
         ssl_protocols TLSv1.2 TLSv1.3;
         ssl_ciphers 'HIGH:!aNULL:!MD5:!3DES';
         ssl_prefer_server_ciphers on;
@@ -56,6 +62,18 @@ data:
 
         server {
           listen 8080;
+          # rec #14: server-level security headers (CSP intentionally NOT global —
+          # the site loads GTM/AdSense/Cookiebot/Clarity/jsdelivr/Google Fonts +
+          # inline scripts; a strict CSP would break them. CSP stays image-scoped.)
+          add_header X-Content-Type-Options "nosniff" always;
+          add_header X-Frame-Options "SAMEORIGIN" always;
+          add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+
+          location = /healthz {        # rec #7/#22: cheap liveness endpoint, no disk, no log
+              access_log off;
+              default_type text/plain;
+              return 200 "ok";
+          }
           location ~* wlwmanifest\.xml$ { return 444; }
           location ~* xmlrpc\.php { return 444; }
           location = /wp-login.php { deny all; return 444; }
@@ -65,14 +83,20 @@ data:
               expires 1y;
               add_header Cache-Control "public, max-age=31536000, no-transform";
               add_header Content-Security-Policy "default-src 'self'; style-src 'self' 'unsafe-inline';";
+              add_header X-Content-Type-Options "nosniff" always;   # rec #14 (add_header doesn't inherit into a location with its own add_header)
+              add_header X-Frame-Options "SAMEORIGIN" always;
+              add_header Referrer-Policy "strict-origin-when-cross-origin" always;
           }
-          ignore_invalid_headers off;
+          # rec #13: removed `ignore_invalid_headers off;` — restore secure default (reject malformed headers)
 
           location / {
               root /usr/share/nginx/html;
               index index.html index.htm;
               expires 1y;
               add_header Cache-Control "public, max-age=31536000, no-transform";
+              add_header X-Content-Type-Options "nosniff" always;   # rec #14 (re-stated: this location sets its own add_header)
+              add_header X-Frame-Options "SAMEORIGIN" always;
+              add_header Referrer-Policy "strict-origin-when-cross-origin" always;
           }
           location = /sitemap.xml {
               default_type application/xml;
@@ -83,6 +107,9 @@ data:
               expires 1y;
               add_header Cache-Control "public, max-age=31536000, no-transform";
               add_header Content-Security-Policy "default-src 'self'; style-src 'self' 'unsafe-inline';";
+              add_header X-Content-Type-Options "nosniff" always;   # rec #14
+              add_header X-Frame-Options "SAMEORIGIN" always;
+              add_header Referrer-Policy "strict-origin-when-cross-origin" always;
           }
         }
     }
@@ -92,7 +119,9 @@ data:
       location /nginx_status {
         stub_status;
         access_log off;
-        allow all;  # or your agent's IP, or 'allow all;' for testing
-        server_tokens on;
+        # rec #13: :81 is no longer exposed on the public LoadBalancer (dropped from the
+        # Service); only reachable in-cluster (Datadog scrapes the pod IP at :8081 directly).
+        allow all;
+        # server_tokens inherits `off` from http{} (rec #13)
       }
     }

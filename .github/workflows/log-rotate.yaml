@@ -3,6 +3,8 @@ name: Truncate Nginx Logs
 on:
   workflow_dispatch:
 
+permissions: {}   # rec #12: ansible via the self-hosted runner — no GITHUB_TOKEN scopes needed
+
 jobs:
   truncate-nginx-logs:
     runs-on: self-hosted

@@ -419,9 +419,11 @@ jobs:
           if [ "$rolled" != "1" ] || [ "$COMMITTED" != "$PREV" ]; then
             echo "::error::ROLLBACK DID NOT LAND (rolled=$rolled committed=$COMMITTED want=$PREV)."
             echo "::error::LIVE TRAFFIC MAY BE ON A BROKEN COLOR. MANUAL INTERVENTION REQUIRED NOW."
+            { echo "NOTIFY_EVENT=rollback_failed"; echo "NOTIFY_DETAIL=rolled=$rolled committed=$COMMITTED want=$PREV -- live may be on a broken color"; } >> "$GITHUB_ENV"  # rec #8
             exit 1
           fi
           echo "Rollback to $PREV committed and verified on origin/main."
+          { echo "NOTIFY_EVENT=rollback"; echo "NOTIFY_DETAIL=smoke failed on '$S'; live rolled back to '$PREV' and verified on origin/main"; } >> "$GITHUB_ENV"  # rec #8
           exit 1
 
       # ---- Mark ledger promoted; pin now-previous color to same digest; commit ----
@@ -462,7 +464,7 @@ jobs:
             git add .github/state/candidate.json "$PFILE"
             if git diff --cached --quiet; then echo "nothing to commit (already promoted/pinned)"; exit 0; fi
             git commit -m "ci(promote): mark promoted; pin $PREV to $DIGEST [skip ci]"
-            git push origin "HEAD:${BRANCH}" && { echo "promote-mark pushed"; exit 0; }
+            git push origin "HEAD:${BRANCH}" && { echo "promote-mark pushed"; { echo "NOTIFY_EVENT=promoted"; echo "NOTIFY_DETAIL=promoted; pinned old-live $PREV to $DIGEST"; } >> "$GITHUB_ENV"; exit 0; }  # rec #8
             echo "promote-mark push attempt $i lost race; retrying"; git reset --hard "origin/${BRANCH}"; sleep $((i*3))
           done
           echo "::error::could not push promote-mark after retries (flip already live; ledger stale -> next run resumes)"; exit 1
@@ -480,3 +482,58 @@ jobs:
             -H "Content-Type: application/json" \
             --data '{"purge_everything":true}' \
             | python3 -c 'import sys,json;print("purge ok" if json.load(sys.stdin).get("success") else sys.exit("purge failed"))'
+
+      # ---- Notify by email on a real promote / rollback / job-failure (rec #8) ----
+      # Daily no-op gate runs (go!=true, success, no event) stay SILENT. Uses python3
+      # smtplib because this runner has no docker daemon (docker-based mail actions
+      # can't run here). Degrades to a ::warning:: if the SMTP_* / MAIL_TO repo secrets
+      # are unset, and never fails the job on a send error (if: always() + try/except).
+      - name: Notify by email (promote / rollback / failure)
+        if: always()
+        env:
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
+          MAIL_TO: ${{ secrets.MAIL_TO }}
+          JOB_STATUS: ${{ job.status }}
+          GO: ${{ steps.soak.outputs.go }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          python3 - <<'PY'
+          import os, smtplib, ssl, sys
+          from email.message import EmailMessage
+          event  = os.environ.get("NOTIFY_EVENT", "")
+          detail = os.environ.get("NOTIFY_DETAIL", "")
+          status = os.environ.get("JOB_STATUS", "")
+          go     = os.environ.get("GO", "")
+          if event == "rollback_failed":
+              subj = "[soak-gate] ROLLBACK FAILED -- manual intervention required"
+          elif event == "rollback":
+              subj = "[soak-gate] auto-rollback fired -- live reverted"
+          elif event == "promoted":
+              subj = "[soak-gate] promoted -- new color is live"
+          elif status == "failure" and go == "true":
+              subj = "[soak-gate] FAILED during a promote attempt"
+              detail = detail or "a promote attempt failed; check for a half-applied flip/rollback"
+          else:
+              print("no-op run (go=%r status=%r event=%r): no email" % (go, status, event)); sys.exit(0)
+          for k in ("SMTP_HOST", "SMTP_PORT", "SMTP_USER", "SMTP_PASS", "MAIL_TO"):
+              if not os.environ.get(k):
+                  print("::warning::%s not set; skipping email (add SMTP_* + MAIL_TO repo secrets)" % k); sys.exit(0)
+          body = "%s\n\n%s\n\nRun: %s\n" % (subj, detail, os.environ.get("RUN_URL", ""))
+          m = EmailMessage(); m["Subject"] = subj; m["From"] = os.environ["SMTP_USER"]
+          m["To"] = os.environ["MAIL_TO"]; m.set_content(body)
+          port = int(os.environ["SMTP_PORT"] or "465")
+          ctx = ssl.create_default_context()
+          try:
+              if port == 465:
+                  with smtplib.SMTP_SSL(os.environ["SMTP_HOST"], port, context=ctx, timeout=30) as s:
+                      s.login(os.environ["SMTP_USER"], os.environ["SMTP_PASS"]); s.send_message(m)
+              else:
+                  with smtplib.SMTP(os.environ["SMTP_HOST"], port, timeout=30) as s:
+                      s.starttls(context=ctx); s.login(os.environ["SMTP_USER"], os.environ["SMTP_PASS"]); s.send_message(m)
+              print("sent:", subj)
+          except Exception as e:
+              print("::warning::email send failed: %s" % e)
+          PY
