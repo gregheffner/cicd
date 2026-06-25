@@ -51,6 +51,53 @@ spec:
                 matchLabels:
                   app: nginx-web
                   version: blue
+      # fail2ban runs as a NATIVE SIDECAR (initContainer + restartPolicy: Always, k8s >=1.29).
+      # Outage review 2026-06-25: as a plain sidecar with no readinessProbe, a fail2ban
+      # OOM/liveness restart flipped Pod.Ready=false and ejected the healthy nginx from the
+      # Service (correlated across 3 pods = 0 endpoints). As a native sidecar it no longer
+      # gates Pod.Ready, so its restarts never pull nginx out of nginx-service.
+      initContainers:
+        - name: fail2ban
+          image: crazymax/fail2ban:latest
+          restartPolicy: Always # makes this restartable init container a native sidecar
+          resources:
+            requests:
+              cpu: 1m
+              memory: 64Mi # rec #6
+            limits:
+              memory: 256Mi # rec #6 (raised 128->256 per outage review; live RSS ~34Mi)
+          livenessProbe: # rec #9b: restart if the fail2ban server stops responding
+            exec:
+              command: ["fail2ban-client", "ping"]
+            initialDelaySeconds: 30
+            periodSeconds: 30
+            timeoutSeconds: 5
+            failureThreshold: 3
+          securityContext: # rec #2: deprivileged — bans go via the Cloudflare API, not local iptables
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+          volumeMounts:
+            - mountPath: /var/log/nginx
+              name: nginx-logs
+            - mountPath: /etc/fail2ban/action.d/cloudflare-ban.conf
+              name: fail2ban-config-cloudflare
+              subPath: cloudflare-ban.conf
+            - mountPath: /etc/cloudflare
+              name: cloudflare-creds
+            - mountPath: /usr/local/bin/fail2ban-cloudflare-ban.sh
+              name: ban-script
+              subPath: fail2ban-cloudflare-ban.sh
+            - mountPath: /etc/fail2ban/fail2ban.conf
+              name: fail2ban-main-config
+              subPath: fail2ban.conf
+            - mountPath: /etc/fail2ban/jail.local
+              name: fail2ban-config
+              subPath: jail.local
+            - mountPath: /etc/fail2ban/filter.d/nginx-404.conf
+              name: fail2ban-config
+              subPath: nginx-404.conf
       containers:
         - name: nginx
           image: technotuba/nginx@sha256:6d99ae03e5059578577bfd7a614bb0b1f08eaead08a551233ecbc6910a5ffc5a # P0: pinned to current running digest
@@ -78,6 +125,14 @@ spec:
             timeoutSeconds: 3
             successThreshold: 1
             failureThreshold: 3
+          livenessProbe: # rec #7/#22: restart if nginx stops serving (cheap /healthz, no disk)
+            httpGet:
+              path: /healthz
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 15
+            timeoutSeconds: 3
+            failureThreshold: 3
           lifecycle: # P4
             preStop:
               exec:
@@ -85,8 +140,10 @@ spec:
           resources: # P5: realistic request so HPA Utilization is meaningful
             requests:
               cpu: 250m # was 100m
+              memory: 64Mi # rec #6
             limits:
               cpu: "1"
+              memory: 256Mi # rec #6: bound rss (static server is light; generous headroom vs OOM)
           volumeMounts:
             - mountPath: /var/log/nginx
               name: nginx-logs
@@ -107,36 +164,6 @@ spec:
               name: nginx-run
             - mountPath: /tmp
               name: nginx-tmp
-        - name: fail2ban
-          image: crazymax/fail2ban:latest
-          resources:
-            requests:
-              cpu: 1m
-          securityContext: # rec #2: deprivileged — bans go via the Cloudflare API, not local iptables
-            allowPrivilegeEscalation: false
-            capabilities:
-              drop:
-                - ALL
-          volumeMounts:
-            - mountPath: /var/log/nginx
-              name: nginx-logs
-            - mountPath: /etc/fail2ban/action.d/cloudflare-ban.conf
-              name: fail2ban-config-cloudflare
-              subPath: cloudflare-ban.conf
-            - mountPath: /etc/cloudflare
-              name: cloudflare-creds
-            - mountPath: /usr/local/bin/fail2ban-cloudflare-ban.sh
-              name: ban-script
-              subPath: fail2ban-cloudflare-ban.sh
-            - mountPath: /etc/fail2ban/fail2ban.conf
-              name: fail2ban-main-config
-              subPath: fail2ban.conf
-            - mountPath: /etc/fail2ban/jail.local
-              name: fail2ban-config
-              subPath: jail.local
-            - mountPath: /etc/fail2ban/filter.d/nginx-404.conf
-              name: fail2ban-config
-              subPath: nginx-404.conf
       automountServiceAccountToken: false # rec #4: static web server never calls the k8s API
       serviceAccountName: prod
       terminationGracePeriodSeconds: 30 # P4
