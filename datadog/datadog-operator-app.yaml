@@ -3,10 +3,10 @@
 # old `helm install` that lived in `default`. sync-wave 0 so the operator + the
 # DatadogAgent CRD are Ready BEFORE the DatadogAgent CR (datadog-agent-app, wave 1).
 #
-# DEVIATION FROM THE OLD INSTALL (intentional): datadogAgent.enabled is FALSE here so
-# the chart does NOT create its own DatadogAgent. The agent is declared explicitly in
-# datadog-agent.yaml (single source of truth, fully version-controlled) instead of a
-# Helm stub + manual kubectl edits.
+# The agent is declared explicitly in datadog-agent.yaml (single source of truth),
+# NOT via Helm. In this chart `datadogAgent.enabled` only toggles the operator's
+# DatadogAgent *controller* (the -datadogAgentEnabled arg) and renders NO CR of its
+# own — so it stays TRUE (controller on) and datadog-agent-app syncs the CR.
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -24,7 +24,7 @@ spec:
       releaseName: datadog-operator
       values: |
         datadogAgent:
-          enabled: false               # CR is managed explicitly (datadog-agent.yaml), not by the chart
+          enabled: true                # enables the operator's DatadogAgent controller (chart renders no CR)
         installCRDs: true
         collectOperatorMetrics: true
         datadogCRDs:
