@@ -12,8 +12,8 @@ spec:
   strategy: # surge-first: never drop below desired Ready
     type: RollingUpdate
     rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 0
+      maxSurge: 0 # required 1-per-node anti-affinity can't place a surge pod (every node full for this color)
+      maxUnavailable: 1 # so roll one-at-a-time: free a node, then schedule the new pod onto it
   selector:
     matchLabels:
       app: nginx-web
@@ -30,7 +30,7 @@ spec:
               "init_config": {},
               "instances": [
                 {
-                  "nginx_status_url":"http://%%host%%:81/nginx_status/"
+                  "nginx_status_url":"http://%%host%%:8081/nginx_status/"
                 }
               ]
             }
@@ -46,28 +46,35 @@ spec:
                   - key: kubernetes.io/hostname
                     operator: In
                     values: ["worker1", "worker2", "worker3"]
-        podAntiAffinity: # spread the 3 replicas across nodes
-          preferredDuringSchedulingIgnoredDuringExecution:
-            - weight: 100
-              podAffinityTerm:
-                topologyKey: kubernetes.io/hostname
-                labelSelector:
-                  matchLabels:
-                    app: nginx-web
-                    version: green
+        podAntiAffinity: # REQUIRED: exactly one green pod per node; a drained node's pod stays Pending until that node returns, then refills it
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - topologyKey: kubernetes.io/hostname
+              labelSelector:
+                matchLabels:
+                  app: nginx-web
+                  version: green
       containers:
         - name: nginx
           image: technotuba/nginx@sha256:6d99ae03e5059578577bfd7a614bb0b1f08eaead08a551233ecbc6910a5ffc5a # P0: pinned to current running digest
           imagePullPolicy: IfNotPresent # P0: was Always
+          securityContext: # harden: non-root, read-only rootfs, no caps (listeners now >=1024)
+            runAsNonRoot: true
+            runAsUser: 101
+            runAsGroup: 101
+            readOnlyRootFilesystem: true
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
           ports:
-            - containerPort: 80
+            - containerPort: 8080
               name: http
-            - containerPort: 81
+            - containerPort: 8081
               name: nginx-status
           readinessProbe: # P3
             httpGet:
               path: /
-              port: 80
+              port: 8080
             initialDelaySeconds: 5
             periodSeconds: 10
             timeoutSeconds: 3
@@ -96,13 +103,22 @@ spec:
               subPath: status.conf
             - mountPath: /var/log/nginx
               name: nginx-logs
+            - mountPath: /var/cache/nginx # writable temp dirs for readOnlyRootFilesystem
+              name: nginx-cache
+            - mountPath: /var/run # nginx pid file (pid /var/run/nginx.pid)
+              name: nginx-run
+            - mountPath: /tmp
+              name: nginx-tmp
         - name: fail2ban
           image: crazymax/fail2ban:latest
           resources:
             requests:
               cpu: 1m
-          securityContext:
-            privileged: true
+          securityContext: # rec #2: deprivileged — bans go via the Cloudflare API, not local iptables
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
           volumeMounts:
             - mountPath: /etc/fail2ban/action.d/cloudflare-ban.conf
               name: fail2ban-config-cloudflare
@@ -123,6 +139,7 @@ spec:
               subPath: nginx-404.conf
             - mountPath: /var/log/nginx
               name: nginx-logs
+      automountServiceAccountToken: false # rec #4: static web server never calls the k8s API
       serviceAccountName: prod
       volumes:
         - hostPath:
@@ -158,3 +175,9 @@ spec:
             path: /home/huey/www/images
             type: Directory
           name: images-volume
+        - name: nginx-cache # readOnlyRootFilesystem writable mounts (emptyDir is 0777 -> uid 101 writes; no fsGroup)
+          emptyDir: {}
+        - name: nginx-run
+          emptyDir: {}
+        - name: nginx-tmp
+          emptyDir: {}

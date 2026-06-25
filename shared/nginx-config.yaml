@@ -52,10 +52,10 @@ data:
         gzip_min_length 256;
         gzip_comp_level 5;
         gzip_vary on;
-        include /etc/nginx/conf.d/*.conf;
+        include /etc/nginx/conf.d/status.conf;
 
         server {
-          listen 80;
+          listen 8080;
           location ~* wlwmanifest\.xml$ { return 444; }
           location ~* xmlrpc\.php { return 444; }
           location = /wp-login.php { deny all; return 444; }
@@ -88,7 +88,7 @@ data:
     }
   status.conf: |
     server {
-      listen 81;
+      listen 8081;
       location /nginx_status {
         stub_status;
         access_log off;
