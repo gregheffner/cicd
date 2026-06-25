@@ -91,6 +91,26 @@ data:
               default_type text/plain;
               return 200 "ok";
           }
+          # rec #19: browsers/iOS auto-request these root icons. Serve the REAL binaries from
+          # the images hostPath (mounted at .../html/image) — they were 3 base64-text blobs in
+          # www-configmap (~32% of it) that actually served broken; now removed. No precomposed
+          # file on disk, so alias it to the regular apple-touch-icon.
+          location = /favicon.ico {
+              alias /usr/share/nginx/html/image/favicon.ico;
+              access_log off;
+              expires 1y;
+              add_header Cache-Control "public, max-age=31536000, no-transform";
+          }
+          location = /apple-touch-icon.png {
+              alias /usr/share/nginx/html/image/apple-touch-icon.png;
+              expires 1y;
+              add_header Cache-Control "public, max-age=31536000, no-transform";
+          }
+          location = /apple-touch-icon-precomposed.png {
+              alias /usr/share/nginx/html/image/apple-touch-icon.png;
+              expires 1y;
+              add_header Cache-Control "public, max-age=31536000, no-transform";
+          }
           location ~* wlwmanifest\.xml$ { return 444; }
           location ~* xmlrpc\.php { return 444; }
           location = /wp-login.php { deny all; return 444; }
