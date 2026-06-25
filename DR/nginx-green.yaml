@@ -172,7 +172,7 @@ spec:
             - mountPath: /tmp
               name: nginx-tmp
       automountServiceAccountToken: false # rec #4: static web server never calls the k8s API
-      serviceAccountName: prod
+      serviceAccountName: nginx # rec #4b: dedicated zero-RoleBinding SA (was shared 'prod' SA); see shared/nginx-sa.yaml
       volumes:
         - hostPath:
             path: /var/log/nginx
