@@ -43,7 +43,9 @@ spec:
           imagePullPolicy: IfNotPresent # P0: was Always
           ports:
             - containerPort: 80
+              name: http
             - containerPort: 81
+              name: nginx-status
           readinessProbe: # P3
             httpGet:
               path: /
