@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cloudflared-config
+  namespace: cloudflared
+  labels:
+    app.kubernetes.io/name: cloudflared
+    app.kubernetes.io/part-of: edge
+data:
+  config.yml: |
+    tunnel: 2aa6871b-fdf8-4556-9307-98172d5b243a
+    credentials-file: /etc/cloudflared-creds/credentials.json
+    metrics: 0.0.0.0:2000
+    no-autoupdate: true
+    protocol: auto
+    loglevel: info
+    grace-period: 30s
+    ingress:
+      - hostname: greg.heffner.live
+        service: http://nginx-service.prod.svc.cluster.local:80
+      - service: http_status:404

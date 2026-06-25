@@ -1,0 +1,30 @@
+# cloudflared/cloudflared-app.yaml  (apply ONCE as cluster-admin during bootstrap)
+# Adopts the in-cluster cloudflared tunnels (nginx + radar) into GitOps.
+# ArgoCD owns the workloads after bootstrap (selfHeal + prune).
+# This Application CR is NOT self-managed: directory.include allowlists ONLY the
+# 5 workload files below and deliberately EXCLUDES this file, so the app never
+# manages/prunes itself. No Secret manifest exists in this dir — the tunnel
+# credentials Secrets (cloudflared-tunnel-creds / cloudflared-radar-creds) stay
+# out-of-band and carry no argocd tracking labels, so prune:true will not touch them.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cloudflared
+  namespace: automation
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/gregheffner/cicd
+    targetRevision: HEAD
+    path: cloudflared
+    directory:
+      include: '{namespace.yaml,configmap-cloudflared.yaml,configmap-radar.yaml,deployment-cloudflared.yaml,deployment-radar.yaml}'
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: cloudflared
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
