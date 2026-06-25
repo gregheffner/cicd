@@ -7,13 +7,14 @@ data:
   nginx.conf: |-
     user  nginx;
     worker_processes  auto;
+    worker_rlimit_nofile 8192;               # rec #23: raise per-worker fd ceiling (pairs with worker_connections)
 
     error_log  /var/log/nginx/error.log crit;
     error_log  /dev/stderr;
     pid        /var/run/nginx.pid;
 
     events {
-        worker_connections  1024;
+        worker_connections  4096;            # rec #23: was 1024 (per-worker conn ceiling the HPA can't relieve)
     }
 
     http {
@@ -52,6 +53,7 @@ data:
         access_log /dev/stdout fail2ban;
         sendfile        on;
         tcp_nopush     on;
+        tcp_nodelay    on;                       # rec #23: low-latency flush for keep-alive responses
         keepalive_timeout  65;
         gzip  on;
         gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript image/svg+xml;

@@ -1,0 +1,24 @@
+# rec #24: keep the SHA-pinned GitHub Actions current. Everything in .github/workflows
+# is pinned to an immutable commit SHA (good — supply-chain hygiene), but pins rot
+# without auto-updates. Dependabot is native (no third-party app, unlike Renovate) and
+# understands SHA-pinned actions: it bumps the SHA and refreshes the version comment.
+# Grouped into one weekly PR to keep review light.
+#
+# Not covered here (would need Renovate + a custom manager): the Kyverno Helm chart
+# targetRevision in security/kyverno-app.yaml, and the inline `pip install` deps in
+# build-stage-scan.yaml (no requirements file to track).
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    commit-message:
+      prefix: "ci"
+    labels:
+      - "dependencies"
+    groups:
+      github-actions:
+        patterns:
+          - "*"

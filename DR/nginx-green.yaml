@@ -13,6 +13,7 @@ spec:
     rollingUpdate:
       maxSurge: 0 # required 1-per-node anti-affinity can't place a surge pod (every node full for this color)
       maxUnavailable: 1 # so roll one-at-a-time: free a node, then schedule the new pod onto it
+  minReadySeconds: 10 # rec #23: a new pod must stay Ready 10s before the roll proceeds (catches crash-after-ready)
   selector:
     matchLabels:
       app: nginx-web
@@ -132,6 +133,12 @@ spec:
             timeoutSeconds: 3
             successThreshold: 1
             failureThreshold: 3
+          startupProbe: # rec #23: gate liveness until nginx is up; generous (30s) so it never false-kills
+            httpGet:
+              path: /healthz
+              port: 8080
+            periodSeconds: 3
+            failureThreshold: 10
           livenessProbe: # rec #7/#22: restart if nginx stops serving (cheap /healthz, no disk)
             httpGet:
               path: /healthz

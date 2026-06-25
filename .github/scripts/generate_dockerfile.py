@@ -150,6 +150,11 @@ RUN set -eux && \
 
 EXPOSE 80
 
+# rec #23: explicit STOPSIGNAL backstops the preStop "nginx -s quit" graceful drain even
+# if the lifecycle hook is skipped. (The official nginx base already sets SIGQUIT; stated
+# explicitly so a base-image change can't silently revert it to SIGTERM.)
+STOPSIGNAL SIGQUIT
+
 ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["nginx", "-g", "daemon off;"]
 """
