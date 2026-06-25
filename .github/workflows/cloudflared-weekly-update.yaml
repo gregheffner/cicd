@@ -1,0 +1,50 @@
+name: Weekly cloudflared update
+
+# Pulls the newest cloudflared image into the in-cluster connectors once a week
+# by rolling the Deployments. Works because the cloudflared Deployments use a
+# floating tag (cloudflare/cloudflared:latest) + imagePullPolicy: Always, so a
+# rollout restart re-checks the registry and pulls if newer.
+#
+# SAFETY: the rollout is self-protecting. The deploys roll one pod at a time
+# (maxSurge:0/maxUnavailable:1 + required 1-per-node anti-affinity), so >=2 of the
+# 3 connectors stay live on the tunnel throughout; the /ready probe only passes
+# once a pod has a live Cloudflare edge connection, so a broken new image leaves
+# its pod NotReady and the rollout stalls with the healthy connectors still
+# serving. `kubectl rollout status` below then FAILS the run (red x) with no
+# public impact.
+
+on:
+  schedule:
+    # Sundays 08:00 UTC (04:00 ET). cron is always UTC on GitHub Actions.
+    - cron: "0 8 * * 0"
+  workflow_dispatch:
+
+# Independent of the nginx build/promote pipeline; just don't overlap with itself.
+concurrency:
+  group: cloudflared-update
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: self-hosted
+    # Scheduled runs always proceed; manual dispatch is restricted to the owner
+    # (matches tunnelrestart.yml).
+    if: github.event_name == 'schedule' || github.actor == 'gregheffner'
+    steps:
+      - name: Roll cloudflared deployments (pulls :latest)
+        run: |
+          set -euo pipefail
+          for d in cloudflared cloudflared-radar; do
+            echo "== rollout restart deploy/$d =="
+            kubectl -n cloudflared rollout restart deploy/"$d"
+          done
+
+      - name: Wait for healthy rollout (fails the run if a pod can't reach the edge)
+        run: |
+          set -euo pipefail
+          for d in cloudflared cloudflared-radar; do
+            kubectl -n cloudflared rollout status deploy/"$d" --timeout=180s
+          done
+          echo "== running images =="
+          kubectl -n cloudflared get deploy \
+            -o jsonpath='{range .items[*]}{.metadata.name}{"\t"}{.spec.template.spec.containers[0].image}{"\n"}{end}'
