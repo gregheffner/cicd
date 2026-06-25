@@ -3,8 +3,6 @@ kind: ConfigMap
 metadata:
   name: www-configmap
   namespace: prod
-  labels:
-    k8slens-edit-resource-version: v1
 data:
   ads.txt: |
     google.com, pub-3941951641805897, DIRECT, f08c47fec0942fa0

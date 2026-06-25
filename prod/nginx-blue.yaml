@@ -3,9 +3,8 @@ kind: Deployment
 metadata:
   labels:
     app: nginx-web
-    version: blue # <--- Mark as blue deployment
-    k8slens-edit-resource-version: v1
-  name: nginx-web-blue # <--- Name for blue deployment
+    version: blue
+  name: nginx-web-blue
   namespace: prod
 spec:
   replicas: 3
@@ -17,12 +16,12 @@ spec:
   selector:
     matchLabels:
       app: nginx-web
-      version: blue # <--- Match blue pods
+      version: blue
   template:
     metadata:
       labels:
         app: nginx-web
-        version: blue # <--- Pod label for blue
+        version: blue
       annotations:
         ad.datadoghq.com/nginx.checks: |
           {

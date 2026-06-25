@@ -27,8 +27,7 @@ concurrency:
 jobs:
   update:
     runs-on: self-hosted
-    # Scheduled runs always proceed; manual dispatch is restricted to the owner
-    # (matches tunnelrestart.yml).
+    # Scheduled runs always proceed; manual dispatch is restricted to the owner.
     if: github.event_name == 'schedule' || github.actor == 'gregheffner'
     steps:
       - name: Roll cloudflared deployments (pulls :latest)

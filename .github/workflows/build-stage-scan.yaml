@@ -174,7 +174,7 @@ jobs:
 
       # CI verify the digest BEFORE pinning it into a manifest. Identity pinned to
       # THIS workflow file on refs/heads/main (anchored + dot-escaped). MUST match
-      # docs/cosign-hardening-plan.md (which must be updated to build-stage-scan).
+      # ops-local/cosign-hardening-plan.md.
       - name: Cosign verify the digest (identity pinned to this workflow @main)
         run: |
           set -euo pipefail

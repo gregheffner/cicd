@@ -4,7 +4,6 @@ metadata:
   labels:
     app: nginx-web
     version: green
-    k8slens-edit-resource-version: v1
   name: nginx-web-green
   namespace: prod
 spec:

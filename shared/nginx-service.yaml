@@ -3,15 +3,15 @@ kind: Service
 metadata:
   labels:
     app: nginx-web
-    k8slens-edit-resource-version: v1
   name: nginx-service
   namespace: prod
 spec:
-  # P1 (Step B): Cluster (was Local). Ingress is a Cloudflare Tunnel (cloudflared on
-  # host m1) -> node:nodePort; it does NOT use the Service healthCheckNodePort that
-  # Local allocates, and Cloudflare supplies the real client IP via X-Forwarded-For
-  # (which fail2ban bans on), so SNAT under Cluster does not break bans. Cluster also
-  # lets any node route to a Ready pod, which makes the eventual blue/green flip safe.
+  # P1: externalTrafficPolicy Cluster (was Local). Public ingress now comes from the
+  # in-cluster cloudflared Deployments, which reach this Service over cluster DNS
+  # (nginx-service.prod.svc.cluster.local:80) — east-west traffic, so ETP does not
+  # affect that path. Cluster stays as the safe default: Cloudflare supplies the real
+  # client IP via X-Forwarded-For (what fail2ban bans on), so SNAT does not break
+  # bans, and any node can route to a Ready pod, keeping the blue/green flip safe.
   externalTrafficPolicy: Cluster
   ipFamilyPolicy: SingleStack
   ports:
