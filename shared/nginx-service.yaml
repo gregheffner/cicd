@@ -44,6 +44,9 @@ spec:
         target:
           type: Utilization            # was AverageValue "3000m" (vs 100m req -> never scaled); blue now requests 250m
           averageUtilization: 70
+  behavior:
+    scaleDown:
+      stabilizationWindowSeconds: 300   # rec #16: anti-flap. Inert while min==max==3 (1-per-node affinity cap); takes effect only if maxReplicas is raised.
 ---
 # P5: HPA for the green Deployment so green is promotable + autoscaling-symmetric.
 # Both colors use Utilization 70% (each nginx container requests cpu: 250m).
@@ -66,3 +69,6 @@ spec:
         target:
           type: Utilization
           averageUtilization: 70
+  behavior:
+    scaleDown:
+      stabilizationWindowSeconds: 300   # rec #16: anti-flap. Inert while min==max==3 (1-per-node affinity cap); takes effect only if maxReplicas is raised.

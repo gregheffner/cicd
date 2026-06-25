@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: nginx
+  namespace: prod
+  labels:
+    app: nginx-web
+# rec #4b: dedicated ServiceAccount for the nginx stack with ZERO RoleBindings, instead
+# of both colors sharing the namespace 'prod' SA. A static web server (nginx) and a
+# Cloudflare-API fail2ban sidecar never call the k8s API, so this SA needs no access.
+# Pairs with rec #4 (automountServiceAccountToken already false on both pod specs); set
+# here too as defense-in-depth so no token mounts even if a pod spec regresses.
+automountServiceAccountToken: false
