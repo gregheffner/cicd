@@ -53,14 +53,63 @@ committed to git. The repo holds two kinds of thing, both reconciled by Argo CD:
 `DR/` paths — not namespaces. Both colors run in the `prod` namespace; the Service
 selector decides which is live. `DR` is the standby (green) color, not a second cluster.
 
-```text
-Internet → Cloudflare edge                          (outbound-only tunnels, 3 replicas each)
-  ├─ greg.heffner.live  → cloudflared       → nginx-service (prod)
-  │                                              selector: app=nginx-web, version=<live color>
-  │                                              │ live → nginx-web-blue  (heffner-prod, prod/)
-  │                                              ┊ standby nginx-web-green (heffner-dr, DR/)
-  └─ radar.heffner.live → cloudflared-radar → radar svc (radar ns) → radar app (weathermap/)
-  Admission gate: Kyverno verify-technotuba-nginx (Enforce, security/)   ·   all reconciled by Argo CD
+```mermaid
+flowchart TB
+    net(["Internet"]) --> cfe["Cloudflare edge"]
+    cfe -->|"greg.heffner.live"| t1
+    cfe -->|"radar.heffner.live"| t2
+
+    subgraph cluster["Kubernetes cluster — reconciled by Argo CD from main · Applications in automation ns"]
+        direction TB
+
+        subgraph cfns["cloudflared ns · outbound-only HA tunnels · 3 replicas each"]
+            direction LR
+            t1["cloudflared<br/>web tunnel"]
+            t2["cloudflared-radar<br/>radar tunnel"]
+        end
+
+        subgraph prodns["prod ns"]
+            direction TB
+            svc{{"nginx-service · :80 → http targetPort :8080<br/>app=nginx-web"}}
+            sel{"selector<br/>version = live color"}
+            subgraph colors["nginx blue/green · interchangeable Deployments · non-root :8080 + native fail2ban sidecar · 3 replicas each"]
+                direction LR
+                b["nginx-web-blue<br/>heffner-prod · prod/"]
+                g["nginx-web-green<br/>heffner-dr · DR/"]
+            end
+            svc --> sel
+            sel ==>|"live"| b
+            sel -. "standby" .- g
+        end
+
+        subgraph radarns["radar ns"]
+            direction LR
+            rsvc{{"radar-service · :8080"}}
+            rd["radar weather-map<br/>app: radar · weathermap/"]
+            rsvc --> rd
+        end
+
+        subgraph kyns["kyverno ns"]
+            ky["Kyverno admission gate<br/>verify-technotuba-nginx · Enforce<br/>app: heffner-security · security/"]
+        end
+
+        t1 -->|":80"| svc
+        t2 -->|":8080"| rsvc
+        ky -. "admits cosign-signed<br/>nginx pods only" .-> colors
+    end
+
+    classDef ext fill:#21262d,stroke:#8b949e,color:#e6edf3,stroke-width:1px;
+    classDef edge fill:#f38020,stroke:#ffb86b,color:#0d1117,stroke-width:1px;
+    classDef service fill:#0e7490,stroke:#22d3ee,color:#ffffff,stroke-width:1px;
+    classDef gate fill:#1a78c2,stroke:#79c0ff,color:#ffffff,stroke-width:1px;
+    classDef blue fill:#1f6feb,stroke:#79c0ff,color:#ffffff,stroke-width:1px;
+    classDef green fill:#238636,stroke:#56d364,color:#ffffff,stroke-width:1px;
+    class net ext
+    class cfe edge
+    class svc,rsvc,sel service
+    class ky gate
+    class b blue
+    class g green
 ```
 
 The nginx image is a hardened `technotuba/nginx` build whose Dockerfile is generated per
@@ -110,6 +159,62 @@ returns 429) as defense-in-depth. See [05 — pod security](documentation/05-pod
 
 Two workflows, two phases, with a mandatory **72-hour soak** between building an image
 and serving it. Every gate **fails closed** — the default outcome is no change.
+
+```mermaid
+flowchart LR
+    start(["Weekly trigger<br/>Mon 07:00 UTC"]):::trig
+
+    subgraph P1["Phase 1 · build-stage-scan — touches no live traffic"]
+        direction LR
+        b1["Generate Dockerfile<br/>+ build linux/amd64"]
+        b2{"Trivy gate<br/>fixable HIGH/CRITICAL?"}
+        b3["Push immutable<br/>vYYYY.MM.DD tag"]
+        b4["cosign keyless<br/>sign + verify digest"]
+        b5["Digest-pin<br/>standby manifest"]
+        b6["Write candidate.json<br/>state=soaking · 72h clock"]
+        b1 --> b2
+        b2 -->|clean| b3 --> b4 --> b5 --> b6
+    end
+
+    soak{{"mandatory 72h soak on standby<br/>serves no production traffic"}}:::gate
+
+    subgraph P2["Phase 2 · soak-gate-promote — daily 07:30 UTC"]
+        direction LR
+        g0{"Soaked ≥ 72h?"}
+        g1{"Re-scan digest · fresh Trivy DB<br/>+ cosign re-verify pass?"}
+        g2{"Drift · standby health<br/>· fence checks pass?"}
+        g3["Atomic commit<br/>flip selector + ledger"]
+        g4{"Post-flip<br/>smoke test"}
+        g0 -->|yes| g1
+        g1 -->|pass| g2
+        g2 -->|"all pass"| g3 --> g4
+    end
+
+    hold(["No-op · wait<br/>re-check next daily run"]):::wait
+    done(["state=promoted<br/>pin old color · colors converge"]):::ok
+    fc["FAIL CLOSED<br/>no flip · traffic unchanged"]:::bad
+    rb["Auto-rollback<br/>revert commit + confirm"]:::bad
+
+    %% linear spine: build -> 72h soak -> promote -> live
+    start --> b1
+    b6 ==>|"72h gate"| soak ==> g0
+    g4 -->|pass| done
+
+    %% every fail-closed exit leaves a decision diamond
+    b2 -->|"fixable HIGH/CRITICAL"| fc
+    g0 -->|"not yet"| hold
+    hold -.->|"next day"| g0
+    g1 -->|"new CVE / bad signature"| fc
+    g2 -->|"any check fails"| fc
+    g4 -->|fail| rb
+    rb --> fc
+
+    classDef trig fill:#6e40c9,stroke:#0d1117,color:#fff;
+    classDef gate fill:#bf8700,stroke:#0d1117,color:#fff;
+    classDef ok fill:#2ea043,stroke:#0d1117,color:#fff;
+    classDef bad fill:#da3633,stroke:#0d1117,color:#fff;
+    classDef wait fill:#6e7681,stroke:#0d1117,color:#fff;
+```
 
 - **Phase 1 — `build-stage-scan`** (weekly, Mon 07:00 UTC): build → **Trivy** gate
   (fail on any fixable HIGH/CRITICAL) → push an immutable `vYYYY.MM.DD` tag (never
