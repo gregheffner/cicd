@@ -296,6 +296,17 @@ data:
         <div class="row">
             <div class="leftcolumn">
                 <div class="card">
+            <section id="Article41-AgentSwarmHeal">
+                <div class="blog-box">
+                    <div class="blog-description">
+                        <h3><a href="/image/pages/2026/June/AgentSwarmHeal.html">Stop Babysitting Your Agent Swarms: The One-Time Setup That Heals a Stalled Workflow</a></h3>
+                        <p>Greg Heffner <time datetime="2026-06-26">June 26th, 2026</time></p>
+                    </div>
+                    <div class="blog-image-container">
+                        <img src="/image/blog/2026/June/hero-stop-babysitting-swarms.png" alt="Stop Babysitting Your Agent Swarms: The One-Time Setup That Heals a Stalled Workflow - blog post image" width="1200" height="630" decoding="async">
+                    </div>
+                </div>
+            </section>
             <section id="Article40-LetItBake">
                 <div class="blog-box">
                     <div class="blog-description">
@@ -797,6 +808,7 @@ data:
                         <li><a href="#Article9-Kubernetes">Kubernetes: 86 the Prime Rib</a></li>
                         <li><a href="#Article39-AgenticMTTR">Machine-Speed Triage: Compressing MTTR with Claude Code Dynamic Workflows</a></li><br>
                         <li><a href="#Article40-LetItBake">Patch Fast, But Let It Bake: Why Package Cooldowns Now Matter More Than Speed</a></li><br>
+                        <li><a href="#Article41-AgentSwarmHeal">Stop Babysitting Your Agent Swarms: The One-Time Setup That Heals a Stalled Workflow</a></li><br>
                       </ul>
                     </nav>
                   </div>
@@ -1991,6 +2003,12 @@ data:
     <url>
     <loc>https://greg.heffner.live/image/pages/2026/June/LetItBake.html</loc>
     <lastmod>2026-06-21</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+    </url>
+    <url>
+    <loc>https://greg.heffner.live/image/pages/2026/June/AgentSwarmHeal.html</loc>
+    <lastmod>2026-06-26</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     </url>
