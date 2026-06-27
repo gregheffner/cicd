@@ -11,7 +11,7 @@ spec:
     name: onepassword
   target:
     name: cloudflare-creds
-    creationPolicy: Merge
+    creationPolicy: Owner
   data:
     - secretKey: API_TOKEN
       remoteRef:

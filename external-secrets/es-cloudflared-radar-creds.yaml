@@ -12,7 +12,7 @@ spec:
     name: onepassword
   target:
     name: cloudflared-radar-creds
-    creationPolicy: Merge
+    creationPolicy: Owner
   data:
     - secretKey: credentials.json
       remoteRef:

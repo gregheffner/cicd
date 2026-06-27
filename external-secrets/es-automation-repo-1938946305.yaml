@@ -13,7 +13,7 @@ spec:
     name: onepassword
   target:
     name: repo-1938946305
-    creationPolicy: Merge
+    creationPolicy: Owner
     template:
       metadata:
         labels:
