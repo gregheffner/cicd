@@ -1,0 +1,27 @@
+# nodelocaldns/nodelocaldns-app.yaml  (apply ONCE as cluster-admin during bootstrap)
+# First kube-system addon in this repo. directory.include allowlists ONLY the 4
+# workload files and EXCLUDES this file, so the app never manages/prunes itself.
+# Default ArgoCD kind-ordering applies ServiceAccount + ConfigMap + Service BEFORE
+# the DaemonSet, so node-cache always finds kube-dns-upstream's ClusterIP at startup.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: nodelocaldns
+  namespace: automation
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/gregheffner/cicd
+    targetRevision: HEAD
+    path: nodelocaldns
+    directory:
+      include: '{serviceaccount.yaml,configmap.yaml,service-upstream.yaml,daemonset.yaml}'
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: kube-system
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
