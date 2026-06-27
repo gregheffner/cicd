@@ -1,0 +1,21 @@
+# radar/radar — sourced from 1Password (item "radar"). envFrom on the radar Deployment (OWM_API_KEY + PORT).
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: radar
+  namespace: radar
+spec:
+  refreshInterval: 1h
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: onepassword
+  target:
+    name: radar
+    creationPolicy: Merge
+  data:
+    - secretKey: OWM_API_KEY
+      remoteRef:
+        key: "radar/OWM_API_KEY"
+    - secretKey: PORT
+      remoteRef:
+        key: "radar/PORT"

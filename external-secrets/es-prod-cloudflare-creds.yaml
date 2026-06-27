@@ -1,0 +1,21 @@
+# prod/cloudflare-creds — sourced from 1Password (item "cloudflare-creds"). nginx blue/green fail2ban.
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: cloudflare-creds
+  namespace: prod
+spec:
+  refreshInterval: 1h
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: onepassword
+  target:
+    name: cloudflare-creds
+    creationPolicy: Merge
+  data:
+    - secretKey: API_TOKEN
+      remoteRef:
+        key: "cloudflare-creds/API_TOKEN"
+    - secretKey: ZONE_ID
+      remoteRef:
+        key: "cloudflare-creds/ZONE_ID"

@@ -1,0 +1,36 @@
+# automation/repo-1938946305 — ArgoCD repo credential (cicd git PAT), sourced from
+# 1Password item "argocd-repo-cicd". MUST keep the argocd repository label or ArgoCD ignores it.
+# refresh 30m (PAT-rotation propagation matters). Do NOT remove from the allowlist.
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: repo-1938946305
+  namespace: automation
+spec:
+  refreshInterval: 30m
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: onepassword
+  target:
+    name: repo-1938946305
+    creationPolicy: Merge
+    template:
+      metadata:
+        labels:
+          argocd.argoproj.io/secret-type: repository
+  data:
+    - secretKey: username
+      remoteRef:
+        key: "argocd-repo-cicd/username"
+    - secretKey: password
+      remoteRef:
+        key: "argocd-repo-cicd/password"
+    - secretKey: url
+      remoteRef:
+        key: "argocd-repo-cicd/url"
+    - secretKey: type
+      remoteRef:
+        key: "argocd-repo-cicd/type"
+    - secretKey: project
+      remoteRef:
+        key: "argocd-repo-cicd/project"

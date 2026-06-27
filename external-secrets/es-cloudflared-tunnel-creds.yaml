@@ -1,0 +1,19 @@
+# cloudflared/cloudflared-tunnel-creds — sourced from 1Password (item "cloudflared-tunnel-creds").
+# Main site tunnel (greg.heffner.live). credentials.json stored as a single op FIELD. Volume-mounted by cloudflared.
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: cloudflared-tunnel-creds
+  namespace: cloudflared
+spec:
+  refreshInterval: 1h
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: onepassword
+  target:
+    name: cloudflared-tunnel-creds
+    creationPolicy: Merge
+  data:
+    - secretKey: credentials.json
+      remoteRef:
+        key: "cloudflared-tunnel-creds/credentials.json"

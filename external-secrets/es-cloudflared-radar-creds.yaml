@@ -1,0 +1,19 @@
+# cloudflared/cloudflared-radar-creds — sourced from 1Password (item "cloudflared-radar-creds").
+# credentials.json is stored as a single op FIELD (not a Document). Volume-mounted by cloudflared-radar.
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: cloudflared-radar-creds
+  namespace: cloudflared
+spec:
+  refreshInterval: 1h
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: onepassword
+  target:
+    name: cloudflared-radar-creds
+    creationPolicy: Merge
+  data:
+    - secretKey: credentials.json
+      remoteRef:
+        key: "cloudflared-radar-creds/credentials.json"
