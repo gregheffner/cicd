@@ -3,7 +3,11 @@ kind: Deployment
 metadata:
   name: radar
 spec:
-  replicas: 1
+  replicas: 3
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
   selector:
     matchLabels:
       app: radar
@@ -12,6 +16,13 @@ spec:
       labels:
         app: radar
     spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchLabels:
+                  app: radar
+              topologyKey: kubernetes.io/hostname
       containers:
         - name: radar
           image: technotuba/radar:latest
@@ -34,3 +45,13 @@ spec:
       targetPort: 8080
       nodePort: 30080
   type: NodePort
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: radar
+spec:
+  minAvailable: 2
+  selector:
+    matchLabels:
+      app: radar
