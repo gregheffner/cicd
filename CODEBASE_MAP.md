@@ -9,7 +9,9 @@ GitOps repo for a blue/green Kubernetes nginx deployment, plus a few small apps.
 - `weathermap/`: `radar.yml` for the radar weather app (Argo CD app `radar`, namespace `radar`)
 - `security/`: Kyverno install + the keyless-cosign `verify-technotuba-nginx` ClusterPolicy (Argo CD apps `kyverno` + `heffner-security`)
 - `datadog/`: the `DatadogAgent` CR + the operator/agent Argo CD app CRs (apps `datadog-operator` + `datadog-agent`, namespace `datadog`)
+- `external-secrets/`: External Secrets Operator install + the `ClusterSecretStore` and `ExternalSecret`s that sync secrets from 1Password into the cluster (apps `external-secrets-operator` + `external-secrets-config`)
+- `nodelocaldns/`: NodeLocal DNSCache DaemonSet, a per-node DNS cache in front of CoreDNS (Argo CD app `nodelocaldns`, namespace `kube-system`)
 - `DockerImage/`: the `technotuba/nginx` build context — entrypoint scripts COPYed into the CI-generated, digest-pinned Dockerfile (no committed Dockerfile/nginx.conf; runtime config comes from `shared/nginx-config.yaml`)
-- `.github/`: GitHub Actions workflows (blue/green build→soak→promote, Docker Hub tag prune, Cloudflare cache/badge, cloudflared rollout, pod cycling, log rotation), `dependabot.yml`, and helper scripts
-- `documentation/`: the "why" deep-dive companion to `README.md` — one page per subsystem (supply chain, soak gate, HA, GitOps, pod security, ingress, intrusion response, observability, hygiene, caching)
+- `.github/`: GitHub Actions workflows (blue/green build→soak→promote, Docker Hub tag prune, Cloudflare cache purge, cloudflared rollout, pod cycling, log rotation), `dependabot.yml`, and helper scripts
+- `documentation/`: the "why" deep-dive companion to `README.md` — one page per subsystem (supply chain, soak gate, HA, GitOps, pod security, ingress, intrusion response, observability, hygiene, caching, secrets, DNS)
 - `archive/`: dormant manifests no longer deployed and not Argo CD-managed — `chat/`, `webapp/`, `web-search/`, `ip-search/`, `jax-help/`
