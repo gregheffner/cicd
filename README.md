@@ -14,7 +14,7 @@ A blue/green nginx delivery pipeline with a signed, gated, runtime-hardened stac
 [![Trivy](https://img.shields.io/badge/Trivy-vuln%20gate-1904DA?style=for-the-badge&logo=aquasecurity&logoColor=white&labelColor=0d1117)](#pipeline-and-supply-chain)
 
 ![Cloudflare Tunnel](https://img.shields.io/badge/Cloudflare-Tunnel-F38020?logo=cloudflare&logoColor=white)
-![Cloudflare blocks](https://img.shields.io/badge/Cloudflare%20blocks-9-red?logo=cloudflare&logoColor=white)
+![Cloudflare blocks](https://img.shields.io/badge/Cloudflare%20blocks-7-red?logo=cloudflare&logoColor=white)
 
 </div>
 
