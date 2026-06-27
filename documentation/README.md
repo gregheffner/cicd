@@ -7,7 +7,7 @@
 > alternative.
 
 Every page is grounded in the committed manifests and workflows (each claim links to
-the file it comes from) and reflects the live cluster as of 2026-06-25 (Kubernetes
+the file it comes from) and reflects the live cluster as of 2026-06-27 (Kubernetes
 v1.32, three worker nodes). They are written for an engineer who wants to build their
 own secure, efficient cluster and is trying to learn the *reasoning*, not just copy
 the YAML. Read them in order or jump to a topic.
@@ -25,6 +25,13 @@ the YAML. Read them in order or jump to a topic.
 | --- | --- |
 | [03 — Surviving node reboots and zero-downtime rollouts](03-high-availability.md) | Why blue/green plus required one-pod-per-node scheduling rides through node patching with no outage. |
 | [04 — Declarative GitOps with Argo CD](04-gitops.md) | Why git is the only source of truth and CI never runs `kubectl` against workloads — and the cross-app sync-ordering lesson. |
+| [12 — A node-local DNS cache in front of CoreDNS](12-dns-resilience.md) | Why every node caches DNS locally so a control-plane reboot or a CoreDNS hiccup does not black-hole in-cluster resolution. |
+
+## Secrets
+
+| Page | The question it answers |
+| --- | --- |
+| [11 — Secrets from 1Password with External Secrets Operator](11-secrets-management.md) | Why 1Password is the source of truth and the cluster holds only synced copies plus one bootstrap token. |
 
 ## Runtime security
 

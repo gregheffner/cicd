@@ -129,16 +129,21 @@ pinned to an immutable `@sha256`, `apk upgrade`d — see [01 — supply chain](d
 | `kyverno` | Helm `3.8.1` | `kyverno` | Kyverno install (HA, image-verify cache) |
 | `datadog-operator` | Helm `2.9.2` | `datadog` | Datadog Operator |
 | `datadog-agent` | `datadog/` | `datadog` | `DatadogAgent` CR (pod-scraped metrics) |
+| `external-secrets-operator` | Helm `2.7.0` | `external-secrets` | External Secrets Operator (CRDs + controller, HA) |
+| `external-secrets-config` | `external-secrets/` | per-resource | `ClusterSecretStore` + the `ExternalSecret`s that sync secrets from 1Password |
+| `nodelocaldns` | `nodelocaldns/` | `kube-system` | NodeLocal DNSCache DaemonSet (per-node DNS cache) |
 
-`*-app.yaml` CRs are committed only for `cloudflared`, `datadog-operator`,
-`datadog-agent`, `kyverno`, and `heffner-security`; `heffner-prod`, `heffner-dr`,
+`*-app.yaml` CRs are committed for `cloudflared`, `datadog-operator`,
+`datadog-agent`, `kyverno`, `heffner-security`, `external-secrets-operator`,
+`external-secrets-config`, and `nodelocaldns`; `heffner-prod`, `heffner-dr`,
 `shared-services`, and `radar` are **bootstrap-once** (applied externally, not stored
 here). All Applications live in the `automation` namespace.
 
 Traffic enters through outbound-only `cloudflared` Deployments (no inbound ports). The
 web tunnel routes to `nginx-service.prod.svc.cluster.local:80` (Service port 80 → named
 `http` targetPort → the non-root container's `8080`); the radar tunnel to
-`radar.radar.svc.cluster.local:8080`. Credentials live in Secrets kept out of this repo.
+`radar.radar.svc.cluster.local:8080`. Tunnel credentials are synced into Secrets from
+1Password by External Secrets Operator (see [11 — secrets](documentation/11-secrets-management.md)).
 See [06 — ingress](documentation/06-ingress.md).
 
 ### Runtime hardening
@@ -246,7 +251,8 @@ README — each page links to the committed manifest it describes.
 | Theme | Pages |
 | --- | --- |
 | Supply chain | [01 — image build & trust](documentation/01-supply-chain.md) · [02 — 72-hour soak gate](documentation/02-soak-gate.md) |
-| Availability | [03 — HA & zero-downtime rollouts](documentation/03-high-availability.md) · [04 — GitOps with Argo CD](documentation/04-gitops.md) |
+| Availability | [03 — HA & zero-downtime rollouts](documentation/03-high-availability.md) · [04 — GitOps with Argo CD](documentation/04-gitops.md) · [12 — node-local DNS cache](documentation/12-dns-resilience.md) |
+| Secrets | [11 — 1Password + External Secrets Operator](documentation/11-secrets-management.md) |
 | Runtime security | [05 — pod hardening](documentation/05-pod-security.md) · [06 — Cloudflare Tunnel ingress](documentation/06-ingress.md) · [07 — edge banning](documentation/07-intrusion-response.md) · [10 — caching & rate-limits](documentation/10-caching-and-rate-limits.md) |
 | Operations | [08 — health & observability](documentation/08-observability-and-health.md) · [09 — least-privilege housekeeping](documentation/09-operational-hygiene.md) |
 
@@ -254,7 +260,7 @@ README — each page links to the committed manifest it describes.
 
 ## Workflows
 
-Canonical reference for the 9 files in `.github/workflows/`.
+Canonical reference for the 7 files in `.github/workflows/`.
 
 | Workflow | Trigger (UTC) | Runner | Mutates cluster | Role |
 | --- | --- | --- | :---: | --- |
@@ -262,11 +268,9 @@ Canonical reference for the 9 files in `.github/workflows/`.
 | `soak-gate-promote.yaml` | Daily 07:30 · manual | self-hosted | No (git + ArgoCD refresh + health) | After 72h soak: re-scan, re-verify, gate checks, atomic selector flip, ArgoCD hard-refresh nudge, smoke test with auto-rollback. Fails closed. |
 | `prune-registry-tags.yaml` | Mon 08:00 · manual | hosted | No | Set-logic Docker Hub cleanup; never deletes an in-use or rollback-reachable digest or its cosign `.sig`. Manual defaults to dry-run (set `apply=true` to delete); scheduled run applies. |
 | `cloudflared-weekly-update.yaml` | Sun 08:00 · manual | self-hosted | Yes (rollout restart) | Rolls the `cloudflared` / `cloudflared-radar` Deployments to pick up the latest connector image. |
-| `update-cloudflare-block-badge.yaml` | Daily 09:00 · manual | hosted | No | Patches the live Cloudflare-blocks count into this README's badge. |
 | `clear-cloudflare-cache.yaml` | Sun 23:59 · manual | hosted | No | Purges the Cloudflare edge cache (an optimization — HTML is short-TTL, so it self-heals in minutes). |
 | `delete-kubernetes-pods.yaml` | Manual only | self-hosted | Yes (deletes pods) | Targeted pod cycling; excludes the `prod` and `automation` namespaces. |
 | `log-rotate.yaml` | Manual only | self-hosted | Yes (truncates logs) | Truncates the nginx access/error logs on the nodes. |
-| `push-cloudflare-credentials.yaml` | Manual only | hosted | Yes (creates Secret) | Provisions the `cloudflare-creds` Secret in `prod` for the fail2ban sidecar. |
 
 ---
 
@@ -284,6 +288,8 @@ cicd/
 ├── weathermap/    radar weather-map app                                  (app: radar)
 ├── security/      Kyverno ClusterPolicy + kyverno/heffner-security app CRs
 ├── datadog/       DatadogAgent CR + operator/agent app CRs               (ns: datadog)
+├── external-secrets/ 1Password sync: ClusterSecretStore + ExternalSecrets (apps: external-secrets-*)
+├── nodelocaldns/  NodeLocal DNSCache DaemonSet                           (app: nodelocaldns → kube-system)
 ├── DockerImage/   entrypoint scripts only (no Dockerfile/nginx.conf — both generated/external)
 ├── .github/       workflows/ · scripts/generate_dockerfile.py · state/candidate.json
 │                  · dependabot.yml (weekly SHA-pin bumps for Actions)
