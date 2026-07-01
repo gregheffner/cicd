@@ -1,0 +1,26 @@
+# external-secrets/ps-cicd-runner-token.yaml
+# PushSecret (cluster -> 1Password): backs up the cicd runner's ServiceAccount
+# token to the k8s-cluster-secrets vault. This secret is cluster-GENERATED
+# (kubernetes.io/service-account-token), so the flow is k8s -> op — the
+# opposite direction of the es-*.yaml files. One direction per secret.
+# deletionPolicy None: removing this CR never deletes the 1Password item.
+apiVersion: external-secrets.io/v1alpha1
+kind: PushSecret
+metadata:
+  name: cicd-runner-token
+  namespace: automation
+spec:
+  refreshInterval: 1h
+  secretStoreRefs:
+    - name: onepassword
+      kind: ClusterSecretStore
+  selector:
+    secret:
+      name: cicd-runner-token
+  deletionPolicy: None
+  data:
+    - match:
+        secretKey: token
+        remoteRef:
+          remoteKey: cicd-runner-token
+          property: token
