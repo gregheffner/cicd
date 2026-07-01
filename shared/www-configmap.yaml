@@ -12,6 +12,13 @@ data:
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- Google Tag Manager -->
+        <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-MQMRMNL5');</script>
+        <!-- End Google Tag Manager -->
         <link rel="apple-touch-icon" sizes="180x180" href="/image/apple-touch-icon.png">
         <link rel="icon" type="image/png" sizes="32x32" href="/image/favicon-32x32.png">
         <link rel="icon" type="image/png" sizes="16x16" href="/image/favicon-16x16.png">
@@ -847,6 +854,7 @@ data:
     <html lang="en">
     <head>
         <meta charset="utf-8">
+        <meta name="robots" content="noindex">
         <title>???</title>
     </head>
     <body>
@@ -860,6 +868,14 @@ data:
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Greg Heffner | Free Learning, Family Moments & Blogs</title>
+
+        <!-- Google Tag Manager -->
+        <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-MQMRMNL5');</script>
+        <!-- End Google Tag Manager -->
 
         <!-- Favicons and Manifest -->
         <link rel="apple-touch-icon" sizes="180x180" href="/image/apple-touch-icon.png">
@@ -1125,7 +1141,7 @@ data:
             <ul class="link-list">
                 <li><a href="https://greg.heffner.live/traffic.html">Live Traffic Cams</a></li>
                 <li><a href="https://sarnetfl.org/uploads/6/1/7/0/61701057/20230910_sarnet_map.pdf">SARNET</a></li>
-                <li><a href="http://stats.allstarlink.org/stats/52914">Radio Map</a></li>
+                <li><a href="https://stats.allstarlink.org/stats/52914">Radio Map</a></li>
                 <li><a href="https://jaxpiercam.com">Jax Beach Pier Live</a></li>
                 <li><a href="https://firstcoastdmr.org/index.php/dmr-info/">Jax DMR Site</a></li>
                 <li><a href="https://gchq.github.io/CyberChef/">CyberChef</a></li>
@@ -1196,15 +1212,6 @@ data:
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <!-- Google tag (gtag.js) -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-SXLQTMF14Q"></script>
-        <script>
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-
-          gtag('config', 'G-SXLQTMF14Q');
-        </script>
         <title>PGP Public Key for Greg Heffner</title>
 
         <!-- SEO Meta Tags -->
@@ -1629,38 +1636,9 @@ data:
             })(window,document,'script','dataLayer','GTM-MQMRMNL5');</script>
             <!-- End Google Tag Manager -->
             <!-- Clarity tracking code for https://greg.heffner.live/ --><script>    (function(c,l,a,r,i,t,y){        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i+"?ref=bwt";        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);    })(window, document, "clarity", "script", "nry25es3go");</script>
-            <script type="text/javascript">
-                (function(c,l,a,r,i,t,y){
-                    c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-                    t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-                    y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-                })(window, document, "clarity", "script", "nry25es3go");
-            </script>
             <script async
                     src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3941951641805897"
               crossorigin="anonymous"> </script>
-              <script async
-              src="https://fundingchoicesmessages.google.com/i/pub-3941951641805897?ers=1"
-              nonce="drPCtL_hPnvLGFPUGtHsFQ"></script> <script
-              nonce="drPCtL_hPnvLGFPUGtHsFQ"> (function() {
-                  function signalGooglefcPresent() {
-                      if (!window.frames['googlefcPresent']) {
-                          if (document.body) {
-                              const iframe = document.createElement('iframe');
-                              iframe.style = 'width: 0; height: 0; border: none; z-index: -1000; left: -1000px; top: -1000px;';
-                              iframe.style.display = 'none';
-                              iframe.name = 'googlefcPresent';
-                              document.body.appendChild(iframe);
-                          } else {
-                              setTimeout(signalGooglefcPresent, 0);
-                          }
-                      }
-                  }
-                  signalGooglefcPresent();
-              })();  
-              </script>
-              <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3941951641805897"
-     crossorigin="anonymous"></script>
         <title>Privacy Policy</title>
         <meta name="title" content="Privacy Policy for the site">
         <meta name="description"
@@ -1668,6 +1646,7 @@ data:
         <meta name="keywords"
           content="policy">
         <meta name="robots" content="index, follow">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <meta name="language" content="English">
         <meta http-equiv='content-language' content='en-gb'>
@@ -1759,6 +1738,24 @@ data:
     <lastmod>2026-01-01</lastmod>
     <changefreq>never</changefreq>
     <priority>0.1</priority>
+    </url>
+    <url>
+    <loc>https://greg.heffner.live/loops.html</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+    </url>
+    <url>
+    <loc>https://greg.heffner.live/traffic.html</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+    </url>
+    <url>
+    <loc>https://greg.heffner.live/pgp-key.html</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/image/pages/initial.html</loc>
@@ -1900,6 +1897,12 @@ data:
     </url>
     <url>
     <loc>https://greg.heffner.live/image/pages/2025/June/githubadv.html</loc>
+    <lastmod>2026-01-01</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+    </url>
+    <url>
+    <loc>https://greg.heffner.live/image/pages/2025/June/websecurity.html</loc>
     <lastmod>2026-01-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
@@ -2546,11 +2549,6 @@ data:
                                 <img src="/image/blog/2025/July/weather.png" alt="Loops">
                             </a>
                         </td>
-                        <td>
-                            <a href="https://192.168.1.190:30083">
-                                <img src="https://argo-cd.readthedocs.io/en/stable/assets/logo.png" alt="Argo">
-                            </a>
-                        </td>
                     </tr>
                     <tr>
                         <td>
@@ -2699,40 +2697,6 @@ data:
                                 <circle cx="15" cy="5" r="1" fill="#fff" opacity="0.8" />
                                 <circle cx="9" cy="6" r="0.8" fill="#fff" opacity="0.6" />
                                 <circle cx="16" cy="10" r="0.6" fill="#fff" opacity="0.4" />
-                            </svg>
-                        </a>
-                        <a href="https://search.heffner.live" target="_blank" rel="noopener noreferrer" title="Web Search" aria-label="Web Search">
-                            <svg class="footer-svg" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="#fff"
-                                viewBox="0 0 24 24">
-                                <!-- Enhanced magnifying glass with lens reflection -->
-                                <circle cx="10" cy="10" r="6.5" stroke="#fff" stroke-width="2" fill="none" />
-                                <circle cx="8" cy="8" r="2" fill="#fff" opacity="0.3" />
-                                <line x1="15.5" y1="15.5" x2="21" y2="21" stroke="#fff" stroke-width="2.5" stroke-linecap="round" />
-                                <!-- Web/browser elements -->
-                                <circle cx="10" cy="7" r="0.8" fill="#fff" />
-                                <circle cx="7" cy="10" r="0.8" fill="#fff" />
-                                <circle cx="13" cy="10" r="0.8" fill="#fff" />
-                                <circle cx="10" cy="13" r="0.8" fill="#fff" />
-                            </svg>
-                        </a>
-                        <a href="https://ip-analysis.heffner.live" target="_blank" rel="noopener noreferrer" title="IP Analysis" aria-label="IP Analysis">
-                            <svg class="footer-svg" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="#fff"
-                                viewBox="0 0 24 24">
-                                <!-- Network globe with connection points -->
-                                <circle cx="12" cy="12" r="9" stroke="#fff" stroke-width="1.5" fill="none" />
-                                <!-- Latitude lines -->
-                                <ellipse cx="12" cy="12" rx="9" ry="4" stroke="#fff" stroke-width="0.8" fill="none" />
-                                <ellipse cx="12" cy="12" rx="9" ry="2" stroke="#fff" stroke-width="0.8" fill="none" />
-                                <!-- Longitude line -->
-                                <ellipse cx="12" cy="12" rx="4" ry="9" stroke="#fff" stroke-width="0.8" fill="none" />
-                                <!-- IP address dots (representing network nodes) -->
-                                <circle cx="8" cy="8" r="1.2" fill="#fff" />
-                                <circle cx="16" cy="8" r="1.2" fill="#fff" />
-                                <circle cx="8" cy="16" r="1.2" fill="#fff" />
-                                <circle cx="16" cy="16" r="1.2" fill="#fff" />
-                                <!-- Magnifying glass overlay -->
-                                <circle cx="18" cy="6" r="3" stroke="#fff" stroke-width="1.5" fill="none" />
-                                <line x1="20.5" y1="8.5" x2="22" y2="10" stroke="#fff" stroke-width="1.5" stroke-linecap="round" />
                             </svg>
                         </a>
                     </div>
@@ -2918,6 +2882,7 @@ data:
 
     <head>
       <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
       <title>Traffic Cams</title>
       <meta name="description" content="Explore real-time traffic conditions and camera feeds for Jacksonville, Florida.">
       <link rel="canonical" href="https://greg.heffner.live/traffic.html">
