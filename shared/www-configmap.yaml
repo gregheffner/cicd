@@ -868,7 +868,8 @@ data:
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Greg Heffner | Free Learning, Family Moments & Blogs</title>
-
+    
+        <link rel="preconnect" href="https://www.googletagmanager.com">
         <!-- Google Tag Manager -->
         <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
         new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -876,7 +877,7 @@ data:
         'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
         })(window,document,'script','dataLayer','GTM-MQMRMNL5');</script>
         <!-- End Google Tag Manager -->
-
+    
         <!-- Favicons and Manifest -->
         <link rel="apple-touch-icon" sizes="180x180" href="/image/apple-touch-icon.png">
         <link rel="icon" type="image/png" sizes="96x96" href="/image/favicon-96x96.png">
@@ -884,24 +885,25 @@ data:
         <link rel="icon" type="image/png" sizes="16x16" href="/image/favicon-16x16.png">
         <link rel="icon" href="/image/favicon.ico">
         <link rel="manifest" href="/image/site.webmanifest">
-
+    
         <!-- Stylesheet -->
         <link rel="stylesheet" href="/image/assets/styles.css">
-
+    
+        <!-- Hero image is the LCP element; CSS background images are discovered late -->
+        <link rel="preload" as="image" href="/image/photo/header.jpg" fetchpriority="high">
+    
         <!-- App Title for iOS -->
         <meta name="apple-mobile-web-app-title" content="Nerdsense">
         <meta name="theme-color" content="#0d1117">
-
+    
         <!-- Canonical URL -->
         <link rel="canonical" href="https://greg.heffner.live/">
-
+    
         <!-- SEO Meta Tags -->
         <meta name="description" content="A personal webpage of Greg Heffner, a father, veteran, and tech enthusiast. Explore my journey in the military and my passion for technology.">
-        <meta name="keywords" content="Python, web development, automation, cloud platforms, cybersecurity, machine learning, ethical hacking, kubernetes">
         <meta name="author" content="Greg Heffner">
         <meta name="robots" content="index, follow">
-        <meta name="title" content="Greg Heffner - Father, Veteran, Tech Enthusiast">
-
+    
         <!-- Open Graph Meta Tags -->
         <meta property="og:type" content="website">
         <meta property="og:title" content="Greg Heffner - Father, Veteran, Tech Enthusiast">
@@ -911,14 +913,16 @@ data:
         <meta property="og:image" content="https://greg.heffner.live/image/photo/header.jpg">
         <meta property="og:image:width" content="1200">
         <meta property="og:image:height" content="630">
+        <meta property="og:image:alt" content="Greg Heffner site header banner">
         <meta property="og:locale" content="en_US">
-
+    
         <!-- Twitter Meta Tags -->
         <meta name="twitter:card" content="summary_large_image">
         <meta name="twitter:title" content="Greg Heffner - Father, Veteran, Tech Enthusiast">
         <meta name="twitter:description" content="A personal webpage of Greg Heffner, a father, veteran, and tech enthusiast. Explore my journey in the military and my passion for technology.">
         <meta name="twitter:image" content="https://greg.heffner.live/image/photo/header.jpg">
-
+        <meta name="twitter:image:alt" content="Greg Heffner site header banner">
+    
         <!-- Structured Data (JSON-LD) -->
         <script type="application/ld+json">
         {
@@ -927,299 +931,293 @@ data:
             "name": "Greg Heffner",
             "description": "Father, veteran, and tech enthusiast",
             "url": "https://greg.heffner.live",
+            "image": "https://greg.heffner.live/image/photo/header.jpg",
+            "mainEntityOfPage": "https://greg.heffner.live/",
             "jobTitle": "Father, Student, and IT Leader",
             "knowsAbout": ["Python", "Web Development", "Automation", "Cloud Platforms", "Cybersecurity", "Machine Learning", "Kubernetes"],
-            "alumniOf": {
-                "@type": "Organization",
-                "name": "Heffner.live"
-            },
-            "dateModified": "2025-11-09"
+            "sameAs": [
+                "https://github.com/GregHeffner",
+                "https://hub.docker.com/u/technotuba",
+                "https://medium.com/@light.pen8923"
+            ],
+            "dateModified": "2026-07-01"
         }
         </script>
-
-    <style>
-      :root {
-        --bg: #0d1117;
-        --card-bg: #161b22;
-        --card-border: #30363d;
-        --text: #e6edf3;
-        --muted: #8b949e;
-        --accent: #58a6ff;
-        --green: #3fb950;
-        --mono: ui-monospace, "SFMono-Regular", "Cascadia Code", Menlo, Consolas, monospace;
-      }
-      body {
-          background-color: var(--bg);
-          color: var(--text);
-          font-family: system-ui, sans-serif;
-          line-height: 1.6;
-          padding: 20px;
-      }
-      h1, h2, h3 {
-          font-family: var(--mono);
-          line-height: 1.25;
-      }
-      a {
-          color: var(--accent);
-          text-decoration: underline;
-          text-underline-offset: 3px;
-      }
-      a:hover {
-          text-decoration-color: var(--green);
-      }
-      a:focus-visible {
-          outline: 2px solid var(--accent);
-          outline-offset: 2px;
-      }
-      .navbar {
-          display: flex;
-          justify-content: flex-end;
-          width: 100%;
-          background-color: transparent !important;
-          padding-right: 15px;
-          padding-left: 15px;
-      }
-      .header {
-        background-image: linear-gradient(rgba(13, 17, 23, 0.55), rgba(13, 17, 23, 0.8)), url('image/photo/header.jpg');
-        background-size: cover;
-        background-position: center;
-        height: 200px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border: 1px solid var(--card-border);
-        border-radius: 10px;
-      }
-
-      .header-text {
-        color: var(--text);
-        font-size: clamp(2rem, 7vw, 4.5rem);
-        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.85);
-        font-weight: bold;
-        text-align: center;
-        margin: 0;
-        font-family: var(--mono);
-      }
-
-      .sub-header {
-        text-align: center;
-        font-size: clamp(1.25rem, 4vw, 2rem);
-        margin-top: 20px;
-        color: var(--green);
-        font-family: var(--mono);
-      }
-
-      .text-container {
-        padding: 20px 0;
-        width: 100%;
-        max-width: 1200px;
-        margin: 0 auto;
-        margin-top: 25px;
-        display: flex;
-        justify-content: space-between;
-        gap: 20px;
-      }
-
-      .column {
-        width: calc(50% - 10px);
-        box-sizing: border-box;
-        background-color: var(--card-bg);
-        color: var(--text);
-        border: 1px solid var(--card-border);
-        border-radius: 10px;
-        padding: 20px;
-        max-width: 100%;
-        font-size: 1.05em;
-      }
-      .column h3, .column ul, .column li, .column p {
-        font-size: inherit;
-      }
-      .column h3 {
-        color: var(--green);
-      }
-
-      @media (prefers-reduced-motion: no-preference) {
-        .column {
-          transition: transform 0.2s ease, border-color 0.2s ease;
+    
+        <style>
+        /* Page-specific rules only; base theme lives in /image/assets/styles.css.
+           .header below overrides the shared card-style .header — keep after the link. */
+        .skip-link {
+            position: fixed;
+            top: -100px;
+            left: 16px;
+            z-index: 100;
+            padding: 8px 14px;
+            background-color: var(--card-bg);
+            color: var(--text);
+            border: 1px solid var(--accent);
+            border-radius: 6px;
         }
-        .column:hover {
-          transform: translateY(-4px);
-          border-color: var(--accent);
+        .skip-link:focus {
+            top: 16px;
         }
-      }
-
-      @media (max-width: 768px) {
-        body {
-          padding: 12px;
+    
+        .header {
+            background-image: linear-gradient(rgba(13, 17, 23, 0.55), rgba(13, 17, 23, 0.8)), url('image/photo/header.jpg');
+            background-size: cover;
+            background-position: center;
+            height: 200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
         }
+    
+        .header-text {
+            color: var(--text);
+            font-size: clamp(2rem, 7vw, 4.5rem);
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.85);
+            font-weight: bold;
+            text-align: center;
+            margin: 0;
+            font-family: var(--mono);
+        }
+    
+        .sub-header {
+            text-align: center;
+            font-size: clamp(1.25rem, 4vw, 2rem);
+            margin-top: 20px;
+            color: var(--green);
+            font-family: var(--mono);
+        }
+    
         .text-container {
-          flex-direction: column;
+            padding: 20px 0;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            margin-top: 25px;
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
         }
+    
         .column {
-          width: 100%;
+            width: calc(50% - 10px);
+            box-sizing: border-box;
+            background-color: var(--card-bg);
+            color: var(--text);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 20px;
+            max-width: 100%;
+            font-size: 1.05em;
         }
-      }
-
-      .link-list {
-        list-style: none;
-        padding-left: 0;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px 10px;
-      }
-      .link-list li a {
-        display: inline-block;
-        padding: 6px 10px;
-        border: 1px solid var(--card-border);
-        border-radius: 6px;
-        background-color: var(--bg);
-      }
-      .link-list li a:hover {
-        border-color: var(--accent);
-      }
-
-      .visually-hidden {
-          position: absolute !important;
-          width: 1px; height: 1px;
-          padding: 0; margin: -1px;
-          overflow: hidden;
-          clip: rect(0,0,0,0);
-          border: 0;
+        .column h3, .column ul, .column li, .column p {
+            font-size: inherit;
         }
-      </style>
+        .column h3 {
+            color: var(--green);
+        }
+    
+        @media (prefers-reduced-motion: no-preference) {
+            .column {
+                transition: transform 0.2s ease, border-color 0.2s ease;
+            }
+            .column:hover {
+                transform: translateY(-4px);
+                border-color: var(--accent);
+            }
+        }
+    
+        @media (max-width: 768px) {
+            body {
+                padding: 12px;
+            }
+            .text-container {
+                flex-direction: column;
+            }
+            .column {
+                width: 100%;
+            }
+        }
+    
+        .link-list {
+            list-style: none;
+            padding-left: 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 10px;
+        }
+        .link-list li a {
+            display: inline-block;
+            padding: 6px 10px;
+            border: 1px solid var(--card-border);
+            border-radius: 6px;
+            background-color: var(--bg);
+        }
+        .link-list li a:hover {
+            border-color: var(--accent);
+        }
+    
+        .visually-hidden {
+            position: absolute !important;
+            width: 1px; height: 1px;
+            padding: 0; margin: -1px;
+            overflow: hidden;
+            clip: rect(0,0,0,0);
+            border: 0;
+        }
+    
+        /* Spacing utilities replacing former inline style attributes */
+        .intro {
+            margin: 1em 0 12px;
+        }
+        .mb-half {
+            margin-bottom: 0.5em;
+        }
+        .link-list-intro {
+            margin-bottom: 6px;
+            color: var(--muted);
+            font-size: 1em;
+        }
+        .site-note {
+            margin: 0 0 1.6em;
+            font-size: 1em;
+        }
+        .mb-6 {
+            margin-bottom: 6px;
+        }
+        .mt-6 {
+            margin-top: 6px;
+        }
+        </style>
     </head>
-
-
+    
     <body>
-      <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MQMRMNL5" height="0" width="0"
-          style="display:none;visibility:hidden"></iframe></noscript>
-      <nav class="navbar">
-        <div class="navdiv">
-          <ul>
-            <li><a href="https://greg.heffner.live">Home</a></li>
-            <li><a href="https://greg.heffner.live/photos.html">Photos</a></li>
-            <li><a href="https://greg.heffner.live/blog.html">Blog</a></li>
-            <li><a href="https://www.paypal.com/donate/?business=UK9DCMKFRTWRN&no_recurring=0&item_name=Thanks+for+supporting+the+page&currency_code=USD">Support</a></li>
-            <li><a href="https://greg.heffner.live/privacy.html">Privacy Policy</a></li>
-            <li><a href="mailto:main.plan5783@fastmail.com">Contact</a></li>
-          </ul>
-        </div>
-      </nav>
-
-      <div class="header">
-        <h1 class="header-text">GREG HEFFNER</h1>
-      </div>
-      <div class="sub-header">A father, veteran, and nerd</div>
-      <h2 class="visually-hidden">A website about learning</h2>
-      <div class="text-container">
-        <div class="column">
-            <br>
-            <div style="margin-bottom: 12px;"><b>Hello!</b> Welcome to my home lab. Here, automation is a daily habit, and curiosity drives every project. I'm Greg Heffner: builder, veteran, and digital transformation leader. Code, radio, and weather maps all get their turn, and every deployment is a new lesson. This GitHub is my playground and lab notebook, focused on reliability, innovation, and always getting better. Glad you're here.
-            </div>
-            <h3>Who Am I?</h3>
-            <ul style="margin-bottom: 0.5em;">
-                <li><b>Senior Technology Leader: </b>Over 20 years of enterprise operations and digital transformation experience, leading teams and architecting solutions for mission-critical environments.</li>
-                <li><b>Strategic Automator: </b>I design self-healing infrastructure, CI/CD pipelines, and zero-downtime deployments. If it can be automated, I want to make it work better.</li>
-                <li><b>Veteran:</b> U.S. Army Air Defense, communications specialist. I value discipline, clear communication, and always having a backup plan.</li>
-                <li><b>Open Source Advocate:</b> I share code, documentation, and ideas so others can learn and build on them.</li>
-                <li><b>Lifelong Learner:</b> From Kubernetes to cybersecurity, I follow my curiosity and document what I learn to help others avoid the same roadblocks.</li>
-            </ul>
-            <h3>Philosophy</h3>
-            <p style="margin-bottom: 0.5em;">
-                <b>Build in public. Automate the boring stuff. Share what works (and what doesn't).</b> I believe tech should be accessible, fun, and a little bit weird. My home lab is my playground, and my blog is where I share the journey: wins, fails, and all.
-            </p>
-            <br>
-            <h3>What Makes Me Tick?</h3>
-            <ul style="margin-bottom: 0.5em;">
-                <li><b>Blue Green Deployments:</b> I run my own blue green Nginx clusters, with live cutovers and zero downtime updates. GitOps and ArgoCD keep it honest.</li>
-                <li><b>Weather & Radio:</b> Built a live weather radar and radio dashboard for my local community. If it's on the air or in the cloud, I want to see it.</li>
-                <li><b>CI/CD & Monitoring:</b> Everything is versioned, tested, and monitored. If it breaks, I want to know before anyone else does.</li>
-                <li><b>Learning in Public:</b> My blog and GitHub README are living docs. Check them for my latest experiments, guides, and rants.</li>
-            </ul>
-            <h3>Handy Links</h3>
-            <div style="margin-bottom: 6px; color: #8b949e; font-size: 1em;">Useful resources and favorite tools I use for radio, weather, and network monitoring:</div>
-            <ul class="link-list">
-                <li><a href="https://greg.heffner.live/traffic.html">Live Traffic Cams</a></li>
-                <li><a href="https://sarnetfl.org/uploads/6/1/7/0/61701057/20230910_sarnet_map.pdf">SARNET</a></li>
-                <li><a href="https://stats.allstarlink.org/stats/52914">Radio Map</a></li>
-                <li><a href="https://jaxpiercam.com">Jax Beach Pier Live</a></li>
-                <li><a href="https://firstcoastdmr.org/index.php/dmr-info/">Jax DMR Site</a></li>
-                <li><a href="https://gchq.github.io/CyberChef/">CyberChef</a></li>
-                <li><a href="https://radar.weather.gov/ridge/standard/SOUTHEAST_loop.gif">Radar Loop SE</a></li>
-                <li><a href="https://ui.com/introduction">Shop Network Gear</a></li>
-                <li><a href="https://www.spaghettimodels.com">Spaghetti Models</a></li>
-                <li><a href="https://brandmeister.network">Brandmeister DMR</a></li>
-                <li><a href="http://192.223.28.176:42420/CallWatch">DMR Logs</a></li>
-                <li><a href="https://stats.allstarlink.org/stats/52914/networkMap">Allstar Radio Map</a></li>
-            </ul>
-        </div>
-        <div class="column">
-            <h3>Explore My Online Repos</h3>
-            <ul>
-                <li><a href="https://github.com/GregHeffner"><b>GitHub</b></a>: Automation scripts, playbooks, and my latest experiments.</li>
-                <li><a href="https://hub.docker.com/u/technotuba"><b>DockerHub</b></a>: Custom container images that power this site and my projects.</li>
-                <li><a href="https://galaxy.ansible.com/ui/search/?keywords=gregheffner"><b>Ansible Galaxy</b></a>: Curated roles & collections for infrastructure as code.</li>
-            </ul>
-            <h3>Read My Blog</h3>
-            <ul>
-                <li><a href="https://greg.heffner.live/blog.html"><b>Nerdsense – A Blog</b></a>: Deep dives into tech, automation, and learning. Suggest topics via my contact link!</li>
-                <li><a href="https://medium.com/@light.pen8923"><b>Medium (Blog Re-Post)</b></a>: Mirror of my main blog for wider reach.</li>
-            </ul>
-            <h3>How My Site Runs</h3>
-            <div style="margin-bottom: 8px; font-size: 1em;">
-                This site is powered by Kubernetes and automated CI/CD pipelines using ArgoCD. Every update, deployment, and rollback is handled by GitOps workflows, so the site stays reliable and up to date with minimal manual work.<br><br>
-                <b>Security & Maintenance:</b> I keep my site safe and up to date using my own <a href="https://galaxy.ansible.com/ui/repo/published/gregheffner/ubuntu_patching/">Ansible collection</a> for server hardening, and I run weekly patching actions to apply the latest security updates automatically. This means vulnerabilities are fixed quickly and configuration drift is kept in check.<br><br>
-                <b>Automation & Transparency:</b> All automation, security scanning, and documentation for infrastructure changes are handled by open source tools and workflows. Every patch, deployment, and compliance check is tracked, auditable, and visible in my public repos—so you can see exactly how things run and stay secure. Explore the code and workflows here:
-                <ul style="margin-top: 6px;">
-                    <li><a href="https://galaxy.ansible.com/ui/repo/published/gregheffner/ubuntu_patching/">Ansible Collection (Server Hardening)</a></li>
-                    <li><a href="https://github.com/gregheffner/ansible-collection-ubuntu-patching">Weekly Patching Actions</a></li>
-                    <li><a href="https://github.com/GregHeffner/cicd">CI/CD & Infra as Code</a></li>
+        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MQMRMNL5" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe></noscript>
+        <a class="skip-link" href="#main">Skip to main content</a>
+        <nav class="navbar" aria-label="Primary">
+            <div class="navdiv">
+                <ul>
+                    <li><a href="https://greg.heffner.live" aria-current="page">Home</a></li>
+                    <li><a href="https://greg.heffner.live/photos.html">Photos</a></li>
+                    <li><a href="https://greg.heffner.live/blog.html">Blog</a></li>
+                    <li><a href="https://www.paypal.com/donate/?business=UK9DCMKFRTWRN&no_recurring=0&item_name=Thanks+for+supporting+the+page&currency_code=USD">Support</a></li>
+                    <li><a href="https://greg.heffner.live/privacy.html">Privacy Policy</a></li>
+                    <li><a href="mailto:main.plan5783@fastmail.com">Contact</a></li>
                 </ul>
             </div>
-            <ul>
-                <li>GitOps: All changes are version-controlled and deployed automatically</li>
-                <li>ArgoCD: Manages rollouts, syncs, and health checks for every service</li>
-                <li>Kubernetes: Provides self-healing, scaling, and high availability</li>
-                <li>Ansible: Automates server hardening and config management</li>
-                <li>Weekly Patching: Automated GitHub Actions keep everything secure and current</li>
-            </ul>
-            <h3>How to Learn</h3>
-            <ul>
-                <li><a href="https://tryhackme.com"><b>TryHackMe</b></a>: My go-to for CTFs, hands-on labs, and free courses.</li>
-                <li>See my blog for guides:
-                    <ul>
-                        <li><a href="https://greg.heffner.live/image/pages/2024/Aug/tryhackme.html">Command Line Confessions</a></li>
-                        <li><a href="https://greg.heffner.live/image/pages/2024/Sept/classsetup.html">Class Setup: My Learning Tech Stack</a></li>
+        </nav>
+    
+        <header class="header">
+            <h1 class="header-text">GREG HEFFNER</h1>
+        </header>
+        <p class="sub-header">A father, veteran, and nerd</p>
+    
+        <main id="main">
+            <h2 class="visually-hidden">A website about learning</h2>
+            <div class="text-container">
+                <section class="column">
+                    <p class="intro"><strong>Hello!</strong> Welcome to my home lab. Here, automation is a daily habit, and curiosity drives every project. I'm Greg Heffner: builder, veteran, and digital transformation leader. Code, radio, and weather maps all get their turn, and every deployment is a new lesson. This GitHub is my playground and lab notebook, focused on reliability, innovation, and always getting better. Glad you're here.</p>
+                    <h3>Who Am I?</h3>
+                    <ul class="mb-half">
+                        <li><strong>Senior Technology Leader: </strong>Over 20 years of enterprise operations and digital transformation experience, leading teams and architecting solutions for mission-critical environments.</li>
+                        <li><strong>Strategic Automator: </strong>I design self-healing infrastructure, CI/CD pipelines, and zero-downtime deployments. If it can be automated, I want to make it work better.</li>
+                        <li><strong>Veteran:</strong> U.S. Army Air Defense, communications specialist. I value discipline, clear communication, and always having a backup plan.</li>
+                        <li><strong>Open Source Advocate:</strong> I share code, documentation, and ideas so others can learn and build on them.</li>
+                        <li><strong>Lifelong Learner:</strong> From Kubernetes to cybersecurity, I follow my curiosity and document what I learn to help others avoid the same roadblocks.</li>
                     </ul>
-                </li>
-            </ul>
+                    <h3>Philosophy</h3>
+                    <p class="mb-half">
+                        <strong>Build in public. Automate the boring stuff. Share what works (and what doesn't).</strong> I believe tech should be accessible, fun, and a little bit weird. My home lab is my playground, and my blog is where I share the journey: wins, fails, and all.
+                    </p>
+                    <h3>What Makes Me Tick?</h3>
+                    <ul class="mb-half">
+                        <li><strong>Blue Green Deployments:</strong> I run my own blue-green Nginx clusters, with live cutovers and zero-downtime updates. GitOps and ArgoCD keep it honest.</li>
+                        <li><strong>Weather &amp; Radio:</strong> Built a live weather radar and radio dashboard for my local community. If it's on the air or in the cloud, I want to see it.</li>
+                        <li><strong>CI/CD &amp; Monitoring:</strong> Everything is versioned, tested, and monitored. If it breaks, I want to know before anyone else does.</li>
+                        <li><strong>Learning in Public:</strong> My blog and GitHub README are living docs. Check them for my latest experiments, guides, and rants.</li>
+                    </ul>
+                    <h3>Handy Links</h3>
+                    <p class="link-list-intro">Useful resources and favorite tools I use for radio, weather, and network monitoring:</p>
+                    <ul class="link-list">
+                        <li><a href="https://greg.heffner.live/traffic.html">Live Traffic Cams</a></li>
+                        <li><a href="https://sarnetfl.org/uploads/6/1/7/0/61701057/20230910_sarnet_map.pdf">SARNET</a></li>
+                        <li><a href="https://stats.allstarlink.org/stats/52914">Radio Map</a></li>
+                        <li><a href="https://jaxpiercam.com">Jax Beach Pier Live</a></li>
+                        <li><a href="https://firstcoastdmr.org/index.php/dmr-info/">Jax DMR Site</a></li>
+                        <li><a href="https://gchq.github.io/CyberChef/">CyberChef</a></li>
+                        <li><a href="https://radar.weather.gov/ridge/standard/SOUTHEAST_loop.gif">Radar Loop SE</a></li>
+                        <li><a href="https://ui.com/introduction">Shop Network Gear</a></li>
+                        <li><a href="https://www.spaghettimodels.com">Spaghetti Models</a></li>
+                        <li><a href="https://brandmeister.network">Brandmeister DMR</a></li>
+                        <li><a href="http://192.223.28.176:42420/CallWatch">DMR Logs</a></li>
+                        <li><a href="https://stats.allstarlink.org/stats/52914/networkMap">Allstar Radio Map</a></li>
+                    </ul>
+                </section>
+                <section class="column">
+                    <h3>Explore My Online Repos</h3>
+                    <ul>
+                        <li><a href="https://github.com/GregHeffner"><strong>GitHub</strong></a>: Automation scripts, playbooks, and my latest experiments.</li>
+                        <li><a href="https://hub.docker.com/u/technotuba"><strong>DockerHub</strong></a>: Custom container images that power this site and my projects.</li>
+                        <li><a href="https://galaxy.ansible.com/ui/search/?keywords=gregheffner"><strong>Ansible Galaxy</strong></a>: Curated roles &amp; collections for infrastructure as code.</li>
+                    </ul>
+                    <h3>Read My Blog</h3>
+                    <ul>
+                        <li><a href="https://greg.heffner.live/blog.html"><strong>Nerdsense – A Blog</strong></a>: Deep dives into tech, automation, and learning. Suggest topics via my contact link!</li>
+                        <li><a href="https://medium.com/@light.pen8923"><strong>Medium (Blog Re-Post)</strong></a>: Mirror of my main blog for wider reach.</li>
+                    </ul>
+                    <h3>How My Site Runs</h3>
+                    <p class="site-note">This site is powered by Kubernetes and automated CI/CD pipelines using ArgoCD. Every update, deployment, and rollback is handled by GitOps workflows, so the site stays reliable and up to date with minimal manual work.</p>
+                    <p class="site-note"><strong>Security &amp; Maintenance:</strong> I keep my site safe and up to date using my own <a href="https://galaxy.ansible.com/ui/repo/published/gregheffner/ubuntu_patching/">Ansible collection</a> for server hardening, and I run weekly patching actions to apply the latest security updates automatically. This means vulnerabilities are fixed quickly and configuration drift is kept in check.</p>
+                    <p class="site-note mb-6"><strong>Automation &amp; Transparency:</strong> All automation, security scanning, and documentation for infrastructure changes are handled by open source tools and workflows. Every patch, deployment, and compliance check is tracked, auditable, and visible in my public repos—so you can see exactly how things run and stay secure. Explore the code and workflows here:</p>
+                    <ul class="mt-6">
+                        <li><a href="https://galaxy.ansible.com/ui/repo/published/gregheffner/ubuntu_patching/">Ansible Collection (Server Hardening)</a></li>
+                        <li><a href="https://github.com/gregheffner/ansible-collection-ubuntu-patching">Weekly Patching Actions</a></li>
+                        <li><a href="https://github.com/GregHeffner/cicd">CI/CD &amp; Infra as Code</a></li>
+                    </ul>
+                    <ul>
+                        <li>GitOps: All changes are version-controlled and deployed automatically</li>
+                        <li>ArgoCD: Manages rollouts, syncs, and health checks for every service</li>
+                        <li>Kubernetes: Provides self-healing, scaling, and high availability</li>
+                        <li>Ansible: Automates server hardening and config management</li>
+                        <li>Weekly Patching: Automated GitHub Actions keep everything secure and current</li>
+                    </ul>
+                    <h3>How to Learn</h3>
+                    <ul>
+                        <li><a href="https://tryhackme.com"><strong>TryHackMe</strong></a>: My go-to for CTFs, hands-on labs, and free courses.</li>
+                        <li>See my blog for guides:
+                            <ul>
+                                <li><a href="https://greg.heffner.live/image/pages/2024/Aug/tryhackme.html">Command Line Confessions</a></li>
+                                <li><a href="https://greg.heffner.live/image/pages/2024/Sept/classsetup.html">Class Setup: My Learning Tech Stack</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </section>
             </div>
-      </div>
+        </main>
         <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
-    <script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js"
-        data-cf-settings="f2199bb571cfda9c96d3d8cf-|49" defer></script>
-    <script defer
-        src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015"
-        integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ=="
-        data-cf-beacon='{"rayId":"8a0c47bffe7b53f3","r":1,"version":"2024.4.1","token":"58654ca0c624448c9c52f5291ddf5bec"}'
-        crossorigin="anonymous"></script>
-    <script src="/image/assets/scripts.js"></script>
+        <script src="/image/assets/scripts.js"></script>
     </body>
     </html>
+
   pgp-key.html: |
     <!DOCTYPE html>
     <html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>PGP Public Key for Greg Heffner</title>
-
+        <title>PGP Public Key | Greg Heffner</title>
+    
         <!-- SEO Meta Tags -->
-        <meta name="description" content="PGP public key for Greg Heffner, with instructions to import the key and send an encrypted message.">
-
+        <meta name="description" content="Greg Heffner's PGP public key with step-by-step GPG instructions: import the key, encrypt your message, and email it to his encrypted contact address.">
+    
         <!-- Canonical URL -->
         <link rel="canonical" href="https://greg.heffner.live/pgp-key.html">
-
+    
         <!-- Favicons and Manifest -->
         <link rel="apple-touch-icon" sizes="180x180" href="/image/apple-touch-icon.png">
         <link rel="icon" type="image/png" sizes="96x96" href="/image/favicon-96x96.png">
@@ -1227,24 +1225,26 @@ data:
         <link rel="icon" type="image/png" sizes="16x16" href="/image/favicon-16x16.png">
         <link rel="icon" href="/image/favicon.ico">
         <link rel="manifest" href="/image/site.webmanifest">
-
+    
         <!-- Open Graph Meta Tags -->
         <meta property="og:type" content="website">
-        <meta property="og:title" content="PGP Public Key for Greg Heffner">
-        <meta property="og:description" content="PGP public key for Greg Heffner, with instructions to import the key and send an encrypted message.">
+        <meta property="og:title" content="PGP Public Key | Greg Heffner">
+        <meta property="og:description" content="Greg Heffner's PGP public key with step-by-step GPG instructions: import the key, encrypt your message, and email it to his encrypted contact address.">
         <meta property="og:url" content="https://greg.heffner.live/pgp-key.html">
         <meta property="og:site_name" content="Greg Heffner">
         <meta property="og:image" content="https://greg.heffner.live/image/photo/header.jpg">
         <meta property="og:image:width" content="1200">
         <meta property="og:image:height" content="630">
+        <meta property="og:image:alt" content="Greg Heffner's site header image">
         <meta property="og:locale" content="en_US">
-
+    
         <!-- Twitter Meta Tags -->
         <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:title" content="PGP Public Key for Greg Heffner">
-        <meta name="twitter:description" content="PGP public key for Greg Heffner, with instructions to import the key and send an encrypted message.">
+        <meta name="twitter:title" content="PGP Public Key | Greg Heffner">
+        <meta name="twitter:description" content="Greg Heffner's PGP public key with step-by-step GPG instructions: import the key, encrypt your message, and email it to his encrypted contact address.">
         <meta name="twitter:image" content="https://greg.heffner.live/image/photo/header.jpg">
-
+        <meta name="twitter:image:alt" content="Greg Heffner's site header image">
+    
         <link rel="stylesheet" href="/image/assets/styles.css">
         <style>
             pre {
@@ -1255,24 +1255,41 @@ data:
                 border-radius: 6px;
                 overflow-x: auto;
             }
+            pre:focus-visible {
+                outline: 2px solid var(--text);
+                outline-offset: 2px;
+            }
             .section {
                 margin-bottom: 20px;
             }
+            .step-group {
+                margin-bottom: 16px;
+            }
+            .cmd {
+                display: inline-block;
+                padding: 6px 10px;
+                white-space: pre;
+            }
         </style>
+        <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"PGP Public Key | Greg Heffner","url":"https://greg.heffner.live/pgp-key.html","description":"Greg Heffner's PGP public key with step-by-step GPG instructions: import the key, encrypt your message, and email it to his encrypted contact address.","about":{"@type":"Person","name":"Greg Heffner","email":"mailto:deep.bone8104@fastmail.com","url":"https://greg.heffner.live/"}}</script>
     </head>
     <body>
-        <h1>PGP Public Key for Greg Heffner</h1>
-
-        <div class="section">
-            <h2>Encrypted Contact Information</h2>
-            <p>Email: <a href="mailto:deep.bone8104@fastmail.com">deep.bone8104@fastmail.com</a></p>
-        </div>
-
-        <div class="section">
-            <h2>PGP Public Key</h2>
-            <pre>
+        <main id="main">
+            <header>
+                <h1>PGP Public Key for Greg Heffner</h1>
+            </header>
+    
+            <section class="section">
+                <h2>Encrypted Contact Information</h2>
+                <p>Email: <a href="mailto:deep.bone8104@fastmail.com">deep.bone8104@fastmail.com</a></p>
+            </section>
+    
+            <section class="section">
+                <h2>PGP Public Key</h2>
+                <!-- Inner content of this <pre> is byte-identical to the published key block. Do not reformat. -->
+                <pre id="pgp-key-block" class="pgp-block" tabindex="0" role="region" aria-label="PGP public key block for Greg Heffner">
     -----BEGIN PGP PUBLIC KEY BLOCK-----
-
+    
     mDMEZ8O2fBYJKwYBBAHaRw8BAQdAe21+FXDVxSRQua7v3rB5wGPzWga5yxg3lheo
     JtNUSbS0KUdyZWcgSGVmZm5lciA8ZGVlcC5ib25lODEwNEBmYXN0bWFpbC5jb20+
     iJMEExYKADsWIQQ/JT1VlcHc+b6+W2d029zLtcwIcgUCZ8O2fAIbAwULCQgHAgIi
@@ -1285,61 +1302,79 @@ data:
     =CdJ1
     -----END PGP PUBLIC KEY BLOCK-----
             </pre>
-        </div>
-
-        <div class="section">
-            <h2>Instructions</h2>
-            <h3>Download and Import the PGP Key</h3>
-            <ol>
-                <li>Copy the PGP public key block above.</li>
-                <li>Save it to a file named <code>greg-heffner-public-key.asc</code>.</li>
-                <li>Import the key using GPG:
-                    <pre>gpg --import greg-heffner-public-key.asc</pre>
-                </li>
-            </ol>
-
-            <h3>Create an Encrypted Message</h3>
-            <ol>
-                <li>Create a text file with your message, e.g., <code>message.txt</code>.</li>
-                <li>Encrypt the message using GPG:
-                    <pre>gpg --encrypt --armor --recipient deep.bone8104@fastmail.com message.txt</pre>
-                </li>
-                <li>This will create an encrypted file named <code>message.txt.asc</code>.</li>
-            </ol>
-
-            <h3>Send the Encrypted Message</h3>
-            <ol>
-                <li>Open your email client and compose a new email.</li>
-                <li>Attach the <code>message.txt.asc</code> file to the email.</li>
-                <li>Send the email to <a href="mailto:deep.bone8104@fastmail.com">deep.bone8104@fastmail.com</a>.</li>
-            </ol>
-        </div>
+            </section>
+    
+            <section class="section">
+                <h2>Instructions</h2>
+    
+                <section class="step-group">
+                    <h3>Download and Import the PGP Key</h3>
+                    <ol>
+                        <li>Copy the PGP public key block above.</li>
+                        <li>Save it to a file named <code>greg-heffner-public-key.asc</code>.</li>
+                        <li>Import the key using GPG:
+                            <pre class="cmd"><code>gpg --import greg-heffner-public-key.asc</code></pre>
+                        </li>
+                    </ol>
+                </section>
+    
+                <section class="step-group">
+                    <h3>Create an Encrypted Message</h3>
+                    <ol>
+                        <li>Create a text file with your message, e.g., <code>message.txt</code>.</li>
+                        <li>Encrypt the message using GPG:
+                            <!--email_off--><pre class="cmd"><code>gpg --encrypt --armor --recipient deep.bone8104@fastmail.com message.txt</code></pre><!--/email_off-->
+                        </li>
+                        <li>This will create an encrypted file named <code>message.txt.asc</code>.</li>
+                    </ol>
+                </section>
+    
+                <section class="step-group">
+                    <h3>Send the Encrypted Message</h3>
+                    <ol>
+                        <li>Open your email client and compose a new email.</li>
+                        <li>Attach the <code>message.txt.asc</code> file to the email.</li>
+                        <li>Send the email to <a href="mailto:deep.bone8104@fastmail.com">deep.bone8104@fastmail.com</a>.</li>
+                    </ol>
+                </section>
+            </section>
+    
+            <footer>
+                <p><a href="/">&larr; Back to greg.heffner.live</a></p>
+            </footer>
+        </main>
     </body>
     </html>
-  photos.html: |-
+  photos.html: |
     <!DOCTYPE html>
     <html lang="en">
-
+    
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content=" A personal collection of photos of Greg Heffner and the things he loves. To my girls: I love you with all my heart.">
+        <title>Photos | Greg Heffner</title>
+        <meta name="description" content="A personal collection of photos of Greg Heffner and the things he loves. To my girls: I love you with all my heart.">
         <link rel="canonical" href="https://greg.heffner.live/photos.html">
-        <meta property="og:title" content="GH - Pictures">
+        <meta property="og:title" content="Photos | Greg Heffner">
         <meta property="og:description" content="A personal collection of photos of Greg Heffner and the things he loves. To my girls: I love you with all my heart.">
         <meta property="og:url" content="https://greg.heffner.live/photos.html">
         <meta property="og:type" content="website">
+        <meta property="og:site_name" content="Greg Heffner">
+        <meta property="og:image" content="https://greg.heffner.live/image/photo/beach1.avif">
         <meta name="twitter:card" content="summary">
-        <meta name="twitter:title" content="GH - Pictures">
+        <meta name="twitter:title" content="Photos | Greg Heffner">
         <meta name="twitter:description" content="A personal collection of photos of Greg Heffner and the things he loves. To my girls: I love you with all my heart.">
-        <title>GH - Pictures</title>
+        <meta name="twitter:image" content="https://greg.heffner.live/image/photo/beach1.avif">
+        <script type="application/ld+json">
+        {"@context":"https://schema.org","@type":"ImageGallery","name":"Photos | Greg Heffner","url":"https://greg.heffner.live/photos.html","description":"A personal collection of photos of Greg Heffner and the things he loves.","author":{"@type":"Person","name":"Greg Heffner","url":"https://greg.heffner.live"}}
+        </script>
         <link rel="stylesheet" href="/image/assets/styles.css">
         <style>
             h1 {
                 margin: 20px 0;
                 font-size: 2em;
             }
-
+    
             .main-content {
                 display: grid;
                 grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -1347,12 +1382,12 @@ data:
                 width: 90%;
                 max-width: 1200px;
                 margin: 0 auto;
-                overflow-y: auto;
                 padding-bottom: 20px;
             }
-
+    
             .gallery {
                 position: relative;
+                margin: 0; /* reset UA figure margin so the auto-fit grid stays tight */
                 overflow: hidden;
                 border-radius: 10px;
                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
@@ -1364,12 +1399,17 @@ data:
                 cursor: pointer;
                 transition: transform 0.3s ease, box-shadow 0.3s ease;
             }
-
+    
             .gallery:hover {
                 transform: translateY(-4px);
                 box-shadow: 0 10px 24px rgba(0, 0, 0, 0.5);
             }
-
+    
+            .gallery a:focus-visible {
+                outline: 3px solid #58a6ff;
+                outline-offset: 2px;
+            }
+    
             .gallery img {
                 max-width: 100%;
                 max-height: 100%;
@@ -1377,11 +1417,11 @@ data:
                 object-fit: contain; /* Ensures the image fits within the frame */
                 transition: transform 0.3s ease;
             }
-
+    
             .gallery:hover img {
                 transform: scale(1.05); /* Slight zoom effect on hover */
             }
-
+    
             .desc {
                 position: absolute;
                 bottom: 0;
@@ -1395,11 +1435,11 @@ data:
                 opacity: 0;
                 transition: opacity 0.3s ease;
             }
-
+    
             .gallery:hover .desc {
                 opacity: 1;
             }
-
+    
             /* Captions always visible on touch devices (no hover) */
             @media (hover: none) {
                 .desc {
@@ -1407,7 +1447,7 @@ data:
                     background: rgba(0, 0, 0, 0.55);
                 }
             }
-
+    
             /* Fade-rise on scroll (modern browsers; others show photos normally) */
             @media (prefers-reduced-motion: no-preference) {
                 @supports (animation-timeline: view()) {
@@ -1422,7 +1462,7 @@ data:
                     }
                 }
             }
-
+    
             @media (prefers-reduced-motion: reduce) {
                 .gallery, .gallery img, .desc {
                     transition: none;
@@ -1431,7 +1471,7 @@ data:
                     transform: none;
                 }
             }
-
+    
             /* Lightbox */
             #lightbox {
                 border: none;
@@ -1441,11 +1481,11 @@ data:
                 max-width: 92vw;
                 max-height: 92vh;
             }
-
+    
             #lightbox::backdrop {
                 background: rgba(0, 0, 0, 0.85);
             }
-
+    
             #lightbox img {
                 display: block;
                 margin: 0 auto;
@@ -1453,36 +1493,49 @@ data:
                 max-height: 84vh;
                 object-fit: contain;
             }
-
+    
             #lightbox-caption {
                 color: #ffffff;
                 text-align: center;
                 padding: 10px;
                 font-size: 1em;
             }
-
+    
+            #lightbox-close {
+                position: absolute;
+                top: 6px;
+                right: 10px;
+                background: transparent;
+                border: none;
+                color: #ffffff;
+                font-size: 1.6em;
+                line-height: 1;
+                padding: 4px 8px;
+                cursor: pointer;
+            }
+    
             /* Scrollbar styling */
             body::-webkit-scrollbar {
                 width: 10px;
             }
-
+    
             body::-webkit-scrollbar-thumb {
                 background: #555;
                 border-radius: 5px;
             }
-
+    
             body::-webkit-scrollbar-thumb:hover {
                 background: #777;
             }
         </style>
     </head>
-
+    
     <body>
-        <nav class="navbar">
+        <nav class="navbar" aria-label="Main">
             <div class="navdiv">
                 <ul>
                     <li><a href="https://greg.heffner.live">Home</a></li>
-                    <li><a href="https://greg.heffner.live/photos.html">Photos</a></li>
+                    <li><a href="https://greg.heffner.live/photos.html" aria-current="page">Photos</a></li>
                     <li><a href="https://greg.heffner.live/blog.html">Blog</a></li>
                     <li><a href="https://www.paypal.com/donate/?business=UK9DCMKFRTWRN&no_recurring=0&item_name=Thanks+for+supporting+the+page&currency_code=USD">Support</a></li>
                     <li><a href="https://greg.heffner.live/privacy.html">Privacy Policy</a></li>
@@ -1490,144 +1543,147 @@ data:
                 </ul>
             </div>
         </nav>
-        <div class="header">
+        <main class="header">
             <h1>Photos</h1>
             <div class="main-content">
-                <div class="gallery">
+                <figure class="gallery">
                     <a target="_blank" href="image/photo/beach1.avif" rel="noopener noreferrer">
-                        <img src="image/photo/beach1.avif" alt="Jax Beach Pier" title="Favorite Fishing Spot">
+                        <img src="image/photo/beach1.avif" alt="The fishing pier at Jacksonville Beach — my favorite fishing spot" title="Favorite Fishing Spot" decoding="async" fetchpriority="high">
                     </a>
-                    <div class="desc">Jax Beach Pier</div>
-                </div>
-
-                <div class="gallery">
+                    <figcaption class="desc">Jax Beach Pier</figcaption>
+                </figure>
+    
+                <figure class="gallery">
                     <a target="_blank" href="image/photo/beach4.avif" rel="noopener noreferrer">
-                        <img src="image/photo/beach4.avif" alt="The Girls" title="We go here to think">
+                        <img src="image/photo/beach4.avif" alt="My girls at the beach — the spot we go to think" title="We go here to think" decoding="async">
                     </a>
-                    <div class="desc">My girls</div>
-                </div>
-
-                <div class="gallery">
+                    <figcaption class="desc">My girls</figcaption>
+                </figure>
+    
+                <figure class="gallery">
                     <a target="_blank" href="image/photo/beach2.avif" rel="noopener noreferrer">
-                        <img src="image/photo/beach2.avif" alt="Jax Beach North" title="Looking North from Pier">
+                        <img src="image/photo/beach2.avif" alt="Looking north along the shoreline from the Jacksonville Beach pier" title="Looking North from Pier" decoding="async">
                     </a>
-                    <div class="desc">Jax Beach North</div>
-                </div>
-
-                <div class="gallery">
+                    <figcaption class="desc">Jax Beach North</figcaption>
+                </figure>
+    
+                <figure class="gallery">
                     <a target="_blank" href="image/photo/beach3.avif" rel="noopener noreferrer">
-                        <img src="image/photo/beach3.avif" alt="Jax Beach" title="Overlooking the Ocean">
+                        <img src="image/photo/beach3.avif" alt="Overlooking the ocean at Jacksonville Beach, 2024" title="Overlooking the Ocean" decoding="async">
                     </a>
-                    <div class="desc">Jax Beach 2024</div>
-                </div>
-
-                <div class="gallery">
+                    <figcaption class="desc">Jax Beach 2024</figcaption>
+                </figure>
+    
+                <figure class="gallery">
                     <a target="_blank" href="image/photo/bandg.avif" rel="noopener noreferrer">
-                        <img src="image/photo/bandg.avif" alt="My youngest and I" title="My youngest and I 2024" loading="lazy" decoding="async">
+                        <img src="image/photo/bandg.avif" alt="Me with my youngest daughter, 2024" title="My youngest and I 2024" loading="lazy" decoding="async">
                     </a>
-                    <div class="desc">My youngest and I</div>
-                </div>
-
-                <div class="gallery">
+                    <figcaption class="desc">My youngest and I</figcaption>
+                </figure>
+    
+                <figure class="gallery">
                     <a target="_blank" href="image/photo/gandp.avif" rel="noopener noreferrer">
-                        <img src="image/photo/gandp.avif" alt="My oldest and I" title="Lunch Date" loading="lazy" decoding="async">
+                        <img src="image/photo/gandp.avif" alt="Me with my oldest daughter on a lunch date" title="Lunch Date" loading="lazy" decoding="async">
                     </a>
-                    <div class="desc">My oldest and I</div>
-                </div>
-
-                <div class="gallery">
+                    <figcaption class="desc">My oldest and I</figcaption>
+                </figure>
+    
+                <figure class="gallery">
                     <a target="_blank" href="image/photo/fam.avif" rel="noopener noreferrer">
-                        <img src="image/photo/fam.avif" alt="The Family 2024" title="P Bday 2024" loading="lazy" decoding="async">
+                        <img src="image/photo/fam.avif" alt="The whole family together at P's birthday, 2024" title="P Bday 2024" loading="lazy" decoding="async">
                     </a>
-                    <div class="desc">The Family 2024</div>
-                </div>
-
-                <div class="gallery">
+                    <figcaption class="desc">The Family 2024</figcaption>
+                </figure>
+    
+                <figure class="gallery">
                     <a target="_blank" href="image/photo/thedogs.avif" rel="noopener noreferrer">
-                        <img src="image/photo/thedogs.avif" alt="The pups" title="The pups 2024" loading="lazy" decoding="async">
+                        <img src="image/photo/thedogs.avif" alt="The family dogs, 2024" title="The pups 2024" loading="lazy" decoding="async">
                     </a>
-                    <div class="desc">The pups</div>
-                </div>
-
-                <div class="gallery">
+                    <figcaption class="desc">The pups</figcaption>
+                </figure>
+    
+                <figure class="gallery">
                     <a target="_blank" href="image/photo/backyard.avif" rel="noopener noreferrer">
-                        <img src="image/photo/backyard.avif" alt="The backyard" title="The backyard" loading="lazy" decoding="async">
+                        <img src="image/photo/backyard.avif" alt="The backyard, aka the Thinking Place" title="The backyard" loading="lazy" decoding="async">
                     </a>
-                    <div class="desc">The backyard aka Thinking Place</div>
-                </div>
-
-                <div class="gallery">
+                    <figcaption class="desc">The backyard aka Thinking Place</figcaption>
+                </figure>
+    
+                <figure class="gallery">
                     <a target="_blank" href="image/photo/night.avif" rel="noopener noreferrer">
-                        <img src="image/photo/night.avif" alt="The backyard again" title="Night time" loading="lazy" decoding="async">
+                        <img src="image/photo/night.avif" alt="The backyard at night" title="Night time" loading="lazy" decoding="async">
                     </a>
-                    <div class="desc">The backyard at night</div>
-                </div>
-
-                <div class="gallery">
+                    <figcaption class="desc">The backyard at night</figcaption>
+                </figure>
+    
+                <figure class="gallery">
                     <a target="_blank" href="image/photo/backyardnight.avif" rel="noopener noreferrer">
-                        <img src="image/photo/backyardnight.avif" alt="Water Puppies" title="Water Puppies" loading="lazy" decoding="async">
+                        <img src="image/photo/backyardnight.avif" alt="The dogs playing in the water" title="Water Puppies" loading="lazy" decoding="async">
                     </a>
-                    <div class="desc">Water Puppies</div>
-                </div>
-
-                <div class="gallery">
+                    <figcaption class="desc">Water Puppies</figcaption>
+                </figure>
+    
+                <figure class="gallery">
                     <a target="_blank" href="image/photo/hurricane2024.avif" rel="noopener noreferrer">
-                        <img src="image/photo/hurricane2024.avif" alt="Hurricane Pizza 2024" title="Brick Oven Pizza" loading="lazy" decoding="async">
+                        <img src="image/photo/hurricane2024.avif" alt="Brick-oven pizza made during Hurricane Debbie, 2024" title="Brick Oven Pizza" loading="lazy" decoding="async">
                     </a>
-                    <div class="desc">Pizza during Hurricane Debbie 2024</div>
-                </div>
-
-                <div class="gallery">
+                    <figcaption class="desc">Pizza during Hurricane Debbie 2024</figcaption>
+                </figure>
+    
+                <figure class="gallery">
                     <a target="_blank" href="image/photo/family2024.avif" rel="noopener noreferrer">
-                        <img src="image/photo/family2024.avif" alt="Family time 2024" title="Family at the mall" loading="lazy" decoding="async">
+                        <img src="image/photo/family2024.avif" alt="The family out at the mall, 2024" title="Family at the mall" loading="lazy" decoding="async">
                     </a>
-                    <div class="desc">Family at the Mall 2024</div>
-                </div>
-
-                <div class="gallery">
+                    <figcaption class="desc">Family at the Mall 2024</figcaption>
+                </figure>
+    
+                <figure class="gallery">
                     <a target="_blank" href="image/photo/gregselfie.avif" rel="noopener noreferrer">
-                        <img src="image/photo/gregselfie.avif" alt="Greg 2024" title="get off my face lol" loading="lazy" decoding="async">
+                        <img src="image/photo/gregselfie.avif" alt="Selfie of Greg Heffner, 2024 — it was a good day" title="get off my face lol" loading="lazy" decoding="async">
                     </a>
-                    <div class="desc">It was a good day</div>
-                </div>
-
-                <div class="gallery">
+                    <figcaption class="desc">It was a good day</figcaption>
+                </figure>
+    
+                <figure class="gallery">
                     <a target="_blank" href="image/photo/bselfie.avif" rel="noopener noreferrer">
-                        <img src="image/photo/bselfie.avif" alt="B 2024" title="BBQ Date" loading="lazy" decoding="async">
+                        <img src="image/photo/bselfie.avif" alt="B at a BBQ date, 2024" title="BBQ Date" loading="lazy" decoding="async">
                     </a>
-                    <div class="desc">BBQ Date</div>
-                </div>
-
-                <div class="gallery">
+                    <figcaption class="desc">BBQ Date</figcaption>
+                </figure>
+    
+                <figure class="gallery">
                     <a target="_blank" href="image/photo/psenior.avif" rel="noopener noreferrer">
-                        <img src="image/photo/psenior.avif" alt="P 2025 Grad" title="P 2025 Grad" loading="lazy" decoding="async">
+                        <img src="image/photo/psenior.avif" alt="P's senior graduation photo, class of 2025" title="P 2025 Grad" loading="lazy" decoding="async">
                     </a>
-                    <div class="desc">P 2025 Grad</div>
-                </div>
-
-                <div class="gallery">
+                    <figcaption class="desc">P 2025 Grad</figcaption>
+                </figure>
+    
+                <figure class="gallery">
                     <a target="_blank" href="image/photo/aprilbackyard.avif" rel="noopener noreferrer">
-                        <img src="image/photo/aprilbackyard.avif" alt="Backyard Nights" title="Nights 2025" loading="lazy" decoding="async">
+                        <img src="image/photo/aprilbackyard.avif" alt="The backyard lit up at night, 2025" title="Nights 2025" loading="lazy" decoding="async">
                     </a>
-                    <div class="desc">Backyard Nights</div>
-                </div>
-                <div class="gallery">
+                    <figcaption class="desc">Backyard Nights</figcaption>
+                </figure>
+    
+                <figure class="gallery">
                     <a target="_blank" href="image/photo/defcon33.avif" rel="noopener noreferrer">
-                        <img src="image/photo/defcon33.avif" alt="DEFCON 2025" title="DEFCON 2025" loading="lazy" decoding="async">
+                        <img src="image/photo/defcon33.avif" alt="At DEF CON 33, 2025" title="DEFCON 2025" loading="lazy" decoding="async">
                     </a>
-                    <div class="desc">DEFCON 2025</div>
-                </div>
-                <div class="gallery">
+                    <figcaption class="desc">DEFCON 2025</figcaption>
+                </figure>
+    
+                <figure class="gallery">
                     <a target="_blank" href="image/photo/lizardhunters.jpg" rel="noopener noreferrer">
-                        <img src="image/photo/lizardhunters.jpg" alt="Lizard Hunters" title="Lizard Hunters" loading="lazy" decoding="async">
+                        <img src="image/photo/lizardhunters.jpg" alt="The dogs hunting lizards" title="Lizard Hunters" loading="lazy" decoding="async">
                     </a>
-                    <div class="desc">Lizard Hunters</div>
-                </div>
+                    <figcaption class="desc">Lizard Hunters</figcaption>
+                </figure>
             </div>
-        </div>
-
-        <dialog id="lightbox" aria-label="Photo viewer">
-            <img id="lightbox-img" src="" alt="">
+        </main>
+    
+        <dialog id="lightbox" aria-label="Photo viewer" aria-describedby="lightbox-caption">
+            <button type="button" id="lightbox-close" aria-label="Close photo viewer">&times;</button>
+            <img id="lightbox-img" alt="">
             <div id="lightbox-caption"></div>
         </dialog>
         <script>
@@ -1635,6 +1691,7 @@ data:
                 var dlg = document.getElementById('lightbox');
                 var img = document.getElementById('lightbox-img');
                 var cap = document.getElementById('lightbox-caption');
+                var closeBtn = document.getElementById('lightbox-close');
                 if (!dlg || !dlg.showModal) return; /* no dialog support: links keep default behavior */
                 document.querySelectorAll('.gallery').forEach(function (g) {
                     var a = g.querySelector('a');
@@ -1649,108 +1706,130 @@ data:
                         dlg.showModal();
                     });
                 });
+                closeBtn.addEventListener('click', function () { dlg.close(); });
                 dlg.addEventListener('click', function () { dlg.close(); });
-                dlg.addEventListener('close', function () { img.src = ''; });
+                dlg.addEventListener('close', function () { img.removeAttribute('src'); });
             })();
         </script>
     </body>
-
+    
     </html>
+
   privacy.html: |
     <!DOCTYPE html>
     <html lang="en">
-      <head>
-            <script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="6a06e0ff-3af4-42b9-ab66-dd32f9e600e0" data-blockingmode="auto" type="text/javascript"></script>
-            <!-- Google tag (gtag.js) -->
-            <script async src="https://www.googletagmanager.com/gtag/js?id=G-SXLQTMF14Q"></script>
-            <script>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="6a06e0ff-3af4-42b9-ab66-dd32f9e600e0" data-blockingmode="auto" type="text/javascript"></script>
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-SXLQTMF14Q"></script>
+        <script>
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
-
+    
               gtag('config', 'G-SXLQTMF14Q');
-            </script>
-            <script async src="https://fundingchoicesmessages.google.com/i/pub-3941951641805897?ers=1" nonce="Ztq0ynxpsv8cjaOR_8lnZw"></script><script nonce="Ztq0ynxpsv8cjaOR_8lnZw">(function() {function signalGooglefcPresent() {if (!window.frames['googlefcPresent']) {if (document.body) {const iframe = document.createElement('iframe'); iframe.style = 'width: 0; height: 0; border: none; z-index: -1000; left: -1000px; top: -1000px;'; iframe.style.display = 'none'; iframe.name = 'googlefcPresent'; document.body.appendChild(iframe);} else {setTimeout(signalGooglefcPresent, 0);}}}signalGooglefcPresent();})();</script>
-            <!-- Google Tag Manager -->
-            <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        </script>
+        <script async src="https://fundingchoicesmessages.google.com/i/pub-3941951641805897?ers=1" nonce="Ztq0ynxpsv8cjaOR_8lnZw"></script><script nonce="Ztq0ynxpsv8cjaOR_8lnZw">(function() {function signalGooglefcPresent() {if (!window.frames['googlefcPresent']) {if (document.body) {const iframe = document.createElement('iframe'); iframe.style = 'width: 0; height: 0; border: none; z-index: -1000; left: -1000px; top: -1000px;'; iframe.style.display = 'none'; iframe.name = 'googlefcPresent'; document.body.appendChild(iframe);} else {setTimeout(signalGooglefcPresent, 0);}}}signalGooglefcPresent();})();</script>
+        <!-- Google Tag Manager -->
+        <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
             new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
             j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
             })(window,document,'script','dataLayer','GTM-MQMRMNL5');</script>
-            <!-- End Google Tag Manager -->
-            <!-- Clarity tracking code for https://greg.heffner.live/ --><script>    (function(c,l,a,r,i,t,y){        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i+"?ref=bwt";        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);    })(window, document, "clarity", "script", "nry25es3go");</script>
-            <script async
-                    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3941951641805897"
-              crossorigin="anonymous"> </script>
-        <title>Privacy Policy</title>
-        <meta name="title" content="Privacy Policy for the site">
-        <meta name="description"
-          content="Privacy policy for site setup intitially 2024">
-        <meta name="keywords"
-          content="policy">
+        <!-- End Google Tag Manager -->
+        <!-- Clarity tracking code for https://greg.heffner.live/ --><script>    (function(c,l,a,r,i,t,y){        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i+"?ref=bwt";        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);    })(window, document, "clarity", "script", "nry25es3go");</script>
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3941951641805897" crossorigin="anonymous"> </script>
+        <title>Privacy Policy | Greg Heffner</title>
+        <meta name="description" content="Privacy policy for greg.heffner.live — how this site handles personal data, cookies, and consent for its analytics and advertising services, and how to contact the site owner.">
         <meta name="robots" content="index, follow">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <meta name="language" content="English">
-        <meta http-equiv='content-language' content='en-gb'>
         <meta name="author" content="Greg Heffner">
-
-      </head>
-
-      <body>
+        <link rel="canonical" href="https://greg.heffner.live/privacy.html">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="Privacy Policy | Greg Heffner">
+        <meta property="og:description" content="Privacy policy for greg.heffner.live — how this site handles personal data, cookies, and consent for its analytics and advertising services, and how to contact the site owner.">
+        <meta property="og:url" content="https://greg.heffner.live/privacy.html">
+        <meta property="og:site_name" content="Greg Heffner">
+        <meta property="og:locale" content="en_US">
+        <meta property="og:image" content="https://greg.heffner.live/image/photo/header.jpg">
+        <meta property="og:image:width" content="1200">
+        <meta property="og:image:height" content="630">
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:title" content="Privacy Policy | Greg Heffner">
+        <meta name="twitter:description" content="Privacy policy for greg.heffner.live — how this site handles personal data, cookies, and consent for its analytics and advertising services, and how to contact the site owner.">
+        <link rel="stylesheet" href="/image/assets/styles.css">
+        <style>
+            /* Skip link: visually hidden until keyboard focus */
+            .skip-link { position: absolute; left: -9999px; }
+            .skip-link:focus { position: static; display: inline-block; padding: 4px 8px; }
+        </style>
+    </head>
+    
+    <body>
         <!-- Google Tag Manager (noscript) -->
-          <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MQMRMNL5"
+        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MQMRMNL5"
           height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-          <!-- End Google Tag Manager (noscript) -->
-          
-          <section>
-          <h1>Privacy Policy</h1>
-              <p>Your information, including Personal Data, may be transferred to — and maintained on — computers located
-                  outside of your state, province, country, or other governmental jurisdiction where the data protection laws
-                  may differ than those from your jurisdiction.</p>
-              <p>The site owners will take all steps reasonably necessary to ensure that your data is treated securely and in
-                  accordance with this Privacy Policy and no transfer of your Personal Data will take place to an organization
-                  or a country unless there are adequate controls in place including the security of your data and other
-                  personal information.</p>
-          </section>
-
-          <section>
-              <h2>Disclosure Of Data</h2>
-              <h3>Legal Requirements</h3>
-              <p>The owners of the site may disclose your Personal Data in the good faith belief that such action is necessary to:</p>
-              <ul>
-                  <li>To comply with a legal obligation</li>
-                  <li>To protect and defend the rights or property of the site</li>
-                  <li>To prevent or investigate possible wrongdoing in connection with the Service</li>
-                  <li>To protect the personal safety of users of the Service or the public</li>
-                  <li>To protect against legal liability</li>
-              </ul>
-          </section>
-
-          <section>
-              <h2>Security Of Data</h2>
-              <p>The security of your data is important to us, but remember that no method of transmission over the Internet,
-                  or method of electronic storage is 100% secure. While we strive to use commercially acceptable means to
-                  protect your Personal Data, we cannot guarantee its absolute security.</p>
-          </section>
-
-          <section>
-              <h2>Changes To This Privacy Policy</h2>
-              <p>We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new
-                  Privacy Policy on this page.</p>
-              <p>We will let you know via email and/or a prominent notice on our Service, prior to the change becoming
-                  effective.</p>
-              <p>You are advised to review this Privacy Policy periodically for any changes. Changes to this Privacy Policy
-                  are effective when they are posted on this page.</p>
-          </section>
-
-          <section>
-              <h2>Contact Us</h2>
-              <p>If you have any questions about this Privacy Policy, please contact us:</p>
-              <p> By email: wise.home2846@fastmail.com </p>
-          </section>
-      </body>
+        <!-- End Google Tag Manager (noscript) -->
+    
+        <a class="skip-link" href="#main">Skip to content</a>
+    
+        <header>
+            <h1>Privacy Policy</h1>
+            <nav aria-label="Site"><a href="/">Home</a></nav>
+        </header>
+    
+        <main id="main">
+            <section>
+                <h2>Transfer Of Data</h2>
+                <p>Your information, including Personal Data, may be transferred to — and maintained on — computers located
+                    outside of your state, province, country, or other governmental jurisdiction where the data protection laws
+                    may differ from those of your jurisdiction.</p>
+                <p>The site owners will take all steps reasonably necessary to ensure that your data is treated securely and in
+                    accordance with this Privacy Policy and no transfer of your Personal Data will take place to an organization
+                    or a country unless there are adequate controls in place including the security of your data and other
+                    personal information.</p>
+            </section>
+    
+            <section>
+                <h2>Disclosure Of Data</h2>
+                <h3>Legal Requirements</h3>
+                <p>The owners of the site may disclose your Personal Data in the good faith belief that such action is necessary to:</p>
+                <ul>
+                    <li>Comply with a legal obligation</li>
+                    <li>Protect and defend the rights or property of the site</li>
+                    <li>Prevent or investigate possible wrongdoing in connection with the Service</li>
+                    <li>Protect the personal safety of users of the Service or the public</li>
+                    <li>Protect against legal liability</li>
+                </ul>
+            </section>
+    
+            <section>
+                <h2>Security Of Data</h2>
+                <p>The security of your data is important to us, but remember that no method of transmission over the Internet,
+                    or method of electronic storage is 100% secure. While we strive to use commercially acceptable means to
+                    protect your Personal Data, we cannot guarantee its absolute security.</p>
+            </section>
+    
+            <section>
+                <h2>Changes To This Privacy Policy</h2>
+                <p>We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new
+                    Privacy Policy on this page.</p>
+                <p>We will let you know via email and/or a prominent notice on our Service, prior to the change becoming
+                    effective.</p>
+                <p>You are advised to review this Privacy Policy periodically for any changes. Changes to this Privacy Policy
+                    are effective when they are posted on this page.</p>
+            </section>
+    
+            <section>
+                <h2>Contact Us</h2>
+                <p>If you have any questions about this Privacy Policy, please contact us:</p>
+                <p>By email: <a href="mailto:wise.home2846@fastmail.com">wise.home2846@fastmail.com</a></p>
+            </section>
+        </main>
+    </body>
     </html>
+
   robots.txt: |
     Sitemap: https://greg.heffner.live/sitemap.xml
     User-agent: *
@@ -2054,986 +2133,1028 @@ data:
     </url>
     </urlset>
   CarPlay.html: |
-          <!DOCTYPE html>
-            <html lang="en">
-
-            <head>
-                <meta charset="UTF-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>2026 Mustang Dark Horse</title>
-                <meta name="description" content="2026 Mustang Dark Horse quick links" />
-                <link rel="canonical" href="https://greg.heffner.live/CarPlay.html">
-                <meta property="og:type" content="website">
-                <meta property="og:url" content="https://greg.heffner.live/CarPlay.html">
-                <meta property="og:title" content="2026 Mustang Dark Horse">
-                <meta property="og:description" content="2026 Mustang Dark Horse quick links">
-                <meta name="twitter:card" content="summary">
-                <meta name="twitter:title" content="2026 Mustang Dark Horse">
-                <meta name="twitter:description" content="2026 Mustang Dark Horse quick links">
-                <style>
-                    html,
-                    body {
-                        height: 100%;
-                        margin: 0;
-                        padding: 0;
-                    }
-
-                    body {
-                        background: #000;
-                        color: #fff;
-                        font-family: sans-serif;
-                        min-height: 100vh;
-                        display: flex;
-                        flex-direction: column;
-                        align-items: center;
-                        justify-content: flex-start;
-                        padding: 42px 0 calc(var(--footer-height) + 36px) 0;
-                    }
-
-                    header,
-                    footer {
-                        text-align: center;
-                        margin: 0 auto;
-                    }
-
-                    table {
-                        margin: 0 auto;
-                        width: 90vw;
-                        max-width: 600px;
-                        border-spacing: 20px 24px;
-                    }
-
-                    td {
-                        width: 50%;
-                        text-align: center;
-                    }
-
-                    td a img {
-                        width: 100%;
-                        max-width: 140px;
-                        aspect-ratio: 1 / 1;
-                        height: auto;
-                        background: #fff;
-                        border-radius: 16px;
-                        padding: 16px;
-                        box-sizing: border-box;
-                        border: 2px solid #333;
-                        transition: box-shadow 0.2s;
-                        object-fit: contain;
-                        display: block;
-                        margin: 0 auto;
-                    }
-
-                    td a img:hover {
-                        box-shadow: 0 0 12px #fff8;
-                    }
-
-                    footer {
-                        width: 100vw;
-                        position: fixed;
-                        left: 0;
-                        right: 0;
-                        bottom: 0;
-                        margin: 0;
-                        padding: 0;
-                        z-index: 100;
-                    }
-
-                    .footer-bar {
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
-                        background: #222;
-                        padding: 12px 0;
-                        width: 100vw;
-                        gap: 24px;
-                        box-shadow: 0 -2px 8px #0008;
-                    }
-
-                    .footer-bar a img,
-                    .footer-bar a i,
-                    .footer-bar a svg.footer-svg {
-                        width: 28px;
-                        height: 28px;
-                        max-width: 28px;
-                        max-height: 28px;
-                        display: block;
-                        margin: 0;
-                        padding: 0;
-                        object-fit: contain;
-                    }
-
-                    .footer-bar i {
-                        font-size: 28px;
-                        color: #fff;
-                        line-height: 28px;
-                        text-align: center;
-                    }
-
-                    .footer-bar a {
-                        background: #0074D9;
-                        border-radius: 12px;
-                        width: 48px;
-                        height: 48px;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        transition: background 0.2s, box-shadow 0.2s;
-                        box-shadow: 0 2px 8px #0004;
-                        margin: 0 6px;
-                        padding: 0;
-                        box-sizing: border-box;
-                    }
-
-                    :root {
-                        --footer-height: 80px;
-                        --accent-blue: #4fb3ff;
-                        --accent-blue-2: #1e88e5;
-                        --accent-green: #00ff00;
-                    }
-
-                    .mustang-header {
-                        width: 92vw;
-                        max-width: 980px;
-                        margin: 22px auto 6px auto;
-                        text-align: center;
-                    }
-
-                    .hero-card {
-                        position: relative;
-                        display: block;
-                        width: min(980px, 92vw);
-                        border-radius: 36px;
-                        border: 1px solid rgba(255, 255, 255, 0.10);
-                        background:
-                            radial-gradient(120% 160% at 10% 0%, rgba(0, 255, 0, 0.10) 0%, rgba(0, 255, 0, 0.00) 55%),
-                            radial-gradient(120% 160% at 85% 10%, rgba(79, 179, 255, 0.20) 0%, rgba(79, 179, 255, 0.00) 60%),
-                            radial-gradient(160% 160% at 50% 0%, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0.00) 55%),
-                            linear-gradient(180deg, rgba(12, 14, 18, 0.92), rgba(4, 5, 6, 0.92));
-                        box-shadow: 0 18px 70px rgba(0, 0, 0, 0.75);
-                        padding: 22px 22px 24px 22px;
-                        overflow: hidden;
-                        -webkit-backdrop-filter: blur(10px);
-                        backdrop-filter: blur(10px);
-                        transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease;
-                    }
-
-                    .hero-card:hover {
-                        transform: translateY(-2px);
-                        border-color: rgba(255, 255, 255, 0.16);
-                        box-shadow: 0 22px 85px rgba(0, 0, 0, 0.82);
-                    }
-
-                    .hero-card::before {
-                        content: "";
-                        position: absolute;
-                        inset: 0;
-                        background:
-                            repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.035) 0 1px, rgba(255, 255, 255, 0.00) 1px 22px),
-                            repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.03) 0 1px, rgba(255, 255, 255, 0.00) 1px 22px);
-                        opacity: 0.10;
-                        pointer-events: none;
-                    }
-
-                    .hero-card::after {
-                        content: "";
-                        position: absolute;
-                        inset: 0;
-                        background:
-                            linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.00) 38%, rgba(0, 0, 0, 0.30)),
-                            linear-gradient(110deg, rgba(79, 179, 255, 0.0) 0%, rgba(79, 179, 255, 0.12) 35%, rgba(0, 255, 0, 0.08) 55%, rgba(0, 0, 0, 0.0) 80%);
-                        opacity: 0.75;
-                        pointer-events: none;
-                    }
-
-                    .hero-inner {
-                        position: relative;
-                        z-index: 1;
-                    }
-
-                    .hero-media {
-                        position: absolute;
-                        right: -40px;
-                        bottom: -50px;
-                        width: min(520px, 55vw);
-                        pointer-events: none;
-                        z-index: 0;
-                        opacity: 0.32;
-                        filter: drop-shadow(0 18px 48px rgba(0, 0, 0, 0.75)) saturate(1.05);
-                    }
-
-                    .hero-car {
-                        width: 100%;
-                        height: auto;
-                        display: block;
-                        transform: rotate(-2deg);
-                    }
-
-                    .hero-topbar-wrap {
-                        position: relative;
-                        margin: 6px 10px 22px 10px;
-                    }
-
-                    .hero-topcap {
-                        position: absolute;
-                        top: -14px;
-                        left: 50%;
-                        transform: translateX(-50%);
-                        width: 44px;
-                        height: 16px;
-                        border-radius: 999px;
-                        background: linear-gradient(180deg, rgba(133, 197, 255, 0.95), rgba(79, 179, 255, 0.75));
-                        box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.10), 0 10px 26px rgba(79, 179, 255, 0.28);
-                        opacity: 0.92;
-                    }
-
-                    .hero-topbar {
-                        height: 16px;
-                        border-radius: 999px;
-                        background: linear-gradient(90deg, rgba(30, 136, 229, 0.95), rgba(79, 179, 255, 0.95), rgba(30, 136, 229, 0.95));
-                        box-shadow: 0 0 26px rgba(79, 179, 255, 0.42);
-                        opacity: 0.92;
-                        position: relative;
-                        overflow: hidden;
-                    }
-
-                    .hero-topbar::after {
-                        content: "";
-                        position: absolute;
-                        inset: 0;
-                        background: linear-gradient(110deg, rgba(255, 255, 255, 0.0) 0%, rgba(255, 255, 255, 0.22) 40%, rgba(255, 255, 255, 0.0) 80%);
-                        transform: translateX(-60%);
-                        animation: topbar-shine 4.8s ease-in-out infinite;
-                        opacity: 0.55;
-                    }
-
-                    @keyframes topbar-shine {
-                        0% {
-                            transform: translateX(-65%);
-                        }
-
-                        55% {
-                            transform: translateX(65%);
-                        }
-
-                        100% {
-                            transform: translateX(65%);
-                        }
-                    }
-
-                    .hero-content {
-                        display: grid;
-                        grid-template-columns: 1.35fr 1fr;
-                        align-items: center;
-                        gap: 10px 34px;
-                        padding: 0 14px 8px 14px;
-                    }
-
-                    .hero-left {
-                        display: flex;
-                        flex-direction: column;
-                        align-items: flex-start;
-                        gap: 10px;
-                    }
-
-                    .hero-right {
-                        display: flex;
-                        flex-direction: column;
-                        align-items: flex-end;
-                        gap: 12px;
-                    }
-
-                    .hero-handle {
-                        font-family: 'Fira Mono', 'Consolas', 'Menlo', monospace;
-                        font-size: clamp(3.0rem, 7.4vw, 5.8rem);
-                        font-weight: 900;
-                        letter-spacing: 0.045em;
-                        color: var(--accent-green);
-                        text-shadow: 0 0 22px rgba(0, 255, 0, 0.55), 0 0 6px rgba(0, 255, 0, 0.75);
-                        line-height: 0.98;
-                    }
-
-                    .hero-subline {
-                        display: flex;
-                        align-items: center;
-                        gap: 10px;
-                        font-family: 'Fira Mono', 'Consolas', 'Menlo', monospace;
-                        color: rgba(255, 255, 255, 0.72);
-                        letter-spacing: 0.08em;
-                    }
-
-                    .hero-pill {
-                        display: inline-flex;
-                        align-items: center;
-                        padding: 6px 10px;
-                        border-radius: 999px;
-                        border: 1px solid rgba(255, 255, 255, 0.14);
-                        background: rgba(0, 0, 0, 0.35);
-                        box-shadow: 0 0 0 1px rgba(79, 179, 255, 0.10), 0 10px 26px rgba(0, 0, 0, 0.35);
-                        color: rgba(133, 197, 255, 0.92);
-                        font-weight: 900;
-                        letter-spacing: 0.18em;
-                        text-transform: uppercase;
-                    }
-
-                    .hero-meta {
-                        font-size: 0.95rem;
-                        opacity: 0.9;
-                    }
-
-                    .hero-model-year {
-                        display: inline-flex;
-                        align-items: center;
-                        justify-content: center;
-                        padding: 6px 12px;
-                        border-radius: 999px;
-                        border: 1px solid rgba(255, 255, 255, 0.14);
-                        background: rgba(0, 0, 0, 0.28);
-                        box-shadow: 0 0 0 1px rgba(79, 179, 255, 0.10), 0 10px 26px rgba(0, 0, 0, 0.35);
-                        font-size: 1.0rem;
-                        font-weight: 900;
-                        letter-spacing: 0.20em;
-                        color: rgba(133, 197, 255, 0.92);
-                        text-shadow: 0 0 12px rgba(79, 179, 255, 0.22);
-                    }
-
-                    .hero-model-name {
-                        font-size: clamp(1.9rem, 4.6vw, 3.6rem);
-                        font-weight: 950;
-                        letter-spacing: 0.46em;
-                        color: rgba(133, 197, 255, 0.95);
-                        text-shadow: 0 0 18px rgba(79, 179, 255, 0.35);
-                        text-transform: uppercase;
-                        line-height: 1.05;
-                    }
-
-                    .hero-kicker {
-                        display: flex;
-                        align-items: center;
-                        gap: 12px;
-                        font-weight: 900;
-                        letter-spacing: 0.32em;
-                        color: rgba(255, 255, 255, 0.72);
-                        text-transform: uppercase;
-                    }
-
-                    @media (max-width: 640px) {
-                        .hero-content {
-                            grid-template-columns: 1fr;
-                            gap: 14px;
-                        }
-
-                        .hero-right {
-                            align-items: flex-start;
-                        }
-
-                        .hero-model-name {
-                            letter-spacing: 0.28em;
-                        }
-
-                        .hero-kicker {
-                            letter-spacing: 0.22em;
-                        }
-
-                        .hero-media {
-                            right: -70px;
-                            bottom: -70px;
-                            width: min(520px, 92vw);
-                            opacity: 0.22;
-                        }
-                    }
-
-                    #owner-handle {
-                        font-size: 3rem;
-                        font-weight: bold;
-                        letter-spacing: 0.1em;
-                        margin: 32px 0 16px 0;
-                        text-align: center;
-                        display: block;
-                    }
-
-                    .handle-link {
-                        text-decoration: none;
-                        color: inherit;
-                    }
-
-                    .car-animation {
-                        position: fixed;
-                        top: 0;
-                        left: 0;
-                        width: 100vw;
-                        height: 100vh;
-                        pointer-events: none;
-                        z-index: 100;
-                    }
-
-                    #car {
-                        position: absolute;
-                        top: 0;
-                        left: 0;
-                        animation: drive-around 12s linear infinite;
-                        transform-origin: 50% 50%;
-                        cursor: grab;
-                        pointer-events: auto;
-                        touch-action: none;
-                        -webkit-user-select: none;
-                        user-select: none;
-                    }
-
-                    .dragging {
-                        animation: none !important;
-                        cursor: grabbing;
-                    }
-
-                    @keyframes drive-around {
-                        0% {
-                            top: 0;
-                            left: 0;
-                            transform: rotate(0deg) scaleX(1);
-                        }
-
-                        24% {
-                            top: 0;
-                            left: calc(100vw - 60px);
-                            transform: rotate(0deg) scaleX(1);
-                        }
-
-                        25% {
-                            top: 0;
-                            left: calc(100vw - 60px);
-                            transform: rotate(90deg) scaleY(-1);
-                        }
-
-                        49% {
-                            top: calc(100vh - var(--footer-height) - 30px);
-                            left: calc(100vw - 60px);
-                            transform: rotate(90deg) scaleY(-1);
-                        }
-
-                        50% {
-                            top: calc(100vh - var(--footer-height) - 30px);
-                            left: calc(100vw - 60px);
-                            transform: rotate(180deg) scaleY(-1);
-                        }
-
-                        74% {
-                            top: calc(100vh - var(--footer-height) - 30px);
-                            left: 0;
-                            transform: rotate(180deg) scaleY(-1);
-                        }
-
-                        75% {
-                            top: calc(100vh - var(--footer-height) - 30px);
-                            left: 0;
-                            transform: rotate(270deg) scaleY(-1);
-                        }
-
-                        99% {
-                            top: 0;
-                            left: 0;
-                            transform: rotate(270deg) scaleY(-1);
-                        }
-
-                        100% {
-                            top: 0;
-                            left: 0;
-                            transform: rotate(0deg) scaleX(1);
-                        }
-                    }
-
-                </style>
-            </head>
-
-            <body>
-                <div class="car-animation">
-                    <svg id="car" width="60" height="30" viewBox="0 0 60 30">
-                        <rect x="5" y="10" width="50" height="15" rx="5" fill="#0b2a44" />
-                        <circle cx="15" cy="27" r="3" fill="#333" />
-                        <circle cx="45" cy="27" r="3" fill="#333" />
-                        <rect x="20" y="5" width="20" height="10" rx="3" fill="#6fb6ff" />
-                    </svg>
-                </div>
-                <header>
-                    <div class="mustang-header">
-                        <div class="hero-card" role="img" aria-label="2026 Mustang Dark Horse">
-                            <div class="hero-inner">
-                                <div class="hero-media" aria-hidden="true">
-                                    <img class="hero-car" src="image/photo/DarkHorse.png" alt="" loading="lazy" decoding="async">
+    <!DOCTYPE html>
+    <html lang="en">
+    
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>2026 Mustang Dark Horse</title>
+        <meta name="description" content="2026 Mustang Dark Horse quick links">
+        <meta name="robots" content="noindex">
+        <meta name="theme-color" content="#000000">
+        <link rel="canonical" href="https://greg.heffner.live/CarPlay.html">
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="https://greg.heffner.live/CarPlay.html">
+        <meta property="og:title" content="2026 Mustang Dark Horse">
+        <meta property="og:description" content="2026 Mustang Dark Horse quick links">
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:title" content="2026 Mustang Dark Horse">
+        <meta name="twitter:description" content="2026 Mustang Dark Horse quick links">
+        <style>
+            /* Custom properties */
+            :root {
+                --footer-height: 80px;
+                --accent-blue: #4fb3ff;
+                --accent-blue-2: #1e88e5;
+                --accent-green: #00ff00;
+            }
+    
+            /* Base */
+            html,
+            body {
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+    
+            body {
+                background: #000;
+                color: #fff;
+                font-family: sans-serif;
+                min-height: 100vh;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: flex-start;
+                padding: 42px 0 calc(var(--footer-height) + 36px) 0;
+            }
+    
+            header,
+            footer {
+                text-align: center;
+                margin: 0 auto;
+            }
+    
+            main {
+                width: 100%;
+            }
+    
+            /* Hero card */
+            .mustang-header {
+                width: 92vw;
+                max-width: 980px;
+                margin: 22px auto 6px auto;
+                text-align: center;
+            }
+    
+            .hero-card {
+                position: relative;
+                display: block;
+                width: min(980px, 92vw);
+                border-radius: 36px;
+                border: 1px solid rgba(255, 255, 255, 0.10);
+                background:
+                    radial-gradient(120% 160% at 10% 0%, rgba(0, 255, 0, 0.10) 0%, rgba(0, 255, 0, 0.00) 55%),
+                    radial-gradient(120% 160% at 85% 10%, rgba(79, 179, 255, 0.20) 0%, rgba(79, 179, 255, 0.00) 60%),
+                    radial-gradient(160% 160% at 50% 0%, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0.00) 55%),
+                    linear-gradient(180deg, rgba(12, 14, 18, 0.92), rgba(4, 5, 6, 0.92));
+                box-shadow: 0 18px 70px rgba(0, 0, 0, 0.75);
+                padding: 22px 22px 24px 22px;
+                overflow: hidden;
+                -webkit-backdrop-filter: blur(10px);
+                backdrop-filter: blur(10px);
+                transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease;
+            }
+    
+            .hero-card:hover {
+                transform: translateY(-2px);
+                border-color: rgba(255, 255, 255, 0.16);
+                box-shadow: 0 22px 85px rgba(0, 0, 0, 0.82);
+            }
+    
+            .hero-card::before {
+                content: "";
+                position: absolute;
+                inset: 0;
+                background:
+                    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.035) 0 1px, rgba(255, 255, 255, 0.00) 1px 22px),
+                    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.03) 0 1px, rgba(255, 255, 255, 0.00) 1px 22px);
+                opacity: 0.10;
+                pointer-events: none;
+            }
+    
+            .hero-card::after {
+                content: "";
+                position: absolute;
+                inset: 0;
+                background:
+                    linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.00) 38%, rgba(0, 0, 0, 0.30)),
+                    linear-gradient(110deg, rgba(79, 179, 255, 0.0) 0%, rgba(79, 179, 255, 0.12) 35%, rgba(0, 255, 0, 0.08) 55%, rgba(0, 0, 0, 0.0) 80%);
+                opacity: 0.75;
+                pointer-events: none;
+            }
+    
+            .hero-inner {
+                position: relative;
+                z-index: 1;
+            }
+    
+            .hero-media {
+                position: absolute;
+                right: -40px;
+                bottom: -50px;
+                width: min(520px, 55vw);
+                pointer-events: none;
+                z-index: 0;
+                opacity: 0.32;
+                filter: drop-shadow(0 18px 48px rgba(0, 0, 0, 0.75)) saturate(1.05);
+            }
+    
+            .hero-car {
+                width: 100%;
+                height: auto;
+                display: block;
+                transform: rotate(-2deg);
+            }
+    
+            .hero-topbar-wrap {
+                position: relative;
+                margin: 6px 10px 22px 10px;
+            }
+    
+            .hero-topcap {
+                position: absolute;
+                top: -14px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 44px;
+                height: 16px;
+                border-radius: 999px;
+                background: linear-gradient(180deg, rgba(133, 197, 255, 0.95), rgba(79, 179, 255, 0.75));
+                box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.10), 0 10px 26px rgba(79, 179, 255, 0.28);
+                opacity: 0.92;
+            }
+    
+            .hero-topbar {
+                height: 16px;
+                border-radius: 999px;
+                background: linear-gradient(90deg, rgba(30, 136, 229, 0.95), rgba(79, 179, 255, 0.95), rgba(30, 136, 229, 0.95));
+                box-shadow: 0 0 26px rgba(79, 179, 255, 0.42);
+                opacity: 0.92;
+                position: relative;
+                overflow: hidden;
+            }
+    
+            .hero-topbar::after {
+                content: "";
+                position: absolute;
+                inset: 0;
+                background: linear-gradient(110deg, rgba(255, 255, 255, 0.0) 0%, rgba(255, 255, 255, 0.22) 40%, rgba(255, 255, 255, 0.0) 80%);
+                transform: translateX(-60%);
+                animation: topbar-shine 4.8s ease-in-out infinite;
+                opacity: 0.55;
+            }
+    
+            @keyframes topbar-shine {
+                0% {
+                    transform: translateX(-65%);
+                }
+    
+                55% {
+                    transform: translateX(65%);
+                }
+    
+                100% {
+                    transform: translateX(65%);
+                }
+            }
+    
+            .hero-content {
+                display: grid;
+                grid-template-columns: 1.35fr 1fr;
+                align-items: center;
+                gap: 10px 34px;
+                padding: 0 14px 8px 14px;
+            }
+    
+            .hero-left {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+    
+            .hero-right {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-end;
+                gap: 12px;
+            }
+    
+            .hero-handle {
+                margin: 0;
+                font-family: 'Fira Mono', 'Consolas', 'Menlo', monospace;
+                font-size: clamp(3.0rem, 7.4vw, 5.8rem);
+                font-weight: 900;
+                letter-spacing: 0.045em;
+                color: var(--accent-green);
+                text-shadow: 0 0 22px rgba(0, 255, 0, 0.55), 0 0 6px rgba(0, 255, 0, 0.75);
+                line-height: 0.98;
+            }
+    
+            .hero-subline {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                font-family: 'Fira Mono', 'Consolas', 'Menlo', monospace;
+                color: rgba(255, 255, 255, 0.72);
+                letter-spacing: 0.08em;
+            }
+    
+            .hero-pill {
+                display: inline-flex;
+                align-items: center;
+                padding: 6px 10px;
+                border-radius: 999px;
+                border: 1px solid rgba(255, 255, 255, 0.14);
+                background: rgba(0, 0, 0, 0.35);
+                box-shadow: 0 0 0 1px rgba(79, 179, 255, 0.10), 0 10px 26px rgba(0, 0, 0, 0.35);
+                color: rgba(133, 197, 255, 0.92);
+                font-weight: 900;
+                letter-spacing: 0.18em;
+                text-transform: uppercase;
+            }
+    
+            .hero-meta {
+                font-size: 0.95rem;
+                opacity: 0.9;
+            }
+    
+            .hero-model-year {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                padding: 6px 12px;
+                border-radius: 999px;
+                border: 1px solid rgba(255, 255, 255, 0.14);
+                background: rgba(0, 0, 0, 0.28);
+                box-shadow: 0 0 0 1px rgba(79, 179, 255, 0.10), 0 10px 26px rgba(0, 0, 0, 0.35);
+                font-size: 1.0rem;
+                font-weight: 900;
+                letter-spacing: 0.20em;
+                color: rgba(133, 197, 255, 0.92);
+                text-shadow: 0 0 12px rgba(79, 179, 255, 0.22);
+            }
+    
+            .hero-model-name {
+                margin: 0;
+                font-size: clamp(1.9rem, 4.6vw, 3.6rem);
+                font-weight: 900;
+                letter-spacing: 0.46em;
+                color: rgba(133, 197, 255, 0.95);
+                text-shadow: 0 0 18px rgba(79, 179, 255, 0.35);
+                text-transform: uppercase;
+                line-height: 1.05;
+            }
+    
+            .hero-kicker {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                font-weight: 900;
+                letter-spacing: 0.32em;
+                color: rgba(255, 255, 255, 0.72);
+                text-transform: uppercase;
+            }
+    
+            /* Quick-link tiles (grid replicates the old table's metrics) */
+            .tile-grid {
+                list-style: none;
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 24px 20px;
+                width: 90vw;
+                max-width: 600px;
+                margin: 36px auto 0 auto;
+                padding: 24px 20px;
+                box-sizing: border-box;
+            }
+    
+            /* Keep the top-right cell empty: Homepage starts row 2 */
+            .tile-grid > li:nth-child(2) {
+                grid-column: 1;
+            }
+    
+            .tile-grid a img {
+                width: 100%;
+                max-width: 140px;
+                aspect-ratio: 1 / 1;
+                height: auto;
+                background: #fff;
+                border-radius: 16px;
+                padding: 16px;
+                box-sizing: border-box;
+                border: 2px solid #333;
+                transition: box-shadow 0.2s;
+                object-fit: contain;
+                display: block;
+                margin: 0 auto;
+            }
+    
+            .tile-grid a img:hover,
+            .tile-grid a:focus-visible img {
+                box-shadow: 0 0 12px #fff8;
+            }
+    
+            .tile-grid a:focus-visible,
+            .footer-bar a:focus-visible {
+                outline: 2px solid var(--accent-blue);
+                outline-offset: 3px;
+            }
+    
+            /* Showcase image */
+            .showcase-car {
+                display: block;
+                margin: 0 auto 18px auto;
+                width: 55%;
+                height: auto;
+            }
+    
+            /* Footer launcher bar */
+            footer {
+                width: 100vw;
+                position: fixed;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                margin: 0;
+                padding: 0;
+                z-index: 100;
+            }
+    
+            .footer-bar {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background: #222;
+                padding: 12px 0;
+                width: 100vw;
+                gap: 24px;
+                box-shadow: 0 -2px 8px #0008;
+            }
+    
+            .footer-bar a img,
+            .footer-bar a svg.footer-svg {
+                width: 28px;
+                height: 28px;
+                max-width: 28px;
+                max-height: 28px;
+                display: block;
+                margin: 0;
+                padding: 0;
+                object-fit: contain;
+            }
+    
+            .footer-bar a {
+                background: #0074D9;
+                border-radius: 12px;
+                width: 48px;
+                height: 48px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: background 0.2s, box-shadow 0.2s;
+                box-shadow: 0 2px 8px #0004;
+                margin: 0 6px;
+                padding: 0;
+                box-sizing: border-box;
+            }
+    
+            /* Drag-around car toy */
+            .car-animation {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                pointer-events: none;
+                z-index: 100;
+            }
+    
+            #car {
+                position: absolute;
+                top: 0;
+                left: 0;
+                animation: drive-around 12s linear infinite;
+                transform-origin: 50% 50%;
+                cursor: grab;
+                pointer-events: auto;
+                touch-action: none;
+                -webkit-user-select: none;
+                user-select: none;
+            }
+    
+            .dragging {
+                animation: none !important;
+                cursor: grabbing;
+            }
+    
+            @keyframes drive-around {
+                0% {
+                    top: 0;
+                    left: 0;
+                    transform: rotate(0deg) scaleX(1);
+                }
+    
+                24% {
+                    top: 0;
+                    left: calc(100vw - 60px);
+                    transform: rotate(0deg) scaleX(1);
+                }
+    
+                25% {
+                    top: 0;
+                    left: calc(100vw - 60px);
+                    transform: rotate(90deg) scaleY(-1);
+                }
+    
+                49% {
+                    top: calc(100vh - var(--footer-height) - 30px);
+                    left: calc(100vw - 60px);
+                    transform: rotate(90deg) scaleY(-1);
+                }
+    
+                50% {
+                    top: calc(100vh - var(--footer-height) - 30px);
+                    left: calc(100vw - 60px);
+                    transform: rotate(180deg) scaleY(-1);
+                }
+    
+                74% {
+                    top: calc(100vh - var(--footer-height) - 30px);
+                    left: 0;
+                    transform: rotate(180deg) scaleY(-1);
+                }
+    
+                75% {
+                    top: calc(100vh - var(--footer-height) - 30px);
+                    left: 0;
+                    transform: rotate(270deg) scaleY(-1);
+                }
+    
+                99% {
+                    top: 0;
+                    left: 0;
+                    transform: rotate(270deg) scaleY(-1);
+                }
+    
+                100% {
+                    top: 0;
+                    left: 0;
+                    transform: rotate(0deg) scaleX(1);
+                }
+            }
+    
+            /* Media queries */
+            @media (max-width: 640px) {
+                .hero-content {
+                    grid-template-columns: 1fr;
+                    gap: 14px;
+                }
+    
+                .hero-right {
+                    align-items: flex-start;
+                }
+    
+                .hero-model-name {
+                    letter-spacing: 0.28em;
+                }
+    
+                .hero-kicker {
+                    letter-spacing: 0.22em;
+                }
+    
+                .hero-media {
+                    right: -70px;
+                    bottom: -70px;
+                    width: min(520px, 92vw);
+                    opacity: 0.22;
+                }
+            }
+    
+            @media (prefers-reduced-motion: reduce) {
+                #car {
+                    animation: none;
+                }
+    
+                .hero-topbar::after {
+                    animation: none;
+                }
+    
+                .hero-card,
+                .hero-card:hover {
+                    transition: none;
+                    transform: none;
+                }
+            }
+        </style>
+    </head>
+    
+    <body>
+        <div class="car-animation" aria-hidden="true">
+            <svg id="car" role="presentation" width="60" height="30" viewBox="0 0 60 30">
+                <rect x="5" y="10" width="50" height="15" rx="5" fill="#0b2a44" />
+                <circle cx="15" cy="27" r="3" fill="#333" />
+                <circle cx="45" cy="27" r="3" fill="#333" />
+                <rect x="20" y="5" width="20" height="10" rx="3" fill="#6fb6ff" />
+            </svg>
+        </div>
+        <header>
+            <div class="mustang-header">
+                <div class="hero-card">
+                    <div class="hero-inner">
+                        <div class="hero-media" aria-hidden="true">
+                            <img class="hero-car" src="image/photo/DarkHorse.png" alt="" width="2546" height="2151" loading="lazy" decoding="async">
+                        </div>
+                        <div class="hero-topbar-wrap" aria-hidden="true">
+                            <div class="hero-topcap"></div>
+                            <div class="hero-topbar"></div>
+                        </div>
+                        <div class="hero-content">
+                            <div class="hero-left">
+                                <h1 class="hero-handle">Dark_Huey</h1>
+                                <div class="hero-subline" aria-label="Instagram handle">
+                                    <span class="hero-pill">INSTA</span>
+                                    <span class="hero-meta">@Dark_Huey</span>
                                 </div>
-                                <div class="hero-topbar-wrap" aria-hidden="true">
-                                    <div class="hero-topcap"></div>
-                                    <div class="hero-topbar"></div>
+                            </div>
+                            <div class="hero-right">
+                                <div class="hero-kicker">
+                                    <span class="hero-model-year">2026</span>
+                                    <span>MUSTANG</span>
                                 </div>
-                                <div class="hero-content">
-                                    <div class="hero-left">
-                                        <div class="hero-handle">Dark_Huey</div>
-                                        <div class="hero-subline" aria-label="Instagram handle">
-                                            <span class="hero-pill">INSTA</span>
-                                            <span class="hero-meta">@Dark_Huey</span>
-                                        </div>
-                                    </div>
-                                    <div class="hero-right" aria-label="Vehicle">
-                                        <div class="hero-kicker">
-                                            <span class="hero-model-year">2026</span>
-                                            <span>MUSTANG</span>
-                                        </div>
-                                        <div class="hero-model-name">DARK HORSE</div>
-                                    </div>
-                                </div>
+                                <p class="hero-model-name">DARK HORSE</p>
                             </div>
                         </div>
                     </div>
-                </header>
-                <br><br>
-                <table>
-                    <tr>
-                        <td>
-                            <a href="https://greg.heffner.live/loops.html">
-                                <img src="/image/blog/2025/July/weather.png" alt="Loops">
-                            </a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <a href="https://greg.heffner.live/">
-                                <img src="https://greg.heffner.live/image/photo/header.jpg" alt="Homepage">
-                            </a>
-                        </td>
-                        <td>
-                            <a href="https://github.com/gregheffner">
-                                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub">
-                            </a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <a href="https://greg.heffner.live/traffic.html">
-                                <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/googlemaps.svg"
-                                    alt="Traffic Cams">
-                            </a>
-                        </td>
-                        <td>
-                            <a href="https://controld.com/">
-                                <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/shieldsdotio.svg"
-                                    alt="ControlD">
-                            </a>
-                        </td>
-                    </tr>
-                </table>
-                    <img src="image/photo/DarkHorse.png" alt="2026 Dark Horse"
-                        style="display: block; margin-left: auto; margin-right: auto; width: 55%; height: auto;">
-
-                <br>
-
-                <footer>
-                    <div class="footer-bar">
-
-                        <!--
-                                                        https://flowbite.com/icons/
-
-                                                        -->
-
-                        <a href="sms:" target="_blank" rel="noopener noreferrer" title="iMessage" aria-label="iMessage">
-                            <svg class="footer-svg" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="#fff"
-                                viewBox="0 0 24 24">
-                                <!-- Enhanced message bubbles with text indicators -->
-                                <path fill-rule="evenodd"
-                                    d="M4 3a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h1v2a1 1 0 0 0 1.707.707L9.414 13H15a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1H4Z"
-                                    clip-rule="evenodd" />
-                                <path fill-rule="evenodd"
-                                    d="M8.023 17.215c.033-.03.066-.062.098-.094L10.243 15H15a3 3 0 0 0 3-3V8h2a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1h-1v2a1 1 0 0 1-1.707.707L14.586 18H9a1 1 0 0 1-.977-.785Z"
-                                    clip-rule="evenodd" />
-                                <!-- Text lines in first bubble -->
-                                <line x1="6" y1="7" x2="13" y2="7" stroke="#333" stroke-width="0.8" stroke-linecap="round" />
-                                <line x1="6" y1="9" x2="11" y2="9" stroke="#333" stroke-width="0.8" stroke-linecap="round" />
-                                <!-- Text lines in second bubble -->
-                                <line x1="11" y1="14" x2="17" y2="14" stroke="#333" stroke-width="0.6" stroke-linecap="round" />
-                                <line x1="13" y1="16" x2="16" y2="16" stroke="#333" stroke-width="0.6" stroke-linecap="round" />
-                                <!-- Message indicators -->
-                                <circle cx="14" cy="6" r="0.8" fill="#007AFF" />
-                                <circle cx="18" cy="11" r="0.8" fill="#34C759" />
-                            </svg>
+                </div>
+            </div>
+        </header>
+        <main>
+            <nav aria-label="Quick links">
+                <ul class="tile-grid">
+                    <li>
+                        <a href="https://greg.heffner.live/loops.html">
+                            <img src="/image/blog/2025/July/weather.png" alt="Loops weather dashboard" width="512" height="512" loading="lazy" decoding="async">
                         </a>
-                        <a href="tel:" title="Call" aria-label="Call">
-                            <svg class="footer-svg" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="#fff"
-                                viewBox="0 0 24 24">
-                                <!-- Enhanced phone with signal waves -->
-                                <path
-                                    d="M7.978 4a2.553 2.553 0 0 0-1.926.877C4.233 6.7 3.699 8.751 4.153 10.814c.44 1.995 1.778 3.893 3.456 5.572 1.68 1.679 3.577 3.018 5.57 3.459 2.062.456 4.115-.073 5.94-1.885a2.556 2.556 0 0 0 .001-3.861l-1.21-1.21a2.689 2.689 0 0 0-3.802 0l-.617.618a.806.806 0 0 1-1.14 0l-1.854-1.855a.807.807 0 0 1 0-1.14l.618-.62a2.692 2.692 0 0 0 0-3.803l-1.21-1.211A2.555 2.555 0 0 0 7.978 4Z" />
-                                <!-- Signal waves -->
-                                <path d="M16 8c1.5 1.5 1.5 3.5 0 5" stroke="#fff" stroke-width="1.5" stroke-linecap="round"
-                                    fill="none" opacity="0.8" />
-                                <path d="M18 6c2.5 2.5 2.5 6.5 0 9" stroke="#fff" stroke-width="1.5" stroke-linecap="round"
-                                    fill="none" opacity="0.6" />
-                                <path d="M20 4c3.5 3.5 3.5 9.5 0 13" stroke="#fff" stroke-width="1.5" stroke-linecap="round"
-                                    fill="none" opacity="0.4" />
-                            </svg>
+                    </li>
+                    <li>
+                        <a href="https://greg.heffner.live/">
+                            <img src="https://greg.heffner.live/image/photo/header.jpg" alt="Homepage" loading="lazy" decoding="async">
                         </a>
-                        <a href="facetime:" title="FaceTime" aria-label="FaceTime">
-                            <svg class="footer-svg" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="#fff"
-                                viewBox="0 0 24 24">
-                                <!-- Enhanced video camera with lens details -->
-                                <path fill-rule="evenodd"
-                                    d="M14 7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7Zm2 9.387 4.684 1.562A1 1 0 0 0 22 17V7a1 1 0 0 0-1.316-.949L16 7.613v8.774Z"
-                                    clip-rule="evenodd" />
-                                <!-- Camera lens rings -->
-                                <circle cx="8" cy="12" r="3" stroke="#333" stroke-width="0.8" fill="none" />
-                                <circle cx="8" cy="12" r="2" stroke="#333" stroke-width="0.6" fill="none" />
-                                <circle cx="8" cy="12" r="1" fill="#333" />
-                                <!-- Lens reflection -->
-                                <circle cx="7" cy="11" r="0.8" fill="#fff" opacity="0.6" />
-                                <!-- Recording indicator -->
-                                <circle cx="5" cy="8" r="0.8" fill="#ff4444" />
-                            </svg>
+                    </li>
+                    <li>
+                        <a href="https://github.com/gregheffner">
+                            <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub profile" referrerpolicy="no-referrer" loading="lazy" decoding="async">
                         </a>
-                        <a href="#" title="Music" aria-label="Music">
-                            <svg class="footer-svg" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="#fff"
-                                viewBox="0 0 24 24">
-                                <!-- Enhanced music note with staff lines -->
-                                <path
-                                    d="M18.6216 3.21667c.2391.1897.3784.47817.3784.78334V15.6667c0 .0412-.0025.0818-.0073.1218.0048.0698.0073.1404.0073.2115 0 1.6569-1.3431 3-3 3s-3-1.3431-3-3 1.3431-3 3-3c.3506 0 .6872.0602 1 .1707V9.2602l-8 1.8667V18l-.00001.0032C8.99824 19.6586 7.65577 21 6 21c-1.65685 0-3-1.3431-3-3s1.34315-3 3-3c.35064 0 .68722.0602 1 .1707V6.33334c0-.46474.32018-.86823.77277-.97384l9.99953-2.33321c.1486-.03477.3012-.03465.4467-.00201.1427.03202.2783.09532.3964.18752.0021.00162.0041.00324.0062.00487Z" />
-                                <!-- Staff lines -->
-                                <line x1="2" y1="8" x2="22" y2="8" stroke="#fff" stroke-width="0.5" opacity="0.4" />
-                                <line x1="2" y1="10" x2="22" y2="10" stroke="#fff" stroke-width="0.5" opacity="0.4" />
-                                <line x1="2" y1="12" x2="22" y2="12" stroke="#fff" stroke-width="0.5" opacity="0.4" />
-                                <line x1="2" y1="14" x2="22" y2="14" stroke="#fff" stroke-width="0.5" opacity="0.4" />
-                                <line x1="2" y1="16" x2="22" y2="16" stroke="#fff" stroke-width="0.5" opacity="0.4" />
-                                <!-- Additional notes -->
-                                <circle cx="20" cy="10" r="1" fill="#fff" opacity="0.7" />
-                                <circle cx="4" cy="14" r="0.8" fill="#fff" opacity="0.6" />
-                            </svg>
+                    </li>
+                    <li>
+                        <a href="https://greg.heffner.live/traffic.html">
+                            <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/googlemaps.svg"
+                                alt="Traffic Cams" referrerpolicy="no-referrer" loading="lazy" decoding="async">
                         </a>
-                        <a href="tiktok://" title="TikTok" aria-label="TikTok">
-                            <svg class="footer-svg" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none"
-                                viewBox="0 0 24 24">
-                                <!-- TikTok music note with enhanced design -->
-                                <path stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
-                                    d="M12 16.5c0 1.3807-1.1193 2.5-2.5 2.5C8.11929 19 7 17.8807 7 16.5S8.11929 14 9.5 14c1.3807 0 2.5 1.1193 2.5 2.5Zm0 0V5c2.5 0 6 2.5 4.5 7" />
-                                <!-- Musical elements -->
-                                <circle cx="15" cy="8" r="1.5" stroke="#fff" stroke-width="1.5" fill="none" opacity="0.7" />
-                                <circle cx="17" cy="6" r="1" stroke="#fff" stroke-width="1" fill="none" opacity="0.5" />
-                                <!-- Rhythm lines -->
-                                <line x1="19" y1="5" x2="20" y2="4" stroke="#fff" stroke-width="1.5" stroke-linecap="round"
-                                    opacity="0.6" />
-                                <line x1="19" y1="7" x2="20" y2="8" stroke="#fff" stroke-width="1.5" stroke-linecap="round"
-                                    opacity="0.6" />
-                                <line x1="19" y1="9" x2="20" y2="10" stroke="#fff" stroke-width="1.5" stroke-linecap="round"
-                                    opacity="0.6" />
-                            </svg>
+                    </li>
+                    <li>
+                        <a href="https://controld.com/">
+                            <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/shieldsdotio.svg"
+                                alt="ControlD DNS dashboard" referrerpolicy="no-referrer" loading="lazy" decoding="async">
                         </a>
-                        <a href="https://radar.heffner.live" target="_blank" rel="noopener noreferrer" title="Weather Radar" aria-label="Weather Radar">
-                            <svg class="footer-svg" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="#fff"
-                                viewBox="0 0 24 24">
-                                <!-- Radar tower base -->
-                                <rect x="11" y="18" width="2" height="4" fill="#fff" />
-                                <rect x="10" y="20" width="4" height="2" fill="#fff" />
-                                <!-- Radar dish -->
-                                <ellipse cx="12" cy="16" rx="6" ry="2" fill="#fff" />
-                                <ellipse cx="12" cy="15" rx="6" ry="2" stroke="#fff" stroke-width="1" fill="none" />
-                                <!-- Radar sweeping beam -->
-                                <path d="M12 15 L18 9 A7 7 0 0 0 12 8 Z" fill="#fff" opacity="0.6" />
-                                <!-- Radar circles -->
-                                <circle cx="12" cy="8" r="3" stroke="#fff" stroke-width="0.8" fill="none" opacity="0.7" />
-                                <circle cx="12" cy="8" r="5" stroke="#fff" stroke-width="0.8" fill="none" opacity="0.5" />
-                                <circle cx="12" cy="8" r="7" stroke="#fff" stroke-width="0.8" fill="none" opacity="0.3" />
-                                <!-- Weather elements -->
-                                <circle cx="15" cy="5" r="1" fill="#fff" opacity="0.8" />
-                                <circle cx="9" cy="6" r="0.8" fill="#fff" opacity="0.6" />
-                                <circle cx="16" cy="10" r="0.6" fill="#fff" opacity="0.4" />
-                            </svg>
-                        </a>
-                    </div>
-                </footer>
-                <script>
-                    function initCarDrag() {
-                        const car = document.getElementById('car');
-                        if (!car) return;
-
-                        let dragging = false, offsetX = 0, offsetY = 0;
-
-                        function getPos(e) {
-                            if (e.touches) return { x: e.touches[0].clientX, y: e.touches[0].clientY };
-                            return { x: e.clientX, y: e.clientY };
-                        }
-
-                        function dragStart(e) {
-                            dragging = true;
-                            car.classList.add('dragging');
-                            car.style.animation = 'none';
-                            const pos = getPos(e);
-                            offsetX = pos.x - car.offsetLeft;
-                            offsetY = pos.y - car.offsetTop;
-                            document.addEventListener('mousemove', dragMove);
-                            document.addEventListener('mouseup', dragEnd);
-                            document.addEventListener('touchmove', dragMove, { passive: false });
-                            document.addEventListener('touchend', dragEnd);
-                        }
-
-                        function dragMove(e) {
-                            if (!dragging) return;
-                            e.preventDefault();
-                            const pos = getPos(e);
-                            let x = pos.x - offsetX;
-                            let y = pos.y - offsetY;
-                            const maxX = window.innerWidth - car.offsetWidth;
-                            const maxY = window.innerHeight - parseInt(getComputedStyle(document.documentElement).getPropertyValue('--footer-height')) - car.offsetHeight;
-                            x = Math.max(0, Math.min(x, maxX));
-                            y = Math.max(0, Math.min(y, maxY));
-                            car.style.left = x + 'px';
-                            car.style.top = y + 'px';
-                        }
-
-                        function dragEnd() {
-                            if (!dragging) return;
-                            dragging = false;
-                            car.classList.remove('dragging');
-                            document.removeEventListener('mousemove', dragMove);
-                            document.removeEventListener('mouseup', dragEnd);
-                            document.removeEventListener('touchmove', dragMove);
-                            document.removeEventListener('touchend', dragEnd);
-
-                            const x = car.offsetLeft;
-                            const y = car.offsetTop;
-                            const maxX = window.innerWidth - car.offsetWidth;
-                            const maxY = window.innerHeight - parseInt(getComputedStyle(document.documentElement).getPropertyValue('--footer-height')) - car.offsetHeight;
-                            const distances = [
-                                { edge: 'top', dist: y },
-                                { edge: 'right', dist: Math.abs(x - maxX) },
-                                { edge: 'bottom', dist: Math.abs(y - maxY) },
-                                { edge: 'left', dist: x }
-                            ];
-                            distances.sort((a, b) => a.dist - b.dist);
-                            const edge = distances[0].edge;
-                            let left = x, top = y, transform = '';
-                            switch (edge) {
-                                case 'top':
-                                    left = Math.max(0, Math.min(x, maxX));
-                                    top = 0;
-                                    transform = 'rotate(0deg) scaleX(1)';
-                                    break;
-                                case 'right':
-                                    left = maxX;
-                                    top = Math.max(0, Math.min(y, maxY));
-                                    transform = 'rotate(90deg) scaleY(-1)';
-                                    break;
-                                case 'bottom':
-                                    left = Math.max(0, Math.min(x, maxX));
-                                    top = maxY;
-                                    transform = 'rotate(180deg) scaleY(-1)';
-                                    break;
-                                case 'left':
-                                    left = 0;
-                                    top = Math.max(0, Math.min(y, maxY));
-                                    transform = 'rotate(270deg) scaleY(-1)';
-                                    break;
-                            }
-                            car.style.left = left + 'px';
-                            car.style.top = top + 'px';
-                            car.style.transform = transform;
-
-                            let percent = 0;
-                            if (edge === 'top') {
-                                percent = maxX === 0 ? 0 : (left / maxX) * 24;
-                            } else if (edge === 'right') {
-                                percent = maxY === 0 ? 24 : 24 + (top / maxY) * 25;
-                            } else if (edge === 'bottom') {
-                                percent = maxX === 0 ? 49 : 49 + ((maxX - left) / maxX) * 25;
-                            } else if (edge === 'left') {
-                                percent = maxY === 0 ? 74 : 74 + ((maxY - top) / maxY) * 25;
-                            }
-                            car.style.animation = 'none';
-                            void car.offsetWidth;
-                            car.style.animation = 'drive-around 12s linear infinite';
-                            car.style.animationDelay = `-${percent * 0.12}s`;
-                        }
-
-                        car.addEventListener('mousedown', dragStart);
-                        car.addEventListener('touchstart', dragStart, { passive: false });
+                    </li>
+                </ul>
+            </nav>
+            <img class="showcase-car" src="image/photo/DarkHorse.png" alt="2026 Ford Mustang Dark Horse"
+                width="2546" height="2151" loading="lazy" decoding="async">
+        </main>
+        <footer>
+            <nav class="footer-bar" aria-label="Launchers">
+                <!-- Launcher icons adapted from https://flowbite.com/icons/ -->
+                <a href="sms:" target="_blank" rel="noopener noreferrer" title="iMessage" aria-label="iMessage">
+                    <svg class="footer-svg" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="#fff"
+                        viewBox="0 0 24 24">
+                        <!-- Enhanced message bubbles with text indicators -->
+                        <path fill-rule="evenodd"
+                            d="M4 3a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h1v2a1 1 0 0 0 1.707.707L9.414 13H15a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1H4Z"
+                            clip-rule="evenodd" />
+                        <path fill-rule="evenodd"
+                            d="M8.023 17.215c.033-.03.066-.062.098-.094L10.243 15H15a3 3 0 0 0 3-3V8h2a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1h-1v2a1 1 0 0 1-1.707.707L14.586 18H9a1 1 0 0 1-.977-.785Z"
+                            clip-rule="evenodd" />
+                        <!-- Text lines in first bubble -->
+                        <line x1="6" y1="7" x2="13" y2="7" stroke="#333" stroke-width="0.8" stroke-linecap="round" />
+                        <line x1="6" y1="9" x2="11" y2="9" stroke="#333" stroke-width="0.8" stroke-linecap="round" />
+                        <!-- Text lines in second bubble -->
+                        <line x1="11" y1="14" x2="17" y2="14" stroke="#333" stroke-width="0.6" stroke-linecap="round" />
+                        <line x1="13" y1="16" x2="16" y2="16" stroke="#333" stroke-width="0.6" stroke-linecap="round" />
+                        <!-- Message indicators -->
+                        <circle cx="14" cy="6" r="0.8" fill="#007AFF" />
+                        <circle cx="18" cy="11" r="0.8" fill="#34C759" />
+                    </svg>
+                </a>
+                <a href="tel:" title="Call" aria-label="Call">
+                    <svg class="footer-svg" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="#fff"
+                        viewBox="0 0 24 24">
+                        <!-- Enhanced phone with signal waves -->
+                        <path
+                            d="M7.978 4a2.553 2.553 0 0 0-1.926.877C4.233 6.7 3.699 8.751 4.153 10.814c.44 1.995 1.778 3.893 3.456 5.572 1.68 1.679 3.577 3.018 5.57 3.459 2.062.456 4.115-.073 5.94-1.885a2.556 2.556 0 0 0 .001-3.861l-1.21-1.21a2.689 2.689 0 0 0-3.802 0l-.617.618a.806.806 0 0 1-1.14 0l-1.854-1.855a.807.807 0 0 1 0-1.14l.618-.62a2.692 2.692 0 0 0 0-3.803l-1.21-1.211A2.555 2.555 0 0 0 7.978 4Z" />
+                        <!-- Signal waves -->
+                        <path d="M16 8c1.5 1.5 1.5 3.5 0 5" stroke="#fff" stroke-width="1.5" stroke-linecap="round"
+                            fill="none" opacity="0.8" />
+                        <path d="M18 6c2.5 2.5 2.5 6.5 0 9" stroke="#fff" stroke-width="1.5" stroke-linecap="round"
+                            fill="none" opacity="0.6" />
+                        <path d="M20 4c3.5 3.5 3.5 9.5 0 13" stroke="#fff" stroke-width="1.5" stroke-linecap="round"
+                            fill="none" opacity="0.4" />
+                    </svg>
+                </a>
+                <a href="facetime:" title="FaceTime" aria-label="FaceTime">
+                    <svg class="footer-svg" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="#fff"
+                        viewBox="0 0 24 24">
+                        <!-- Enhanced video camera with lens details -->
+                        <path fill-rule="evenodd"
+                            d="M14 7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7Zm2 9.387 4.684 1.562A1 1 0 0 0 22 17V7a1 1 0 0 0-1.316-.949L16 7.613v8.774Z"
+                            clip-rule="evenodd" />
+                        <!-- Camera lens rings -->
+                        <circle cx="8" cy="12" r="3" stroke="#333" stroke-width="0.8" fill="none" />
+                        <circle cx="8" cy="12" r="2" stroke="#333" stroke-width="0.6" fill="none" />
+                        <circle cx="8" cy="12" r="1" fill="#333" />
+                        <!-- Lens reflection -->
+                        <circle cx="7" cy="11" r="0.8" fill="#fff" opacity="0.6" />
+                        <!-- Recording indicator -->
+                        <circle cx="5" cy="8" r="0.8" fill="#ff4444" />
+                    </svg>
+                </a>
+                <a href="#" title="Music" aria-label="Music">
+                    <svg class="footer-svg" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="#fff"
+                        viewBox="0 0 24 24">
+                        <!-- Enhanced music note with staff lines -->
+                        <path
+                            d="M18.6216 3.21667c.2391.1897.3784.47817.3784.78334V15.6667c0 .0412-.0025.0818-.0073.1218.0048.0698.0073.1404.0073.2115 0 1.6569-1.3431 3-3 3s-3-1.3431-3-3 1.3431-3 3-3c.3506 0 .6872.0602 1 .1707V9.2602l-8 1.8667V18l-.00001.0032C8.99824 19.6586 7.65577 21 6 21c-1.65685 0-3-1.3431-3-3s1.34315-3 3-3c.35064 0 .68722.0602 1 .1707V6.33334c0-.46474.32018-.86823.77277-.97384l9.99953-2.33321c.1486-.03477.3012-.03465.4467-.00201.1427.03202.2783.09532.3964.18752.0021.00162.0041.00324.0062.00487Z" />
+                        <!-- Staff lines -->
+                        <line x1="2" y1="8" x2="22" y2="8" stroke="#fff" stroke-width="0.5" opacity="0.4" />
+                        <line x1="2" y1="10" x2="22" y2="10" stroke="#fff" stroke-width="0.5" opacity="0.4" />
+                        <line x1="2" y1="12" x2="22" y2="12" stroke="#fff" stroke-width="0.5" opacity="0.4" />
+                        <line x1="2" y1="14" x2="22" y2="14" stroke="#fff" stroke-width="0.5" opacity="0.4" />
+                        <line x1="2" y1="16" x2="22" y2="16" stroke="#fff" stroke-width="0.5" opacity="0.4" />
+                        <!-- Additional notes -->
+                        <circle cx="20" cy="10" r="1" fill="#fff" opacity="0.7" />
+                        <circle cx="4" cy="14" r="0.8" fill="#fff" opacity="0.6" />
+                    </svg>
+                </a>
+                <a href="tiktok://" title="TikTok" aria-label="TikTok">
+                    <svg class="footer-svg" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none"
+                        viewBox="0 0 24 24">
+                        <!-- TikTok music note with enhanced design -->
+                        <path stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                            d="M12 16.5c0 1.3807-1.1193 2.5-2.5 2.5C8.11929 19 7 17.8807 7 16.5S8.11929 14 9.5 14c1.3807 0 2.5 1.1193 2.5 2.5Zm0 0V5c2.5 0 6 2.5 4.5 7" />
+                        <!-- Musical elements -->
+                        <circle cx="15" cy="8" r="1.5" stroke="#fff" stroke-width="1.5" fill="none" opacity="0.7" />
+                        <circle cx="17" cy="6" r="1" stroke="#fff" stroke-width="1" fill="none" opacity="0.5" />
+                        <!-- Rhythm lines -->
+                        <line x1="19" y1="5" x2="20" y2="4" stroke="#fff" stroke-width="1.5" stroke-linecap="round"
+                            opacity="0.6" />
+                        <line x1="19" y1="7" x2="20" y2="8" stroke="#fff" stroke-width="1.5" stroke-linecap="round"
+                            opacity="0.6" />
+                        <line x1="19" y1="9" x2="20" y2="10" stroke="#fff" stroke-width="1.5" stroke-linecap="round"
+                            opacity="0.6" />
+                    </svg>
+                </a>
+                <a href="https://radar.heffner.live" target="_blank" rel="noopener noreferrer" title="Weather Radar" aria-label="Weather Radar">
+                    <svg class="footer-svg" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="#fff"
+                        viewBox="0 0 24 24">
+                        <!-- Radar tower base -->
+                        <rect x="11" y="18" width="2" height="4" fill="#fff" />
+                        <rect x="10" y="20" width="4" height="2" fill="#fff" />
+                        <!-- Radar dish -->
+                        <ellipse cx="12" cy="16" rx="6" ry="2" fill="#fff" />
+                        <ellipse cx="12" cy="15" rx="6" ry="2" stroke="#fff" stroke-width="1" fill="none" />
+                        <!-- Radar sweeping beam -->
+                        <path d="M12 15 L18 9 A7 7 0 0 0 12 8 Z" fill="#fff" opacity="0.6" />
+                        <!-- Radar circles -->
+                        <circle cx="12" cy="8" r="3" stroke="#fff" stroke-width="0.8" fill="none" opacity="0.7" />
+                        <circle cx="12" cy="8" r="5" stroke="#fff" stroke-width="0.8" fill="none" opacity="0.5" />
+                        <circle cx="12" cy="8" r="7" stroke="#fff" stroke-width="0.8" fill="none" opacity="0.3" />
+                        <!-- Weather elements -->
+                        <circle cx="15" cy="5" r="1" fill="#fff" opacity="0.8" />
+                        <circle cx="9" cy="6" r="0.8" fill="#fff" opacity="0.6" />
+                        <circle cx="16" cy="10" r="0.6" fill="#fff" opacity="0.4" />
+                    </svg>
+                </a>
+            </nav>
+        </footer>
+        <script>
+            function initCarDrag() {
+                const car = document.getElementById('car');
+                if (!car) return;
+    
+                let dragging = false, offsetX = 0, offsetY = 0;
+    
+                function getPos(e) {
+                    if (e.touches) return { x: e.touches[0].clientX, y: e.touches[0].clientY };
+                    return { x: e.clientX, y: e.clientY };
+                }
+    
+                function dragStart(e) {
+                    dragging = true;
+                    car.classList.add('dragging');
+                    car.style.animation = 'none';
+                    const pos = getPos(e);
+                    offsetX = pos.x - car.offsetLeft;
+                    offsetY = pos.y - car.offsetTop;
+                    document.addEventListener('mousemove', dragMove);
+                    document.addEventListener('mouseup', dragEnd);
+                    document.addEventListener('touchmove', dragMove, { passive: false });
+                    document.addEventListener('touchend', dragEnd);
+                }
+    
+                function dragMove(e) {
+                    if (!dragging) return;
+                    e.preventDefault();
+                    const pos = getPos(e);
+                    let x = pos.x - offsetX;
+                    let y = pos.y - offsetY;
+                    const maxX = window.innerWidth - car.offsetWidth;
+                    const maxY = window.innerHeight - parseInt(getComputedStyle(document.documentElement).getPropertyValue('--footer-height')) - car.offsetHeight;
+                    x = Math.max(0, Math.min(x, maxX));
+                    y = Math.max(0, Math.min(y, maxY));
+                    car.style.left = x + 'px';
+                    car.style.top = y + 'px';
+                }
+    
+                function dragEnd() {
+                    if (!dragging) return;
+                    dragging = false;
+                    car.classList.remove('dragging');
+                    document.removeEventListener('mousemove', dragMove);
+                    document.removeEventListener('mouseup', dragEnd);
+                    document.removeEventListener('touchmove', dragMove);
+                    document.removeEventListener('touchend', dragEnd);
+    
+                    const x = car.offsetLeft;
+                    const y = car.offsetTop;
+                    const maxX = window.innerWidth - car.offsetWidth;
+                    const maxY = window.innerHeight - parseInt(getComputedStyle(document.documentElement).getPropertyValue('--footer-height')) - car.offsetHeight;
+                    const distances = [
+                        { edge: 'top', dist: y },
+                        { edge: 'right', dist: Math.abs(x - maxX) },
+                        { edge: 'bottom', dist: Math.abs(y - maxY) },
+                        { edge: 'left', dist: x }
+                    ];
+                    distances.sort((a, b) => a.dist - b.dist);
+                    const edge = distances[0].edge;
+                    let left = x, top = y, transform = '';
+                    switch (edge) {
+                        case 'top':
+                            left = Math.max(0, Math.min(x, maxX));
+                            top = 0;
+                            transform = 'rotate(0deg) scaleX(1)';
+                            break;
+                        case 'right':
+                            left = maxX;
+                            top = Math.max(0, Math.min(y, maxY));
+                            transform = 'rotate(90deg) scaleY(-1)';
+                            break;
+                        case 'bottom':
+                            left = Math.max(0, Math.min(x, maxX));
+                            top = maxY;
+                            transform = 'rotate(180deg) scaleY(-1)';
+                            break;
+                        case 'left':
+                            left = 0;
+                            top = Math.max(0, Math.min(y, maxY));
+                            transform = 'rotate(270deg) scaleY(-1)';
+                            break;
                     }
+                    car.style.left = left + 'px';
+                    car.style.top = top + 'px';
+                    car.style.transform = transform;
+    
+                    let percent = 0;
+                    if (edge === 'top') {
+                        percent = maxX === 0 ? 0 : (left / maxX) * 24;
+                    } else if (edge === 'right') {
+                        percent = maxY === 0 ? 24 : 24 + (top / maxY) * 25;
+                    } else if (edge === 'bottom') {
+                        percent = maxX === 0 ? 49 : 49 + ((maxX - left) / maxX) * 25;
+                    } else if (edge === 'left') {
+                        percent = maxY === 0 ? 74 : 74 + ((maxY - top) / maxY) * 25;
+                    }
+                    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                        car.style.animation = 'none';
+                        void car.offsetWidth;
+                        car.style.animation = 'drive-around 12s linear infinite';
+                        car.style.animationDelay = `-${percent * 0.12}s`;
+                    }
+                }
+    
+                car.addEventListener('mousedown', dragStart);
+                car.addEventListener('touchstart', dragStart, { passive: false });
+            }
+    
+            window.addEventListener('DOMContentLoaded', () => {
+                initCarDrag();
+            });
+        </script>
+    </body>
+    </html>
 
-                    window.addEventListener('DOMContentLoaded', () => {
-                        initCarDrag();
-                    });
-                </script>
-            </body>
-
-            </html>
   loops.html: |
     <!DOCTYPE html>
     <html lang="en">
-
+    
     <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>Weather Loops</title>
-      <meta name="description" content="Live weather loops: NWS radar and GOES-19 satellite imagery.">
-      <link rel="canonical" href="https://greg.heffner.live/loops.html">
-      <style>
-        body {
-          margin: 0;
-          display: flex;
-          flex-wrap: wrap;
-          height: 100vh;
-        }
-
-        .window {
-          flex: 1 1 50%;
-          min-width: 400px;
-          min-height: 300px;
-          box-sizing: border-box;
-          border: 2px solid #333;
-          overflow: hidden;
-        }
-
-        iframe,
-        img {
-          width: 100%;
-          height: 100%;
-          border: none;
-          display: block;
-        }
-
-        .window img {
-          object-fit: contain;
-        }
-      </style>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Weather Loops | Greg Heffner</title>
+        <meta name="description" content="Live weather dashboard: Ambient Weather station data, NWS Southeast radar, and GOES-19 satellite and lightning loops on a full-screen 2x2 grid.">
+        <link rel="canonical" href="https://greg.heffner.live/loops.html">
+        <meta property="og:title" content="Weather Loops | Greg Heffner">
+        <meta property="og:description" content="Live weather dashboard: Ambient Weather station data, NWS Southeast radar, and GOES-19 satellite and lightning loops on a full-screen 2x2 grid.">
+        <meta property="og:url" content="https://greg.heffner.live/loops.html">
+        <meta property="og:type" content="website">
+        <meta property="og:site_name" content="Greg Heffner">
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:title" content="Weather Loops | Greg Heffner">
+        <meta name="twitter:description" content="Live weather dashboard: Ambient Weather station data, NWS Southeast radar, and GOES-19 satellite and lightning loops on a full-screen 2x2 grid.">
+        <meta name="theme-color" content="#333">
+        <link rel="preconnect" href="https://ambientweather.net">
+        <link rel="preconnect" href="https://radar.weather.gov">
+        <link rel="preconnect" href="https://cdn.star.nesdis.noaa.gov">
+        <style>
+            body {
+                margin: 0;
+            }
+    
+            main {
+                display: flex;
+                flex-wrap: wrap;
+                height: 100vh;
+                height: 100dvh;
+                background: #000;
+            }
+    
+            h1 {
+                position: absolute;
+                width: 1px;
+                height: 1px;
+                clip-path: inset(50%);
+                overflow: hidden;
+                white-space: nowrap;
+            }
+    
+            .window {
+                flex: 1 1 50%;
+                min-width: 400px;
+                min-height: 300px;
+                box-sizing: border-box;
+                border: 2px solid #333;
+                overflow: hidden;
+            }
+    
+            iframe,
+            img {
+                width: 100%;
+                height: 100%;
+                border: none;
+                display: block;
+            }
+    
+            .window img {
+                object-fit: contain;
+            }
+        </style>
     </head>
-
+    
     <body>
-      <div class="window">
-        <iframe src="https://ambientweather.net/dashboard/10a8363ef8cd35a2e19f0e8fff9bafe3" title="Ambient Weather dashboard"></iframe>
-      </div>
-      <div class="window">
-        <img src="https://radar.weather.gov/ridge/standard/SOUTHEAST_loop.gif"
-          alt="Southeast loop">
-      </div>
-
-      <div class="window">
-        <img src="https://cdn.star.nesdis.noaa.gov/GOES19/ABI/SECTOR/ga/Sandwich/GOES19-GA-Sandwich-1000x1000.gif"
-          alt="Sandwich Image" loading="lazy" decoding="async">
-      </div>
-      <div class="window">
-        <img src="https://cdn.star.nesdis.noaa.gov/GOES19/GLM/CONUS/EXTENT3/GOES19-CONUS-EXTENT3-625x375.gif"
-          alt="GOES19 Image" loading="lazy" decoding="async">
-      </div>
+        <main>
+            <h1>Weather Loops</h1>
+            <section class="window" aria-label="Ambient Weather station dashboard">
+                <iframe src="https://ambientweather.net/dashboard/10a8363ef8cd35a2e19f0e8fff9bafe3" title="Ambient Weather live station dashboard"></iframe>
+            </section>
+            <section class="window" aria-label="NWS Southeast radar loop">
+                <img src="https://radar.weather.gov/ridge/standard/SOUTHEAST_loop.gif" alt="Animated NWS radar loop of the southeastern United States" decoding="async" referrerpolicy="no-referrer">
+            </section>
+            <section class="window" aria-label="GOES-19 Sandwich satellite loop">
+                <img src="https://cdn.star.nesdis.noaa.gov/GOES19/ABI/SECTOR/ga/Sandwich/GOES19-GA-Sandwich-1000x1000.gif" alt="GOES-19 Sandwich-enhancement satellite loop, Georgia sector" width="1000" height="1000" loading="lazy" decoding="async" referrerpolicy="no-referrer">
+            </section>
+            <section class="window" aria-label="GOES-19 GLM lightning loop">
+                <img src="https://cdn.star.nesdis.noaa.gov/GOES19/GLM/CONUS/EXTENT3/GOES19-CONUS-EXTENT3-625x375.gif" alt="GOES-19 GLM lightning extent loop over the continental United States" width="625" height="375" loading="lazy" decoding="async" referrerpolicy="no-referrer">
+            </section>
+        </main>
     </body>
-
     </html>
   traffic.html: |
     <!DOCTYPE html>
     <html lang="en">
-
+    
     <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>Traffic Cams</title>
-      <meta name="description" content="Explore real-time traffic conditions and camera feeds for Jacksonville, Florida.">
-      <link rel="canonical" href="https://greg.heffner.live/traffic.html">
-      <meta property="og:type" content="website">
-      <meta property="og:url" content="https://greg.heffner.live/traffic.html">
-      <meta property="og:title" content="Jacksonville, FL Traffic Cameras &amp; Live Map">
-      <meta property="og:description" content="Explore real-time traffic conditions and camera feeds for Jacksonville, Florida.">
-      <meta name="twitter:card" content="summary">
-      <meta name="twitter:title" content="Jacksonville, FL Traffic Cameras &amp; Live Map">
-      <meta name="twitter:description" content="Explore real-time traffic conditions and camera feeds for Jacksonville, Florida.">
-      <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
-      <style>
-        body {
-          margin: 0;
-          min-height: 100vh;
-          background: linear-gradient(120deg, #e0eafc 0%, #cfdef3 100%);
-          font-family: 'Roboto', Arial, sans-serif;
-          color: #222;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-        }
-
-        .container {
-          max-width: 900px;
-          width: 100%;
-          margin: 40px auto 0 auto;
-          background: #fff;
-          border-radius: 18px;
-          box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
-          padding: 32px 24px 24px 24px;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-        }
-
-        h1 {
-          font-size: 2.2rem;
-          font-weight: 700;
-          margin-bottom: 0.5em;
-          color: #1a4e8a;
-          letter-spacing: 1px;
-        }
-
-        .desc {
-          font-size: 1.1rem;
-          margin-bottom: 1.5em;
-          color: #444;
-          text-align: center;
-        }
-
-        .info {
-          font-size: 0.98rem;
-          color: #666;
-          margin-bottom: 1.2em;
-          text-align: center;
-        }
-
-        a {
-          color: #1a4e8a;
-          text-decoration: none;
-          font-weight: 500;
-          transition: color 0.2s;
-        }
-
-        a:hover {
-          color: #d64123;
-          text-decoration: underline;
-        }
-
-        .map-window {
-          width: 100%;
-          height: 600px;
-          border-radius: 12px;
-          overflow: hidden;
-          box-shadow: 0 4px 16px 0 rgba(31, 38, 135, 0.10);
-          margin-top: 18px;
-          background: #f5f7fa;
-          border: 1px solid #e0eafc;
-        }
-
-        @media (max-width: 700px) {
-          .container {
-            padding: 12px 2vw 18px 2vw;
-          }
-
-          .map-window {
-            height: 350px;
-          }
-
-          h1 {
-            font-size: 1.3rem;
-          }
-        }
-      </style>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Jacksonville, FL Traffic Cameras &amp; Live Map | Greg Heffner</title>
+        <meta name="description" content="Explore real-time traffic conditions and live camera feeds for Jacksonville, Florida — an embedded FL511 map with speeds, incidents, closures, and construction.">
+        <meta name="theme-color" content="#1a4e8a">
+        <link rel="canonical" href="https://greg.heffner.live/traffic.html">
+        <meta property="og:type" content="website">
+        <meta property="og:site_name" content="Greg Heffner">
+        <meta property="og:locale" content="en_US">
+        <meta property="og:url" content="https://greg.heffner.live/traffic.html">
+        <meta property="og:title" content="Jacksonville, FL Traffic Cameras &amp; Live Map">
+        <meta property="og:description" content="Explore real-time traffic conditions and live camera feeds for Jacksonville, Florida — an embedded FL511 map with speeds, incidents, closures, and construction.">
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:title" content="Jacksonville, FL Traffic Cameras &amp; Live Map">
+        <meta name="twitter:description" content="Explore real-time traffic conditions and live camera feeds for Jacksonville, Florida — an embedded FL511 map with speeds, incidents, closures, and construction.">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
+        <script type="application/ld+json">
+        {"@context":"https://schema.org","@type":"WebPage","name":"Jacksonville, FL Traffic Cameras & Live Map","description":"Explore real-time traffic conditions and live camera feeds for Jacksonville, Florida — an embedded FL511 map with speeds, incidents, closures, and construction.","url":"https://greg.heffner.live/traffic.html","isPartOf":{"@type":"WebSite","url":"https://greg.heffner.live/"}}
+        </script>
+        <style>
+            body {
+                margin: 0;
+                min-height: 100vh;
+                background: linear-gradient(120deg, #e0eafc 0%, #cfdef3 100%);
+                font-family: 'Roboto', Arial, sans-serif;
+                color: #222;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+    
+            .container {
+                max-width: 900px;
+                width: 100%;
+                margin: 40px auto 0 auto;
+                background: #fff;
+                border-radius: 18px;
+                box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+                padding: 32px 24px 24px 24px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+    
+            h1 {
+                font-size: 2.2rem;
+                font-weight: 700;
+                margin-bottom: 0.5em;
+                color: #1a4e8a;
+                letter-spacing: 1px;
+            }
+    
+            .desc {
+                font-size: 1.1rem;
+                margin-bottom: 1.5em;
+                color: #444;
+                text-align: center;
+            }
+    
+            .info {
+                font-size: 0.98rem;
+                color: #666;
+                margin-bottom: 1.2em;
+                text-align: center;
+            }
+    
+            .map-window {
+                width: 100%;
+                height: 600px;
+                border-radius: 12px;
+                overflow: hidden;
+                box-shadow: 0 4px 16px 0 rgba(31, 38, 135, 0.10);
+                margin-top: 18px;
+                background: #f5f7fa;
+                border: 1px solid #e0eafc;
+            }
+    
+            .map-window iframe {
+                border: 0;
+            }
+    
+            @media (max-width: 700px) {
+                .container {
+                    padding: 12px 2vw 18px 2vw;
+                }
+    
+                .map-window {
+                    height: 350px;
+                }
+    
+                h1 {
+                    font-size: 1.3rem;
+                }
+            }
+        </style>
     </head>
-
+    
     <body>
-      <div class="container">
-        <h1>Jacksonville, FL Traffic Cameras &amp; Live Map</h1>
-        <div class="desc">Explore real-time traffic conditions and camera feeds for Jacksonville, Florida.</div>
-        <div class="info">Click on camera icons to view live feeds, or use the map to check current traffic. <br>Some cameras may not be available or may require additional permissions.<br>Drive safe for your girls</div>
-        <div class="map-window">
-          <iframe title="Jacksonville FL Live Traffic Map"
-            src="https://fl511.com/map/EmbeddedMap?lat=30.3322&lng=-81.6557&zoom=11&layers=TrafficSpeeds,Closures,Incidents,RoadConditionIncident,Congestion,Construction,Cameras"
-            width="100%" height="100%" style="border:0" allowfullscreen></iframe>
-        </div>
-      </div>
+        <main class="container">
+            <h1>Jacksonville, FL Traffic Cameras &amp; Live Map</h1>
+            <p class="desc">Explore real-time traffic conditions and camera feeds for Jacksonville, Florida.</p>
+            <p class="info">Click on camera icons to view live feeds, or use the map to check current traffic. <br>Some cameras may not be available or may require additional permissions.<br>Drive safe for your girls</p>
+            <div class="map-window">
+                <iframe title="Jacksonville FL Live Traffic Map"
+                    src="https://fl511.com/map/EmbeddedMap?lat=30.3322&lng=-81.6557&zoom=11&layers=TrafficSpeeds,Closures,Incidents,RoadConditionIncident,Congestion,Construction,Cameras"
+                    width="100%" height="100%" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            </div>
+        </main>
     </body>
-
     </html>
