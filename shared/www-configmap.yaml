@@ -1245,15 +1245,14 @@ data:
         <meta name="twitter:description" content="PGP public key for Greg Heffner, with instructions to import the key and send an encrypted message.">
         <meta name="twitter:image" content="https://greg.heffner.live/image/photo/header.jpg">
 
+        <link rel="stylesheet" href="/image/assets/styles.css">
         <style>
-            body {
-                font-family: Arial, sans-serif;
-                margin: 20px;
-            }
             pre {
-                background-color: #f4f4f4;
+                background-color: var(--card-bg);
+                color: var(--text);
                 padding: 10px;
-                border: 1px solid #ddd;
+                border: 1px solid var(--card-border);
+                border-radius: 6px;
                 overflow-x: auto;
             }
             .section {
@@ -1334,25 +1333,16 @@ data:
         <meta name="twitter:title" content="GH - Pictures">
         <meta name="twitter:description" content="A personal collection of photos of Greg Heffner and the things he loves. To my girls: I love you with all my heart.">
         <title>GH - Pictures</title>
+        <link rel="stylesheet" href="/image/assets/styles.css">
         <style>
-            body {
-                margin: 0;
-                font-family: 'Trebuchet MS', sans-serif;
-                background-color: #282c34;
-                color: #ffffff;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-            }
-
             h1 {
                 margin: 20px 0;
-                font-size: 2.5em;
+                font-size: 2em;
             }
 
             .main-content {
                 display: grid;
-                grid-template-columns: repeat(4, 1fr);
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
                 gap: 15px;
                 width: 90%;
                 max-width: 1200px;
@@ -1371,6 +1361,13 @@ data:
                 justify-content: center;
                 align-items: center;
                 height: 300px; /* Fixed height for gallery items */
+                cursor: pointer;
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+            }
+
+            .gallery:hover {
+                transform: translateY(-4px);
+                box-shadow: 0 10px 24px rgba(0, 0, 0, 0.5);
             }
 
             .gallery img {
@@ -1403,6 +1400,67 @@ data:
                 opacity: 1;
             }
 
+            /* Captions always visible on touch devices (no hover) */
+            @media (hover: none) {
+                .desc {
+                    opacity: 1;
+                    background: rgba(0, 0, 0, 0.55);
+                }
+            }
+
+            /* Fade-rise on scroll (modern browsers; others show photos normally) */
+            @media (prefers-reduced-motion: no-preference) {
+                @supports (animation-timeline: view()) {
+                    .gallery {
+                        animation: fade-rise linear both;
+                        animation-timeline: view();
+                        animation-range: entry 0% entry 60%;
+                    }
+                    @keyframes fade-rise {
+                        from { opacity: 0; transform: translateY(24px); }
+                        to { opacity: 1; }
+                    }
+                }
+            }
+
+            @media (prefers-reduced-motion: reduce) {
+                .gallery, .gallery img, .desc {
+                    transition: none;
+                }
+                .gallery:hover, .gallery:hover img {
+                    transform: none;
+                }
+            }
+
+            /* Lightbox */
+            #lightbox {
+                border: none;
+                border-radius: 10px;
+                background: #000;
+                padding: 0;
+                max-width: 92vw;
+                max-height: 92vh;
+            }
+
+            #lightbox::backdrop {
+                background: rgba(0, 0, 0, 0.85);
+            }
+
+            #lightbox img {
+                display: block;
+                margin: 0 auto;
+                max-width: 90vw;
+                max-height: 84vh;
+                object-fit: contain;
+            }
+
+            #lightbox-caption {
+                color: #ffffff;
+                text-align: center;
+                padding: 10px;
+                font-size: 1em;
+            }
+
             /* Scrollbar styling */
             body::-webkit-scrollbar {
                 width: 10px;
@@ -1415,49 +1473,6 @@ data:
 
             body::-webkit-scrollbar-thumb:hover {
                 background: #777;
-            }
-            .navbar {
-                display: flex;
-                justify-content: flex-end;
-                width: 100%;
-                background-color: black !important;
-                font-family: 'trebuchet ms', sans-serif;
-                padding-right: 15px;
-                padding-left: 15px;
-            }
-
-            .navdiv {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-            }
-
-            .navbar li {
-                list-style: none;
-                display: inline-block;
-            }
-
-            .navbar li a {
-                color: white;
-                font-size: 18px;
-                font-weight: bold;
-                margin-right: 25px;
-                font-family: 'trebuchet ms', sans-serif;
-            }
-
-            .navbar button {
-                background-color: black;
-                margin-left: 10px;
-                border-radius: 10px;
-                padding: 10px;
-                width: 90px;
-            }
-
-            .navbar button a {
-                color: white;
-                font-weight: bold;
-                font-size: 15px;
-                font-family: 'trebuchet ms', sans-serif;
             }
         </style>
     </head>
@@ -1610,6 +1625,34 @@ data:
                 </div>
             </div>
         </div>
+
+        <dialog id="lightbox" aria-label="Photo viewer">
+            <img id="lightbox-img" src="" alt="">
+            <div id="lightbox-caption"></div>
+        </dialog>
+        <script>
+            (function () {
+                var dlg = document.getElementById('lightbox');
+                var img = document.getElementById('lightbox-img');
+                var cap = document.getElementById('lightbox-caption');
+                if (!dlg || !dlg.showModal) return; /* no dialog support: links keep default behavior */
+                document.querySelectorAll('.gallery').forEach(function (g) {
+                    var a = g.querySelector('a');
+                    var thumb = g.querySelector('img');
+                    var desc = g.querySelector('.desc');
+                    if (!a || !thumb) return;
+                    a.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        img.src = a.href;
+                        img.alt = thumb.alt;
+                        cap.textContent = desc ? desc.textContent : '';
+                        dlg.showModal();
+                    });
+                });
+                dlg.addEventListener('click', function () { dlg.close(); });
+                dlg.addEventListener('close', function () { img.src = ''; });
+            })();
+        </script>
     </body>
 
     </html>
