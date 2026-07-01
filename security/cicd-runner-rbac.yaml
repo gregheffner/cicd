@@ -1,0 +1,208 @@
+# security/cicd-runner-rbac.yaml
+# Least-privilege identity for the cicd self-hosted GitHub Actions runner
+# (K8-Primary). Replaces the kubernetes-admin kubeconfig the runner inherited.
+# Grants exactly what .github/workflows/ use today:
+#   soak-gate-promote:        prod reads (svc/pods/endpointslices/hpa/deploy,
+#                             rollout status, kubectl wait) + annotate the
+#                             shared-services Application (automation)
+#   cloudflared-weekly-update: rollout restart/status on cloudflared deploys
+#   delete-kubernetes-pods:   pod delete in its 7 selectable namespaces only
+# Token is created out-of-band (imperative Secret, never in git) — same
+# pattern as the ESO bootstrap token.
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: cicd-runner
+  namespace: automation
+automountServiceAccountToken: false
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: cicd-runner-prod
+  namespace: prod
+rules:
+  - apiGroups: [""]
+    resources: [services]
+    verbs: [get]
+  - apiGroups: [discovery.k8s.io]
+    resources: [endpointslices]
+    verbs: [get, list]
+  - apiGroups: [autoscaling]
+    resources: [horizontalpodautoscalers]
+    verbs: [get]
+  - apiGroups: [apps]
+    resources: [deployments]
+    verbs: [get, list, watch]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: cicd-runner-prod
+  namespace: prod
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: cicd-runner-prod
+subjects:
+  - kind: ServiceAccount
+    name: cicd-runner
+    namespace: automation
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: cicd-runner-cloudflared
+  namespace: cloudflared
+rules:
+  - apiGroups: [apps]
+    resources: [deployments]
+    verbs: [get, list, watch, patch]   # rollout restart = patch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: cicd-runner-cloudflared
+  namespace: cloudflared
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: cicd-runner-cloudflared
+subjects:
+  - kind: ServiceAccount
+    name: cicd-runner
+    namespace: automation
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: cicd-runner-argocd-refresh
+  namespace: automation
+rules:
+  - apiGroups: [argoproj.io]
+    resources: [applications]
+    verbs: [get, patch]   # annotate refresh=hard = patch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: cicd-runner-argocd-refresh
+  namespace: automation
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: cicd-runner-argocd-refresh
+subjects:
+  - kind: ServiceAccount
+    name: cicd-runner
+    namespace: automation
+---
+# Pod bounce for delete-kubernetes-pods. ClusterRole for reuse, but bound via
+# namespaced RoleBindings ONLY in the workflow's selectable namespaces —
+# deliberately NOT a ClusterRoleBinding.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: cicd-runner-pod-bounce
+rules:
+  - apiGroups: [""]
+    resources: [pods]
+    verbs: [get, list, watch, delete]   # watch also serves kubectl wait in prod
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: cicd-runner-pod-bounce
+  namespace: automation
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cicd-runner-pod-bounce
+subjects:
+  - kind: ServiceAccount
+    name: cicd-runner
+    namespace: automation
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: cicd-runner-pod-bounce
+  namespace: kubernetes-dashboard
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cicd-runner-pod-bounce
+subjects:
+  - kind: ServiceAccount
+    name: cicd-runner
+    namespace: automation
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: cicd-runner-pod-bounce
+  namespace: default
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cicd-runner-pod-bounce
+subjects:
+  - kind: ServiceAccount
+    name: cicd-runner
+    namespace: automation
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: cicd-runner-pod-bounce
+  namespace: prod
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cicd-runner-pod-bounce
+subjects:
+  - kind: ServiceAccount
+    name: cicd-runner
+    namespace: automation
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: cicd-runner-pod-bounce
+  namespace: radar
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cicd-runner-pod-bounce
+subjects:
+  - kind: ServiceAccount
+    name: cicd-runner
+    namespace: automation
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: cicd-runner-pod-bounce
+  namespace: kube-system
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cicd-runner-pod-bounce
+subjects:
+  - kind: ServiceAccount
+    name: cicd-runner
+    namespace: automation
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: cicd-runner-pod-bounce
+  namespace: kube-flannel
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cicd-runner-pod-bounce
+subjects:
+  - kind: ServiceAccount
+    name: cicd-runner
+    namespace: automation
