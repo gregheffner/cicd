@@ -14,7 +14,7 @@ spec:
     targetRevision: main
     path: security
     directory:
-      include: 'verify-nginx-signature.yaml'   # ONLY the ClusterPolicy, not the App YAMLs in this dir
+      include: '{verify-nginx-signature.yaml,cicd-runner-rbac.yaml}'   # policy + runner RBAC, NOT the App YAMLs in this dir
   destination:
     server: https://kubernetes.default.svc
     namespace: kyverno                          # ClusterPolicy is cluster-scoped; ns is just the App default
