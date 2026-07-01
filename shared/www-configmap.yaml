@@ -22,11 +22,9 @@ data:
         <meta name="description" content="Nerdsense is a blog by Greg Heffner, covering topics in technology, programming, and more. Easy to understand and fun!">
         <meta name="keywords" content="blog, tech, writeups">
         <meta name="language" content="English">
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <meta name="author" content="Greg Heffner">
         <meta name="robots" content="index, follow">
         <meta name="theme-color" content="#0d1117">
-        <meta name="background-color" content="#0d1117">
         <meta property="og:type" content="website">
         <meta property="og:title" content="Greg Heffner: Nerdsense">
         <meta property="og:description" content="Nerdsense is a blog by Greg Heffner, covering topics in technology, programming, and more. Easy to understand and fun!">
@@ -289,7 +287,7 @@ data:
             <h1>Nerdsense Tech Blogs</h1>
         </div>
         <div id="search-container">
-        <input type="text" id="search-input" placeholder="Search articles..." onkeypress="handleKeyPress(event)">
+        <input type="text" id="search-input" aria-label="Search articles" placeholder="Search articles..." onkeypress="handleKeyPress(event)">
         <button onclick="searchArticles()">Search</button>
         </div>
         <h2 class="visually-hidden">All blog posts</h2>
@@ -806,9 +804,9 @@ data:
                         <li><a href="#Article16-TryHackMe">TryHackMe: Command Line Confessions</a></li>
                         <li><a href="#Article15-DMRRadios">DMR Radios: Its giving radio-nerd vibes</a></li>
                         <li><a href="#Article9-Kubernetes">Kubernetes: 86 the Prime Rib</a></li>
-                        <li><a href="#Article39-AgenticMTTR">Machine-Speed Triage: Compressing MTTR with Claude Code Dynamic Workflows</a></li><br>
-                        <li><a href="#Article40-LetItBake">Patch Fast, But Let It Bake: Why Package Cooldowns Now Matter More Than Speed</a></li><br>
-                        <li><a href="#Article41-AgentSwarmHeal">Stop Babysitting Your Agent Swarms: The One-Time Setup That Heals a Stalled Workflow</a></li><br>
+                        <li><a href="#Article39-AgenticMTTR">Machine-Speed Triage: Compressing MTTR with Claude Code Dynamic Workflows</a></li>
+                        <li><a href="#Article40-LetItBake">Patch Fast, But Let It Bake: Why Package Cooldowns Now Matter More Than Speed</a></li>
+                        <li><a href="#Article41-AgentSwarmHeal">Stop Babysitting Your Agent Swarms: The One-Time Setup That Heals a Stalled Workflow</a></li>
                       </ul>
                     </nav>
                   </div>
@@ -846,8 +844,9 @@ data:
     </html>
   hidden: |
     <!doctype html>
-    <html>
+    <html lang="en">
     <head>
+        <meta charset="utf-8">
         <title>???</title>
     </head>
     <body>
@@ -876,7 +875,6 @@ data:
         <!-- App Title for iOS -->
         <meta name="apple-mobile-web-app-title" content="Nerdsense">
         <meta name="theme-color" content="#0d1117">
-        <meta name="background-color" content="#0d1117">
 
         <!-- Canonical URL -->
         <link rel="canonical" href="https://greg.heffner.live/">
@@ -886,8 +884,6 @@ data:
         <meta name="keywords" content="Python, web development, automation, cloud platforms, cybersecurity, machine learning, ethical hacking, kubernetes">
         <meta name="author" content="Greg Heffner">
         <meta name="robots" content="index, follow">
-        <meta name="language" content="English">
-        <meta http-equiv="content-language" content="en-US">
         <meta name="title" content="Greg Heffner - Father, Veteran, Tech Enthusiast">
 
         <!-- Open Graph Meta Tags -->
@@ -918,14 +914,13 @@ data:
             "jobTitle": "Father, Student, and IT Leader",
             "knowsAbout": ["Python", "Web Development", "Automation", "Cloud Platforms", "Cybersecurity", "Machine Learning", "Kubernetes"],
             "alumniOf": {
-            "@type": "Organization",
-            "name": "Heffner.live"
+                "@type": "Organization",
+                "name": "Heffner.live"
             },
             "dateModified": "2025-11-09"
         }
         </script>
-      
-      
+
     <style>
       :root {
         --bg: #0d1117;
@@ -998,27 +993,6 @@ data:
         font-family: var(--mono);
       }
 
-      .header-logo.left {
-        left: 5%;
-        display: flex;
-        width: 100%;
-        height: auto;
-        max-width: 100%;
-      }
-
-      .header-logo.right {
-        right: 5%;
-        display: flex;
-      }
-
-      .header-logo.left,
-      .header-logo.right {
-        position: absolute;
-        top: 10%;
-        max-width: 300px;
-        height: auto;
-      }
-
       .text-container {
         padding: 20px 0;
         width: 100%;
@@ -1030,23 +1004,23 @@ data:
         gap: 20px;
       }
 
-            .column {
-                width: calc(50% - 10px);
-                box-sizing: border-box;
-                background-color: var(--card-bg);
-                color: var(--text);
-                border: 1px solid var(--card-border);
-                border-radius: 10px;
-                padding: 20px;
-                max-width: 100%;
-                font-size: 1.05em;
-            }
-            .column h3, .column ul, .column li, .column p {
-                font-size: inherit;
-            }
-            .column h3 {
-                color: var(--green);
-            }
+      .column {
+        width: calc(50% - 10px);
+        box-sizing: border-box;
+        background-color: var(--card-bg);
+        color: var(--text);
+        border: 1px solid var(--card-border);
+        border-radius: 10px;
+        padding: 20px;
+        max-width: 100%;
+        font-size: 1.05em;
+      }
+      .column h3, .column ul, .column li, .column p {
+        font-size: inherit;
+      }
+      .column h3 {
+        color: var(--green);
+      }
 
       @media (prefers-reduced-motion: no-preference) {
         .column {
@@ -1088,19 +1062,6 @@ data:
         border-color: var(--accent);
       }
 
-      .corner-image {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        z-index: 1;
-        width: 30px;
-        height: 30px;
-        object-fit: cover;
-      }
-
-      .clear {
-        clear: both;
-      }
       .visually-hidden {
           position: absolute !important;
           width: 1px; height: 1px;
@@ -1117,24 +1078,23 @@ data:
       <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MQMRMNL5" height="0" width="0"
           style="display:none;visibility:hidden"></iframe></noscript>
       <nav class="navbar">
-                    <div class="navdiv">
-                      <ul>
-                        <li><a href="https://greg.heffner.live">Home</a></li>
-                        <li><a href="https://greg.heffner.live/photos.html">Photos</a></li>
-                        <li><a href="https://greg.heffner.live/blog.html">Blog</a></li>
-                        <li><a href="https://www.paypal.com/donate/?business=UK9DCMKFRTWRN&no_recurring=0&item_name=Thanks+for+supporting+the+page&currency_code=USD">Support</a></li>
-                        <li><a href="https://greg.heffner.live/privacy.html">Privacy Policy</a></li>
-                        <li><a href="mailto:main.plan5783@fastmail.com">Contact</a></li>
-                      </ul>
-                    </div>
-                  </nav> 
-            
+        <div class="navdiv">
+          <ul>
+            <li><a href="https://greg.heffner.live">Home</a></li>
+            <li><a href="https://greg.heffner.live/photos.html">Photos</a></li>
+            <li><a href="https://greg.heffner.live/blog.html">Blog</a></li>
+            <li><a href="https://www.paypal.com/donate/?business=UK9DCMKFRTWRN&no_recurring=0&item_name=Thanks+for+supporting+the+page&currency_code=USD">Support</a></li>
+            <li><a href="https://greg.heffner.live/privacy.html">Privacy Policy</a></li>
+            <li><a href="mailto:main.plan5783@fastmail.com">Contact</a></li>
+          </ul>
+        </div>
+      </nav>
+
       <div class="header">
         <h1 class="header-text">GREG HEFFNER</h1>
       </div>
       <div class="sub-header">A father, veteran, and nerd</div>
       <h2 class="visually-hidden">A website about learning</h2>
-      <!-- Im not the only nerd if youre reading this -->
       <div class="text-container">
         <div class="column">
             <br>
@@ -1190,15 +1150,15 @@ data:
                 <li><a href="https://medium.com/@light.pen8923"><b>Medium (Blog Re-Post)</b></a>: Mirror of my main blog for wider reach.</li>
             </ul>
             <h3>How My Site Runs</h3>
-                        <div style="margin-bottom: 8px; font-size: 1em;">
-                                This site is powered by Kubernetes and automated CI/CD pipelines using ArgoCD. Every update, deployment, and rollback is handled by GitOps workflows, so the site stays reliable and up to date with minimal manual work.<br><br>
-                                <b>Security & Maintenance:</b> I keep my site safe and up to date using my own <a href="https://galaxy.ansible.com/ui/repo/published/gregheffner/ubuntu_patching/">Ansible collection</a> for server hardening, and I run weekly patching actions to apply the latest security updates automatically. This means vulnerabilities are fixed quickly and configuration drift is kept in check.<br><br>
-                                <b>Automation & Transparency:</b> All automation, security scanning, and documentation for infrastructure changes are handled by open source tools and workflows. Every patch, deployment, and compliance check is tracked, auditable, and visible in my public repos—so you can see exactly how things run and stay secure. Explore the code and workflows here:
-                                <ul style="margin-top: 6px;">
-                                    <li><a href="https://galaxy.ansible.com/ui/repo/published/gregheffner/ubuntu_patching/">Ansible Collection (Server Hardening)</a></li>
-                                    <li><a href="https://github.com/gregheffner/ansible-collection-ubuntu-patching">Weekly Patching Actions</a></li>
-                                    <li><a href="https://github.com/GregHeffner/cicd">CI/CD & Infra as Code</a></li>
-                                </ul>
+            <div style="margin-bottom: 8px; font-size: 1em;">
+                This site is powered by Kubernetes and automated CI/CD pipelines using ArgoCD. Every update, deployment, and rollback is handled by GitOps workflows, so the site stays reliable and up to date with minimal manual work.<br><br>
+                <b>Security & Maintenance:</b> I keep my site safe and up to date using my own <a href="https://galaxy.ansible.com/ui/repo/published/gregheffner/ubuntu_patching/">Ansible collection</a> for server hardening, and I run weekly patching actions to apply the latest security updates automatically. This means vulnerabilities are fixed quickly and configuration drift is kept in check.<br><br>
+                <b>Automation & Transparency:</b> All automation, security scanning, and documentation for infrastructure changes are handled by open source tools and workflows. Every patch, deployment, and compliance check is tracked, auditable, and visible in my public repos—so you can see exactly how things run and stay secure. Explore the code and workflows here:
+                <ul style="margin-top: 6px;">
+                    <li><a href="https://galaxy.ansible.com/ui/repo/published/gregheffner/ubuntu_patching/">Ansible Collection (Server Hardening)</a></li>
+                    <li><a href="https://github.com/gregheffner/ansible-collection-ubuntu-patching">Weekly Patching Actions</a></li>
+                    <li><a href="https://github.com/GregHeffner/cicd">CI/CD & Infra as Code</a></li>
+                </ul>
             </div>
             <ul>
                 <li>GitOps: All changes are version-controlled and deployed automatically</li>
@@ -1234,6 +1194,8 @@ data:
     <!DOCTYPE html>
     <html lang="en">
     <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- Google tag (gtag.js) -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-SXLQTMF14Q"></script>
         <script>
@@ -1243,9 +1205,39 @@ data:
 
           gtag('config', 'G-SXLQTMF14Q');
         </script>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>PGP Public Key for Greg Heffner</title>
+
+        <!-- SEO Meta Tags -->
+        <meta name="description" content="PGP public key for Greg Heffner, with instructions to import the key and send an encrypted message.">
+
+        <!-- Canonical URL -->
+        <link rel="canonical" href="https://greg.heffner.live/pgp-key.html">
+
+        <!-- Favicons and Manifest -->
+        <link rel="apple-touch-icon" sizes="180x180" href="/image/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="96x96" href="/image/favicon-96x96.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/image/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/image/favicon-16x16.png">
+        <link rel="icon" href="/image/favicon.ico">
+        <link rel="manifest" href="/image/site.webmanifest">
+
+        <!-- Open Graph Meta Tags -->
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="PGP Public Key for Greg Heffner">
+        <meta property="og:description" content="PGP public key for Greg Heffner, with instructions to import the key and send an encrypted message.">
+        <meta property="og:url" content="https://greg.heffner.live/pgp-key.html">
+        <meta property="og:site_name" content="Greg Heffner">
+        <meta property="og:image" content="https://greg.heffner.live/image/photo/header.jpg">
+        <meta property="og:image:width" content="1200">
+        <meta property="og:image:height" content="630">
+        <meta property="og:locale" content="en_US">
+
+        <!-- Twitter Meta Tags -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="PGP Public Key for Greg Heffner">
+        <meta name="twitter:description" content="PGP public key for Greg Heffner, with instructions to import the key and send an encrypted message.">
+        <meta name="twitter:image" content="https://greg.heffner.live/image/photo/header.jpg">
+
         <style>
             body {
                 font-family: Arial, sans-serif;
@@ -1321,12 +1313,19 @@ data:
   photos.html: |-
     <!DOCTYPE html>
     <html lang="en">
-    
+
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <meta name="description"
-        content=" A personal collection of photos of Greg Heffner and the things he loves. To my girls: I love you with all my heart.">
+        <meta name="description" content=" A personal collection of photos of Greg Heffner and the things he loves. To my girls: I love you with all my heart.">
+        <link rel="canonical" href="https://greg.heffner.live/photos.html">
+        <meta property="og:title" content="GH - Pictures">
+        <meta property="og:description" content="A personal collection of photos of Greg Heffner and the things he loves. To my girls: I love you with all my heart.">
+        <meta property="og:url" content="https://greg.heffner.live/photos.html">
+        <meta property="og:type" content="website">
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:title" content="GH - Pictures">
+        <meta name="twitter:description" content="A personal collection of photos of Greg Heffner and the things he loves. To my girls: I love you with all my heart.">
         <title>GH - Pictures</title>
         <style>
             body {
@@ -1457,150 +1456,151 @@ data:
     </head>
 
     <body>
-          <nav class="navbar">
-                      <div class="navdiv">
-                        <ul>
-                          <li><a href="https://greg.heffner.live">Home</a></li>
-                          <li><a href="https://greg.heffner.live/photos.html">Photos</a></li>
-                          <li><a href="https://greg.heffner.live/blog.html">Blog</a></li>
-                          <li><a href="https://www.paypal.com/donate/?business=UK9DCMKFRTWRN&no_recurring=0&item_name=Thanks+for+supporting+the+page&currency_code=USD">Support</a>
-                          <li><a href="https://greg.heffner.live/privacy.html">Privacy Policy</a></li>
-                          <li><a href="mailto:main.plan5783@fastmail.com">Contact</a></li>
-                        </ul>
-                      </div>
-                    </nav>
+        <nav class="navbar">
+            <div class="navdiv">
+                <ul>
+                    <li><a href="https://greg.heffner.live">Home</a></li>
+                    <li><a href="https://greg.heffner.live/photos.html">Photos</a></li>
+                    <li><a href="https://greg.heffner.live/blog.html">Blog</a></li>
+                    <li><a href="https://www.paypal.com/donate/?business=UK9DCMKFRTWRN&no_recurring=0&item_name=Thanks+for+supporting+the+page&currency_code=USD">Support</a></li>
+                    <li><a href="https://greg.heffner.live/privacy.html">Privacy Policy</a></li>
+                    <li><a href="mailto:main.plan5783@fastmail.com">Contact</a></li>
+                </ul>
+            </div>
+        </nav>
         <div class="header">
-        <h1>Photos</h1>
-        <div class="main-content">
-            <div class="gallery">
-                <a target="_blank" href="image/photo/beach1.avif">
-                    <img src="image/photo/beach1.avif" alt="Jax Beach Pier" title="Favorite Fishing Spot">
-                </a>
-                <div class="desc">Jax Beach Pier</div>
-            </div>
+            <h1>Photos</h1>
+            <div class="main-content">
+                <div class="gallery">
+                    <a target="_blank" href="image/photo/beach1.avif" rel="noopener noreferrer">
+                        <img src="image/photo/beach1.avif" alt="Jax Beach Pier" title="Favorite Fishing Spot">
+                    </a>
+                    <div class="desc">Jax Beach Pier</div>
+                </div>
 
-            <div class="gallery">
-                <a target="_blank" href="image/photo/beach4.avif">
-                    <img src="image/photo/beach4.avif" alt="The Girls" title="We go here to think">
-                </a>
-                <div class="desc">My girls</div>
-            </div>
+                <div class="gallery">
+                    <a target="_blank" href="image/photo/beach4.avif" rel="noopener noreferrer">
+                        <img src="image/photo/beach4.avif" alt="The Girls" title="We go here to think">
+                    </a>
+                    <div class="desc">My girls</div>
+                </div>
 
-            <div class="gallery">
-                <a target="_blank" href="image/photo/beach2.avif">
-                    <img src="image/photo/beach2.avif" alt="Jax Beach North" title="Looking North from Pier">
-                </a>
-                <div class="desc">Jax Beach North</div>
-            </div>
+                <div class="gallery">
+                    <a target="_blank" href="image/photo/beach2.avif" rel="noopener noreferrer">
+                        <img src="image/photo/beach2.avif" alt="Jax Beach North" title="Looking North from Pier">
+                    </a>
+                    <div class="desc">Jax Beach North</div>
+                </div>
 
-            <div class="gallery">
-                <a target="_blank" href="image/photo/beach3.avif">
-                    <img src="image/photo/beach3.avif" alt="Jax Beach" title="Overlooking the Ocean">
-                </a>
-                <div class="desc">Jax Beach 2024</div>
-            </div>
+                <div class="gallery">
+                    <a target="_blank" href="image/photo/beach3.avif" rel="noopener noreferrer">
+                        <img src="image/photo/beach3.avif" alt="Jax Beach" title="Overlooking the Ocean">
+                    </a>
+                    <div class="desc">Jax Beach 2024</div>
+                </div>
 
-            <div class="gallery">
-                <a target="_blank" href="image/photo/bandg.avif">
-                    <img src="image/photo/bandg.avif" alt="My youngest and I" title="My youngest and I 2024">
-                </a>
-                <div class="desc">My youngest and I</div>
-            </div>
+                <div class="gallery">
+                    <a target="_blank" href="image/photo/bandg.avif" rel="noopener noreferrer">
+                        <img src="image/photo/bandg.avif" alt="My youngest and I" title="My youngest and I 2024" loading="lazy" decoding="async">
+                    </a>
+                    <div class="desc">My youngest and I</div>
+                </div>
 
-            <div class="gallery">
-                <a target="_blank" href="image/photo/gandp.avif">
-                    <img src="image/photo/gandp.avif" alt="My oldest and I" title="Lunch Date">
-                </a>
-                <div class="desc">My oldest and I</div>
-            </div>
+                <div class="gallery">
+                    <a target="_blank" href="image/photo/gandp.avif" rel="noopener noreferrer">
+                        <img src="image/photo/gandp.avif" alt="My oldest and I" title="Lunch Date" loading="lazy" decoding="async">
+                    </a>
+                    <div class="desc">My oldest and I</div>
+                </div>
 
-            <div class="gallery">
-                <a target="_blank" href="image/photo/fam.avif">
-                    <img src="image/photo/fam.avif" alt="The Family 2024" title="P Bday 2024">
-                </a>
-                <div class="desc">The Family 2024</div>
-            </div>
+                <div class="gallery">
+                    <a target="_blank" href="image/photo/fam.avif" rel="noopener noreferrer">
+                        <img src="image/photo/fam.avif" alt="The Family 2024" title="P Bday 2024" loading="lazy" decoding="async">
+                    </a>
+                    <div class="desc">The Family 2024</div>
+                </div>
 
-            <div class="gallery">
-                <a target="_blank" href="image/photo/thedogs.avif">
-                    <img src="image/photo/thedogs.avif" alt="The pups" title="The pups 2024">
-                </a>
-                <div class="desc">The pups</div>
-            </div>
+                <div class="gallery">
+                    <a target="_blank" href="image/photo/thedogs.avif" rel="noopener noreferrer">
+                        <img src="image/photo/thedogs.avif" alt="The pups" title="The pups 2024" loading="lazy" decoding="async">
+                    </a>
+                    <div class="desc">The pups</div>
+                </div>
 
-            <div class="gallery">
-                <a target="_blank" href="image/photo/backyard.avif">
-                    <img src="image/photo/backyard.avif" alt="The backyard" title="The backyard">
-                </a>
-                <div class="desc">The backyard aka Thinking Place</div>
-            </div>
+                <div class="gallery">
+                    <a target="_blank" href="image/photo/backyard.avif" rel="noopener noreferrer">
+                        <img src="image/photo/backyard.avif" alt="The backyard" title="The backyard" loading="lazy" decoding="async">
+                    </a>
+                    <div class="desc">The backyard aka Thinking Place</div>
+                </div>
 
-            <div class="gallery">
-                <a target="_blank" href="image/photo/night.avif">
-                    <img src="image/photo/night.avif" alt="The backyard again" title="Night time">
-                </a>
-                <div class="desc">The backyard at night</div>
-            </div>
+                <div class="gallery">
+                    <a target="_blank" href="image/photo/night.avif" rel="noopener noreferrer">
+                        <img src="image/photo/night.avif" alt="The backyard again" title="Night time" loading="lazy" decoding="async">
+                    </a>
+                    <div class="desc">The backyard at night</div>
+                </div>
 
-            <div class="gallery">
-                <a target="_blank" href="image/photo/backyardnight.avif">
-                    <img src="image/photo/backyardnight.avif" alt="Water Puppies" title="Water Puppies">
-                </a>
-                <div class="desc">Water Puppies</div>
-            </div>
+                <div class="gallery">
+                    <a target="_blank" href="image/photo/backyardnight.avif" rel="noopener noreferrer">
+                        <img src="image/photo/backyardnight.avif" alt="Water Puppies" title="Water Puppies" loading="lazy" decoding="async">
+                    </a>
+                    <div class="desc">Water Puppies</div>
+                </div>
 
-            <div class="gallery">
-                <a target="_blank" href="image/photo/hurricane2024.avif">
-                    <img src="image/photo/hurricane2024.avif" alt="Hurricane Pizza 2024" title="Brick Oven Pizza">
-                </a>
-                <div class="desc">Pizza during Hurricane Debbie 2024</div>
-            </div>
+                <div class="gallery">
+                    <a target="_blank" href="image/photo/hurricane2024.avif" rel="noopener noreferrer">
+                        <img src="image/photo/hurricane2024.avif" alt="Hurricane Pizza 2024" title="Brick Oven Pizza" loading="lazy" decoding="async">
+                    </a>
+                    <div class="desc">Pizza during Hurricane Debbie 2024</div>
+                </div>
 
-            <div class="gallery">
-                <a target="_blank" href="image/photo/family2024.avif">
-                    <img src="image/photo/family2024.avif" alt="Family time 2024" title="Family at the mall">
-                </a>
-                <div class="desc">Family at the Mall 2024</div>
-            </div>
+                <div class="gallery">
+                    <a target="_blank" href="image/photo/family2024.avif" rel="noopener noreferrer">
+                        <img src="image/photo/family2024.avif" alt="Family time 2024" title="Family at the mall" loading="lazy" decoding="async">
+                    </a>
+                    <div class="desc">Family at the Mall 2024</div>
+                </div>
 
-            <div class="gallery">
-                <a target="_blank" href="image/photo/gregselfie.avif">
-                    <img src="image/photo/gregselfie.avif" alt="Greg 2024" title="get off my face lol">
-                </a>
-                <div class="desc">It was a good day</div>
-            </div>
+                <div class="gallery">
+                    <a target="_blank" href="image/photo/gregselfie.avif" rel="noopener noreferrer">
+                        <img src="image/photo/gregselfie.avif" alt="Greg 2024" title="get off my face lol" loading="lazy" decoding="async">
+                    </a>
+                    <div class="desc">It was a good day</div>
+                </div>
 
-            <div class="gallery">
-                <a target="_blank" href="image/photo/bselfie.avif">
-                    <img src="image/photo/bselfie.avif" alt="B 2024" title="BBQ Date">
-                </a>
-                <div class="desc">BBQ Date</div>
-            </div>
+                <div class="gallery">
+                    <a target="_blank" href="image/photo/bselfie.avif" rel="noopener noreferrer">
+                        <img src="image/photo/bselfie.avif" alt="B 2024" title="BBQ Date" loading="lazy" decoding="async">
+                    </a>
+                    <div class="desc">BBQ Date</div>
+                </div>
 
-            <div class="gallery">
-                <a target="_blank" href="image/photo/psenior.avif">
-                    <img src="image/photo/psenior.avif" alt="P 2025 Grad" title="P 2025 Grad">
-                </a>
-                <div class="desc">P 2025 Grad</div>
-            </div>
+                <div class="gallery">
+                    <a target="_blank" href="image/photo/psenior.avif" rel="noopener noreferrer">
+                        <img src="image/photo/psenior.avif" alt="P 2025 Grad" title="P 2025 Grad" loading="lazy" decoding="async">
+                    </a>
+                    <div class="desc">P 2025 Grad</div>
+                </div>
 
-            <div class="gallery">
-                <a target="_blank" href="image/photo/aprilbackyard.avif">
-                    <img src="image/photo/aprilbackyard.avif" alt="Backyard Nights" title="Nights 2025">
-                </a>
-                <div class="desc">Backyard Nights</div>
-            </div>
-            <div class="gallery">
-                <a target="_blank" href="image/photo/defcon33.avif">
-                    <img src="image/photo/defcon33.avif" alt="DEFCON 2025" title="DEFCON 2025">
-                </a>
-                <div class="desc">DEFCON 2025</div>
-            </div>
-            <div class="gallery">
-                <a target="_blank" href="image/photo/lizardhunters.jpg">
-                    <img src="image/photo/lizardhunters.jpg" alt="Lizard Hunters" title="Lizard Hunters">
-                </a>
-                <div class="desc">Lizard Hunters</div>
+                <div class="gallery">
+                    <a target="_blank" href="image/photo/aprilbackyard.avif" rel="noopener noreferrer">
+                        <img src="image/photo/aprilbackyard.avif" alt="Backyard Nights" title="Nights 2025" loading="lazy" decoding="async">
+                    </a>
+                    <div class="desc">Backyard Nights</div>
+                </div>
+                <div class="gallery">
+                    <a target="_blank" href="image/photo/defcon33.avif" rel="noopener noreferrer">
+                        <img src="image/photo/defcon33.avif" alt="DEFCON 2025" title="DEFCON 2025" loading="lazy" decoding="async">
+                    </a>
+                    <div class="desc">DEFCON 2025</div>
+                </div>
+                <div class="gallery">
+                    <a target="_blank" href="image/photo/lizardhunters.jpg" rel="noopener noreferrer">
+                        <img src="image/photo/lizardhunters.jpg" alt="Lizard Hunters" title="Lizard Hunters" loading="lazy" decoding="async">
+                    </a>
+                    <div class="desc">Lizard Hunters</div>
+                </div>
             </div>
         </div>
     </body>
@@ -1608,8 +1608,8 @@ data:
     </html>
   privacy.html: |
     <!DOCTYPE html>
-      <html lang="en">
-         <head>
+    <html lang="en">
+      <head>
             <script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="6a06e0ff-3af4-42b9-ab66-dd32f9e600e0" data-blockingmode="auto" type="text/javascript"></script>
             <!-- Google tag (gtag.js) -->
             <script async src="https://www.googletagmanager.com/gtag/js?id=G-SXLQTMF14Q"></script>
@@ -1636,13 +1636,9 @@ data:
                     y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
                 })(window, document, "clarity", "script", "nry25es3go");
             </script>
-            
-            
             <script async
                     src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3941951641805897"
               crossorigin="anonymous"> </script>
-
-
               <script async
               src="https://fundingchoicesmessages.google.com/i/pub-3941951641805897?ers=1"
               nonce="drPCtL_hPnvLGFPUGtHsFQ"></script> <script
@@ -1663,10 +1659,8 @@ data:
                   signalGooglefcPresent();
               })();  
               </script>
-
               <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3941951641805897"
      crossorigin="anonymous"></script>
-
         <title>Privacy Policy</title>
         <meta name="title" content="Privacy Policy for the site">
         <meta name="description"
@@ -1734,11 +1728,11 @@ data:
               <p> By email: wise.home2846@fastmail.com </p>
           </section>
       </body>
-      </html> 
+    </html>
   robots.txt: |
     Sitemap: https://greg.heffner.live/sitemap.xml
     User-agent: *
-    Disallow: 
+    Disallow:
   sitemap.xml: |
     <?xml version="1.0" encoding="UTF-8"?>
     <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -1965,7 +1959,7 @@ data:
     <priority>1.0</priority>
     </url>
     <url>
-    <loc>https://greg.heffner.live/image/pages/2025/Jan/actioncheck.html</loc>
+    <loc>https://greg.heffner.live/image/pages/2026/Jan/actioncheck.html</loc>
     <lastmod>2026-01-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
@@ -2022,6 +2016,14 @@ data:
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
                 <title>2026 Mustang Dark Horse</title>
                 <meta name="description" content="2026 Mustang Dark Horse quick links" />
+                <link rel="canonical" href="https://greg.heffner.live/CarPlay.html">
+                <meta property="og:type" content="website">
+                <meta property="og:url" content="https://greg.heffner.live/CarPlay.html">
+                <meta property="og:title" content="2026 Mustang Dark Horse">
+                <meta property="og:description" content="2026 Mustang Dark Horse quick links">
+                <meta name="twitter:card" content="summary">
+                <meta name="twitter:title" content="2026 Mustang Dark Horse">
+                <meta name="twitter:description" content="2026 Mustang Dark Horse quick links">
                 <style>
                     html,
                     body {
@@ -2507,7 +2509,7 @@ data:
                 </div>
                 <header>
                     <div class="mustang-header">
-                        <div class="hero-card" aria-label="2026 Mustang Dark Horse">
+                        <div class="hero-card" role="img" aria-label="2026 Mustang Dark Horse">
                             <div class="hero-inner">
                                 <div class="hero-media" aria-hidden="true">
                                     <img class="hero-car" src="image/photo/DarkHorse.png" alt="" loading="lazy" decoding="async">
@@ -2590,8 +2592,8 @@ data:
 
                                                         -->
 
-                        <a href="sms:" target="_blank" rel="noopener noreferrer" title="iMessage">
-                            <svg class="footer-svg" xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="#fff"
+                        <a href="sms:" target="_blank" rel="noopener noreferrer" title="iMessage" aria-label="iMessage">
+                            <svg class="footer-svg" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="#fff"
                                 viewBox="0 0 24 24">
                                 <!-- Enhanced message bubbles with text indicators -->
                                 <path fill-rule="evenodd"
@@ -2611,8 +2613,8 @@ data:
                                 <circle cx="18" cy="11" r="0.8" fill="#34C759" />
                             </svg>
                         </a>
-                        <a href="tel:" title="Call">
-                            <svg class="footer-svg" xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="#fff"
+                        <a href="tel:" title="Call" aria-label="Call">
+                            <svg class="footer-svg" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="#fff"
                                 viewBox="0 0 24 24">
                                 <!-- Enhanced phone with signal waves -->
                                 <path
@@ -2626,8 +2628,8 @@ data:
                                     fill="none" opacity="0.4" />
                             </svg>
                         </a>
-                        <a href="facetime:" title="FaceTime">
-                            <svg class="footer-svg" xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="#fff"
+                        <a href="facetime:" title="FaceTime" aria-label="FaceTime">
+                            <svg class="footer-svg" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="#fff"
                                 viewBox="0 0 24 24">
                                 <!-- Enhanced video camera with lens details -->
                                 <path fill-rule="evenodd"
@@ -2643,8 +2645,8 @@ data:
                                 <circle cx="5" cy="8" r="0.8" fill="#ff4444" />
                             </svg>
                         </a>
-                        <a href="#" title="Music">
-                            <svg class="footer-svg" xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="#fff"
+                        <a href="#" title="Music" aria-label="Music">
+                            <svg class="footer-svg" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="#fff"
                                 viewBox="0 0 24 24">
                                 <!-- Enhanced music note with staff lines -->
                                 <path
@@ -2660,8 +2662,8 @@ data:
                                 <circle cx="4" cy="14" r="0.8" fill="#fff" opacity="0.6" />
                             </svg>
                         </a>
-                        <a href="tiktok://" title="TikTok">
-                            <svg class="footer-svg" xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none"
+                        <a href="tiktok://" title="TikTok" aria-label="TikTok">
+                            <svg class="footer-svg" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none"
                                 viewBox="0 0 24 24">
                                 <!-- TikTok music note with enhanced design -->
                                 <path stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
@@ -2678,8 +2680,8 @@ data:
                                     opacity="0.6" />
                             </svg>
                         </a>
-                        <a href="https://radar.heffner.live" target="_blank" rel="noopener noreferrer" title="Weather Radar">
-                            <svg class="footer-svg" xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="#fff"
+                        <a href="https://radar.heffner.live" target="_blank" rel="noopener noreferrer" title="Weather Radar" aria-label="Weather Radar">
+                            <svg class="footer-svg" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="#fff"
                                 viewBox="0 0 24 24">
                                 <!-- Radar tower base -->
                                 <rect x="11" y="18" width="2" height="4" fill="#fff" />
@@ -2699,8 +2701,8 @@ data:
                                 <circle cx="16" cy="10" r="0.6" fill="#fff" opacity="0.4" />
                             </svg>
                         </a>
-                        <a href="https://search.heffner.live" target="_blank" rel="noopener noreferrer" title="Web Search">
-                            <svg class="footer-svg" xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="#fff"
+                        <a href="https://search.heffner.live" target="_blank" rel="noopener noreferrer" title="Web Search" aria-label="Web Search">
+                            <svg class="footer-svg" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="#fff"
                                 viewBox="0 0 24 24">
                                 <!-- Enhanced magnifying glass with lens reflection -->
                                 <circle cx="10" cy="10" r="6.5" stroke="#fff" stroke-width="2" fill="none" />
@@ -2713,8 +2715,8 @@ data:
                                 <circle cx="10" cy="13" r="0.8" fill="#fff" />
                             </svg>
                         </a>
-                        <a href="https://ip-analysis.heffner.live" target="_blank" rel="noopener noreferrer" title="IP Analysis">
-                            <svg class="footer-svg" xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="#fff"
+                        <a href="https://ip-analysis.heffner.live" target="_blank" rel="noopener noreferrer" title="IP Analysis" aria-label="IP Analysis">
+                            <svg class="footer-svg" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="#fff"
                                 viewBox="0 0 24 24">
                                 <!-- Network globe with connection points -->
                                 <circle cx="12" cy="12" r="9" stroke="#fff" stroke-width="1.5" fill="none" />
@@ -2850,171 +2852,180 @@ data:
 
             </html>
   loops.html: |
-        <!DOCTYPE html>
-          <html lang="en">
+    <!DOCTYPE html>
+    <html lang="en">
 
-          <head>
-              <meta charset="UTF-8">
-              <title>Weather Loops</title>
-              <style>
-                  body {
-                      margin: 0;
-                      display: flex;
-                      flex-wrap: wrap;
-                      height: 100vh;
-                  }
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>Weather Loops</title>
+      <meta name="description" content="Live weather loops: NWS radar and GOES-19 satellite imagery.">
+      <link rel="canonical" href="https://greg.heffner.live/loops.html">
+      <style>
+        body {
+          margin: 0;
+          display: flex;
+          flex-wrap: wrap;
+          height: 100vh;
+        }
 
-                  .window {
-                      flex: 1 1 50%;
-                      min-width: 400px;
-                      min-height: 300px;
-                      box-sizing: border-box;
-                      border: 2px solid #333;
-                      overflow: hidden;
-                  }
+        .window {
+          flex: 1 1 50%;
+          min-width: 400px;
+          min-height: 300px;
+          box-sizing: border-box;
+          border: 2px solid #333;
+          overflow: hidden;
+        }
 
-                  iframe,
-                  img {
-                      width: 100%;
-                      height: 100%;
-                      border: none;
-                      display: block;
-                  }
+        iframe,
+        img {
+          width: 100%;
+          height: 100%;
+          border: none;
+          display: block;
+        }
 
-                  .window img {
-                      width: 100%;
-                      height: 100%;
-                      object-fit: contain;
-                      display: block;
-                  }
-              </style>
-          </head>
+        .window img {
+          object-fit: contain;
+        }
+      </style>
+    </head>
 
-          <body>
-              <div class="window">
-                  <iframe src="https://ambientweather.net/dashboard/10a8363ef8cd35a2e19f0e8fff9bafe3"></iframe>
-              </div>
-              <div class="window">
-                  <img src="https://radar.weather.gov/ridge/standard/SOUTHEAST_loop.gif"
-                      alt="Southeast loop">        
-              </div>
+    <body>
+      <div class="window">
+        <iframe src="https://ambientweather.net/dashboard/10a8363ef8cd35a2e19f0e8fff9bafe3" title="Ambient Weather dashboard"></iframe>
+      </div>
+      <div class="window">
+        <img src="https://radar.weather.gov/ridge/standard/SOUTHEAST_loop.gif"
+          alt="Southeast loop">
+      </div>
 
-              <div class="window">
-                  <img src="https://cdn.star.nesdis.noaa.gov/GOES19/ABI/SECTOR/ga/Sandwich/GOES19-GA-Sandwich-1000x1000.gif"
-                      alt="Sandwich Image">        
-              </div>
-              <div class="window">
-                  <img src="https://cdn.star.nesdis.noaa.gov/GOES19/GLM/CONUS/EXTENT3/GOES19-CONUS-EXTENT3-625x375.gif"
-                      alt="GOES19 Image">
-              </div>
-          </body>
+      <div class="window">
+        <img src="https://cdn.star.nesdis.noaa.gov/GOES19/ABI/SECTOR/ga/Sandwich/GOES19-GA-Sandwich-1000x1000.gif"
+          alt="Sandwich Image" loading="lazy" decoding="async">
+      </div>
+      <div class="window">
+        <img src="https://cdn.star.nesdis.noaa.gov/GOES19/GLM/CONUS/EXTENT3/GOES19-CONUS-EXTENT3-625x375.gif"
+          alt="GOES19 Image" loading="lazy" decoding="async">
+      </div>
+    </body>
 
-          </html>
+    </html>
   traffic.html: |
-        <!DOCTYPE html>
-            <html lang="en">
+    <!DOCTYPE html>
+    <html lang="en">
 
-            <head>
-              <meta charset="UTF-8">
-              <title>Traffic Cams</title>
-              <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
-              <style>
-                body {
-                  margin: 0;
-                  min-height: 100vh;
-                  background: linear-gradient(120deg, #e0eafc 0%, #cfdef3 100%);
-                  font-family: 'Roboto', Arial, sans-serif;
-                  color: #222;
-                  display: flex;
-                  flex-direction: column;
-                  align-items: center;
-                }
+    <head>
+      <meta charset="UTF-8">
+      <title>Traffic Cams</title>
+      <meta name="description" content="Explore real-time traffic conditions and camera feeds for Jacksonville, Florida.">
+      <link rel="canonical" href="https://greg.heffner.live/traffic.html">
+      <meta property="og:type" content="website">
+      <meta property="og:url" content="https://greg.heffner.live/traffic.html">
+      <meta property="og:title" content="Jacksonville, FL Traffic Cameras &amp; Live Map">
+      <meta property="og:description" content="Explore real-time traffic conditions and camera feeds for Jacksonville, Florida.">
+      <meta name="twitter:card" content="summary">
+      <meta name="twitter:title" content="Jacksonville, FL Traffic Cameras &amp; Live Map">
+      <meta name="twitter:description" content="Explore real-time traffic conditions and camera feeds for Jacksonville, Florida.">
+      <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
+      <style>
+        body {
+          margin: 0;
+          min-height: 100vh;
+          background: linear-gradient(120deg, #e0eafc 0%, #cfdef3 100%);
+          font-family: 'Roboto', Arial, sans-serif;
+          color: #222;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
 
-                .container {
-                  max-width: 900px;
-                  width: 100%;
-                  margin: 40px auto 0 auto;
-                  background: #fff;
-                  border-radius: 18px;
-                  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
-                  padding: 32px 24px 24px 24px;
-                  display: flex;
-                  flex-direction: column;
-                  align-items: center;
-                }
+        .container {
+          max-width: 900px;
+          width: 100%;
+          margin: 40px auto 0 auto;
+          background: #fff;
+          border-radius: 18px;
+          box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+          padding: 32px 24px 24px 24px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
 
-                h1 {
-                  font-size: 2.2rem;
-                  font-weight: 700;
-                  margin-bottom: 0.5em;
-                  color: #1a4e8a;
-                  letter-spacing: 1px;
-                }
+        h1 {
+          font-size: 2.2rem;
+          font-weight: 700;
+          margin-bottom: 0.5em;
+          color: #1a4e8a;
+          letter-spacing: 1px;
+        }
 
-                .desc {
-                  font-size: 1.1rem;
-                  margin-bottom: 1.5em;
-                  color: #444;
-                  text-align: center;
-                }
+        .desc {
+          font-size: 1.1rem;
+          margin-bottom: 1.5em;
+          color: #444;
+          text-align: center;
+        }
 
-                .info {
-                  font-size: 0.98rem;
-                  color: #666;
-                  margin-bottom: 1.2em;
-                  text-align: center;
-                }
+        .info {
+          font-size: 0.98rem;
+          color: #666;
+          margin-bottom: 1.2em;
+          text-align: center;
+        }
 
-                a {
-                  color: #1a4e8a;
-                  text-decoration: none;
-                  font-weight: 500;
-                  transition: color 0.2s;
-                }
+        a {
+          color: #1a4e8a;
+          text-decoration: none;
+          font-weight: 500;
+          transition: color 0.2s;
+        }
 
-                a:hover {
-                  color: #d64123;
-                  text-decoration: underline;
-                }
+        a:hover {
+          color: #d64123;
+          text-decoration: underline;
+        }
 
-                .map-window {
-                  width: 100%;
-                  height: 600px;
-                  border-radius: 12px;
-                  overflow: hidden;
-                  box-shadow: 0 4px 16px 0 rgba(31, 38, 135, 0.10);
-                  margin-top: 18px;
-                  background: #f5f7fa;
-                  border: 1px solid #e0eafc;
-                }
+        .map-window {
+          width: 100%;
+          height: 600px;
+          border-radius: 12px;
+          overflow: hidden;
+          box-shadow: 0 4px 16px 0 rgba(31, 38, 135, 0.10);
+          margin-top: 18px;
+          background: #f5f7fa;
+          border: 1px solid #e0eafc;
+        }
 
-                @media (max-width: 700px) {
-                  .container {
-                    padding: 12px 2vw 18px 2vw;
-                  }
+        @media (max-width: 700px) {
+          .container {
+            padding: 12px 2vw 18px 2vw;
+          }
 
-                  .map-window {
-                    height: 350px;
-                  }
+          .map-window {
+            height: 350px;
+          }
 
-                  h1 {
-                    font-size: 1.3rem;
-                  }
-                }
-              </style>
-            </head>
+          h1 {
+            font-size: 1.3rem;
+          }
+        }
+      </style>
+    </head>
 
-            <body>
-              <div class="container">
-                <h1>Jacksonville, FL Traffic Cameras &amp; Live Map</h1>
-                <div class="desc">Explore real-time traffic conditions and camera feeds for Jacksonville, Florida.</div>
-                <div class="info">Click on camera icons to view live feeds, or use the map to check current traffic. <br>Some cameras may not be available or may require additional permissions.<br>Drive safe for your girls</div>
-                <div class="map-window">
-                  <iframe title="Jacksonville FL Live Traffic Map"
-                    src="https://fl511.com/map/EmbeddedMap?lat=30.3322&lng=-81.6557&zoom=11&layers=TrafficSpeeds,Closures,Incidents,RoadConditionIncident,Congestion,Construction,Cameras"
-                    width="100%" height="100%" frameborder="0" style="border:0" allowfullscreen></iframe>
-                </div>
-              </div>
-            </body>
+    <body>
+      <div class="container">
+        <h1>Jacksonville, FL Traffic Cameras &amp; Live Map</h1>
+        <div class="desc">Explore real-time traffic conditions and camera feeds for Jacksonville, Florida.</div>
+        <div class="info">Click on camera icons to view live feeds, or use the map to check current traffic. <br>Some cameras may not be available or may require additional permissions.<br>Drive safe for your girls</div>
+        <div class="map-window">
+          <iframe title="Jacksonville FL Live Traffic Map"
+            src="https://fl511.com/map/EmbeddedMap?lat=30.3322&lng=-81.6557&zoom=11&layers=TrafficSpeeds,Closures,Incidents,RoadConditionIncident,Congestion,Construction,Cameras"
+            width="100%" height="100%" style="border:0" allowfullscreen></iframe>
+        </div>
+      </div>
+    </body>
 
-        </html>
+    </html>
