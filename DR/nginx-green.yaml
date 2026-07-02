@@ -108,7 +108,7 @@ spec:
               name: nginx-logs
       containers:
         - name: nginx
-          image: technotuba/nginx@sha256:6d99ae03e5059578577bfd7a614bb0b1f08eaead08a551233ecbc6910a5ffc5a # P0: pinned to current running digest
+          image: technotuba/nginx@sha256:75fb2b165defa67abb37e8f5aab9212bf75f82f69434f08b8607aec24d9c83f3 # P0: pinned to current running digest
           imagePullPolicy: IfNotPresent # P0: was Always
           securityContext: # harden: non-root, read-only rootfs, no caps (listeners now >=1024)
             runAsNonRoot: true
