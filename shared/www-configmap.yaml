@@ -1052,16 +1052,16 @@ data:
                         <div class="scroll-container">
                             <nav aria-label="Top blogs">
                                 <ul>
-                                    <li><a href="#Article17-TechImplants">Tech Implants: LED and NFC Lighting Up the Future Under Your Skin</a></li>
-                                    <li><a href="#Article13-Secrets">Secrets: Password Managers and Hardware Keys</a></li>
-                                    <li><a href="#Article14-Twingate">Twingate: Your Key to Remote Networks</a></li>
-                                    <li><a href="#Article10-Ansible">Ansible: Let me put you on patch game</a></li>
-                                    <li><a href="#Article16-TryHackMe">TryHackMe: Command Line Confessions</a></li>
-                                    <li><a href="#Article15-DMRRadios">DMR Radios: It's giving radio-nerd vibes</a></li>
-                                    <li><a href="#Article9-Kubernetes">Kubernetes: 86 the Prime Rib</a></li>
+                                    <li><a href="#Article36-ClaudeSkills">Claude Agents: The 7 Building Blocks (and 8 Tips for Using Them)</a></li>
+                                    <li><a href="#Article8-HomeBuild">A Home Build: If I were to build it today</a></li>
+                                    <li><a href="#Article32-MCP">Can I get a MCP hype-train in the chat?</a></li>
+                                    <li><a href="#Article33-Blocks">Blocks for the Year: A review</a></li>
+                                    <li><a href="#Article27-HomeLab">Homelab and Virtualization in 2025</a></li>
+                                    <li><a href="#Article34-ActionCheck">ActionCheck: The TUI that Knows Your CI/CD</a></li>
+                                    <li><a href="#Article6-TheCloud">The Cloud: Not the Floridian Cumulonimbus kind</a></li>
                                     <li><a href="#Article39-AgenticMTTR">Machine-Speed Triage: Compressing MTTR with Claude Code Dynamic Workflows</a></li>
-                                    <li><a href="#Article40-LetItBake">Patch Fast, But Let It Bake: Why Package Cooldowns Now Matter More Than Speed</a></li>
-                                    <li><a href="#Article41-AgentSwarmHeal">Stop Babysitting Your Agent Swarms: The One-Time Setup That Heals a Stalled Workflow</a></li>
+                                    <li><a href="#Article35-WassuhandNessus">Nessus & Wazuh: Watching the Watchers at Home</a></li>
+                                    <li><a href="#Article1-Pihole">Pi-Hole: What is it and why you might want to use it</a></li>
                                 </ul>
                             </nav>
                         </div>
