@@ -47,7 +47,11 @@ jobs:
         with:
           ref: main
           fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
+          # CICD_PUSH_TOKEN: fine-grained PAT (Contents RW, this repo only). Pushes
+          # act as the repo admin -> bypasses the main-pr-required ruleset (the
+          # github-actions app cannot be a bypass actor on user-owned repos).
+          # Falls back to GITHUB_TOKEN if unset (which GH006-fails on main).
+          token: ${{ secrets.CICD_PUSH_TOKEN || secrets.GITHUB_TOKEN }}
 
       # ---- P0 GATE: refuse to build if EITHER live manifest is still on :latest ----
       # Read from origin/main (ArgoCD's source of truth). yq preinstalled on ubuntu.
