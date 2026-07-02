@@ -579,7 +579,7 @@ data:
                                     <p>Greg Heffner <time datetime="2026-06-26">June 26th, 2026</time></p>
                                 </div>
                                 <div class="blog-image-container">
-                                    <img src="/image/blog/2026/June/hero-stop-babysitting-swarms.png" alt="" width="1200" height="630" decoding="async">
+                                    <img src="/image/blog/2026/June/hero-stop-babysitting-swarms.webp" alt="" width="1200" height="630" decoding="async">
                                 </div>
                             </div>
                         </article>
@@ -601,7 +601,7 @@ data:
                                     <p>Greg Heffner <time datetime="2026-06-14">June 14th, 2026</time></p>
                                 </div>
                                 <div class="blog-image-container">
-                                    <img src="/image/blog/2026/June/agenticMTTR.png" alt="" width="1200" height="630" loading="lazy" decoding="async">
+                                    <img src="/image/blog/2026/June/agenticMTTR.webp" alt="" width="1200" height="630" loading="lazy" decoding="async">
                                 </div>
                             </div>
                         </article>
@@ -623,7 +623,7 @@ data:
                                     <p>Greg Heffner <time datetime="2026-05-22">May 22nd, 2026</time></p>
                                 </div>
                                 <div class="blog-image-container">
-                                    <img src="/image/blog/2026/May/hero-claude-wanders-big-repos.png" alt="" width="1600" height="800" loading="lazy" decoding="async">
+                                    <img src="/image/blog/2026/May/hero-claude-wanders-big-repos.webp" alt="" width="1200" height="600" loading="lazy" decoding="async">
                                 </div>
                             </div>
                         </article>
@@ -634,7 +634,7 @@ data:
                                     <p>Greg Heffner <time datetime="2026-05-17">May 17th, 2026</time></p>
                                 </div>
                                 <div class="blog-image-container">
-                                    <img src="/image/blog/2026/May/blogclaudeskills.png" alt="" width="1024" height="1024" loading="lazy" decoding="async">
+                                    <img src="/image/blog/2026/May/blogclaudeskills.webp" alt="" width="1024" height="1024" loading="lazy" decoding="async">
                                 </div>
                             </div>
                         </article>
@@ -656,7 +656,7 @@ data:
                                     <p>Greg Heffner <time datetime="2026-01-07">January 7th, 2026</time></p>
                                 </div>
                                 <div class="blog-image-container">
-                                    <img src="/image/blog/2026/Jan/blogactioncheck.png" alt="" width="1024" height="1024" loading="lazy" decoding="async">
+                                    <img src="/image/blog/2026/Jan/blogactioncheck.webp" alt="" width="1024" height="1024" loading="lazy" decoding="async">
                                 </div>
                             </div>
                         </article>
@@ -667,7 +667,7 @@ data:
                                     <p>Greg Heffner <time datetime="2025-12-30">December 30th, 2025</time></p>
                                 </div>
                                 <div class="blog-image-container">
-                                    <img src="/image/blog/2025/Dec/waffle-security.png" alt="" width="1024" height="1024" loading="lazy" decoding="async">
+                                    <img src="/image/blog/2025/Dec/waffle-security.webp" alt="" width="1024" height="1024" loading="lazy" decoding="async">
                                 </div>
                             </div>
                         </article>
@@ -678,7 +678,7 @@ data:
                                     <p>Greg Heffner <time datetime="2025-09-28">September 28th, 2025</time></p>
                                 </div>
                                 <div class="blog-image-container">
-                                    <img src="/image/blog/2025/Sept/MCP.png" alt="" width="1058" height="748" loading="lazy" decoding="async">
+                                    <img src="/image/blog/2025/Sept/MCP.webp" alt="" width="1058" height="748" loading="lazy" decoding="async">
                                 </div>
                             </div>
                         </article>
@@ -689,7 +689,7 @@ data:
                                     <p>Greg Heffner <time datetime="2025-09-05">September 5th, 2025</time></p>
                                 </div>
                                 <div class="blog-image-container">
-                                    <img src="/image/blog/2025/Sept/agenticai.jpeg" alt="" width="752" height="754" loading="lazy" decoding="async">
+                                    <img src="/image/blog/2025/Sept/agenticai.webp" alt="" width="752" height="754" loading="lazy" decoding="async">
                                 </div>
                             </div>
                         </article>
@@ -700,7 +700,7 @@ data:
                                     <p>Greg Heffner <time datetime="2025-09-02">September 2nd, 2025</time></p>
                                 </div>
                                 <div class="blog-image-container">
-                                    <img src="/image/blog/2025/Sept/pihole.jpeg" alt="" width="1093" height="750" loading="lazy" decoding="async">
+                                    <img src="/image/blog/2025/Sept/pihole.webp" alt="" width="1093" height="750" loading="lazy" decoding="async">
                                 </div>
                             </div>
                         </article>
@@ -711,7 +711,7 @@ data:
                                     <p>Greg Heffner <time datetime="2025-08-16">August 16th, 2025</time></p>
                                 </div>
                                 <div class="blog-image-container">
-                                    <img src="/image/blog/2025/Aug/uv-blog.jpeg" alt="" width="1562" height="2220" loading="lazy" decoding="async">
+                                    <img src="/image/blog/2025/Aug/uv-blog.webp" alt="" width="1200" height="1706" loading="lazy" decoding="async">
                                 </div>
                             </div>
                         </article>
@@ -722,7 +722,7 @@ data:
                                     <p>Greg Heffner <time datetime="2025-08">August, 2025</time></p>
                                 </div>
                                 <div class="blog-image-container">
-                                    <img src="/image/blog/2025/Aug/defconblog.jpeg" alt="" width="1220" height="1200" loading="lazy" decoding="async">
+                                    <img src="/image/blog/2025/Aug/defconblog.webp" alt="" width="1200" height="1181" loading="lazy" decoding="async">
                                 </div>
                             </div>
                         </article>
@@ -734,7 +734,7 @@ data:
                                     <p class="blog-note">Cleaner css moving forward!!!</p>
                                 </div>
                                 <div class="blog-image-container">
-                                    <img src="/image/blog/2025/July/homelab.png" alt="" width="2048" height="2048" loading="lazy" decoding="async">
+                                    <img src="/image/blog/2025/July/homelab.webp" alt="" width="1200" height="1200" loading="lazy" decoding="async">
                                 </div>
                             </div>
                         </article>
@@ -745,7 +745,7 @@ data:
                                     <p>Greg Heffner <time datetime="2025-07-11">July 11th, 2025</time></p>
                                 </div>
                                 <div class="blog-image-container">
-                                    <img src="/image/blog/2025/July/CronScheduler.jpeg" alt="" width="1530" height="1454" loading="lazy" decoding="async">
+                                    <img src="/image/blog/2025/July/CronScheduler.webp" alt="" width="1200" height="1141" loading="lazy" decoding="async">
                                 </div>
                             </div>
                         </article>
@@ -757,7 +757,7 @@ data:
                                     <p class="blog-note">Mobile friendly blogs moving forward!!!</p>
                                 </div>
                                 <div class="blog-image-container">
-                                    <img src="/image/blog/2025/July/CICD2.png" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+                                    <img src="/image/blog/2025/July/CICD2.webp" alt="" width="1200" height="800" loading="lazy" decoding="async">
                                 </div>
                             </div>
                         </article>
@@ -768,7 +768,7 @@ data:
                                     <p>Greg Heffner <time datetime="2025-06-25">June 25, 2025</time></p>
                                 </div>
                                 <div class="blog-image-container">
-                                    <img src="/image/blog/2025/June/websec.png" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+                                    <img src="/image/blog/2025/June/websec.webp" alt="" width="1200" height="800" loading="lazy" decoding="async">
                                 </div>
                             </div>
                         </article>
@@ -779,7 +779,7 @@ data:
                                     <p>Greg Heffner <time datetime="2025-06-15">June 15, 2025</time></p>
                                 </div>
                                 <div class="blog-image-container">
-                                    <img src="/image/blog/2025/June/githubadv.png" alt="" width="1024" height="1024" loading="lazy" decoding="async">
+                                    <img src="/image/blog/2025/June/githubadv.webp" alt="" width="1024" height="1024" loading="lazy" decoding="async">
                                 </div>
                             </div>
                         </article>
@@ -790,7 +790,7 @@ data:
                                     <p>Greg Heffner <time datetime="2024-11-23">November 23, 2024</time></p>
                                 </div>
                                 <div class="blog-image-container">
-                                    <img src="/image/blog/2024/Nov/aocblog.jpeg" alt="" width="1024" height="1024" loading="lazy" decoding="async">
+                                    <img src="/image/blog/2024/Nov/aocblog.webp" alt="" width="1024" height="1024" loading="lazy" decoding="async">
                                 </div>
                             </div>
                         </article>
@@ -801,7 +801,7 @@ data:
                                     <p>Greg Heffner <time datetime="2024-09-15">September 15, 2024</time></p>
                                 </div>
                                 <div class="blog-image-container">
-                                    <img src="/image/blog/2024/Sept/tools.png" alt="" width="1024" height="1024" loading="lazy" decoding="async">
+                                    <img src="/image/blog/2024/Sept/tools.webp" alt="" width="1024" height="1024" loading="lazy" decoding="async">
                                 </div>
                             </div>
                         </article>
@@ -812,7 +812,7 @@ data:
                                     <p>Greg Heffner <time datetime="2024-09-11">September 11, 2024</time></p>
                                 </div>
                                 <div class="blog-image-container">
-                                    <img src="/image/blog/2024/Sept/smoketest.png" alt="" width="1024" height="1024" loading="lazy" decoding="async">
+                                    <img src="/image/blog/2024/Sept/smoketest.webp" alt="" width="1024" height="1024" loading="lazy" decoding="async">
                                 </div>
                             </div>
                         </article>
@@ -823,7 +823,7 @@ data:
                                     <p>Greg Heffner <time datetime="2024-09-08">September 8, 2024</time></p>
                                 </div>
                                 <div class="blog-image-container">
-                                    <img src="/image/blog/2024/Sept/classsetup.png" alt="" width="1024" height="1024" loading="lazy" decoding="async">
+                                    <img src="/image/blog/2024/Sept/classsetup.webp" alt="" width="1024" height="1024" loading="lazy" decoding="async">
                                 </div>
                             </div>
                         </article>
@@ -834,7 +834,7 @@ data:
                                     <p>Greg Heffner <time datetime="2024-09-04">September 4, 2024</time></p>
                                 </div>
                                 <div class="blog-image-container">
-                                    <img src="/image/blog/2024/Sept/upstreamdns.png" alt="" width="1024" height="1024" loading="lazy" decoding="async">
+                                    <img src="/image/blog/2024/Sept/upstreamdns.webp" alt="" width="1024" height="1024" loading="lazy" decoding="async">
                                 </div>
                             </div>
                         </article>
@@ -845,7 +845,7 @@ data:
                                     <p>Greg Heffner <time datetime="2024-09-01">September 1, 2024</time></p>
                                 </div>
                                 <div class="blog-image-container">
-                                    <img src="/image/blog/2024/Sept/xsiid.JPG" alt="" width="750" height="750" loading="lazy" decoding="async">
+                                    <img src="/image/blog/2024/Sept/xsiid.webp" alt="" width="750" height="750" loading="lazy" decoding="async">
                                 </div>
                             </div>
                         </article>
@@ -856,7 +856,7 @@ data:
                                     <p>Greg Heffner <time datetime="2024-08-28">August 28, 2024</time></p>
                                 </div>
                                 <div class="blog-image-container">
-                                    <img src="/image/blog/2024/Aug/tryhackme.png" alt="" width="1024" height="1024" loading="lazy" decoding="async">
+                                    <img src="/image/blog/2024/Aug/tryhackme.webp" alt="" width="1024" height="1024" loading="lazy" decoding="async">
                                 </div>
                             </div>
                         </article>
@@ -867,7 +867,7 @@ data:
                                     <p>Greg Heffner <time datetime="2024-08-25">August 25, 2024</time></p>
                                 </div>
                                 <div class="blog-image-container">
-                                    <img src="/image/blog/2024/Aug/hamradio.png" alt="" width="1024" height="1024" loading="lazy" decoding="async">
+                                    <img src="/image/blog/2024/Aug/hamradio.webp" alt="" width="1024" height="1024" loading="lazy" decoding="async">
                                 </div>
                             </div>
                         </article>
@@ -889,7 +889,7 @@ data:
                                     <p>Greg Heffner <time datetime="2024-08-18">August 18, 2024</time></p>
                                 </div>
                                 <div class="blog-image-container">
-                                    <img src="/image/blog/2024/Aug/secrets.png" alt="" width="1024" height="1024" loading="lazy" decoding="async">
+                                    <img src="/image/blog/2024/Aug/secrets.webp" alt="" width="1024" height="1024" loading="lazy" decoding="async">
                                 </div>
                             </div>
                         </article>
@@ -900,7 +900,7 @@ data:
                                     <p>Greg Heffner <time datetime="2024-08-14">August 14, 2024</time></p>
                                 </div>
                                 <div class="blog-image-container">
-                                    <img src="/image/blog/2024/Aug/travelrouter.png" alt="" width="1024" height="1024" loading="lazy" decoding="async">
+                                    <img src="/image/blog/2024/Aug/travelrouter.webp" alt="" width="1024" height="1024" loading="lazy" decoding="async">
                                 </div>
                             </div>
                         </article>
@@ -911,7 +911,7 @@ data:
                                     <p>Greg Heffner <time datetime="2024-08-11">August 11, 2024</time></p>
                                 </div>
                                 <div class="blog-image-container">
-                                    <img src="/image/blog/2024/Aug/dockerupdates.png" alt="" width="1024" height="1024" loading="lazy" decoding="async">
+                                    <img src="/image/blog/2024/Aug/dockerupdates.webp" alt="" width="1024" height="1024" loading="lazy" decoding="async">
                                 </div>
                             </div>
                         </article>
@@ -922,7 +922,7 @@ data:
                                     <p>Greg Heffner <time datetime="2024-08-07">August 7, 2024</time></p>
                                 </div>
                                 <div class="blog-image-container">
-                                    <img src="/image/blog/2024/Aug/ansible.png" alt="" width="1024" height="1024" loading="lazy" decoding="async">
+                                    <img src="/image/blog/2024/Aug/ansible.webp" alt="" width="1024" height="1024" loading="lazy" decoding="async">
                                 </div>
                             </div>
                         </article>
@@ -933,7 +933,7 @@ data:
                                     <p>Greg Heffner <time datetime="2024-08-04">August 4, 2024</time></p>
                                 </div>
                                 <div class="blog-image-container">
-                                    <img src="/image/blog/2024/Aug/k8s.png" alt="" width="1024" height="1024" loading="lazy" decoding="async">
+                                    <img src="/image/blog/2024/Aug/k8s.webp" alt="" width="1024" height="1024" loading="lazy" decoding="async">
                                 </div>
                             </div>
                         </article>
@@ -944,7 +944,7 @@ data:
                                     <p>Greg Heffner <time datetime="2024-07-31">July 31, 2024</time></p>
                                 </div>
                                 <div class="blog-image-container">
-                                    <img src="/image/blog/2024/July/homebuild.png" alt="" width="1024" height="1024" loading="lazy" decoding="async">
+                                    <img src="/image/blog/2024/July/homebuild.webp" alt="" width="1024" height="1024" loading="lazy" decoding="async">
                                 </div>
                             </div>
                         </article>
@@ -955,7 +955,7 @@ data:
                                     <p>Greg Heffner <time datetime="2024-07-28">July 28, 2024</time></p>
                                 </div>
                                 <div class="blog-image-container">
-                                    <img src="/image/blog/2024/July/WiFi2.png" alt="" width="1024" height="1024" loading="lazy" decoding="async">
+                                    <img src="/image/blog/2024/July/WiFi2.webp" alt="" width="1024" height="1024" loading="lazy" decoding="async">
                                 </div>
                             </div>
                         </article>
@@ -966,7 +966,7 @@ data:
                                     <p>Greg Heffner <time datetime="2024-07-24">July 24, 2024</time></p>
                                 </div>
                                 <div class="blog-image-container">
-                                    <img src="/image/blog/2024/July/cloud4.png" alt="" width="1024" height="1024" loading="lazy" decoding="async">
+                                    <img src="/image/blog/2024/July/cloud4.webp" alt="" width="1024" height="1024" loading="lazy" decoding="async">
                                 </div>
                             </div>
                         </article>
@@ -977,7 +977,7 @@ data:
                                     <p>Greg Heffner <time datetime="2024-07-21">July 21, 2024</time></p>
                                 </div>
                                 <div class="blog-image-container">
-                                    <img src="/image/blog/2024/July/vpn.png" alt="" width="1024" height="1024" loading="lazy" decoding="async">
+                                    <img src="/image/blog/2024/July/vpn.webp" alt="" width="1024" height="1024" loading="lazy" decoding="async">
                                 </div>
                             </div>
                         </article>
@@ -988,7 +988,7 @@ data:
                                     <p>Greg Heffner <time datetime="2024-07-17">July 17, 2024</time></p>
                                 </div>
                                 <div class="blog-image-container">
-                                    <img src="/image/blog/2024/July/dockerhub.png" alt="" width="1024" height="1024" loading="lazy" decoding="async">
+                                    <img src="/image/blog/2024/July/dockerhub.webp" alt="" width="1024" height="1024" loading="lazy" decoding="async">
                                 </div>
                             </div>
                         </article>
@@ -999,7 +999,7 @@ data:
                                     <p>Greg Heffner <time datetime="2024-07-14">July 14, 2024</time></p>
                                 </div>
                                 <div class="blog-image-container">
-                                    <img src="/image/blog/2024/July/LB.png" alt="" width="1024" height="1024" loading="lazy" decoding="async">
+                                    <img src="/image/blog/2024/July/LB.webp" alt="" width="1024" height="1024" loading="lazy" decoding="async">
                                 </div>
                             </div>
                         </article>
@@ -1021,7 +1021,7 @@ data:
                                     <p>Greg Heffner <time datetime="2024-07-07">July 7, 2024</time></p>
                                 </div>
                                 <div class="blog-image-container">
-                                    <img src="/image/blog/2024/July/pihole.jpg" alt="" width="1964" height="1510" loading="lazy" decoding="async">
+                                    <img src="/image/blog/2024/July/pihole.webp" alt="" width="1200" height="923" loading="lazy" decoding="async">
                                 </div>
                             </div>
                         </article>
@@ -1032,7 +1032,7 @@ data:
                                     <p>Greg Heffner</p>
                                 </div>
                                 <div class="blog-image-container">
-                                    <img src="/image/blog/2024/July/blog1.jpg" alt="" width="1536" height="1536" loading="lazy" decoding="async">
+                                    <img src="/image/blog/2024/July/blog1.webp" alt="" width="1200" height="1200" loading="lazy" decoding="async">
                                 </div>
                             </div>
                         </article>
