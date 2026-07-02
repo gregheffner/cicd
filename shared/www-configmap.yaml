@@ -1514,13 +1514,14 @@ data:
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>PGP Public Key | Greg Heffner</title>
-    
+
         <!-- SEO Meta Tags -->
         <meta name="description" content="Greg Heffner's PGP public key with step-by-step GPG instructions: import the key, encrypt your message, and email it to his encrypted contact address.">
-    
+        <meta name="robots" content="index, follow">
+
         <!-- Canonical URL -->
         <link rel="canonical" href="https://greg.heffner.live/pgp-key.html">
-    
+
         <!-- Favicons and Manifest -->
         <link rel="apple-touch-icon" sizes="180x180" href="/image/apple-touch-icon.png">
         <link rel="icon" type="image/png" sizes="96x96" href="/image/favicon-96x96.png">
@@ -1528,7 +1529,7 @@ data:
         <link rel="icon" type="image/png" sizes="16x16" href="/image/favicon-16x16.png">
         <link rel="icon" href="/image/favicon.ico">
         <link rel="manifest" href="/image/site.webmanifest">
-    
+
         <!-- Open Graph Meta Tags -->
         <meta property="og:type" content="website">
         <meta property="og:title" content="PGP Public Key | Greg Heffner">
@@ -1540,14 +1541,14 @@ data:
         <meta property="og:image:height" content="630">
         <meta property="og:image:alt" content="Greg Heffner's site header image">
         <meta property="og:locale" content="en_US">
-    
+
         <!-- Twitter Meta Tags -->
         <meta name="twitter:card" content="summary_large_image">
         <meta name="twitter:title" content="PGP Public Key | Greg Heffner">
         <meta name="twitter:description" content="Greg Heffner's PGP public key with step-by-step GPG instructions: import the key, encrypt your message, and email it to his encrypted contact address.">
         <meta name="twitter:image" content="https://greg.heffner.live/image/photo/header.jpg">
         <meta name="twitter:image:alt" content="Greg Heffner's site header image">
-    
+
         <link rel="stylesheet" href="/image/assets/styles.css">
         <style>
             pre {
@@ -1581,18 +1582,18 @@ data:
             <header>
                 <h1>PGP Public Key for Greg Heffner</h1>
             </header>
-    
+
             <section class="section">
                 <h2>Encrypted Contact Information</h2>
                 <p>Email: <a href="mailto:deep.bone8104@fastmail.com">deep.bone8104@fastmail.com</a></p>
             </section>
-    
+
             <section class="section">
                 <h2>PGP Public Key</h2>
                 <!-- Inner content of this <pre> is byte-identical to the published key block. Do not reformat. -->
                 <pre id="pgp-key-block" class="pgp-block" tabindex="0" role="region" aria-label="PGP public key block for Greg Heffner">
     -----BEGIN PGP PUBLIC KEY BLOCK-----
-    
+
     mDMEZ8O2fBYJKwYBBAHaRw8BAQdAe21+FXDVxSRQua7v3rB5wGPzWga5yxg3lheo
     JtNUSbS0KUdyZWcgSGVmZm5lciA8ZGVlcC5ib25lODEwNEBmYXN0bWFpbC5jb20+
     iJMEExYKADsWIQQ/JT1VlcHc+b6+W2d029zLtcwIcgUCZ8O2fAIbAwULCQgHAgIi
@@ -1606,10 +1607,10 @@ data:
     -----END PGP PUBLIC KEY BLOCK-----
             </pre>
             </section>
-    
+
             <section class="section">
                 <h2>Instructions</h2>
-    
+
                 <section class="step-group">
                     <h3>Download and Import the PGP Key</h3>
                     <ol>
@@ -1620,7 +1621,7 @@ data:
                         </li>
                     </ol>
                 </section>
-    
+
                 <section class="step-group">
                     <h3>Create an Encrypted Message</h3>
                     <ol>
@@ -1631,7 +1632,7 @@ data:
                         <li>This will create an encrypted file named <code>message.txt.asc</code>.</li>
                     </ol>
                 </section>
-    
+
                 <section class="step-group">
                     <h3>Send the Encrypted Message</h3>
                     <ol>
@@ -1641,7 +1642,7 @@ data:
                     </ol>
                 </section>
             </section>
-    
+
             <footer>
                 <p><a href="/">&larr; Back to greg.heffner.live</a></p>
             </footer>
@@ -1651,12 +1652,13 @@ data:
   photos.html: |
     <!DOCTYPE html>
     <html lang="en">
-    
+
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Photos | Greg Heffner</title>
         <meta name="description" content="A personal collection of photos of Greg Heffner and the things he loves. To my girls: I love you with all my heart.">
+        <meta name="robots" content="index, follow">
         <link rel="canonical" href="https://greg.heffner.live/photos.html">
         <meta property="og:title" content="Photos | Greg Heffner">
         <meta property="og:description" content="A personal collection of photos of Greg Heffner and the things he loves. To my girls: I love you with all my heart.">
@@ -1664,10 +1666,13 @@ data:
         <meta property="og:type" content="website">
         <meta property="og:site_name" content="Greg Heffner">
         <meta property="og:image" content="https://greg.heffner.live/image/photo/beach1.avif">
+        <meta property="og:image:alt" content="The fishing pier at Jacksonville Beach — from Greg Heffner's photo collection">
+        <meta property="og:locale" content="en_US">
         <meta name="twitter:card" content="summary">
         <meta name="twitter:title" content="Photos | Greg Heffner">
         <meta name="twitter:description" content="A personal collection of photos of Greg Heffner and the things he loves. To my girls: I love you with all my heart.">
         <meta name="twitter:image" content="https://greg.heffner.live/image/photo/beach1.avif">
+        <meta name="twitter:image:alt" content="The fishing pier at Jacksonville Beach — from Greg Heffner's photo collection">
         <script type="application/ld+json">
         {"@context":"https://schema.org","@type":"ImageGallery","name":"Photos | Greg Heffner","url":"https://greg.heffner.live/photos.html","description":"A personal collection of photos of Greg Heffner and the things he loves.","author":{"@type":"Person","name":"Greg Heffner","url":"https://greg.heffner.live"}}
         </script>
@@ -1677,7 +1682,7 @@ data:
                 margin: 20px 0;
                 font-size: 2em;
             }
-    
+
             .main-content {
                 display: grid;
                 grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -1687,7 +1692,7 @@ data:
                 margin: 0 auto;
                 padding-bottom: 20px;
             }
-    
+
             .gallery {
                 position: relative;
                 margin: 0; /* reset UA figure margin so the auto-fit grid stays tight */
@@ -1702,17 +1707,17 @@ data:
                 cursor: pointer;
                 transition: transform 0.3s ease, box-shadow 0.3s ease;
             }
-    
+
             .gallery:hover {
                 transform: translateY(-4px);
                 box-shadow: 0 10px 24px rgba(0, 0, 0, 0.5);
             }
-    
+
             .gallery a:focus-visible {
                 outline: 3px solid #58a6ff;
                 outline-offset: 2px;
             }
-    
+
             .gallery img {
                 max-width: 100%;
                 max-height: 100%;
@@ -1720,11 +1725,11 @@ data:
                 object-fit: contain; /* Ensures the image fits within the frame */
                 transition: transform 0.3s ease;
             }
-    
+
             .gallery:hover img {
                 transform: scale(1.05); /* Slight zoom effect on hover */
             }
-    
+
             .desc {
                 position: absolute;
                 bottom: 0;
@@ -1738,11 +1743,11 @@ data:
                 opacity: 0;
                 transition: opacity 0.3s ease;
             }
-    
+
             .gallery:hover .desc {
                 opacity: 1;
             }
-    
+
             /* Captions always visible on touch devices (no hover) */
             @media (hover: none) {
                 .desc {
@@ -1750,7 +1755,7 @@ data:
                     background: rgba(0, 0, 0, 0.55);
                 }
             }
-    
+
             /* Fade-rise on scroll (modern browsers; others show photos normally) */
             @media (prefers-reduced-motion: no-preference) {
                 @supports (animation-timeline: view()) {
@@ -1765,7 +1770,7 @@ data:
                     }
                 }
             }
-    
+
             @media (prefers-reduced-motion: reduce) {
                 .gallery, .gallery img, .desc {
                     transition: none;
@@ -1774,7 +1779,7 @@ data:
                     transform: none;
                 }
             }
-    
+
             /* Lightbox */
             #lightbox {
                 border: none;
@@ -1784,11 +1789,11 @@ data:
                 max-width: 92vw;
                 max-height: 92vh;
             }
-    
+
             #lightbox::backdrop {
                 background: rgba(0, 0, 0, 0.85);
             }
-    
+
             #lightbox img {
                 display: block;
                 margin: 0 auto;
@@ -1796,14 +1801,14 @@ data:
                 max-height: 84vh;
                 object-fit: contain;
             }
-    
+
             #lightbox-caption {
                 color: #ffffff;
                 text-align: center;
                 padding: 10px;
                 font-size: 1em;
             }
-    
+
             #lightbox-close {
                 position: absolute;
                 top: 6px;
@@ -1816,23 +1821,23 @@ data:
                 padding: 4px 8px;
                 cursor: pointer;
             }
-    
+
             /* Scrollbar styling */
             body::-webkit-scrollbar {
                 width: 10px;
             }
-    
+
             body::-webkit-scrollbar-thumb {
                 background: #555;
                 border-radius: 5px;
             }
-    
+
             body::-webkit-scrollbar-thumb:hover {
                 background: #777;
             }
         </style>
     </head>
-    
+
     <body>
         <nav class="navbar" aria-label="Main">
             <div class="navdiv">
@@ -1851,139 +1856,139 @@ data:
             <div class="main-content">
                 <figure class="gallery">
                     <a target="_blank" href="image/photo/beach1.avif" rel="noopener noreferrer">
-                        <img src="image/photo/beach1.avif" alt="The fishing pier at Jacksonville Beach — my favorite fishing spot" title="Favorite Fishing Spot" decoding="async" fetchpriority="high">
+                        <img src="image/photo/beach1.avif" width="4032" height="3024" alt="The fishing pier at Jacksonville Beach — my favorite fishing spot" title="Favorite Fishing Spot" decoding="async" fetchpriority="high">
                     </a>
                     <figcaption class="desc">Jax Beach Pier</figcaption>
                 </figure>
-    
+
                 <figure class="gallery">
                     <a target="_blank" href="image/photo/beach4.avif" rel="noopener noreferrer">
-                        <img src="image/photo/beach4.avif" alt="My girls at the beach — the spot we go to think" title="We go here to think" decoding="async">
+                        <img src="image/photo/beach4.avif" width="4032" height="3024" alt="My girls at the beach — the spot we go to think" title="We go here to think" decoding="async">
                     </a>
                     <figcaption class="desc">My girls</figcaption>
                 </figure>
-    
+
                 <figure class="gallery">
                     <a target="_blank" href="image/photo/beach2.avif" rel="noopener noreferrer">
-                        <img src="image/photo/beach2.avif" alt="Looking north along the shoreline from the Jacksonville Beach pier" title="Looking North from Pier" decoding="async">
+                        <img src="image/photo/beach2.avif" width="4032" height="3024" alt="Looking north along the shoreline from the Jacksonville Beach pier" title="Looking North from Pier" decoding="async">
                     </a>
                     <figcaption class="desc">Jax Beach North</figcaption>
                 </figure>
-    
+
                 <figure class="gallery">
                     <a target="_blank" href="image/photo/beach3.avif" rel="noopener noreferrer">
-                        <img src="image/photo/beach3.avif" alt="Overlooking the ocean at Jacksonville Beach, 2024" title="Overlooking the Ocean" decoding="async">
+                        <img src="image/photo/beach3.avif" width="4032" height="3024" alt="Overlooking the ocean at Jacksonville Beach, 2024" title="Overlooking the Ocean" decoding="async">
                     </a>
                     <figcaption class="desc">Jax Beach 2024</figcaption>
                 </figure>
-    
+
                 <figure class="gallery">
                     <a target="_blank" href="image/photo/bandg.avif" rel="noopener noreferrer">
-                        <img src="image/photo/bandg.avif" alt="Me with my youngest daughter, 2024" title="My youngest and I 2024" loading="lazy" decoding="async">
+                        <img src="image/photo/bandg.avif" width="1080" height="1321" alt="Me with my youngest daughter, 2024" title="My youngest and I 2024" loading="lazy" decoding="async">
                     </a>
                     <figcaption class="desc">My youngest and I</figcaption>
                 </figure>
-    
+
                 <figure class="gallery">
                     <a target="_blank" href="image/photo/gandp.avif" rel="noopener noreferrer">
-                        <img src="image/photo/gandp.avif" alt="Me with my oldest daughter on a lunch date" title="Lunch Date" loading="lazy" decoding="async">
+                        <img src="image/photo/gandp.avif" width="4032" height="3024" alt="Me with my oldest daughter on a lunch date" title="Lunch Date" loading="lazy" decoding="async">
                     </a>
                     <figcaption class="desc">My oldest and I</figcaption>
                 </figure>
-    
+
                 <figure class="gallery">
                     <a target="_blank" href="image/photo/fam.avif" rel="noopener noreferrer">
-                        <img src="image/photo/fam.avif" alt="The whole family together at P's birthday, 2024" title="P Bday 2024" loading="lazy" decoding="async">
+                        <img src="image/photo/fam.avif" width="4032" height="3024" alt="The whole family together at P's birthday, 2024" title="P Bday 2024" loading="lazy" decoding="async">
                     </a>
                     <figcaption class="desc">The Family 2024</figcaption>
                 </figure>
-    
+
                 <figure class="gallery">
                     <a target="_blank" href="image/photo/thedogs.avif" rel="noopener noreferrer">
-                        <img src="image/photo/thedogs.avif" alt="The family dogs, 2024" title="The pups 2024" loading="lazy" decoding="async">
+                        <img src="image/photo/thedogs.avif" width="4032" height="3024" alt="The family dogs, 2024" title="The pups 2024" loading="lazy" decoding="async">
                     </a>
                     <figcaption class="desc">The pups</figcaption>
                 </figure>
-    
+
                 <figure class="gallery">
                     <a target="_blank" href="image/photo/backyard.avif" rel="noopener noreferrer">
-                        <img src="image/photo/backyard.avif" alt="The backyard, aka the Thinking Place" title="The backyard" loading="lazy" decoding="async">
+                        <img src="image/photo/backyard.avif" width="4032" height="3024" alt="The backyard, aka the Thinking Place" title="The backyard" loading="lazy" decoding="async">
                     </a>
                     <figcaption class="desc">The backyard aka Thinking Place</figcaption>
                 </figure>
-    
+
                 <figure class="gallery">
                     <a target="_blank" href="image/photo/night.avif" rel="noopener noreferrer">
-                        <img src="image/photo/night.avif" alt="The backyard at night" title="Night time" loading="lazy" decoding="async">
+                        <img src="image/photo/night.avif" width="4032" height="3024" alt="The backyard at night" title="Night time" loading="lazy" decoding="async">
                     </a>
                     <figcaption class="desc">The backyard at night</figcaption>
                 </figure>
-    
+
                 <figure class="gallery">
                     <a target="_blank" href="image/photo/backyardnight.avif" rel="noopener noreferrer">
-                        <img src="image/photo/backyardnight.avif" alt="The dogs playing in the water" title="Water Puppies" loading="lazy" decoding="async">
+                        <img src="image/photo/backyardnight.avif" width="4032" height="3024" alt="The dogs playing in the water" title="Water Puppies" loading="lazy" decoding="async">
                     </a>
                     <figcaption class="desc">Water Puppies</figcaption>
                 </figure>
-    
+
                 <figure class="gallery">
                     <a target="_blank" href="image/photo/hurricane2024.avif" rel="noopener noreferrer">
-                        <img src="image/photo/hurricane2024.avif" alt="Brick-oven pizza made during Hurricane Debbie, 2024" title="Brick Oven Pizza" loading="lazy" decoding="async">
+                        <img src="image/photo/hurricane2024.avif" width="4032" height="3024" alt="Brick-oven pizza made during Hurricane Debbie, 2024" title="Brick Oven Pizza" loading="lazy" decoding="async">
                     </a>
                     <figcaption class="desc">Pizza during Hurricane Debbie 2024</figcaption>
                 </figure>
-    
+
                 <figure class="gallery">
                     <a target="_blank" href="image/photo/family2024.avif" rel="noopener noreferrer">
-                        <img src="image/photo/family2024.avif" alt="The family out at the mall, 2024" title="Family at the mall" loading="lazy" decoding="async">
+                        <img src="image/photo/family2024.avif" width="4032" height="3024" alt="The family out at the mall, 2024" title="Family at the mall" loading="lazy" decoding="async">
                     </a>
                     <figcaption class="desc">Family at the Mall 2024</figcaption>
                 </figure>
-    
+
                 <figure class="gallery">
                     <a target="_blank" href="image/photo/gregselfie.avif" rel="noopener noreferrer">
-                        <img src="image/photo/gregselfie.avif" alt="Selfie of Greg Heffner, 2024 — it was a good day" title="get off my face lol" loading="lazy" decoding="async">
+                        <img src="image/photo/gregselfie.avif" width="1242" height="1619" alt="Selfie of Greg Heffner, 2024 — it was a good day" title="get off my face lol" loading="lazy" decoding="async">
                     </a>
                     <figcaption class="desc">It was a good day</figcaption>
                 </figure>
-    
+
                 <figure class="gallery">
                     <a target="_blank" href="image/photo/bselfie.avif" rel="noopener noreferrer">
-                        <img src="image/photo/bselfie.avif" alt="B at a BBQ date, 2024" title="BBQ Date" loading="lazy" decoding="async">
+                        <img src="image/photo/bselfie.avif" width="3024" height="4032" alt="B at a BBQ date, 2024" title="BBQ Date" loading="lazy" decoding="async">
                     </a>
                     <figcaption class="desc">BBQ Date</figcaption>
                 </figure>
-    
+
                 <figure class="gallery">
                     <a target="_blank" href="image/photo/psenior.avif" rel="noopener noreferrer">
-                        <img src="image/photo/psenior.avif" alt="P's senior graduation photo, class of 2025" title="P 2025 Grad" loading="lazy" decoding="async">
+                        <img src="image/photo/psenior.avif" width="461" height="627" alt="P's senior graduation photo, class of 2025" title="P 2025 Grad" loading="lazy" decoding="async">
                     </a>
                     <figcaption class="desc">P 2025 Grad</figcaption>
                 </figure>
-    
+
                 <figure class="gallery">
                     <a target="_blank" href="image/photo/aprilbackyard.avif" rel="noopener noreferrer">
-                        <img src="image/photo/aprilbackyard.avif" alt="The backyard lit up at night, 2025" title="Nights 2025" loading="lazy" decoding="async">
+                        <img src="image/photo/aprilbackyard.avif" width="4032" height="3024" alt="The backyard lit up at night, 2025" title="Nights 2025" loading="lazy" decoding="async">
                     </a>
                     <figcaption class="desc">Backyard Nights</figcaption>
                 </figure>
-    
+
                 <figure class="gallery">
                     <a target="_blank" href="image/photo/defcon33.avif" rel="noopener noreferrer">
-                        <img src="image/photo/defcon33.avif" alt="At DEF CON 33, 2025" title="DEFCON 2025" loading="lazy" decoding="async">
+                        <img src="image/photo/defcon33.avif" width="4284" height="5712" alt="At DEF CON 33, 2025" title="DEFCON 2025" loading="lazy" decoding="async">
                     </a>
                     <figcaption class="desc">DEFCON 2025</figcaption>
                 </figure>
-    
+
                 <figure class="gallery">
                     <a target="_blank" href="image/photo/lizardhunters.jpg" rel="noopener noreferrer">
-                        <img src="image/photo/lizardhunters.jpg" alt="The dogs hunting lizards" title="Lizard Hunters" loading="lazy" decoding="async">
+                        <img src="image/photo/lizardhunters.jpg" width="4032" height="3024" alt="The dogs hunting lizards" title="Lizard Hunters" loading="lazy" decoding="async">
                     </a>
                     <figcaption class="desc">Lizard Hunters</figcaption>
                 </figure>
             </div>
         </main>
-    
+
         <dialog id="lightbox" aria-label="Photo viewer" aria-describedby="lightbox-caption">
             <button type="button" id="lightbox-close" aria-label="Close photo viewer">&times;</button>
             <img id="lightbox-img" alt="">
@@ -2015,9 +2020,8 @@ data:
             })();
         </script>
     </body>
-    
-    </html>
 
+    </html>
   privacy.html: |
     <!DOCTYPE html>
     <html lang="en">
@@ -2031,7 +2035,7 @@ data:
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
-    
+
               gtag('config', 'G-SXLQTMF14Q');
         </script>
         <script async src="https://fundingchoicesmessages.google.com/i/pub-3941951641805897?ers=1" nonce="Ztq0ynxpsv8cjaOR_8lnZw"></script><script nonce="Ztq0ynxpsv8cjaOR_8lnZw">(function() {function signalGooglefcPresent() {if (!window.frames['googlefcPresent']) {if (document.body) {const iframe = document.createElement('iframe'); iframe.style = 'width: 0; height: 0; border: none; z-index: -1000; left: -1000px; top: -1000px;'; iframe.style.display = 'none'; iframe.name = 'googlefcPresent'; document.body.appendChild(iframe);} else {setTimeout(signalGooglefcPresent, 0);}}}signalGooglefcPresent();})();</script>
@@ -2058,9 +2062,12 @@ data:
         <meta property="og:image" content="https://greg.heffner.live/image/photo/header.jpg">
         <meta property="og:image:width" content="1200">
         <meta property="og:image:height" content="630">
+        <meta property="og:image:alt" content="Greg Heffner's site header image">
         <meta name="twitter:card" content="summary">
         <meta name="twitter:title" content="Privacy Policy | Greg Heffner">
         <meta name="twitter:description" content="Privacy policy for greg.heffner.live — how this site handles personal data, cookies, and consent for its analytics and advertising services, and how to contact the site owner.">
+        <meta name="twitter:image" content="https://greg.heffner.live/image/photo/header.jpg">
+        <meta name="twitter:image:alt" content="Greg Heffner's site header image">
         <link rel="stylesheet" href="/image/assets/styles.css">
         <style>
             /* Skip link: visually hidden until keyboard focus */
@@ -2068,20 +2075,20 @@ data:
             .skip-link:focus { position: static; display: inline-block; padding: 4px 8px; }
         </style>
     </head>
-    
+
     <body>
         <!-- Google Tag Manager (noscript) -->
         <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MQMRMNL5"
           height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <!-- End Google Tag Manager (noscript) -->
-    
+
         <a class="skip-link" href="#main">Skip to content</a>
-    
+
         <header>
             <h1>Privacy Policy</h1>
             <nav aria-label="Site"><a href="/">Home</a></nav>
         </header>
-    
+
         <main id="main">
             <section>
                 <h2>Transfer Of Data</h2>
@@ -2093,7 +2100,7 @@ data:
                     or a country unless there are adequate controls in place including the security of your data and other
                     personal information.</p>
             </section>
-    
+
             <section>
                 <h2>Disclosure Of Data</h2>
                 <h3>Legal Requirements</h3>
@@ -2106,14 +2113,14 @@ data:
                     <li>Protect against legal liability</li>
                 </ul>
             </section>
-    
+
             <section>
                 <h2>Security Of Data</h2>
                 <p>The security of your data is important to us, but remember that no method of transmission over the Internet,
                     or method of electronic storage is 100% secure. While we strive to use commercially acceptable means to
                     protect your Personal Data, we cannot guarantee its absolute security.</p>
             </section>
-    
+
             <section>
                 <h2>Changes To This Privacy Policy</h2>
                 <p>We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new
@@ -2123,7 +2130,7 @@ data:
                 <p>You are advised to review this Privacy Policy periodically for any changes. Changes to this Privacy Policy
                     are effective when they are posted on this page.</p>
             </section>
-    
+
             <section>
                 <h2>Contact Us</h2>
                 <p>If you have any questions about this Privacy Policy, please contact us:</p>
@@ -2132,7 +2139,6 @@ data:
         </main>
     </body>
     </html>
-
   robots.txt: |
     Sitemap: https://greg.heffner.live/sitemap.xml
     User-agent: *
@@ -3262,21 +3268,27 @@ data:
   loops.html: |
     <!DOCTYPE html>
     <html lang="en">
-    
+
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Weather Loops | Greg Heffner</title>
         <meta name="description" content="Live weather dashboard: Ambient Weather station data, NWS Southeast radar, and GOES-19 satellite and lightning loops on a full-screen 2x2 grid.">
+        <meta name="robots" content="index, follow">
         <link rel="canonical" href="https://greg.heffner.live/loops.html">
         <meta property="og:title" content="Weather Loops | Greg Heffner">
         <meta property="og:description" content="Live weather dashboard: Ambient Weather station data, NWS Southeast radar, and GOES-19 satellite and lightning loops on a full-screen 2x2 grid.">
         <meta property="og:url" content="https://greg.heffner.live/loops.html">
         <meta property="og:type" content="website">
         <meta property="og:site_name" content="Greg Heffner">
+        <meta property="og:image" content="https://greg.heffner.live/image/photo/header.jpg">
+        <meta property="og:image:alt" content="Greg Heffner's site header image">
+        <meta property="og:locale" content="en_US">
         <meta name="twitter:card" content="summary">
         <meta name="twitter:title" content="Weather Loops | Greg Heffner">
         <meta name="twitter:description" content="Live weather dashboard: Ambient Weather station data, NWS Southeast radar, and GOES-19 satellite and lightning loops on a full-screen 2x2 grid.">
+        <meta name="twitter:image" content="https://greg.heffner.live/image/photo/header.jpg">
+        <meta name="twitter:image:alt" content="Greg Heffner's site header image">
         <meta name="theme-color" content="#333">
         <link rel="preconnect" href="https://ambientweather.net">
         <link rel="preconnect" href="https://radar.weather.gov">
@@ -3285,7 +3297,7 @@ data:
             body {
                 margin: 0;
             }
-    
+
             main {
                 display: flex;
                 flex-wrap: wrap;
@@ -3293,7 +3305,7 @@ data:
                 height: 100dvh;
                 background: #000;
             }
-    
+
             h1 {
                 position: absolute;
                 width: 1px;
@@ -3302,7 +3314,7 @@ data:
                 overflow: hidden;
                 white-space: nowrap;
             }
-    
+
             .window {
                 flex: 1 1 50%;
                 min-width: 400px;
@@ -3311,7 +3323,7 @@ data:
                 border: 2px solid #333;
                 overflow: hidden;
             }
-    
+
             iframe,
             img {
                 width: 100%;
@@ -3319,13 +3331,13 @@ data:
                 border: none;
                 display: block;
             }
-    
+
             .window img {
                 object-fit: contain;
             }
         </style>
     </head>
-    
+
     <body>
         <main>
             <h1>Weather Loops</h1>
@@ -3347,16 +3359,19 @@ data:
   traffic.html: |
     <!DOCTYPE html>
     <html lang="en">
-    
+
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Jacksonville, FL Traffic Cameras &amp; Live Map | Greg Heffner</title>
         <meta name="description" content="Explore real-time traffic conditions and live camera feeds for Jacksonville, Florida — an embedded FL511 map with speeds, incidents, closures, and construction.">
+        <meta name="robots" content="index, follow">
         <meta name="theme-color" content="#1a4e8a">
         <link rel="canonical" href="https://greg.heffner.live/traffic.html">
         <meta property="og:type" content="website">
         <meta property="og:site_name" content="Greg Heffner">
+        <meta property="og:image" content="https://greg.heffner.live/image/photo/header.jpg">
+        <meta property="og:image:alt" content="Greg Heffner's site header image">
         <meta property="og:locale" content="en_US">
         <meta property="og:url" content="https://greg.heffner.live/traffic.html">
         <meta property="og:title" content="Jacksonville, FL Traffic Cameras &amp; Live Map">
@@ -3364,6 +3379,8 @@ data:
         <meta name="twitter:card" content="summary">
         <meta name="twitter:title" content="Jacksonville, FL Traffic Cameras &amp; Live Map">
         <meta name="twitter:description" content="Explore real-time traffic conditions and live camera feeds for Jacksonville, Florida — an embedded FL511 map with speeds, incidents, closures, and construction.">
+        <meta name="twitter:image" content="https://greg.heffner.live/image/photo/header.jpg">
+        <meta name="twitter:image:alt" content="Greg Heffner's site header image">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
@@ -3381,7 +3398,7 @@ data:
                 flex-direction: column;
                 align-items: center;
             }
-    
+
             .container {
                 max-width: 900px;
                 width: 100%;
@@ -3394,7 +3411,7 @@ data:
                 flex-direction: column;
                 align-items: center;
             }
-    
+
             h1 {
                 font-size: 2.2rem;
                 font-weight: 700;
@@ -3402,21 +3419,21 @@ data:
                 color: #1a4e8a;
                 letter-spacing: 1px;
             }
-    
+
             .desc {
                 font-size: 1.1rem;
                 margin-bottom: 1.5em;
                 color: #444;
                 text-align: center;
             }
-    
+
             .info {
                 font-size: 0.98rem;
                 color: #666;
                 margin-bottom: 1.2em;
                 text-align: center;
             }
-    
+
             .map-window {
                 width: 100%;
                 height: 600px;
@@ -3427,27 +3444,27 @@ data:
                 background: #f5f7fa;
                 border: 1px solid #e0eafc;
             }
-    
+
             .map-window iframe {
                 border: 0;
             }
-    
+
             @media (max-width: 700px) {
                 .container {
                     padding: 12px 2vw 18px 2vw;
                 }
-    
+
                 .map-window {
                     height: 350px;
                 }
-    
+
                 h1 {
                     font-size: 1.3rem;
                 }
             }
         </style>
     </head>
-    
+
     <body>
         <main class="container">
             <h1>Jacksonville, FL Traffic Cameras &amp; Live Map</h1>
