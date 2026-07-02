@@ -12,6 +12,7 @@ data:
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="preconnect" href="https://www.googletagmanager.com">
         <!-- Google Tag Manager -->
         <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
         new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -19,49 +20,305 @@ data:
         'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
         })(window,document,'script','dataLayer','GTM-MQMRMNL5');</script>
         <!-- End Google Tag Manager -->
+        <title>Nerdsense Tech Blog | Greg Heffner</title>
         <link rel="apple-touch-icon" sizes="180x180" href="/image/apple-touch-icon.png">
         <link rel="icon" type="image/png" sizes="32x32" href="/image/favicon-32x32.png">
         <link rel="icon" type="image/png" sizes="16x16" href="/image/favicon-16x16.png">
         <link rel="manifest" href="/image/site.webmanifest">
         <link rel="stylesheet" href="/image/assets/styles.css">
         <link rel="canonical" href="https://greg.heffner.live/blog.html">
-        <meta name="title" content="Greg Heffner: Nerdsense">
         <meta name="description" content="Nerdsense is a blog by Greg Heffner, covering topics in technology, programming, and more. Easy to understand and fun!">
-        <meta name="keywords" content="blog, tech, writeups">
-        <meta name="language" content="English">
         <meta name="author" content="Greg Heffner">
         <meta name="robots" content="index, follow">
         <meta name="theme-color" content="#0d1117">
         <meta property="og:type" content="website">
-        <meta property="og:title" content="Greg Heffner: Nerdsense">
+        <meta property="og:title" content="Nerdsense Tech Blog | Greg Heffner">
         <meta property="og:description" content="Nerdsense is a blog by Greg Heffner, covering topics in technology, programming, and more. Easy to understand and fun!">
         <meta property="og:url" content="https://greg.heffner.live/blog.html">
         <meta property="og:image" content="https://greg.heffner.live/image/photo/header.jpg">
+        <meta property="og:image:alt" content="Nerdsense — Greg Heffner's tech blog header image">
         <meta property="og:site_name" content="Nerdsense">
         <meta property="og:image:width" content="1200">
         <meta property="og:image:height" content="630">
+        <meta property="og:locale" content="en_US">
         <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:title" content="Greg Heffner: Nerdsense">
+        <meta name="twitter:title" content="Nerdsense Tech Blog | Greg Heffner">
         <meta name="twitter:image" content="https://greg.heffner.live/image/photo/header.jpg">
+        <meta name="twitter:image:alt" content="Nerdsense — Greg Heffner's tech blog header image">
         <meta name="twitter:description" content="Nerdsense is a blog by Greg Heffner, covering topics in technology, programming, and more. Easy to understand and fun!">
         <script type="application/ld+json">
         {
-        "@context": "https://schema.org",
-        "@type": "Blog",
-        "name": "Nerdsense",
-        "description": "A blog by Greg Heffner covering technology, programming, and more",
-        "url": "https://greg.heffner.live/blog.html",
-        "author": {
-            "@type": "Person",
-            "name": "Greg Heffner"
-        },
-        "publisher": {
-            "@type": "Person",
-            "name": "Greg Heffner"
-        }
+            "@context": "https://schema.org",
+            "@type": "Blog",
+            "@id": "https://greg.heffner.live/blog.html#blog",
+            "name": "Nerdsense",
+            "description": "A blog by Greg Heffner covering technology, programming, and more",
+            "url": "https://greg.heffner.live/blog.html",
+            "mainEntityOfPage": "https://greg.heffner.live/blog.html",
+            "inLanguage": "en-US",
+            "author": {
+                "@type": "Person",
+                "name": "Greg Heffner"
+            },
+            "publisher": {
+                "@type": "Person",
+                "name": "Greg Heffner"
+            },
+            "blogPost": [
+                {
+                    "@type": "BlogPosting",
+                    "headline": "Stop Babysitting Your Agent Swarms: The One-Time Setup That Heals a Stalled Workflow",
+                    "url": "https://greg.heffner.live/image/pages/2026/June/AgentSwarmHeal.html",
+                    "datePublished": "2026-06-26"
+                },
+                {
+                    "@type": "BlogPosting",
+                    "headline": "Patch Fast, But Let It Bake: Why Package Cooldowns Now Matter More Than Speed",
+                    "url": "https://greg.heffner.live/image/pages/2026/June/LetItBake.html",
+                    "datePublished": "2026-06-21"
+                },
+                {
+                    "@type": "BlogPosting",
+                    "headline": "Machine-Speed Triage: Compressing MTTR with Claude Code Dynamic Workflows",
+                    "url": "https://greg.heffner.live/image/pages/2026/June/AgenticMTTR.html",
+                    "datePublished": "2026-06-14"
+                },
+                {
+                    "@type": "BlogPosting",
+                    "headline": "Push the Knowledge Down the Stack: Cheaper Agents Through Skills",
+                    "url": "https://greg.heffner.live/image/pages/2026/June/TokensDownTheStack.html",
+                    "datePublished": "2026-06-05"
+                },
+                {
+                    "@type": "BlogPosting",
+                    "headline": "Why Claude Code Wanders in Big Repos (And Three Fixes)",
+                    "url": "https://greg.heffner.live/image/pages/2026/May/ClaudeBigRepo.html",
+                    "datePublished": "2026-05-22"
+                },
+                {
+                    "@type": "BlogPosting",
+                    "headline": "Claude Agents: The 7 Building Blocks (and 8 Tips for Using Them)",
+                    "url": "https://greg.heffner.live/image/pages/2026/May/ClaudeSkills.html",
+                    "datePublished": "2026-05-17"
+                },
+                {
+                    "@type": "BlogPosting",
+                    "headline": "Nessus & Wazuh: Watching the Watchers at Home",
+                    "url": "https://greg.heffner.live/image/pages/2026/May/NessusandWazuh.html",
+                    "datePublished": "2026-05-03"
+                },
+                {
+                    "@type": "BlogPosting",
+                    "headline": "ActionCheck: The TUI that Knows Your CI/CD",
+                    "url": "https://greg.heffner.live/image/pages/2026/Jan/actioncheck.html",
+                    "datePublished": "2026-01-07"
+                },
+                {
+                    "@type": "BlogPosting",
+                    "headline": "Blocks for the Year: A review",
+                    "url": "https://greg.heffner.live/image/pages/2025/Dec/web-blocks.html",
+                    "datePublished": "2025-12-30"
+                },
+                {
+                    "@type": "BlogPosting",
+                    "headline": "Can I get a MCP hype-train in the chat?",
+                    "url": "https://greg.heffner.live/image/pages/2025/Sept/MCP.html",
+                    "datePublished": "2025-09-28"
+                },
+                {
+                    "@type": "BlogPosting",
+                    "headline": "Agentic AI - The Future of Automation",
+                    "url": "https://greg.heffner.live/image/pages/2025/Sept/agenticAI.html",
+                    "datePublished": "2025-09-05"
+                },
+                {
+                    "@type": "BlogPosting",
+                    "headline": "Pihole - Advanced Use Cases",
+                    "url": "https://greg.heffner.live/image/pages/2025/Sept/piholeadv.html",
+                    "datePublished": "2025-09-02"
+                },
+                {
+                    "@type": "BlogPosting",
+                    "headline": "UV and why you don't want to block this Python tool",
+                    "url": "https://greg.heffner.live/image/pages/2025/Aug/UV.html",
+                    "datePublished": "2025-08-16"
+                },
+                {
+                    "@type": "BlogPosting",
+                    "headline": "DEFCON Dive: Three Days of Tech, Tin Foil, and Total Chaos",
+                    "url": "https://greg.heffner.live/image/pages/2025/Aug/DEFCON.html",
+                    "datePublished": "2025-08"
+                },
+                {
+                    "@type": "BlogPosting",
+                    "headline": "Homelab and Virtualization in 2025",
+                    "url": "https://greg.heffner.live/image/pages/2025/July/homelab.html",
+                    "datePublished": "2025-07-26"
+                },
+                {
+                    "@type": "BlogPosting",
+                    "headline": "Crontab: Automating Tasks with Cron Jobs",
+                    "url": "https://greg.heffner.live/image/pages/2025/July/cron.html",
+                    "datePublished": "2025-07-11"
+                },
+                {
+                    "@type": "BlogPosting",
+                    "headline": "Build, Test, Deploy: The CI/CD Adventure (with a Dash of Argo CD Magic)",
+                    "url": "https://greg.heffner.live/image/pages/2025/July/cicd.html",
+                    "datePublished": "2025-07-03"
+                },
+                {
+                    "@type": "BlogPosting",
+                    "headline": "Web Security: Blocking Bots from the Edge with Fail2Ban + Cloudflare",
+                    "url": "https://greg.heffner.live/image/pages/2025/June/websecurity.html",
+                    "datePublished": "2025-06-25"
+                },
+                {
+                    "@type": "BlogPosting",
+                    "headline": "GitHub advanced features: Short-cycle your processes",
+                    "url": "https://greg.heffner.live/image/pages/2025/June/githubadv.html",
+                    "datePublished": "2025-06-15"
+                },
+                {
+                    "@type": "BlogPosting",
+                    "headline": "Advent of Cyber: Time for some Holiday fun with TryHackMe!",
+                    "url": "https://greg.heffner.live/image/pages/2024/Nov/AOC.html",
+                    "datePublished": "2024-11-23"
+                },
+                {
+                    "@type": "BlogPosting",
+                    "headline": "Terraform vs. Ansible: Navigating the Cloud with a Sail and a Spark",
+                    "url": "https://greg.heffner.live/image/pages/2024/Sept/tools.html",
+                    "datePublished": "2024-09-15"
+                },
+                {
+                    "@type": "BlogPosting",
+                    "headline": "Smoke Tests: The Production Combine",
+                    "url": "https://greg.heffner.live/image/pages/2024/Sept/smoketest.html",
+                    "datePublished": "2024-09-11"
+                },
+                {
+                    "@type": "BlogPosting",
+                    "headline": "Class Setup: My learning tech stack - Learn for Free",
+                    "url": "https://greg.heffner.live/image/pages/2024/Sept/classsetup.html",
+                    "datePublished": "2024-09-08"
+                },
+                {
+                    "@type": "BlogPosting",
+                    "headline": "Upstream DNS Servers: Put the internet to work",
+                    "url": "https://greg.heffner.live/image/pages/2024/Sept/upstreamdns.html",
+                    "datePublished": "2024-09-04"
+                },
+                {
+                    "@type": "BlogPosting",
+                    "headline": "Tech Implants: LED and NFC Lighting Up the Future Under Your Skin",
+                    "url": "https://greg.heffner.live/image/pages/2024/Sept/techimplants.html",
+                    "datePublished": "2024-09-01"
+                },
+                {
+                    "@type": "BlogPosting",
+                    "headline": "TryHackMe: Command Line Confessions",
+                    "url": "https://greg.heffner.live/image/pages/2024/Aug/tryhackme.html",
+                    "datePublished": "2024-08-28"
+                },
+                {
+                    "@type": "BlogPosting",
+                    "headline": "DMR Radios: It's giving radio-nerd vibes",
+                    "url": "https://greg.heffner.live/image/pages/2024/Aug/dmrradios.html",
+                    "datePublished": "2024-08-25"
+                },
+                {
+                    "@type": "BlogPosting",
+                    "headline": "Twingate: Your Key to Remote Networks",
+                    "url": "https://greg.heffner.live/image/pages/2024/Aug/twingate.html",
+                    "datePublished": "2024-08-21"
+                },
+                {
+                    "@type": "BlogPosting",
+                    "headline": "Secrets: Password Managers and Hardware Keys",
+                    "url": "https://greg.heffner.live/image/pages/2024/Aug/secrets.html",
+                    "datePublished": "2024-08-18"
+                },
+                {
+                    "@type": "BlogPosting",
+                    "headline": "Travel Router: How I stay secure on work trips",
+                    "url": "https://greg.heffner.live/image/pages/2024/Aug/travelrouter.html",
+                    "datePublished": "2024-08-14"
+                },
+                {
+                    "@type": "BlogPosting",
+                    "headline": "Docker Updates: 4 steps to secure your images",
+                    "url": "https://greg.heffner.live/image/pages/2024/Aug/dockerupdate.html",
+                    "datePublished": "2024-08-11"
+                },
+                {
+                    "@type": "BlogPosting",
+                    "headline": "Ansible: Let me put you on patch game",
+                    "url": "https://greg.heffner.live/image/pages/2024/Aug/ansible.html",
+                    "datePublished": "2024-08-07"
+                },
+                {
+                    "@type": "BlogPosting",
+                    "headline": "Kubernetes: 86 the Prime Rib",
+                    "url": "https://greg.heffner.live/image/pages/2024/Aug/k8s.html",
+                    "datePublished": "2024-08-04"
+                },
+                {
+                    "@type": "BlogPosting",
+                    "headline": "A Home Build: If I were to build it today",
+                    "url": "https://greg.heffner.live/image/pages/2024/July/homebuild.html",
+                    "datePublished": "2024-07-31"
+                },
+                {
+                    "@type": "BlogPosting",
+                    "headline": "WiFi: Wireless internet magic",
+                    "url": "https://greg.heffner.live/image/pages/2024/July/wifi.html",
+                    "datePublished": "2024-07-28"
+                },
+                {
+                    "@type": "BlogPosting",
+                    "headline": "The Cloud: Not the Floridian Cumulonimbus kind",
+                    "url": "https://greg.heffner.live/image/pages/2024/July/thecloud.html",
+                    "datePublished": "2024-07-24"
+                },
+                {
+                    "@type": "BlogPosting",
+                    "headline": "VPNs: Web browsing and IP masking",
+                    "url": "https://greg.heffner.live/image/pages/2024/July/VPNs.html",
+                    "datePublished": "2024-07-21"
+                },
+                {
+                    "@type": "BlogPosting",
+                    "headline": "DockerHub: Because Ship Happens",
+                    "url": "https://greg.heffner.live/image/pages/2024/July/DockerHub.html",
+                    "datePublished": "2024-07-17"
+                },
+                {
+                    "@type": "BlogPosting",
+                    "headline": "Loadbalancing: Boots & cats &",
+                    "url": "https://greg.heffner.live/image/pages/2024/July/LB.html",
+                    "datePublished": "2024-07-14"
+                },
+                {
+                    "@type": "BlogPosting",
+                    "headline": "GitHub: What's the fuss about?",
+                    "url": "https://greg.heffner.live/image/pages/2024/July/GitHub.html",
+                    "datePublished": "2024-07-10"
+                },
+                {
+                    "@type": "BlogPosting",
+                    "headline": "Pi-Hole: What is it and why you might want to use it",
+                    "url": "https://greg.heffner.live/image/pages/2024/July/Pi-Hole.html",
+                    "datePublished": "2024-07-07"
+                },
+                {
+                    "@type": "BlogPosting",
+                    "headline": "Beginner's Journey: Greg Starts His Blog",
+                    "url": "https://greg.heffner.live/image/pages/initial.html"
+                }
+            ]
         }
         </script>
-        <title>Nerdsense - A Blog</title>
         <style>
             :root {
                 --bg: #0d1117;
@@ -270,13 +527,28 @@ data:
                     max-height: 200px;
                 }
             }
+            .skip-link {
+                position: absolute;
+                left: -9999px;
+                top: 0;
+                z-index: 100;
+                padding: 10px 16px;
+                background-color: var(--card-bg);
+                color: var(--accent);
+                border: 1px solid var(--card-border);
+                border-radius: 6px;
+            }
+            .skip-link:focus {
+                left: 10px;
+            }
         </style>
     </head>
 
     <body>
         <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MQMRMNL5" height="0" width="0"
                 style="display:none;visibility:hidden"></iframe></noscript>
-        <nav class="navbar">
+        <a class="skip-link" href="#main">Skip to main content</a>
+        <nav class="navbar" aria-label="Primary">
             <div class="navdiv">
                 <ul>
                     <li><a href="https://greg.heffner.live">Home</a></li>
@@ -284,561 +556,539 @@ data:
                     <li><a href="https://greg.heffner.live/blog.html">Blog</a></li>
                     <li><a href="https://www.paypal.com/donate/?business=UK9DCMKFRTWRN&no_recurring=0&item_name=Thanks+for+supporting+the+page&currency_code=USD">Support</a></li>
                     <li><a href="https://greg.heffner.live/privacy.html">Privacy Policy</a></li>
-                    <li><a
-                            href="/cdn-cgi/l/email-protection#c1aca0a8afefb1ada0aff4f6f9f281a7a0b2b5aca0a8adefa2aeac">Contact</a>
-                    </li>
+                    <li><a href="/cdn-cgi/l/email-protection#c1aca0a8afefb1ada0aff4f6f9f281a7a0b2b5aca0a8adefa2aeac">Contact</a></li>
                 </ul>
             </div>
         </nav>
-        <div class="header">
+        <header class="header">
             <h1>Nerdsense Tech Blogs</h1>
-        </div>
-        <div id="search-container">
-        <input type="text" id="search-input" aria-label="Search articles" placeholder="Search articles..." onkeypress="handleKeyPress(event)">
-        <button onclick="searchArticles()">Search</button>
-        </div>
-        <h2 class="visually-hidden">All blog posts</h2>
-        <div class="row">
-            <div class="leftcolumn">
-                <div class="card">
-            <section id="Article41-AgentSwarmHeal">
-                <div class="blog-box">
-                    <div class="blog-description">
-                        <h3><a href="/image/pages/2026/June/AgentSwarmHeal.html">Stop Babysitting Your Agent Swarms: The One-Time Setup That Heals a Stalled Workflow</a></h3>
-                        <p>Greg Heffner <time datetime="2026-06-26">June 26th, 2026</time></p>
-                    </div>
-                    <div class="blog-image-container">
-                        <img src="/image/blog/2026/June/hero-stop-babysitting-swarms.png" alt="Stop Babysitting Your Agent Swarms: The One-Time Setup That Heals a Stalled Workflow - blog post image" width="1200" height="630" decoding="async">
-                    </div>
-                </div>
-            </section>
-            <section id="Article40-LetItBake">
-                <div class="blog-box">
-                    <div class="blog-description">
-                        <h3><a href="/image/pages/2026/June/LetItBake.html">Patch Fast, But Let It Bake: Why Package Cooldowns Now Matter More Than Speed</a></h3>
-                        <p>Greg Heffner <time datetime="2026-06-21">June 21st, 2026</time></p>
-                    </div>
-                    <div class="blog-image-container">
-                        <img src="/image/blog/2026/June/hero-patch-fast-let-it-bake.png" alt="Patch Fast, But Let It Bake: Why Package Cooldowns Now Matter More Than Speed - blog post image" width="1200" height="630" decoding="async">
-                    </div>
-                </div>
-            </section>
-            <section id="Article39-AgenticMTTR">
-                <div class="blog-box">
-                    <div class="blog-description">
-                        <h3><a href="/image/pages/2026/June/AgenticMTTR.html">Machine-Speed Triage: Compressing MTTR with Claude Code Dynamic Workflows</a></h3>
-                        <p>Greg Heffner <time datetime="2026-06-14">June 14th, 2026</time></p>
-                    </div>
-                    <div class="blog-image-container">
-                        <img src="/image/blog/2026/June/agenticMTTR.png" alt="Machine-Speed Triage: Compressing MTTR with Claude Code Dynamic Workflows - blog post image" width="1200" height="630" decoding="async">
-                    </div>
-                </div>
-            </section>
-            <section id="Article38-TokensDownStack">
-                <div class="blog-box">
-                    <div class="blog-description">
-                        <h3><a href="/image/pages/2026/June/TokensDownTheStack.html">Push the Knowledge Down the Stack: Cheaper Agents Through Skills</a></h3>
-                        <p>Greg Heffner <time datetime="2026-06-05">June 5th, 2026</time></p>
-                    </div>
-                    <div class="blog-image-container">
-                        <img src="/image/blog/2026/June/hero-push-knowledge-down-stack.png" alt="Push the Knowledge Down the Stack: Cheaper Agents Through Skills" width="1200" height="630" decoding="async">
-                    </div>
-                </div>
-            </section>
-            <section id="Article37-ClaudeBigRepo">
-                <div class="blog-box">
-                    <div class="blog-description">
-                        <h3><a href="/image/pages/2026/May/ClaudeBigRepo.html">Why Claude Code Wanders in Big Repos (And Three Fixes)</a></h3>
-                        <p>Greg Heffner <time datetime="2026-05-22">May 22nd, 2026</time></p>
-                    </div>
-                    <div class="blog-image-container">
-                        <img src="/image/blog/2026/May/hero-claude-wanders-big-repos.png" alt="Why Claude Code Wanders in Big Repos" width="1600" height="800" decoding="async">
-                    </div>
-                </div>
-            </section>
-            <section id="Article36-ClaudeSkills">
-                <div class="blog-box">
-                    <div class="blog-description">
-                        <h3><a href="/image/pages/2026/May/ClaudeSkills.html">Claude Agents: The 7 Building Blocks (and 8 Tips for Using Them)</a></h3>
-                        <p>Greg Heffner <time datetime="2026-05-17">May 17th, 2026</time></p>
-                    </div>
-                    <div class="blog-image-container">
-                        <img src="/image/blog/2026/May/blogclaudeskills.png" alt="Claude Agents: The 7 Building Blocks (and 8 Tips for Using Them) - blog post image" width="1024" height="1024" loading="lazy" decoding="async">
-                    </div>
-                </div>
-            </section>
-            <section id="Article35-WassuhandNessus">
-                <div class="blog-box">
-                    <div class="blog-description">
-                        <h3><a href="/image/pages/2026/May/NessusandWazuh.html">Nessus & Wazuh: Watching the Watchers at Home</a></h3>
-                        <p>Greg Heffner <time datetime="2026-05-03">May 3rd, 2026</time></p>
-                    </div>
-                    <div class="blog-image-container">
-                        <img src="/image/blog/2026/May/nessus-wazuh.png" alt="Nessus & Wazuh: Watching the Watchers at Home - blog post image" width="512" height="512" loading="lazy" decoding="async">
-                    </div>
-                </div>
-            </section>
-            <section id="Article34-ActionCheck">
-                <div class="blog-box">
-                    <div class="blog-description">
-                        <h3><a href="/image/pages/2026/Jan/actioncheck.html">ActionCheck: The TUI that Knows Your CI/CD</a></h3>
-                        <p>Greg Heffner <time datetime="2026-01-07">January 7th, 2026</time></p>
-                    </div>
-                    <div class="blog-image-container">
-                        <img src="/image/blog/2026/Jan/blogactioncheck.png" alt="ActionCheck: The TUI that Knows Your CI/CD - blog post image" width="1024" height="1024" loading="lazy" decoding="async">
-                    </div>
-                </div>
-            </section>
-            <section id="Article33-Blocks">
-                <div class="blog-box">
-                    <div class="blog-description">
-                        <h3><a href="/image/pages/2025/Dec/web-blocks.html">Blocks for the Year: A review</a></h3>
-                        <p>Greg Heffner <time datetime="2025-12-30">December 30th, 2025</time></p>
-                    </div>
-                    <div class="blog-image-container">
-                        <img src="/image/blog/2025/Dec/waffle-security.png" alt="Blocks for the Year: A review - blog post image" width="1024" height="1024" loading="lazy" decoding="async">
-                    </div>
-                </div>
-            </section>
-            <section id="Article32-MCP">
-                <div class="blog-box">
-                    <div class="blog-description">
-                        <h3><a href="/image/pages/2025/Sept/MCP.html">Can I get a MCP hype-train in the chat?</a></h3>
-                        <p>Greg Heffner <time datetime="2025-09-28">September 28th, 2025</time></p>
-                    </div>
-                    <div class="blog-image-container">
-                        <img src="/image/blog/2025/Sept/MCP.png" alt="Can I get a MCP hype-train in the chat? - blog post image" width="1058" height="748" loading="lazy" decoding="async">
-                    </div>
-                </div>
-            </section>
-            <section id="Article31-AgenticAI">
-                <div class="blog-box">
-                    <div class="blog-description">
-                        <h3><a href="/image/pages/2025/Sept/agenticAI.html">Agentic AI - The Future of Automation</a></h3>
-                        <p>Greg Heffner <time datetime="2025-09-05">September 5th, 2025</time></p>
-                    </div>
-                    <div class="blog-image-container">
-                        <img src="/image/blog/2025/Sept/agenticai.jpeg" alt="Agentic AI - The Future of Automation - blog post image" width="752" height="754" loading="lazy" decoding="async">
-                    </div>
-                </div>
-            </section>
-            <section id="Article30-PiholeAdv">
-                <div class="blog-box">
-                    <div class="blog-description">
-                        <h3><a href="/image/pages/2025/Sept/piholeadv.html">Pihole - Advanced Use Cases</a></h3>
-                        <p>Greg Heffner <time datetime="2025-09-02">September 2nd, 2025</time></p>
-                    </div>
-                    <div class="blog-image-container">
-                        <img src="/image/blog/2025/Sept/pihole.jpeg" alt="Pihole - Advanced Use Cases - blog post image" width="1093" height="750" loading="lazy" decoding="async">
-                    </div>
-                </div>
-            </section>
-            <section id="Article29-UV">
-                <div class="blog-box">
-                    <div class="blog-description">
-                        <h3><a href="/image/pages/2025/Aug/UV.html">UV and and why you dont want to block this python tool</a></h3>
-                        <p>Greg Heffner <time datetime="2025-08-16">August 16th, 2025</time></p>
-                    </div>
-                    <div class="blog-image-container">
-                        <img src="/image/blog/2025/Aug/uv-blog.jpeg" alt="UV and and why you dont want to block this python tool - blog post image" width="1562" height="2220" loading="lazy" decoding="async">
-                    </div>
-                </div>
-            </section>
-            <section id="Article28-DEFCON">
-                <div class="blog-box">
-                    <div class="blog-description">
-                        <h3><a href="/image/pages/2025/Aug/DEFCON.html">DEFCON Dive: Three Days of Tech, Tin Foil, and Total Chaos</a></h3>
-                        <p>Greg Heffner <time datetime="2025-08">August, 2025</time></p>
-                    </div>
-                    <div class="blog-image-container">
-                        <img src="/image/blog/2025/Aug/defconblog.jpeg" alt="DEFCON Dive: Three Days of Tech, Tin Foil, and Total Chaos - blog post image" width="1220" height="1200" loading="lazy" decoding="async">
-                    </div>
-                </div>
-            </section>
-            <section id="Article27-HomeLab">
-                <div class="blog-box">
-                    <div class="blog-description">
-                        <h3><a href="/image/pages/2025/July/homelab.html">Homelab and Virtualization in 2025</a></h3>
-                        <p>Greg Heffner <time datetime="2025-07-26">July 26th, 2025</time></p>
-                        <p class="blog-note">Cleaner css moving forward!!!</p>
-                    </div>
-                    <div class="blog-image-container">
-                        <img src="/image/blog/2025/July/homelab.png" alt="Homelab and Virtualization in 2025 - blog post image" width="2048" height="2048" loading="lazy" decoding="async">
-                    </div>
-                </div>
-            </section>
-            <section id="Article26-Crontab">
-                <div class="blog-box">
-                    <div class="blog-description">
-                        <h3><a href="/image/pages/2025/July/cron.html">Crontab: Automating Tasks with Cron Jobs</a></h3>
-                        <p>Greg Heffner <time datetime="2025-07-11">July 11th, 2025</time></p>
-                    </div>
-                    <div class="blog-image-container">
-                        <img src="/image/blog/2025/July/CronScheduler.jpeg" alt="Crontab: Automating Tasks with Cron Jobs - blog post image" width="1530" height="1454" loading="lazy" decoding="async">
-                    </div>
-                </div>
-            </section>
-            <section id="Article25-CICD">
-                <div class="blog-box">
-                    <div class="blog-description">
-                        <h3><a href="/image/pages/2025/July/cicd.html">Build, Test, Deploy: The CI/CD Adventure (with a Dash of Argo CD Magic)</a></h3>
-                        <p>Greg Heffner <time datetime="2025-07-03">July 3rd, 2025</time></p>
-                        <p class="blog-note">Mobile friendly blogs moving forward!!!</p>
-                    </div>
-                    <div class="blog-image-container">
-                        <img src="/image/blog/2025/July/CICD2.png" alt="Build, Test, Deploy: The CI/CD Adventure (with a Dash of Argo CD Magic) - blog post image" width="1536" height="1024" loading="lazy" decoding="async">
-                    </div>
-                </div>
-            </section>
-            <section id="Article24-WebSec">
-                <div class="blog-box">
-                    <div class="blog-description">
-                        <h3><a href="/image/pages/2025/June/websecurity.html">Web Security: Blocking Bots from the Edge with Fail2Ban + Cloudflare</a></h3>
-                        <p>Greg Heffner <time datetime="2025-06-25">June 25, 2025</time></p>
-                    </div>
-                    <div class="blog-image-container">
-                        <img src="/image/blog/2025/June/websec.png" alt="Web Security: Blocking Bots from the Edge with Fail2Ban + Cloudflare - blog post image" width="1536" height="1024" loading="lazy" decoding="async">
-                    </div>
-                </div>
-            </section>
-            <section id="Article23-GitAdv">
-                <div class="blog-box">
-                    <div class="blog-description">
-                        <h3><a href="/image/pages/2025/June/githubadv.html">Github advanced features: Short-cycle your processes</a></h3>
-                        <p>Greg Heffner <time datetime="2025-06-15">June 15, 2025</time></p>
-                    </div>
-                    <div class="blog-image-container">
-                        <img src="/image/blog/2025/June/githubadv.png" alt="Github advanced features: Short-cycle your processes - blog post image" width="1024" height="1024" loading="lazy" decoding="async">
-                    </div>
-                </div>
-            </section>
-            <section id="Article22-AOC">
-                <div class="blog-box">
-                    <div class="blog-description">
-                        <h3><a href="/image/pages/2024/Nov/AOC.html">Advent of Cyber: Time for some Holiday fun with TryHackMe!</a></h3>
-                        <p>Greg Heffner <time datetime="2024-11-23">November 23, 2024</time></p>
-                    </div>
-                    <div class="blog-image-container">
-                        <img src="/image/blog/2024/Nov/aocblog.jpeg" alt="Advent of Cyber: Time for some Holiday fun with TryHackMe! - blog post image" width="1024" height="1024" loading="lazy" decoding="async">
-                    </div>
-                </div>
-            </section>
-            <section id="Article21-Tools">
-                <div class="blog-box">
-                    <div class="blog-description">
-                        <h3><a href="/image/pages/2024/Sept/tools.html">Terraform vs. Ansible: Navigating the Cloud with a Sail and a Spark</a></h3>
-                        <p>Greg Heffner <time datetime="2024-09-15">September 15, 2024</time></p>
-                    </div>
-                    <div class="blog-image-container">
-                        <img src="/image/blog/2024/Sept/tools.png" alt="Terraform vs. Ansible: Navigating the Cloud with a Sail and a Spark - blog post image" width="1024" height="1024" loading="lazy" decoding="async">
-                    </div>
-                </div>
-            </section>
-            <section id="Article20-SmokeTest">
-                <div class="blog-box">
-                    <div class="blog-description">
-                        <h3><a href="/image/pages/2024/Sept/smoketest.html">Smoke Tests: The Production Combine</a></h3>
-                        <p>Greg Heffner <time datetime="2024-09-11">September 11, 2024</time></p>
-                    </div>
-                    <div class="blog-image-container">
-                        <img src="/image/blog/2024/Sept/smoketest.png" alt="Smoke Tests: The Production Combine - blog post image" width="1024" height="1024" loading="lazy" decoding="async">
-                    </div>
-                </div>
-            </section>
-            <section id="Article19-ClassSetup">
-                <div class="blog-box">
-                    <div class="blog-description">
-                        <h3><a href="/image/pages/2024/Sept/classsetup.html">Class Setup: My learning tech stack - Learn for Free</a></h3>
-                        <p>Greg Heffner <time datetime="2024-09-08">September 8, 2024</time></p>
-                    </div>
-                    <div class="blog-image-container">
-                        <img src="/image/blog/2024/Sept/classsetup.png" alt="Class Setup: My learning tech stack - Learn for Free - blog post image" width="1024" height="1024" loading="lazy" decoding="async">
-                    </div>
-                </div>
-            </section>
-            <section id="Article18-UpstreamDNS">
-                <div class="blog-box">
-                    <div class="blog-description">
-                        <h3><a href="/image/pages/2024/Sept/upstreamdns.html">Upstream DNS Servers: Put the internet to work</a></h3>
-                        <p>Greg Heffner <time datetime="2024-09-04">September 4, 2024</time></p>
-                    </div>
-                    <div class="blog-image-container">
-                        <img src="/image/blog/2024/Sept/upstreamdns.png" alt="Upstream DNS Servers: Put the internet to work - blog post image" width="1024" height="1024" loading="lazy" decoding="async">
-                    </div>
-                </div>
-            </section>
-            <section id="Article17-TechImplants">
-                <div class="blog-box">
-                    <div class="blog-description">
-                        <h3><a href="/image/pages/2024/Sept/techimplants.html">Tech Implants: LED and NFC Lighting Up the Future Under Your Skin</a></h3>
-                        <p>Greg Heffner <time datetime="2024-09-01">September 1, 2024</time></p>
-                    </div>
-                    <div class="blog-image-container">
-                        <img src="/image/blog/2024/Sept/xsiid.JPG" alt="Tech Implants: LED and NFC Lighting Up the Future Under Your Skin - blog post image" width="750" height="750" loading="lazy" decoding="async">
-                    </div>
-                </div>
-            </section>
-            <section id="Article16-TryHackMe">
-                <div class="blog-box">
-                    <div class="blog-description">
-                        <h3><a href="/image/pages/2024/Aug/tryhackme.html">TryHackMe: Command Line Confessions</a></h3>
-                        <p>Greg Heffner <time datetime="2024-08-28">August 28, 2024</time></p>
-                    </div>
-                    <div class="blog-image-container">
-                        <img src="/image/blog/2024/Aug/tryhackme.png" alt="TryHackMe: Command Line Confessions - blog post image" width="1024" height="1024" loading="lazy" decoding="async">
-                    </div>
-                </div>
-            </section>
-            <section id="Article15-DMRRadios">
-                <div class="blog-box">
-                    <div class="blog-description">
-                        <h3><a href="/image/pages/2024/Aug/dmrradios.html">DMR Radios: Its giving radio-nerd vibes</a></h3>
-                        <p>Greg Heffner <time datetime="2024-08-25">August 25, 2024</time></p>
-                    </div>
-                    <div class="blog-image-container">
-                        <img src="/image/blog/2024/Aug/hamradio.png" alt="DMR Radios: Its giving radio-nerd vibes - blog post image" width="1024" height="1024" loading="lazy" decoding="async">
-                    </div>
-                </div>
-            </section>
-            <section id="Article14-Twingate">
-                <div class="blog-box">
-                    <div class="blog-description">
-                        <h3><a href="/image/pages/2024/Aug/twingate.html">Twingate: Your Key to Remote Networks</a></h3>
-                        <p>Greg Heffner <time datetime="2024-08-21">August 21, 2024</time></p>
-                    </div>
-                    <div class="blog-image-container">
-                        <img src="/image/blog/2024/Aug/twingate.png" alt="Twingate: Your Key to Remote Networks - blog post image" width="225" height="225" loading="lazy" decoding="async">
-                    </div>
-                </div>
-            </section>
-            <section id="Article13-Secrets">
-                <div class="blog-box">
-                    <div class="blog-description">
-                        <h3><a href="/image/pages/2024/Aug/secrets.html">Secrets: Password Managers and Hardware Keys</a></h3>
-                        <p>Greg Heffner <time datetime="2024-08-18">August 18, 2024</time></p>
-                    </div>
-                    <div class="blog-image-container">
-                        <img src="/image/blog/2024/Aug/secrets.png" alt="Secrets: Password Managers and Hardware Keys - blog post image" width="1024" height="1024" loading="lazy" decoding="async">
-                    </div>
-                </div>
-            </section>
-            <section id="Article12-TravelRouter">
-                <div class="blog-box">
-                    <div class="blog-description">
-                        <h3><a href="/image/pages/2024/Aug/travelrouter.html">Travel Router: How I stay secure on work trips</a></h3>
-                        <p>Greg Heffner <time datetime="2024-08-14">August 14, 2024</time></p>
-                    </div>
-                    <div class="blog-image-container">
-                        <img src="/image/blog/2024/Aug/travelrouter.png" alt="Travel Router: How I stay secure on work trips - blog post image" width="1024" height="1024" loading="lazy" decoding="async">
-                    </div>
-                </div>
-            </section>
-            <section id="Article11-DockerUpdate">
-                <div class="blog-box">
-                    <div class="blog-description">
-                        <h3><a href="/image/pages/2024/Aug/dockerupdate.html">Docker Updates: 4 steps to secure your images</a></h3>
-                        <p>Greg Heffner <time datetime="2024-08-11">August 11, 2024</time></p>
-                    </div>
-                    <div class="blog-image-container">
-                        <img src="/image/blog/2024/Aug/dockerupdates.png" alt="Docker Updates: 4 steps to secure your images - blog post image" width="1024" height="1024" loading="lazy" decoding="async">
-                    </div>
-                </div>
-            </section>
-            <section id="Article10-Ansible">
-                <div class="blog-box">
-                    <div class="blog-description">
-                        <h3><a href="/image/pages/2024/Aug/ansible.html">Ansible: Let me put you on patch game</a></h3>
-                        <p>Greg Heffner <time datetime="2024-08-07">August 7, 2024</time></p>
-                    </div>
-                    <div class="blog-image-container">
-                        <img src="/image/blog/2024/Aug/ansible.png" alt="Ansible: Let me put you on patch game - blog post image" width="1024" height="1024" loading="lazy" decoding="async">
-                    </div>
-                </div>
-            </section>
-            <section id="Article9-Kubernetes">
-                <div class="blog-box">
-                    <div class="blog-description">
-                        <h3><a href="/image/pages/2024/Aug/k8s.html">Kubernetes: 86 the Prime Rib</a></h3>
-                        <p>Greg Heffner <time datetime="2024-08-04">August 4, 2024</time></p>
-                    </div>
-                    <div class="blog-image-container">
-                        <img src="/image/blog/2024/Aug/k8s.png" alt="Kubernetes: 86 the Prime Rib - blog post image" width="1024" height="1024" loading="lazy" decoding="async">
-                    </div>
-                </div>
-            </section>
-            <section id="Article8-HomeBuild">
-                <div class="blog-box">
-                    <div class="blog-description">
-                        <h3><a href="/image/pages/2024/July/homebuild.html">A Home Build: If I were to build it today</a></h3>
-                        <p>Greg Heffner <time datetime="2024-07-31">July 31, 2024</time></p>
-                    </div>
-                    <div class="blog-image-container">
-                        <img src="/image/blog/2024/July/homebuild.png" alt="A Home Build: If I were to build it today - blog post image" width="1024" height="1024" loading="lazy" decoding="async">
-                    </div>
-                </div>
-            </section>
-            <section id="Article7-WiFi">
-                <div class="blog-box">
-                    <div class="blog-description">
-                        <h3><a href="/image/pages/2024/July/wifi.html">WiFi: Wireless internet magic</a></h3>
-                        <p>Greg Heffner <time datetime="2024-07-28">July 28, 2024</time></p>
-                    </div>
-                    <div class="blog-image-container">
-                        <img src="/image/blog/2024/July/WiFi2.png" alt="WiFi: Wireless internet magic - blog post image" width="1024" height="1024" loading="lazy" decoding="async">
-                    </div>
-                </div>
-            </section>
-            <section id="Article6-TheCloud">
-                <div class="blog-box">
-                    <div class="blog-description">
-                        <h3><a href="/image/pages/2024/July/thecloud.html">The Cloud: Not the Floridian Cumulonimbus kind</a></h3>
-                        <p>Greg Heffner <time datetime="2024-07-24">July 24, 2024</time></p>
-                    </div>
-                    <div class="blog-image-container">
-                        <img src="/image/blog/2024/July/cloud4.png" alt="The Cloud: Not the Floridian Cumulonimbus kind - blog post image" width="1024" height="1024" loading="lazy" decoding="async">
-                    </div>
-                </div>
-            </section>
-            <section id="Article5-VPNs">
-                <div class="blog-box">
-                    <div class="blog-description">
-                        <h3><a href="/image/pages/2024/July/VPNs.html">VPNs: Web browsing and IP masking</a></h3>
-                        <p>Greg Heffner <time datetime="2024-07-21">July 21, 2024</time></p>
-                    </div>
-                    <div class="blog-image-container">
-                        <img src="/image/blog/2024/July/vpn.png" alt="VPNs: Web browsing and IP masking - blog post image" width="1024" height="1024" loading="lazy" decoding="async">
-                    </div>
-                </div>
-            </section>
-            <section id="Article4-DockerHub">
-                <div class="blog-box">
-                    <div class="blog-description">
-                        <h3><a href="/image/pages/2024/July/DockerHub.html">DockerHub: Because Ship Happens</a></h3>
-                        <p>Greg Heffner <time datetime="2024-07-17">July 17, 2024</time></p>
-                    </div>
-                    <div class="blog-image-container">
-                        <img src="/image/blog/2024/July/dockerhub.png" alt="DockerHub: Because Ship Happens - blog post image" width="1024" height="1024" loading="lazy" decoding="async">
-                    </div>
-                </div>
-            </section>
-            <section id="Article3-Loadbalancers">
-                <div class="blog-box">
-                    <div class="blog-description">
-                        <h3><a href="/image/pages/2024/July/LB.html">Loadbalancing: Boots & cats &</a></h3>
-                        <p>Greg Heffner <time datetime="2024-07-14">July 14, 2024</time></p>
-                    </div>
-                    <div class="blog-image-container">
-                        <img src="/image/blog/2024/July/LB.png" alt="Loadbalancing: Boots & cats & - blog post image" width="1024" height="1024" loading="lazy" decoding="async">
-                    </div>
-                </div>
-            </section>
-            <section id="Article2-GitHub">
-                <div class="blog-box">
-                    <div class="blog-description">
-                        <h3><a href="/image/pages/2024/July/GitHub.html">GitHub: What's the fuss about?</a></h3>
-                        <p>Greg Heffner <time datetime="2024-07-10">July 10, 2024</time></p>
-                    </div>
-                    <div class="blog-image-container">
-                        <img src="/image/blog/2024/July/github.jpg" alt="GitHub: What's the fuss about? - blog post image" width="1200" height="630" loading="lazy" decoding="async">
-                    </div>
-                </div>
-            </section>
-            <section id="Article1-Pihole">
-                <div class="blog-box">
-                    <div class="blog-description">
-                        <h3><a href="/image/pages/2024/July/Pi-Hole.html">Pi-Hole: What is it and why you might want to use it</a></h3>
-                        <p>Greg Heffner <time datetime="2024-07-07">July 7, 2024</time></p>
-                    </div>
-                    <div class="blog-image-container">
-                        <img src="/image/blog/2024/July/pihole.jpg" alt="Pi-Hole: What is it and why you might want to use it - blog post image" width="1964" height="1510" loading="lazy" decoding="async">
-                    </div>
-                </div>
-            </section>
-            <section id="initial">
-                <div class="blog-box">
-                    <div class="blog-description">
-                        <h3><a href="/image/pages/initial.html">Beginners Journey: Greg Starts His Blog</a></h3>
-                        <p>Greg Heffner</p>
-                    </div>
-                    <div class="blog-image-container">
-                        <img src="/image/blog/2024/July/blog1.jpg" alt="Beginners Journey: Greg Starts His Blog - blog post image" width="1536" height="1536" loading="lazy" decoding="async">
-                    </div>
-                </div>
-            </section>
-                </div>
-                <script>
-                      function searchArticles() {
-                          const query = document.getElementById('search-input').value.toLowerCase();
-                          const articles = document.querySelectorAll('section'); /* Targeting section tags */
-
-                          articles.forEach(article => {
-                              const title = article.querySelector('h3').innerText.toLowerCase(); /* Titles are in <h3> tags */
-                              if (title.includes(query)) {
-                                  article.style.display = '';
-                              } else {
-                                  article.style.display = 'none';
-                              }
-                          });
-                      }
-
-                      function handleKeyPress(event) {
-                          if (event.key === 'Enter') {
-                              searchArticles();
-                          }
-                      }
-                  </script>
+        </header>
+        <main id="main">
+            <div id="search-container" role="search">
+                <input type="text" id="search-input" aria-label="Search articles" placeholder="Search articles...">
+                <button type="button" id="search-button">Search</button>
             </div>
-            <div class="rightcolumn">
-                <div class="card">
-                    <h3>About Me</h3>
-                    <p>I served in the U.S. Army, specializing in Network Switching Systems and was attached to a Patriot
-                        Missile
-                        System Battalion. After my deployment and Honorable discharge, I went to college in Jacksonville, FL
-                        for
-                        Computer Science. I have two beautiful and very intelligent daughters.  I have more than 20 years professional IT experience. This page is made to learn and have
-                        fun. If
-                        its messed up, let me know. Im still learnig! :) </p>
-                </div>
-                <div class="scrollcard">
-                  <h3>Top Blogs by Microsoft Clarity and Google Analytics</h3>
-                  <div class="scroll-container">
-                    <nav>
-                      <ul>
-                        <li><a href="#Article17-TechImplants">Tech Implants: LED and NFC Lighting Up the Future Under Your Skin</a></li>
-                        <li><a href="#Article13-Secrets">Secrets: Password Managers and Hardware Keys</a></li>
-                        <li><a href="#Article14-Twingate">Twingate: Your Key to Remote Networks</a></li>
-                        <li><a href="#Article10-Ansible">Ansible: Let me put you on patch game</a></li>
-                        <li><a href="#Article16-TryHackMe">TryHackMe: Command Line Confessions</a></li>
-                        <li><a href="#Article15-DMRRadios">DMR Radios: Its giving radio-nerd vibes</a></li>
-                        <li><a href="#Article9-Kubernetes">Kubernetes: 86 the Prime Rib</a></li>
-                        <li><a href="#Article39-AgenticMTTR">Machine-Speed Triage: Compressing MTTR with Claude Code Dynamic Workflows</a></li>
-                        <li><a href="#Article40-LetItBake">Patch Fast, But Let It Bake: Why Package Cooldowns Now Matter More Than Speed</a></li>
-                        <li><a href="#Article41-AgentSwarmHeal">Stop Babysitting Your Agent Swarms: The One-Time Setup That Heals a Stalled Workflow</a></li>
-                      </ul>
-                    </nav>
-                  </div>
-                </div>
+            <h2 class="visually-hidden">All blog posts</h2>
+            <div class="row">
+                <div class="leftcolumn">
                     <div class="card">
-                    <h3>Book Board</h3>
-                    <ul>
-                        <li><a href="https://www.amazon.com/Phoenix-Project-DevOps-Helping-Business/dp/0988262592">The Phoenix
-                                Project: A Novel about IT, DevOps, and Helping Your Business Win</a></li>
-                        <li><a href="https://www.amazon.com/Algorithms-to-Live-By-audiobook/dp/B01D24NAL6/">Algorithms to Live
-                                By: The Computer Science of Human Decisions</a></li>
-                        <li><a href="https://www.ebay.com/itm/144165393633?">Little Lefty</a></li>
-                        <li><a href="https://www.amazon.com/Anniversary-Paperbook-Volumes-Limited-Original/dp/1637990049/">Harry
+                        <article id="Article41-AgentSwarmHeal">
+                            <div class="blog-box">
+                                <div class="blog-description">
+                                    <h3><a href="/image/pages/2026/June/AgentSwarmHeal.html">Stop Babysitting Your Agent Swarms: The One-Time Setup That Heals a Stalled Workflow</a></h3>
+                                    <p>Greg Heffner <time datetime="2026-06-26">June 26th, 2026</time></p>
+                                </div>
+                                <div class="blog-image-container">
+                                    <img src="/image/blog/2026/June/hero-stop-babysitting-swarms.png" alt="" width="1200" height="630" decoding="async">
+                                </div>
+                            </div>
+                        </article>
+                        <article id="Article40-LetItBake">
+                            <div class="blog-box">
+                                <div class="blog-description">
+                                    <h3><a href="/image/pages/2026/June/LetItBake.html">Patch Fast, But Let It Bake: Why Package Cooldowns Now Matter More Than Speed</a></h3>
+                                    <p>Greg Heffner <time datetime="2026-06-21">June 21st, 2026</time></p>
+                                </div>
+                                <div class="blog-image-container">
+                                    <img src="/image/blog/2026/June/hero-patch-fast-let-it-bake.png" alt="" width="1200" height="630" decoding="async">
+                                </div>
+                            </div>
+                        </article>
+                        <article id="Article39-AgenticMTTR">
+                            <div class="blog-box">
+                                <div class="blog-description">
+                                    <h3><a href="/image/pages/2026/June/AgenticMTTR.html">Machine-Speed Triage: Compressing MTTR with Claude Code Dynamic Workflows</a></h3>
+                                    <p>Greg Heffner <time datetime="2026-06-14">June 14th, 2026</time></p>
+                                </div>
+                                <div class="blog-image-container">
+                                    <img src="/image/blog/2026/June/agenticMTTR.png" alt="" width="1200" height="630" loading="lazy" decoding="async">
+                                </div>
+                            </div>
+                        </article>
+                        <article id="Article38-TokensDownStack">
+                            <div class="blog-box">
+                                <div class="blog-description">
+                                    <h3><a href="/image/pages/2026/June/TokensDownTheStack.html">Push the Knowledge Down the Stack: Cheaper Agents Through Skills</a></h3>
+                                    <p>Greg Heffner <time datetime="2026-06-05">June 5th, 2026</time></p>
+                                </div>
+                                <div class="blog-image-container">
+                                    <img src="/image/blog/2026/June/hero-push-knowledge-down-stack.png" alt="" width="1200" height="630" loading="lazy" decoding="async">
+                                </div>
+                            </div>
+                        </article>
+                        <article id="Article37-ClaudeBigRepo">
+                            <div class="blog-box">
+                                <div class="blog-description">
+                                    <h3><a href="/image/pages/2026/May/ClaudeBigRepo.html">Why Claude Code Wanders in Big Repos (And Three Fixes)</a></h3>
+                                    <p>Greg Heffner <time datetime="2026-05-22">May 22nd, 2026</time></p>
+                                </div>
+                                <div class="blog-image-container">
+                                    <img src="/image/blog/2026/May/hero-claude-wanders-big-repos.png" alt="" width="1600" height="800" loading="lazy" decoding="async">
+                                </div>
+                            </div>
+                        </article>
+                        <article id="Article36-ClaudeSkills">
+                            <div class="blog-box">
+                                <div class="blog-description">
+                                    <h3><a href="/image/pages/2026/May/ClaudeSkills.html">Claude Agents: The 7 Building Blocks (and 8 Tips for Using Them)</a></h3>
+                                    <p>Greg Heffner <time datetime="2026-05-17">May 17th, 2026</time></p>
+                                </div>
+                                <div class="blog-image-container">
+                                    <img src="/image/blog/2026/May/blogclaudeskills.png" alt="" width="1024" height="1024" loading="lazy" decoding="async">
+                                </div>
+                            </div>
+                        </article>
+                        <article id="Article35-WassuhandNessus">
+                            <div class="blog-box">
+                                <div class="blog-description">
+                                    <h3><a href="/image/pages/2026/May/NessusandWazuh.html">Nessus & Wazuh: Watching the Watchers at Home</a></h3>
+                                    <p>Greg Heffner <time datetime="2026-05-03">May 3rd, 2026</time></p>
+                                </div>
+                                <div class="blog-image-container">
+                                    <img src="/image/blog/2026/May/nessus-wazuh.png" alt="" width="512" height="512" loading="lazy" decoding="async">
+                                </div>
+                            </div>
+                        </article>
+                        <article id="Article34-ActionCheck">
+                            <div class="blog-box">
+                                <div class="blog-description">
+                                    <h3><a href="/image/pages/2026/Jan/actioncheck.html">ActionCheck: The TUI that Knows Your CI/CD</a></h3>
+                                    <p>Greg Heffner <time datetime="2026-01-07">January 7th, 2026</time></p>
+                                </div>
+                                <div class="blog-image-container">
+                                    <img src="/image/blog/2026/Jan/blogactioncheck.png" alt="" width="1024" height="1024" loading="lazy" decoding="async">
+                                </div>
+                            </div>
+                        </article>
+                        <article id="Article33-Blocks">
+                            <div class="blog-box">
+                                <div class="blog-description">
+                                    <h3><a href="/image/pages/2025/Dec/web-blocks.html">Blocks for the Year: A review</a></h3>
+                                    <p>Greg Heffner <time datetime="2025-12-30">December 30th, 2025</time></p>
+                                </div>
+                                <div class="blog-image-container">
+                                    <img src="/image/blog/2025/Dec/waffle-security.png" alt="" width="1024" height="1024" loading="lazy" decoding="async">
+                                </div>
+                            </div>
+                        </article>
+                        <article id="Article32-MCP">
+                            <div class="blog-box">
+                                <div class="blog-description">
+                                    <h3><a href="/image/pages/2025/Sept/MCP.html">Can I get a MCP hype-train in the chat?</a></h3>
+                                    <p>Greg Heffner <time datetime="2025-09-28">September 28th, 2025</time></p>
+                                </div>
+                                <div class="blog-image-container">
+                                    <img src="/image/blog/2025/Sept/MCP.png" alt="" width="1058" height="748" loading="lazy" decoding="async">
+                                </div>
+                            </div>
+                        </article>
+                        <article id="Article31-AgenticAI">
+                            <div class="blog-box">
+                                <div class="blog-description">
+                                    <h3><a href="/image/pages/2025/Sept/agenticAI.html">Agentic AI - The Future of Automation</a></h3>
+                                    <p>Greg Heffner <time datetime="2025-09-05">September 5th, 2025</time></p>
+                                </div>
+                                <div class="blog-image-container">
+                                    <img src="/image/blog/2025/Sept/agenticai.jpeg" alt="" width="752" height="754" loading="lazy" decoding="async">
+                                </div>
+                            </div>
+                        </article>
+                        <article id="Article30-PiholeAdv">
+                            <div class="blog-box">
+                                <div class="blog-description">
+                                    <h3><a href="/image/pages/2025/Sept/piholeadv.html">Pihole - Advanced Use Cases</a></h3>
+                                    <p>Greg Heffner <time datetime="2025-09-02">September 2nd, 2025</time></p>
+                                </div>
+                                <div class="blog-image-container">
+                                    <img src="/image/blog/2025/Sept/pihole.jpeg" alt="" width="1093" height="750" loading="lazy" decoding="async">
+                                </div>
+                            </div>
+                        </article>
+                        <article id="Article29-UV">
+                            <div class="blog-box">
+                                <div class="blog-description">
+                                    <h3><a href="/image/pages/2025/Aug/UV.html">UV and why you don't want to block this Python tool</a></h3>
+                                    <p>Greg Heffner <time datetime="2025-08-16">August 16th, 2025</time></p>
+                                </div>
+                                <div class="blog-image-container">
+                                    <img src="/image/blog/2025/Aug/uv-blog.jpeg" alt="" width="1562" height="2220" loading="lazy" decoding="async">
+                                </div>
+                            </div>
+                        </article>
+                        <article id="Article28-DEFCON">
+                            <div class="blog-box">
+                                <div class="blog-description">
+                                    <h3><a href="/image/pages/2025/Aug/DEFCON.html">DEFCON Dive: Three Days of Tech, Tin Foil, and Total Chaos</a></h3>
+                                    <p>Greg Heffner <time datetime="2025-08">August, 2025</time></p>
+                                </div>
+                                <div class="blog-image-container">
+                                    <img src="/image/blog/2025/Aug/defconblog.jpeg" alt="" width="1220" height="1200" loading="lazy" decoding="async">
+                                </div>
+                            </div>
+                        </article>
+                        <article id="Article27-HomeLab">
+                            <div class="blog-box">
+                                <div class="blog-description">
+                                    <h3><a href="/image/pages/2025/July/homelab.html">Homelab and Virtualization in 2025</a></h3>
+                                    <p>Greg Heffner <time datetime="2025-07-26">July 26th, 2025</time></p>
+                                    <p class="blog-note">Cleaner css moving forward!!!</p>
+                                </div>
+                                <div class="blog-image-container">
+                                    <img src="/image/blog/2025/July/homelab.png" alt="" width="2048" height="2048" loading="lazy" decoding="async">
+                                </div>
+                            </div>
+                        </article>
+                        <article id="Article26-Crontab">
+                            <div class="blog-box">
+                                <div class="blog-description">
+                                    <h3><a href="/image/pages/2025/July/cron.html">Crontab: Automating Tasks with Cron Jobs</a></h3>
+                                    <p>Greg Heffner <time datetime="2025-07-11">July 11th, 2025</time></p>
+                                </div>
+                                <div class="blog-image-container">
+                                    <img src="/image/blog/2025/July/CronScheduler.jpeg" alt="" width="1530" height="1454" loading="lazy" decoding="async">
+                                </div>
+                            </div>
+                        </article>
+                        <article id="Article25-CICD">
+                            <div class="blog-box">
+                                <div class="blog-description">
+                                    <h3><a href="/image/pages/2025/July/cicd.html">Build, Test, Deploy: The CI/CD Adventure (with a Dash of Argo CD Magic)</a></h3>
+                                    <p>Greg Heffner <time datetime="2025-07-03">July 3rd, 2025</time></p>
+                                    <p class="blog-note">Mobile friendly blogs moving forward!!!</p>
+                                </div>
+                                <div class="blog-image-container">
+                                    <img src="/image/blog/2025/July/CICD2.png" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+                                </div>
+                            </div>
+                        </article>
+                        <article id="Article24-WebSec">
+                            <div class="blog-box">
+                                <div class="blog-description">
+                                    <h3><a href="/image/pages/2025/June/websecurity.html">Web Security: Blocking Bots from the Edge with Fail2Ban + Cloudflare</a></h3>
+                                    <p>Greg Heffner <time datetime="2025-06-25">June 25, 2025</time></p>
+                                </div>
+                                <div class="blog-image-container">
+                                    <img src="/image/blog/2025/June/websec.png" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+                                </div>
+                            </div>
+                        </article>
+                        <article id="Article23-GitAdv">
+                            <div class="blog-box">
+                                <div class="blog-description">
+                                    <h3><a href="/image/pages/2025/June/githubadv.html">GitHub advanced features: Short-cycle your processes</a></h3>
+                                    <p>Greg Heffner <time datetime="2025-06-15">June 15, 2025</time></p>
+                                </div>
+                                <div class="blog-image-container">
+                                    <img src="/image/blog/2025/June/githubadv.png" alt="" width="1024" height="1024" loading="lazy" decoding="async">
+                                </div>
+                            </div>
+                        </article>
+                        <article id="Article22-AOC">
+                            <div class="blog-box">
+                                <div class="blog-description">
+                                    <h3><a href="/image/pages/2024/Nov/AOC.html">Advent of Cyber: Time for some Holiday fun with TryHackMe!</a></h3>
+                                    <p>Greg Heffner <time datetime="2024-11-23">November 23, 2024</time></p>
+                                </div>
+                                <div class="blog-image-container">
+                                    <img src="/image/blog/2024/Nov/aocblog.jpeg" alt="" width="1024" height="1024" loading="lazy" decoding="async">
+                                </div>
+                            </div>
+                        </article>
+                        <article id="Article21-Tools">
+                            <div class="blog-box">
+                                <div class="blog-description">
+                                    <h3><a href="/image/pages/2024/Sept/tools.html">Terraform vs. Ansible: Navigating the Cloud with a Sail and a Spark</a></h3>
+                                    <p>Greg Heffner <time datetime="2024-09-15">September 15, 2024</time></p>
+                                </div>
+                                <div class="blog-image-container">
+                                    <img src="/image/blog/2024/Sept/tools.png" alt="" width="1024" height="1024" loading="lazy" decoding="async">
+                                </div>
+                            </div>
+                        </article>
+                        <article id="Article20-SmokeTest">
+                            <div class="blog-box">
+                                <div class="blog-description">
+                                    <h3><a href="/image/pages/2024/Sept/smoketest.html">Smoke Tests: The Production Combine</a></h3>
+                                    <p>Greg Heffner <time datetime="2024-09-11">September 11, 2024</time></p>
+                                </div>
+                                <div class="blog-image-container">
+                                    <img src="/image/blog/2024/Sept/smoketest.png" alt="" width="1024" height="1024" loading="lazy" decoding="async">
+                                </div>
+                            </div>
+                        </article>
+                        <article id="Article19-ClassSetup">
+                            <div class="blog-box">
+                                <div class="blog-description">
+                                    <h3><a href="/image/pages/2024/Sept/classsetup.html">Class Setup: My learning tech stack - Learn for Free</a></h3>
+                                    <p>Greg Heffner <time datetime="2024-09-08">September 8, 2024</time></p>
+                                </div>
+                                <div class="blog-image-container">
+                                    <img src="/image/blog/2024/Sept/classsetup.png" alt="" width="1024" height="1024" loading="lazy" decoding="async">
+                                </div>
+                            </div>
+                        </article>
+                        <article id="Article18-UpstreamDNS">
+                            <div class="blog-box">
+                                <div class="blog-description">
+                                    <h3><a href="/image/pages/2024/Sept/upstreamdns.html">Upstream DNS Servers: Put the internet to work</a></h3>
+                                    <p>Greg Heffner <time datetime="2024-09-04">September 4, 2024</time></p>
+                                </div>
+                                <div class="blog-image-container">
+                                    <img src="/image/blog/2024/Sept/upstreamdns.png" alt="" width="1024" height="1024" loading="lazy" decoding="async">
+                                </div>
+                            </div>
+                        </article>
+                        <article id="Article17-TechImplants">
+                            <div class="blog-box">
+                                <div class="blog-description">
+                                    <h3><a href="/image/pages/2024/Sept/techimplants.html">Tech Implants: LED and NFC Lighting Up the Future Under Your Skin</a></h3>
+                                    <p>Greg Heffner <time datetime="2024-09-01">September 1, 2024</time></p>
+                                </div>
+                                <div class="blog-image-container">
+                                    <img src="/image/blog/2024/Sept/xsiid.JPG" alt="" width="750" height="750" loading="lazy" decoding="async">
+                                </div>
+                            </div>
+                        </article>
+                        <article id="Article16-TryHackMe">
+                            <div class="blog-box">
+                                <div class="blog-description">
+                                    <h3><a href="/image/pages/2024/Aug/tryhackme.html">TryHackMe: Command Line Confessions</a></h3>
+                                    <p>Greg Heffner <time datetime="2024-08-28">August 28, 2024</time></p>
+                                </div>
+                                <div class="blog-image-container">
+                                    <img src="/image/blog/2024/Aug/tryhackme.png" alt="" width="1024" height="1024" loading="lazy" decoding="async">
+                                </div>
+                            </div>
+                        </article>
+                        <article id="Article15-DMRRadios">
+                            <div class="blog-box">
+                                <div class="blog-description">
+                                    <h3><a href="/image/pages/2024/Aug/dmrradios.html">DMR Radios: It's giving radio-nerd vibes</a></h3>
+                                    <p>Greg Heffner <time datetime="2024-08-25">August 25, 2024</time></p>
+                                </div>
+                                <div class="blog-image-container">
+                                    <img src="/image/blog/2024/Aug/hamradio.png" alt="" width="1024" height="1024" loading="lazy" decoding="async">
+                                </div>
+                            </div>
+                        </article>
+                        <article id="Article14-Twingate">
+                            <div class="blog-box">
+                                <div class="blog-description">
+                                    <h3><a href="/image/pages/2024/Aug/twingate.html">Twingate: Your Key to Remote Networks</a></h3>
+                                    <p>Greg Heffner <time datetime="2024-08-21">August 21, 2024</time></p>
+                                </div>
+                                <div class="blog-image-container">
+                                    <img src="/image/blog/2024/Aug/twingate.png" alt="" width="225" height="225" loading="lazy" decoding="async">
+                                </div>
+                            </div>
+                        </article>
+                        <article id="Article13-Secrets">
+                            <div class="blog-box">
+                                <div class="blog-description">
+                                    <h3><a href="/image/pages/2024/Aug/secrets.html">Secrets: Password Managers and Hardware Keys</a></h3>
+                                    <p>Greg Heffner <time datetime="2024-08-18">August 18, 2024</time></p>
+                                </div>
+                                <div class="blog-image-container">
+                                    <img src="/image/blog/2024/Aug/secrets.png" alt="" width="1024" height="1024" loading="lazy" decoding="async">
+                                </div>
+                            </div>
+                        </article>
+                        <article id="Article12-TravelRouter">
+                            <div class="blog-box">
+                                <div class="blog-description">
+                                    <h3><a href="/image/pages/2024/Aug/travelrouter.html">Travel Router: How I stay secure on work trips</a></h3>
+                                    <p>Greg Heffner <time datetime="2024-08-14">August 14, 2024</time></p>
+                                </div>
+                                <div class="blog-image-container">
+                                    <img src="/image/blog/2024/Aug/travelrouter.png" alt="" width="1024" height="1024" loading="lazy" decoding="async">
+                                </div>
+                            </div>
+                        </article>
+                        <article id="Article11-DockerUpdate">
+                            <div class="blog-box">
+                                <div class="blog-description">
+                                    <h3><a href="/image/pages/2024/Aug/dockerupdate.html">Docker Updates: 4 steps to secure your images</a></h3>
+                                    <p>Greg Heffner <time datetime="2024-08-11">August 11, 2024</time></p>
+                                </div>
+                                <div class="blog-image-container">
+                                    <img src="/image/blog/2024/Aug/dockerupdates.png" alt="" width="1024" height="1024" loading="lazy" decoding="async">
+                                </div>
+                            </div>
+                        </article>
+                        <article id="Article10-Ansible">
+                            <div class="blog-box">
+                                <div class="blog-description">
+                                    <h3><a href="/image/pages/2024/Aug/ansible.html">Ansible: Let me put you on patch game</a></h3>
+                                    <p>Greg Heffner <time datetime="2024-08-07">August 7, 2024</time></p>
+                                </div>
+                                <div class="blog-image-container">
+                                    <img src="/image/blog/2024/Aug/ansible.png" alt="" width="1024" height="1024" loading="lazy" decoding="async">
+                                </div>
+                            </div>
+                        </article>
+                        <article id="Article9-Kubernetes">
+                            <div class="blog-box">
+                                <div class="blog-description">
+                                    <h3><a href="/image/pages/2024/Aug/k8s.html">Kubernetes: 86 the Prime Rib</a></h3>
+                                    <p>Greg Heffner <time datetime="2024-08-04">August 4, 2024</time></p>
+                                </div>
+                                <div class="blog-image-container">
+                                    <img src="/image/blog/2024/Aug/k8s.png" alt="" width="1024" height="1024" loading="lazy" decoding="async">
+                                </div>
+                            </div>
+                        </article>
+                        <article id="Article8-HomeBuild">
+                            <div class="blog-box">
+                                <div class="blog-description">
+                                    <h3><a href="/image/pages/2024/July/homebuild.html">A Home Build: If I were to build it today</a></h3>
+                                    <p>Greg Heffner <time datetime="2024-07-31">July 31, 2024</time></p>
+                                </div>
+                                <div class="blog-image-container">
+                                    <img src="/image/blog/2024/July/homebuild.png" alt="" width="1024" height="1024" loading="lazy" decoding="async">
+                                </div>
+                            </div>
+                        </article>
+                        <article id="Article7-WiFi">
+                            <div class="blog-box">
+                                <div class="blog-description">
+                                    <h3><a href="/image/pages/2024/July/wifi.html">WiFi: Wireless internet magic</a></h3>
+                                    <p>Greg Heffner <time datetime="2024-07-28">July 28, 2024</time></p>
+                                </div>
+                                <div class="blog-image-container">
+                                    <img src="/image/blog/2024/July/WiFi2.png" alt="" width="1024" height="1024" loading="lazy" decoding="async">
+                                </div>
+                            </div>
+                        </article>
+                        <article id="Article6-TheCloud">
+                            <div class="blog-box">
+                                <div class="blog-description">
+                                    <h3><a href="/image/pages/2024/July/thecloud.html">The Cloud: Not the Floridian Cumulonimbus kind</a></h3>
+                                    <p>Greg Heffner <time datetime="2024-07-24">July 24, 2024</time></p>
+                                </div>
+                                <div class="blog-image-container">
+                                    <img src="/image/blog/2024/July/cloud4.png" alt="" width="1024" height="1024" loading="lazy" decoding="async">
+                                </div>
+                            </div>
+                        </article>
+                        <article id="Article5-VPNs">
+                            <div class="blog-box">
+                                <div class="blog-description">
+                                    <h3><a href="/image/pages/2024/July/VPNs.html">VPNs: Web browsing and IP masking</a></h3>
+                                    <p>Greg Heffner <time datetime="2024-07-21">July 21, 2024</time></p>
+                                </div>
+                                <div class="blog-image-container">
+                                    <img src="/image/blog/2024/July/vpn.png" alt="" width="1024" height="1024" loading="lazy" decoding="async">
+                                </div>
+                            </div>
+                        </article>
+                        <article id="Article4-DockerHub">
+                            <div class="blog-box">
+                                <div class="blog-description">
+                                    <h3><a href="/image/pages/2024/July/DockerHub.html">DockerHub: Because Ship Happens</a></h3>
+                                    <p>Greg Heffner <time datetime="2024-07-17">July 17, 2024</time></p>
+                                </div>
+                                <div class="blog-image-container">
+                                    <img src="/image/blog/2024/July/dockerhub.png" alt="" width="1024" height="1024" loading="lazy" decoding="async">
+                                </div>
+                            </div>
+                        </article>
+                        <article id="Article3-Loadbalancers">
+                            <div class="blog-box">
+                                <div class="blog-description">
+                                    <h3><a href="/image/pages/2024/July/LB.html">Loadbalancing: Boots & cats &</a></h3>
+                                    <p>Greg Heffner <time datetime="2024-07-14">July 14, 2024</time></p>
+                                </div>
+                                <div class="blog-image-container">
+                                    <img src="/image/blog/2024/July/LB.png" alt="" width="1024" height="1024" loading="lazy" decoding="async">
+                                </div>
+                            </div>
+                        </article>
+                        <article id="Article2-GitHub">
+                            <div class="blog-box">
+                                <div class="blog-description">
+                                    <h3><a href="/image/pages/2024/July/GitHub.html">GitHub: What's the fuss about?</a></h3>
+                                    <p>Greg Heffner <time datetime="2024-07-10">July 10, 2024</time></p>
+                                </div>
+                                <div class="blog-image-container">
+                                    <img src="/image/blog/2024/July/github.jpg" alt="" width="1200" height="630" loading="lazy" decoding="async">
+                                </div>
+                            </div>
+                        </article>
+                        <article id="Article1-Pihole">
+                            <div class="blog-box">
+                                <div class="blog-description">
+                                    <h3><a href="/image/pages/2024/July/Pi-Hole.html">Pi-Hole: What is it and why you might want to use it</a></h3>
+                                    <p>Greg Heffner <time datetime="2024-07-07">July 7, 2024</time></p>
+                                </div>
+                                <div class="blog-image-container">
+                                    <img src="/image/blog/2024/July/pihole.jpg" alt="" width="1964" height="1510" loading="lazy" decoding="async">
+                                </div>
+                            </div>
+                        </article>
+                        <article id="initial">
+                            <div class="blog-box">
+                                <div class="blog-description">
+                                    <h3><a href="/image/pages/initial.html">Beginner's Journey: Greg Starts His Blog</a></h3>
+                                    <p>Greg Heffner</p>
+                                </div>
+                                <div class="blog-image-container">
+                                    <img src="/image/blog/2024/July/blog1.jpg" alt="" width="1536" height="1536" loading="lazy" decoding="async">
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+                <aside class="rightcolumn" aria-label="Sidebar">
+                    <div class="card">
+                        <h3>About Me</h3>
+                        <p>I served in the U.S. Army, specializing in Network Switching Systems and was attached to a
+                            Patriot Missile System Battalion. After my deployment and Honorable discharge, I went to
+                            college in Jacksonville, FL for Computer Science. I have two beautiful and very intelligent
+                            daughters. I have more than 20 years professional IT experience. This page is made to learn
+                            and have fun. If it's messed up, let me know. I'm still learning! :)</p>
+                    </div>
+                    <div class="scrollcard">
+                        <h3>Top Blogs by Microsoft Clarity and Google Analytics</h3>
+                        <div class="scroll-container">
+                            <nav aria-label="Top blogs">
+                                <ul>
+                                    <li><a href="#Article17-TechImplants">Tech Implants: LED and NFC Lighting Up the Future Under Your Skin</a></li>
+                                    <li><a href="#Article13-Secrets">Secrets: Password Managers and Hardware Keys</a></li>
+                                    <li><a href="#Article14-Twingate">Twingate: Your Key to Remote Networks</a></li>
+                                    <li><a href="#Article10-Ansible">Ansible: Let me put you on patch game</a></li>
+                                    <li><a href="#Article16-TryHackMe">TryHackMe: Command Line Confessions</a></li>
+                                    <li><a href="#Article15-DMRRadios">DMR Radios: It's giving radio-nerd vibes</a></li>
+                                    <li><a href="#Article9-Kubernetes">Kubernetes: 86 the Prime Rib</a></li>
+                                    <li><a href="#Article39-AgenticMTTR">Machine-Speed Triage: Compressing MTTR with Claude Code Dynamic Workflows</a></li>
+                                    <li><a href="#Article40-LetItBake">Patch Fast, But Let It Bake: Why Package Cooldowns Now Matter More Than Speed</a></li>
+                                    <li><a href="#Article41-AgentSwarmHeal">Stop Babysitting Your Agent Swarms: The One-Time Setup That Heals a Stalled Workflow</a></li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h3>Book Board</h3>
+                        <ul>
+                            <li><a href="https://www.amazon.com/Phoenix-Project-DevOps-Helping-Business/dp/0988262592">The
+                                Phoenix Project: A Novel about IT, DevOps, and Helping Your Business Win</a></li>
+                            <li><a href="https://www.amazon.com/Algorithms-to-Live-By-audiobook/dp/B01D24NAL6/">Algorithms
+                                to Live By: The Computer Science of Human Decisions</a></li>
+                            <li><a href="https://www.ebay.com/itm/144165393633?">Little Lefty</a></li>
+                            <li><a href="https://www.amazon.com/Anniversary-Paperbook-Volumes-Limited-Original/dp/1637990049/">Harry
                                 Potter</a></li>
-                    </ul>
-                </div>
-                <div class="card">
-                    <h3>Weather Loop </h3>
-                    <a href="https://radar.weather.gov/ridge/standard/SOUTHEAST_loop.gif">
-                        <img src="https://radar.weather.gov/ridge/standard/SOUTHEAST_loop.gif"
-                                alt="Animated radar loop of Southeast US weather from NOAA" loading="lazy">
-                    </a>
-                </div>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3>Weather Loop</h3>
+                        <a href="https://radar.weather.gov/ridge/standard/SOUTHEAST_loop.gif">
+                            <img src="https://radar.weather.gov/ridge/standard/SOUTHEAST_loop.gif"
+                                alt="Animated radar loop of Southeast US weather from NOAA" width="600" height="571"
+                                loading="lazy" decoding="async">
+                        </a>
+                    </div>
+                </aside>
             </div>
-        </div>
+        </main>
         <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
         <script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js"
             data-cf-settings="f2199bb571cfda9c96d3d8cf-|49" defer></script>
@@ -846,6 +1096,30 @@ data:
             integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ=="
             data-cf-beacon="{&quot;rayId&quot;:&quot;8a0c47bffe7b53f3&quot;,&quot;r&quot;:1,&quot;version&quot;:&quot;2024.4.1&quot;,&quot;token&quot;:&quot;58654ca0c624448c9c52f5291ddf5bec&quot;}"
             crossorigin="anonymous"></script>
+        <script>
+            function searchArticles() {
+                const query = document.getElementById('search-input').value.toLowerCase();
+                const articles = document.querySelectorAll('article'); /* Targeting article tags */
+
+                articles.forEach(article => {
+                    const title = article.querySelector('h3').innerText.toLowerCase();
+                    if (title.includes(query)) {
+                        article.style.display = '';
+                    } else {
+                        article.style.display = 'none';
+                    }
+                });
+            }
+
+            function handleKeyPress(event) {
+                if (event.key === 'Enter') {
+                    searchArticles();
+                }
+            }
+
+            document.getElementById('search-input').addEventListener('keypress', handleKeyPress);
+            document.getElementById('search-button').addEventListener('click', searchArticles);
+        </script>
         <script src="/image/assets/scripts.js"></script>
     </body>
     </html>
@@ -854,11 +1128,40 @@ data:
     <html lang="en">
     <head>
         <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noindex">
-        <title>???</title>
+        <meta name="color-scheme" content="dark">
+        <title>Nothing to see here</title>
+        <style>
+            body {
+                margin: 0;
+                min-height: 100vh;
+                min-height: 100dvh;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                padding: 1rem;
+                background: #0d1117;
+                color: #c9d1d9;
+                font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+                text-align: center;
+            }
+            h1 {
+                color: #58a6ff;
+                margin: 0 0 0.5rem;
+                text-wrap: balance;
+            }
+            p {
+                margin: 0;
+            }
+        </style>
     </head>
     <body>
-        <h1>What cha looking for?</h1>
+        <main>
+            <h1>What cha looking for?</h1>
+            <p>Whatever it was, it isn't here. Nice curl skills, though.</p>
+        </main>
     </body>
     </html>
   index.html: |
