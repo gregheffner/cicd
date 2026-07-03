@@ -69,6 +69,57 @@ data:
         limit_req_status 429;
         limit_conn_status 429;
 
+        # 2026-07-03 blog URL migration: permanent 301s from the old /image/pages/ paths
+        # to the flat extensionless /blog/<slug> scheme (source of truth: blog-slug-map.md
+        # in Greg's scripts dir). KEEP FOREVER — external backlinks and the search index
+        # point at the old paths; the map is O(1) per request and costs nothing.
+        map $uri $blog_redirect {
+            /image/pages/initial.html /blog/first-post;
+            /image/pages/2024/July/GitHub.html /blog/github-basics;
+            /image/pages/2024/July/Pi-Hole.html /blog/pi-hole-setup;
+            /image/pages/2024/July/LB.html /blog/load-balancers-explained;
+            /image/pages/2024/July/DockerHub.html /blog/docker-hub;
+            /image/pages/2024/July/VPNs.html /blog/vpns-explained;
+            /image/pages/2024/July/thecloud.html /blog/what-is-the-cloud;
+            /image/pages/2024/July/wifi.html /blog/how-wifi-works;
+            /image/pages/2024/July/homebuild.html /blog/home-network-build;
+            /image/pages/2024/Aug/ansible.html /blog/ansible-basics;
+            /image/pages/2024/Aug/dmrradios.html /blog/dmr-radios;
+            /image/pages/2024/Aug/dockerupdate.html /blog/updating-docker-images;
+            /image/pages/2024/Aug/k8s.html /blog/kubernetes-basics;
+            /image/pages/2024/Aug/secrets.html /blog/passwords-and-hardware-keys;
+            /image/pages/2024/Aug/travelrouter.html /blog/travel-router;
+            /image/pages/2024/Aug/tryhackme.html /blog/tryhackme;
+            /image/pages/2024/Aug/twingate.html /blog/twingate;
+            /image/pages/2024/Sept/classsetup.html /blog/learning-lab-setup;
+            /image/pages/2024/Sept/smoketest.html /blog/smoke-testing-my-site;
+            /image/pages/2024/Sept/techimplants.html /blog/nfc-implant-biohacking;
+            /image/pages/2024/Sept/tools.html /blog/terraform-vs-ansible;
+            /image/pages/2024/Sept/upstreamdns.html /blog/upstream-dns;
+            /image/pages/2024/Nov/AOC.html /blog/advent-of-cyber;
+            /image/pages/2025/June/githubadv.html /blog/github-advanced;
+            /image/pages/2025/June/websecurity.html /blog/web-security-basics;
+            /image/pages/2025/July/cicd.html /blog/cicd-pipeline;
+            /image/pages/2025/July/cron.html /blog/crontab;
+            /image/pages/2025/July/homelab.html /blog/homelab-tour;
+            /image/pages/2025/Aug/DEFCON.html /blog/defcon;
+            /image/pages/2025/Aug/UV.html /blog/uv-python-tool;
+            /image/pages/2025/Sept/agenticAI.html /blog/agentic-ai-vs-ai;
+            /image/pages/2025/Sept/MCP.html /blog/what-is-mcp;
+            /image/pages/2025/Sept/piholeadv.html /blog/pi-hole-advanced;
+            /image/pages/2025/Dec/web-blocks.html /blog/blocks-for-the-year;
+            /image/pages/2026/Jan/actioncheck.html /blog/actioncheck;
+            /image/pages/2026/May/ClaudeBigRepo.html /blog/claude-code-big-repos;
+            /image/pages/2026/May/ClaudeSkills.html /blog/claude-agent-building-blocks;
+            /image/pages/2026/May/NessusandWazuh.html /blog/nessus-and-wazuh;
+            /image/pages/2026/June/AgenticMTTR.html /blog/machine-speed-triage;
+            /image/pages/2026/June/AgentSwarmHeal.html /blog/self-healing-agent-swarms;
+            /image/pages/2026/June/LetItBake.html /blog/patch-fast-let-it-bake;
+            /image/pages/2026/June/TokensDownTheStack.html /blog/knowledge-down-the-stack;
+            /image/pages/2026/July/Fable5Weekend.html /blog/fable-5-weekend-projects;
+            default "";
+        }
+
         include /etc/nginx/conf.d/status.conf;
 
         server {
@@ -79,6 +130,12 @@ data:
           # legit multi-asset page load.
           limit_req zone=req_per_ip burst=60 nodelay;
           limit_conn conn_per_ip 30;
+
+          # 2026-07-03 blog migration: fire the permanent redirects before any location
+          # matching ('if' + 'return' at server level is the one safe if-pattern).
+          if ($blog_redirect) {
+              return 301 $blog_redirect;
+          }
           # rec #14: server-level security headers (CSP intentionally NOT global —
           # the site loads GTM/AdSense/Cookiebot/Clarity/jsdelivr/Google Fonts +
           # inline scripts; a strict CSP would break them. CSP stays image-scoped.)
@@ -120,14 +177,24 @@ data:
           location ~* xmlrpc\.php { return 444; }
           location = /wp-login.php { deny all; return 444; }
           location ~* ^/(wp-admin|wp-includes) { deny all; return 444; }
-          # P1 fix 2026-07-03: blog posts live under /image/pages/ (hostPath layout quirk),
-          # so they inherited the asset policy from location /image/ below: a 1y immutable
-          # cache on HTML and an image-scoped CSP (default-src 'self') that blocked
-          # GTM/analytics, external images, and fonts on every post. Serve post HTML with
-          # the same policy as location / instead. Regex location wins over the /image/
-          # prefix match. Headers copied wholesale — add_header doesn't inherit here.
-          location ~* ^/image/pages/.*\.html$ {
+          # 2026-07-03 blog migration: posts moved out of /image/pages/ into their own
+          # hostPath mount at .../html/blog, served flat + extensionless (/blog/<slug>
+          # -> blog/<slug>.html via try_files internal rewrite, so mime/gzip still apply).
+          # This replaces the 2026-07-03 P1 hotfix regex block — the old /image/pages/
+          # URLs now 301 via $blog_redirect before location matching ever runs.
+          location = /blog {
+              return 301 /blog.html;
+          }
+          location = /blog/ {
+              return 301 /blog.html;
+          }
+          location ~ ^/blog/(.+)/$ {
+              return 301 /blog/$1;   # canonical form has no trailing slash
+          }
+          location /blog/ {
               root /usr/share/nginx/html;
+              try_files $uri $uri.html =404;
+              # HTML policy — same as location / (headers copied wholesale, no inherit)
               add_header Cache-Control "public, max-age=300, must-revalidate" always;
               add_header X-Content-Type-Options "nosniff" always;
               add_header X-Frame-Options "SAMEORIGIN" always;
@@ -163,15 +230,9 @@ data:
               default_type application/xml;
               root /usr/share/nginx/html;
           }
-          location /images/ {
-              root /usr/share/nginx/html/images;
-              expires 1y;
-              add_header Cache-Control "public, max-age=31536000, no-transform";
-              add_header Content-Security-Policy "default-src 'self'; style-src 'self' 'unsafe-inline';";
-              add_header X-Content-Type-Options "nosniff" always;   # rec #14
-              add_header X-Frame-Options "SAMEORIGIN" always;
-              add_header Referrer-Policy "strict-origin-when-cross-origin" always;
-          }
+          # 2026-07-03: removed dead `location /images/` block — its root+URI append
+          # resolved to .../html/images/images/* which never existed (assets live under
+          # /image/, singular). It could not serve a file; deleted, not relocated.
         }
     }
   status.conf: |
