@@ -120,6 +120,21 @@ data:
           location ~* xmlrpc\.php { return 444; }
           location = /wp-login.php { deny all; return 444; }
           location ~* ^/(wp-admin|wp-includes) { deny all; return 444; }
+          # P1 fix 2026-07-03: blog posts live under /image/pages/ (hostPath layout quirk),
+          # so they inherited the asset policy from location /image/ below: a 1y immutable
+          # cache on HTML and an image-scoped CSP (default-src 'self') that blocked
+          # GTM/analytics, external images, and fonts on every post. Serve post HTML with
+          # the same policy as location / instead. Regex location wins over the /image/
+          # prefix match. Headers copied wholesale — add_header doesn't inherit here.
+          location ~* ^/image/pages/.*\.html$ {
+              root /usr/share/nginx/html;
+              add_header Cache-Control "public, max-age=300, must-revalidate" always;
+              add_header X-Content-Type-Options "nosniff" always;
+              add_header X-Frame-Options "SAMEORIGIN" always;
+              add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+              add_header Content-Security-Policy "frame-ancestors 'self'; base-uri 'self'; object-src 'none'" always;
+              add_header Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()" always;
+          }
           location /image/ {
               root /usr/share/nginx/html;   # fix: 'root' appends the URI; .../html/image doubled to /image/image/* -> 404 on every image (assets are the volume mounted at .../html/image)
               expires 1y;
