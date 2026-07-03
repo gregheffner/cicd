@@ -28,21 +28,25 @@ spec:
             ttl: 60m
           logging:
             format: json # 2026-07-03 Datadog audit: default text format emits ANSI color codes — unparseable in DD Log Explorer and TRC lines mislabeled as errors; json gives structured logs + correct severity
-        # 2026-07-03: chart defaults render CRDs with LITERAL empty maps
-        # (metadata.annotations: {} / labels: {}), and ServerSideApply cannot
-        # materialize an empty map on the live object — so 11 policies.kyverno.io
-        # CRDs sat permanently OutOfSync on a diff that could never converge
-        # (verified via ArgoCD UI diff; kubectl client-side diff shows clean).
-        # Non-empty maps give SSA something to apply; diff converges for real.
-        crds:
-          annotations:
-            argocd.argoproj.io/tracking-note: keep-nonempty # empty map is un-applyable under SSA
-          customLabels:
-            app.kubernetes.io/part-of: kyverno
         # kube-system + kyverno's own namespace are auto-excluded from webhooks by default.
   destination:
     server: https://kubernetes.default.svc
     namespace: kyverno
+  # 2026-07-03: chart 3.8.1 BUG — the policies.kyverno.io CRD templates hardcode
+  # `metadata.annotations: {}` / `labels: {}` (they ignore crds.annotations /
+  # crds.customLabels, unlike the kyverno.io group), and ServerSideApply cannot
+  # materialize an empty map on a live object — so those 11 CRDs sat permanently
+  # OutOfSync on a diff that can never converge (confirmed via ArgoCD UI diff:
+  # the ONLY drift is these two metadata fields). Ignore exactly those fields.
+  # Deliberately NOT setting RespectIgnoreDifferences — syncs still apply full
+  # manifests, so CRD spec upgrades on chart bumps are unaffected.
+  # Revisit on chart upgrades: if upstream fixes the templates, drop this block.
+  ignoreDifferences:
+    - group: apiextensions.k8s.io
+      kind: CustomResourceDefinition
+      jsonPointers:
+        - /metadata/annotations
+        - /metadata/labels
   syncPolicy:
     automated:
       selfHeal: true
