@@ -32,6 +32,16 @@ spec:
   destination:
     server: https://kubernetes.default.svc
     namespace: kyverno
+  # 2026-07-03 Datadog audit: 11 policies.kyverno.io CRDs sat permanently OutOfSync.
+  # Verified NOT real drift — `kubectl diff` of the rendered chart vs live is CLEAN;
+  # it's Argo's large-CRD + ServerSideApply diff-normalization quirk. Deliberately
+  # NOT setting RespectIgnoreDifferences: this block only silences the status diff,
+  # sync operations still apply full CRD manifests on chart upgrades.
+  ignoreDifferences:
+    - group: apiextensions.k8s.io
+      kind: CustomResourceDefinition
+      jsonPointers:
+        - /spec
   syncPolicy:
     automated:
       selfHeal: true
