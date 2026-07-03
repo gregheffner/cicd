@@ -124,6 +124,13 @@ data:
 
         server {
           listen 8080;
+          # 2026-07-03 migration hotfix: origin listens on plain :8080 behind the CF
+          # tunnel, so nginx's default absolute redirects emitted
+          # "Location: http://greg.heffner.live:8080/..." — unreachable from the
+          # internet (only 443 via CF). Relative redirects let the browser resolve
+          # against https://greg.heffner.live. Applies to all return/dir redirects.
+          absolute_redirect off;
+          port_in_redirect off;
           # rec #18: apply the origin backstop to all locations. The trivial /healthz
           # probe and Datadog (:8081, separate server) stay well under these; real users
           # behind CF rarely sustain 30 r/s, and the generous burst avoids limiting a
