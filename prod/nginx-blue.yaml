@@ -167,6 +167,8 @@ spec:
               subPath: nginx.conf
             - mountPath: /usr/share/nginx/html/image
               name: images-volume
+            - mountPath: /usr/share/nginx/html/blog # 2026-07-03 blog migration: posts moved out of images/pages
+              name: blog-volume
             - mountPath: /etc/nginx/conf.d/status.conf
               name: config
               readOnly: true
@@ -210,6 +212,10 @@ spec:
             path: /home/huey/www/images
             type: Directory
           name: images-volume
+        - hostPath:
+            path: /home/huey/www/blog # requires www repo sync BEFORE this rolls (type Directory is strict)
+            type: Directory
+          name: blog-volume
         - hostPath:
             path: /var/log/nginx
             type: DirectoryOrCreate

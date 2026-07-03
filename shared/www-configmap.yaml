@@ -68,259 +68,259 @@ data:
                 {
                     "@type": "BlogPosting",
                     "headline": "Fable 5 Until July 7: Three Weekend Projects for America's 250th",
-                    "url": "https://greg.heffner.live/image/pages/2026/July/Fable5Weekend.html",
+                    "url": "https://greg.heffner.live/blog/fable-5-weekend-projects",
                     "datePublished": "2026-07-02"
                 },
                 {
                     "@type": "BlogPosting",
                     "headline": "Stop Babysitting Your Agent Swarms: The One-Time Setup That Heals a Stalled Workflow",
-                    "url": "https://greg.heffner.live/image/pages/2026/June/AgentSwarmHeal.html",
+                    "url": "https://greg.heffner.live/blog/self-healing-agent-swarms",
                     "datePublished": "2026-06-26"
                 },
                 {
                     "@type": "BlogPosting",
                     "headline": "Patch Fast, But Let It Bake: Why Package Cooldowns Now Matter More Than Speed",
-                    "url": "https://greg.heffner.live/image/pages/2026/June/LetItBake.html",
+                    "url": "https://greg.heffner.live/blog/patch-fast-let-it-bake",
                     "datePublished": "2026-06-21"
                 },
                 {
                     "@type": "BlogPosting",
                     "headline": "Machine-Speed Triage: Compressing MTTR with Claude Code Dynamic Workflows",
-                    "url": "https://greg.heffner.live/image/pages/2026/June/AgenticMTTR.html",
+                    "url": "https://greg.heffner.live/blog/machine-speed-triage",
                     "datePublished": "2026-06-14"
                 },
                 {
                     "@type": "BlogPosting",
                     "headline": "Push the Knowledge Down the Stack: Cheaper Agents Through Skills",
-                    "url": "https://greg.heffner.live/image/pages/2026/June/TokensDownTheStack.html",
+                    "url": "https://greg.heffner.live/blog/knowledge-down-the-stack",
                     "datePublished": "2026-06-05"
                 },
                 {
                     "@type": "BlogPosting",
                     "headline": "Why Claude Code Wanders in Big Repos (And Three Fixes)",
-                    "url": "https://greg.heffner.live/image/pages/2026/May/ClaudeBigRepo.html",
+                    "url": "https://greg.heffner.live/blog/claude-code-big-repos",
                     "datePublished": "2026-05-22"
                 },
                 {
                     "@type": "BlogPosting",
                     "headline": "Claude Agents: The 7 Building Blocks (and 8 Tips for Using Them)",
-                    "url": "https://greg.heffner.live/image/pages/2026/May/ClaudeSkills.html",
+                    "url": "https://greg.heffner.live/blog/claude-agent-building-blocks",
                     "datePublished": "2026-05-17"
                 },
                 {
                     "@type": "BlogPosting",
                     "headline": "Nessus & Wazuh: Watching the Watchers at Home",
-                    "url": "https://greg.heffner.live/image/pages/2026/May/NessusandWazuh.html",
+                    "url": "https://greg.heffner.live/blog/nessus-and-wazuh",
                     "datePublished": "2026-05-03"
                 },
                 {
                     "@type": "BlogPosting",
                     "headline": "ActionCheck: The TUI that Knows Your CI/CD",
-                    "url": "https://greg.heffner.live/image/pages/2026/Jan/actioncheck.html",
+                    "url": "https://greg.heffner.live/blog/actioncheck",
                     "datePublished": "2026-01-07"
                 },
                 {
                     "@type": "BlogPosting",
                     "headline": "Blocks for the Year: A review",
-                    "url": "https://greg.heffner.live/image/pages/2025/Dec/web-blocks.html",
+                    "url": "https://greg.heffner.live/blog/blocks-for-the-year",
                     "datePublished": "2025-12-30"
                 },
                 {
                     "@type": "BlogPosting",
                     "headline": "Can I get a MCP hype-train in the chat?",
-                    "url": "https://greg.heffner.live/image/pages/2025/Sept/MCP.html",
+                    "url": "https://greg.heffner.live/blog/what-is-mcp",
                     "datePublished": "2025-09-28"
                 },
                 {
                     "@type": "BlogPosting",
                     "headline": "Agentic AI - The Future of Automation",
-                    "url": "https://greg.heffner.live/image/pages/2025/Sept/agenticAI.html",
+                    "url": "https://greg.heffner.live/blog/agentic-ai-vs-ai",
                     "datePublished": "2025-09-05"
                 },
                 {
                     "@type": "BlogPosting",
                     "headline": "Pihole - Advanced Use Cases",
-                    "url": "https://greg.heffner.live/image/pages/2025/Sept/piholeadv.html",
+                    "url": "https://greg.heffner.live/blog/pi-hole-advanced",
                     "datePublished": "2025-09-02"
                 },
                 {
                     "@type": "BlogPosting",
                     "headline": "UV and why you don't want to block this Python tool",
-                    "url": "https://greg.heffner.live/image/pages/2025/Aug/UV.html",
+                    "url": "https://greg.heffner.live/blog/uv-python-tool",
                     "datePublished": "2025-08-16"
                 },
                 {
                     "@type": "BlogPosting",
                     "headline": "DEFCON Dive: Three Days of Tech, Tin Foil, and Total Chaos",
-                    "url": "https://greg.heffner.live/image/pages/2025/Aug/DEFCON.html",
+                    "url": "https://greg.heffner.live/blog/defcon",
                     "datePublished": "2025-08"
                 },
                 {
                     "@type": "BlogPosting",
                     "headline": "Homelab and Virtualization in 2025",
-                    "url": "https://greg.heffner.live/image/pages/2025/July/homelab.html",
+                    "url": "https://greg.heffner.live/blog/homelab-tour",
                     "datePublished": "2025-07-26"
                 },
                 {
                     "@type": "BlogPosting",
                     "headline": "Crontab: Automating Tasks with Cron Jobs",
-                    "url": "https://greg.heffner.live/image/pages/2025/July/cron.html",
+                    "url": "https://greg.heffner.live/blog/crontab",
                     "datePublished": "2025-07-11"
                 },
                 {
                     "@type": "BlogPosting",
                     "headline": "Build, Test, Deploy: The CI/CD Adventure (with a Dash of Argo CD Magic)",
-                    "url": "https://greg.heffner.live/image/pages/2025/July/cicd.html",
+                    "url": "https://greg.heffner.live/blog/cicd-pipeline",
                     "datePublished": "2025-07-03"
                 },
                 {
                     "@type": "BlogPosting",
                     "headline": "Web Security: Blocking Bots from the Edge with Fail2Ban + Cloudflare",
-                    "url": "https://greg.heffner.live/image/pages/2025/June/websecurity.html",
+                    "url": "https://greg.heffner.live/blog/web-security-basics",
                     "datePublished": "2025-06-25"
                 },
                 {
                     "@type": "BlogPosting",
                     "headline": "GitHub advanced features: Short-cycle your processes",
-                    "url": "https://greg.heffner.live/image/pages/2025/June/githubadv.html",
+                    "url": "https://greg.heffner.live/blog/github-advanced",
                     "datePublished": "2025-06-15"
                 },
                 {
                     "@type": "BlogPosting",
                     "headline": "Advent of Cyber: Time for some Holiday fun with TryHackMe!",
-                    "url": "https://greg.heffner.live/image/pages/2024/Nov/AOC.html",
+                    "url": "https://greg.heffner.live/blog/advent-of-cyber",
                     "datePublished": "2024-11-23"
                 },
                 {
                     "@type": "BlogPosting",
                     "headline": "Terraform vs. Ansible: Navigating the Cloud with a Sail and a Spark",
-                    "url": "https://greg.heffner.live/image/pages/2024/Sept/tools.html",
+                    "url": "https://greg.heffner.live/blog/terraform-vs-ansible",
                     "datePublished": "2024-09-15"
                 },
                 {
                     "@type": "BlogPosting",
                     "headline": "Smoke Tests: The Production Combine",
-                    "url": "https://greg.heffner.live/image/pages/2024/Sept/smoketest.html",
+                    "url": "https://greg.heffner.live/blog/smoke-testing-my-site",
                     "datePublished": "2024-09-11"
                 },
                 {
                     "@type": "BlogPosting",
                     "headline": "Class Setup: My learning tech stack - Learn for Free",
-                    "url": "https://greg.heffner.live/image/pages/2024/Sept/classsetup.html",
+                    "url": "https://greg.heffner.live/blog/learning-lab-setup",
                     "datePublished": "2024-09-08"
                 },
                 {
                     "@type": "BlogPosting",
                     "headline": "Upstream DNS Servers: Put the internet to work",
-                    "url": "https://greg.heffner.live/image/pages/2024/Sept/upstreamdns.html",
+                    "url": "https://greg.heffner.live/blog/upstream-dns",
                     "datePublished": "2024-09-04"
                 },
                 {
                     "@type": "BlogPosting",
                     "headline": "Tech Implants: LED and NFC Lighting Up the Future Under Your Skin",
-                    "url": "https://greg.heffner.live/image/pages/2024/Sept/techimplants.html",
+                    "url": "https://greg.heffner.live/blog/nfc-implant-biohacking",
                     "datePublished": "2024-09-01"
                 },
                 {
                     "@type": "BlogPosting",
                     "headline": "TryHackMe: Command Line Confessions",
-                    "url": "https://greg.heffner.live/image/pages/2024/Aug/tryhackme.html",
+                    "url": "https://greg.heffner.live/blog/tryhackme",
                     "datePublished": "2024-08-28"
                 },
                 {
                     "@type": "BlogPosting",
                     "headline": "DMR Radios: It's giving radio-nerd vibes",
-                    "url": "https://greg.heffner.live/image/pages/2024/Aug/dmrradios.html",
+                    "url": "https://greg.heffner.live/blog/dmr-radios",
                     "datePublished": "2024-08-25"
                 },
                 {
                     "@type": "BlogPosting",
                     "headline": "Twingate: Your Key to Remote Networks",
-                    "url": "https://greg.heffner.live/image/pages/2024/Aug/twingate.html",
+                    "url": "https://greg.heffner.live/blog/twingate",
                     "datePublished": "2024-08-21"
                 },
                 {
                     "@type": "BlogPosting",
                     "headline": "Secrets: Password Managers and Hardware Keys",
-                    "url": "https://greg.heffner.live/image/pages/2024/Aug/secrets.html",
+                    "url": "https://greg.heffner.live/blog/passwords-and-hardware-keys",
                     "datePublished": "2024-08-18"
                 },
                 {
                     "@type": "BlogPosting",
                     "headline": "Travel Router: How I stay secure on work trips",
-                    "url": "https://greg.heffner.live/image/pages/2024/Aug/travelrouter.html",
+                    "url": "https://greg.heffner.live/blog/travel-router",
                     "datePublished": "2024-08-14"
                 },
                 {
                     "@type": "BlogPosting",
                     "headline": "Docker Updates: 4 steps to secure your images",
-                    "url": "https://greg.heffner.live/image/pages/2024/Aug/dockerupdate.html",
+                    "url": "https://greg.heffner.live/blog/updating-docker-images",
                     "datePublished": "2024-08-11"
                 },
                 {
                     "@type": "BlogPosting",
                     "headline": "Ansible: Let me put you on patch game",
-                    "url": "https://greg.heffner.live/image/pages/2024/Aug/ansible.html",
+                    "url": "https://greg.heffner.live/blog/ansible-basics",
                     "datePublished": "2024-08-07"
                 },
                 {
                     "@type": "BlogPosting",
                     "headline": "Kubernetes: 86 the Prime Rib",
-                    "url": "https://greg.heffner.live/image/pages/2024/Aug/k8s.html",
+                    "url": "https://greg.heffner.live/blog/kubernetes-basics",
                     "datePublished": "2024-08-04"
                 },
                 {
                     "@type": "BlogPosting",
                     "headline": "A Home Build: If I were to build it today",
-                    "url": "https://greg.heffner.live/image/pages/2024/July/homebuild.html",
+                    "url": "https://greg.heffner.live/blog/home-network-build",
                     "datePublished": "2024-07-31"
                 },
                 {
                     "@type": "BlogPosting",
                     "headline": "WiFi: Wireless internet magic",
-                    "url": "https://greg.heffner.live/image/pages/2024/July/wifi.html",
+                    "url": "https://greg.heffner.live/blog/how-wifi-works",
                     "datePublished": "2024-07-28"
                 },
                 {
                     "@type": "BlogPosting",
                     "headline": "The Cloud: Not the Floridian Cumulonimbus kind",
-                    "url": "https://greg.heffner.live/image/pages/2024/July/thecloud.html",
+                    "url": "https://greg.heffner.live/blog/what-is-the-cloud",
                     "datePublished": "2024-07-24"
                 },
                 {
                     "@type": "BlogPosting",
                     "headline": "VPNs: Web browsing and IP masking",
-                    "url": "https://greg.heffner.live/image/pages/2024/July/VPNs.html",
+                    "url": "https://greg.heffner.live/blog/vpns-explained",
                     "datePublished": "2024-07-21"
                 },
                 {
                     "@type": "BlogPosting",
                     "headline": "DockerHub: Because Ship Happens",
-                    "url": "https://greg.heffner.live/image/pages/2024/July/DockerHub.html",
+                    "url": "https://greg.heffner.live/blog/docker-hub",
                     "datePublished": "2024-07-17"
                 },
                 {
                     "@type": "BlogPosting",
                     "headline": "Loadbalancing: Boots & cats &",
-                    "url": "https://greg.heffner.live/image/pages/2024/July/LB.html",
+                    "url": "https://greg.heffner.live/blog/load-balancers-explained",
                     "datePublished": "2024-07-14"
                 },
                 {
                     "@type": "BlogPosting",
                     "headline": "GitHub: What's the fuss about?",
-                    "url": "https://greg.heffner.live/image/pages/2024/July/GitHub.html",
+                    "url": "https://greg.heffner.live/blog/github-basics",
                     "datePublished": "2024-07-10"
                 },
                 {
                     "@type": "BlogPosting",
                     "headline": "Pi-Hole: What is it and why you might want to use it",
-                    "url": "https://greg.heffner.live/image/pages/2024/July/Pi-Hole.html",
+                    "url": "https://greg.heffner.live/blog/pi-hole-setup",
                     "datePublished": "2024-07-07"
                 },
                 {
                     "@type": "BlogPosting",
                     "headline": "Beginner's Journey: Greg Starts His Blog",
-                    "url": "https://greg.heffner.live/image/pages/initial.html"
+                    "url": "https://greg.heffner.live/blog/first-post"
                 }
             ]
         }
@@ -581,7 +581,7 @@ data:
                         <article id="Article42-Fable5Weekend">
                             <div class="blog-box">
                                 <div class="blog-description">
-                                    <h3><a href="/image/pages/2026/July/Fable5Weekend.html">Fable 5 Until July 7: Three Weekend Projects for America's 250th</a></h3>
+                                    <h3><a href="/blog/fable-5-weekend-projects">Fable 5 Until July 7: Three Weekend Projects for America's 250th</a></h3>
                                     <p>Greg Heffner <time datetime="2026-07-02">July 2nd, 2026</time></p>
                                 </div>
                                 <div class="blog-image-container">
@@ -592,7 +592,7 @@ data:
                         <article id="Article41-AgentSwarmHeal">
                             <div class="blog-box">
                                 <div class="blog-description">
-                                    <h3><a href="/image/pages/2026/June/AgentSwarmHeal.html">Stop Babysitting Your Agent Swarms: The One-Time Setup That Heals a Stalled Workflow</a></h3>
+                                    <h3><a href="/blog/self-healing-agent-swarms">Stop Babysitting Your Agent Swarms: The One-Time Setup That Heals a Stalled Workflow</a></h3>
                                     <p>Greg Heffner <time datetime="2026-06-26">June 26th, 2026</time></p>
                                 </div>
                                 <div class="blog-image-container">
@@ -603,7 +603,7 @@ data:
                         <article id="Article40-LetItBake">
                             <div class="blog-box">
                                 <div class="blog-description">
-                                    <h3><a href="/image/pages/2026/June/LetItBake.html">Patch Fast, But Let It Bake: Why Package Cooldowns Now Matter More Than Speed</a></h3>
+                                    <h3><a href="/blog/patch-fast-let-it-bake">Patch Fast, But Let It Bake: Why Package Cooldowns Now Matter More Than Speed</a></h3>
                                     <p>Greg Heffner <time datetime="2026-06-21">June 21st, 2026</time></p>
                                 </div>
                                 <div class="blog-image-container">
@@ -614,7 +614,7 @@ data:
                         <article id="Article39-AgenticMTTR">
                             <div class="blog-box">
                                 <div class="blog-description">
-                                    <h3><a href="/image/pages/2026/June/AgenticMTTR.html">Machine-Speed Triage: Compressing MTTR with Claude Code Dynamic Workflows</a></h3>
+                                    <h3><a href="/blog/machine-speed-triage">Machine-Speed Triage: Compressing MTTR with Claude Code Dynamic Workflows</a></h3>
                                     <p>Greg Heffner <time datetime="2026-06-14">June 14th, 2026</time></p>
                                 </div>
                                 <div class="blog-image-container">
@@ -625,7 +625,7 @@ data:
                         <article id="Article38-TokensDownStack">
                             <div class="blog-box">
                                 <div class="blog-description">
-                                    <h3><a href="/image/pages/2026/June/TokensDownTheStack.html">Push the Knowledge Down the Stack: Cheaper Agents Through Skills</a></h3>
+                                    <h3><a href="/blog/knowledge-down-the-stack">Push the Knowledge Down the Stack: Cheaper Agents Through Skills</a></h3>
                                     <p>Greg Heffner <time datetime="2026-06-05">June 5th, 2026</time></p>
                                 </div>
                                 <div class="blog-image-container">
@@ -636,7 +636,7 @@ data:
                         <article id="Article37-ClaudeBigRepo">
                             <div class="blog-box">
                                 <div class="blog-description">
-                                    <h3><a href="/image/pages/2026/May/ClaudeBigRepo.html">Why Claude Code Wanders in Big Repos (And Three Fixes)</a></h3>
+                                    <h3><a href="/blog/claude-code-big-repos">Why Claude Code Wanders in Big Repos (And Three Fixes)</a></h3>
                                     <p>Greg Heffner <time datetime="2026-05-22">May 22nd, 2026</time></p>
                                 </div>
                                 <div class="blog-image-container">
@@ -647,7 +647,7 @@ data:
                         <article id="Article36-ClaudeSkills">
                             <div class="blog-box">
                                 <div class="blog-description">
-                                    <h3><a href="/image/pages/2026/May/ClaudeSkills.html">Claude Agents: The 7 Building Blocks (and 8 Tips for Using Them)</a></h3>
+                                    <h3><a href="/blog/claude-agent-building-blocks">Claude Agents: The 7 Building Blocks (and 8 Tips for Using Them)</a></h3>
                                     <p>Greg Heffner <time datetime="2026-05-17">May 17th, 2026</time></p>
                                 </div>
                                 <div class="blog-image-container">
@@ -658,7 +658,7 @@ data:
                         <article id="Article35-WassuhandNessus">
                             <div class="blog-box">
                                 <div class="blog-description">
-                                    <h3><a href="/image/pages/2026/May/NessusandWazuh.html">Nessus & Wazuh: Watching the Watchers at Home</a></h3>
+                                    <h3><a href="/blog/nessus-and-wazuh">Nessus & Wazuh: Watching the Watchers at Home</a></h3>
                                     <p>Greg Heffner <time datetime="2026-05-03">May 3rd, 2026</time></p>
                                 </div>
                                 <div class="blog-image-container">
@@ -669,7 +669,7 @@ data:
                         <article id="Article34-ActionCheck">
                             <div class="blog-box">
                                 <div class="blog-description">
-                                    <h3><a href="/image/pages/2026/Jan/actioncheck.html">ActionCheck: The TUI that Knows Your CI/CD</a></h3>
+                                    <h3><a href="/blog/actioncheck">ActionCheck: The TUI that Knows Your CI/CD</a></h3>
                                     <p>Greg Heffner <time datetime="2026-01-07">January 7th, 2026</time></p>
                                 </div>
                                 <div class="blog-image-container">
@@ -680,7 +680,7 @@ data:
                         <article id="Article33-Blocks">
                             <div class="blog-box">
                                 <div class="blog-description">
-                                    <h3><a href="/image/pages/2025/Dec/web-blocks.html">Blocks for the Year: A review</a></h3>
+                                    <h3><a href="/blog/blocks-for-the-year">Blocks for the Year: A review</a></h3>
                                     <p>Greg Heffner <time datetime="2025-12-30">December 30th, 2025</time></p>
                                 </div>
                                 <div class="blog-image-container">
@@ -691,7 +691,7 @@ data:
                         <article id="Article32-MCP">
                             <div class="blog-box">
                                 <div class="blog-description">
-                                    <h3><a href="/image/pages/2025/Sept/MCP.html">Can I get a MCP hype-train in the chat?</a></h3>
+                                    <h3><a href="/blog/what-is-mcp">Can I get a MCP hype-train in the chat?</a></h3>
                                     <p>Greg Heffner <time datetime="2025-09-28">September 28th, 2025</time></p>
                                 </div>
                                 <div class="blog-image-container">
@@ -702,7 +702,7 @@ data:
                         <article id="Article31-AgenticAI">
                             <div class="blog-box">
                                 <div class="blog-description">
-                                    <h3><a href="/image/pages/2025/Sept/agenticAI.html">Agentic AI - The Future of Automation</a></h3>
+                                    <h3><a href="/blog/agentic-ai-vs-ai">Agentic AI - The Future of Automation</a></h3>
                                     <p>Greg Heffner <time datetime="2025-09-05">September 5th, 2025</time></p>
                                 </div>
                                 <div class="blog-image-container">
@@ -713,7 +713,7 @@ data:
                         <article id="Article30-PiholeAdv">
                             <div class="blog-box">
                                 <div class="blog-description">
-                                    <h3><a href="/image/pages/2025/Sept/piholeadv.html">Pihole - Advanced Use Cases</a></h3>
+                                    <h3><a href="/blog/pi-hole-advanced">Pihole - Advanced Use Cases</a></h3>
                                     <p>Greg Heffner <time datetime="2025-09-02">September 2nd, 2025</time></p>
                                 </div>
                                 <div class="blog-image-container">
@@ -724,7 +724,7 @@ data:
                         <article id="Article29-UV">
                             <div class="blog-box">
                                 <div class="blog-description">
-                                    <h3><a href="/image/pages/2025/Aug/UV.html">UV and why you don't want to block this Python tool</a></h3>
+                                    <h3><a href="/blog/uv-python-tool">UV and why you don't want to block this Python tool</a></h3>
                                     <p>Greg Heffner <time datetime="2025-08-16">August 16th, 2025</time></p>
                                 </div>
                                 <div class="blog-image-container">
@@ -735,7 +735,7 @@ data:
                         <article id="Article28-DEFCON">
                             <div class="blog-box">
                                 <div class="blog-description">
-                                    <h3><a href="/image/pages/2025/Aug/DEFCON.html">DEFCON Dive: Three Days of Tech, Tin Foil, and Total Chaos</a></h3>
+                                    <h3><a href="/blog/defcon">DEFCON Dive: Three Days of Tech, Tin Foil, and Total Chaos</a></h3>
                                     <p>Greg Heffner <time datetime="2025-08">August, 2025</time></p>
                                 </div>
                                 <div class="blog-image-container">
@@ -746,7 +746,7 @@ data:
                         <article id="Article27-HomeLab">
                             <div class="blog-box">
                                 <div class="blog-description">
-                                    <h3><a href="/image/pages/2025/July/homelab.html">Homelab and Virtualization in 2025</a></h3>
+                                    <h3><a href="/blog/homelab-tour">Homelab and Virtualization in 2025</a></h3>
                                     <p>Greg Heffner <time datetime="2025-07-26">July 26th, 2025</time></p>
                                     <p class="blog-note">Cleaner css moving forward!!!</p>
                                 </div>
@@ -758,7 +758,7 @@ data:
                         <article id="Article26-Crontab">
                             <div class="blog-box">
                                 <div class="blog-description">
-                                    <h3><a href="/image/pages/2025/July/cron.html">Crontab: Automating Tasks with Cron Jobs</a></h3>
+                                    <h3><a href="/blog/crontab">Crontab: Automating Tasks with Cron Jobs</a></h3>
                                     <p>Greg Heffner <time datetime="2025-07-11">July 11th, 2025</time></p>
                                 </div>
                                 <div class="blog-image-container">
@@ -769,7 +769,7 @@ data:
                         <article id="Article25-CICD">
                             <div class="blog-box">
                                 <div class="blog-description">
-                                    <h3><a href="/image/pages/2025/July/cicd.html">Build, Test, Deploy: The CI/CD Adventure (with a Dash of Argo CD Magic)</a></h3>
+                                    <h3><a href="/blog/cicd-pipeline">Build, Test, Deploy: The CI/CD Adventure (with a Dash of Argo CD Magic)</a></h3>
                                     <p>Greg Heffner <time datetime="2025-07-03">July 3rd, 2025</time></p>
                                     <p class="blog-note">Mobile friendly blogs moving forward!!!</p>
                                 </div>
@@ -781,7 +781,7 @@ data:
                         <article id="Article24-WebSec">
                             <div class="blog-box">
                                 <div class="blog-description">
-                                    <h3><a href="/image/pages/2025/June/websecurity.html">Web Security: Blocking Bots from the Edge with Fail2Ban + Cloudflare</a></h3>
+                                    <h3><a href="/blog/web-security-basics">Web Security: Blocking Bots from the Edge with Fail2Ban + Cloudflare</a></h3>
                                     <p>Greg Heffner <time datetime="2025-06-25">June 25, 2025</time></p>
                                 </div>
                                 <div class="blog-image-container">
@@ -792,7 +792,7 @@ data:
                         <article id="Article23-GitAdv">
                             <div class="blog-box">
                                 <div class="blog-description">
-                                    <h3><a href="/image/pages/2025/June/githubadv.html">GitHub advanced features: Short-cycle your processes</a></h3>
+                                    <h3><a href="/blog/github-advanced">GitHub advanced features: Short-cycle your processes</a></h3>
                                     <p>Greg Heffner <time datetime="2025-06-15">June 15, 2025</time></p>
                                 </div>
                                 <div class="blog-image-container">
@@ -803,7 +803,7 @@ data:
                         <article id="Article22-AOC">
                             <div class="blog-box">
                                 <div class="blog-description">
-                                    <h3><a href="/image/pages/2024/Nov/AOC.html">Advent of Cyber: Time for some Holiday fun with TryHackMe!</a></h3>
+                                    <h3><a href="/blog/advent-of-cyber">Advent of Cyber: Time for some Holiday fun with TryHackMe!</a></h3>
                                     <p>Greg Heffner <time datetime="2024-11-23">November 23, 2024</time></p>
                                 </div>
                                 <div class="blog-image-container">
@@ -814,7 +814,7 @@ data:
                         <article id="Article21-Tools">
                             <div class="blog-box">
                                 <div class="blog-description">
-                                    <h3><a href="/image/pages/2024/Sept/tools.html">Terraform vs. Ansible: Navigating the Cloud with a Sail and a Spark</a></h3>
+                                    <h3><a href="/blog/terraform-vs-ansible">Terraform vs. Ansible: Navigating the Cloud with a Sail and a Spark</a></h3>
                                     <p>Greg Heffner <time datetime="2024-09-15">September 15, 2024</time></p>
                                 </div>
                                 <div class="blog-image-container">
@@ -825,7 +825,7 @@ data:
                         <article id="Article20-SmokeTest">
                             <div class="blog-box">
                                 <div class="blog-description">
-                                    <h3><a href="/image/pages/2024/Sept/smoketest.html">Smoke Tests: The Production Combine</a></h3>
+                                    <h3><a href="/blog/smoke-testing-my-site">Smoke Tests: The Production Combine</a></h3>
                                     <p>Greg Heffner <time datetime="2024-09-11">September 11, 2024</time></p>
                                 </div>
                                 <div class="blog-image-container">
@@ -836,7 +836,7 @@ data:
                         <article id="Article19-ClassSetup">
                             <div class="blog-box">
                                 <div class="blog-description">
-                                    <h3><a href="/image/pages/2024/Sept/classsetup.html">Class Setup: My learning tech stack - Learn for Free</a></h3>
+                                    <h3><a href="/blog/learning-lab-setup">Class Setup: My learning tech stack - Learn for Free</a></h3>
                                     <p>Greg Heffner <time datetime="2024-09-08">September 8, 2024</time></p>
                                 </div>
                                 <div class="blog-image-container">
@@ -847,7 +847,7 @@ data:
                         <article id="Article18-UpstreamDNS">
                             <div class="blog-box">
                                 <div class="blog-description">
-                                    <h3><a href="/image/pages/2024/Sept/upstreamdns.html">Upstream DNS Servers: Put the internet to work</a></h3>
+                                    <h3><a href="/blog/upstream-dns">Upstream DNS Servers: Put the internet to work</a></h3>
                                     <p>Greg Heffner <time datetime="2024-09-04">September 4, 2024</time></p>
                                 </div>
                                 <div class="blog-image-container">
@@ -858,7 +858,7 @@ data:
                         <article id="Article17-TechImplants">
                             <div class="blog-box">
                                 <div class="blog-description">
-                                    <h3><a href="/image/pages/2024/Sept/techimplants.html">Tech Implants: LED and NFC Lighting Up the Future Under Your Skin</a></h3>
+                                    <h3><a href="/blog/nfc-implant-biohacking">Tech Implants: LED and NFC Lighting Up the Future Under Your Skin</a></h3>
                                     <p>Greg Heffner <time datetime="2024-09-01">September 1, 2024</time></p>
                                 </div>
                                 <div class="blog-image-container">
@@ -869,7 +869,7 @@ data:
                         <article id="Article16-TryHackMe">
                             <div class="blog-box">
                                 <div class="blog-description">
-                                    <h3><a href="/image/pages/2024/Aug/tryhackme.html">TryHackMe: Command Line Confessions</a></h3>
+                                    <h3><a href="/blog/tryhackme">TryHackMe: Command Line Confessions</a></h3>
                                     <p>Greg Heffner <time datetime="2024-08-28">August 28, 2024</time></p>
                                 </div>
                                 <div class="blog-image-container">
@@ -880,7 +880,7 @@ data:
                         <article id="Article15-DMRRadios">
                             <div class="blog-box">
                                 <div class="blog-description">
-                                    <h3><a href="/image/pages/2024/Aug/dmrradios.html">DMR Radios: It's giving radio-nerd vibes</a></h3>
+                                    <h3><a href="/blog/dmr-radios">DMR Radios: It's giving radio-nerd vibes</a></h3>
                                     <p>Greg Heffner <time datetime="2024-08-25">August 25, 2024</time></p>
                                 </div>
                                 <div class="blog-image-container">
@@ -891,7 +891,7 @@ data:
                         <article id="Article14-Twingate">
                             <div class="blog-box">
                                 <div class="blog-description">
-                                    <h3><a href="/image/pages/2024/Aug/twingate.html">Twingate: Your Key to Remote Networks</a></h3>
+                                    <h3><a href="/blog/twingate">Twingate: Your Key to Remote Networks</a></h3>
                                     <p>Greg Heffner <time datetime="2024-08-21">August 21, 2024</time></p>
                                 </div>
                                 <div class="blog-image-container">
@@ -902,7 +902,7 @@ data:
                         <article id="Article13-Secrets">
                             <div class="blog-box">
                                 <div class="blog-description">
-                                    <h3><a href="/image/pages/2024/Aug/secrets.html">Secrets: Password Managers and Hardware Keys</a></h3>
+                                    <h3><a href="/blog/passwords-and-hardware-keys">Secrets: Password Managers and Hardware Keys</a></h3>
                                     <p>Greg Heffner <time datetime="2024-08-18">August 18, 2024</time></p>
                                 </div>
                                 <div class="blog-image-container">
@@ -913,7 +913,7 @@ data:
                         <article id="Article12-TravelRouter">
                             <div class="blog-box">
                                 <div class="blog-description">
-                                    <h3><a href="/image/pages/2024/Aug/travelrouter.html">Travel Router: How I stay secure on work trips</a></h3>
+                                    <h3><a href="/blog/travel-router">Travel Router: How I stay secure on work trips</a></h3>
                                     <p>Greg Heffner <time datetime="2024-08-14">August 14, 2024</time></p>
                                 </div>
                                 <div class="blog-image-container">
@@ -924,7 +924,7 @@ data:
                         <article id="Article11-DockerUpdate">
                             <div class="blog-box">
                                 <div class="blog-description">
-                                    <h3><a href="/image/pages/2024/Aug/dockerupdate.html">Docker Updates: 4 steps to secure your images</a></h3>
+                                    <h3><a href="/blog/updating-docker-images">Docker Updates: 4 steps to secure your images</a></h3>
                                     <p>Greg Heffner <time datetime="2024-08-11">August 11, 2024</time></p>
                                 </div>
                                 <div class="blog-image-container">
@@ -935,7 +935,7 @@ data:
                         <article id="Article10-Ansible">
                             <div class="blog-box">
                                 <div class="blog-description">
-                                    <h3><a href="/image/pages/2024/Aug/ansible.html">Ansible: Let me put you on patch game</a></h3>
+                                    <h3><a href="/blog/ansible-basics">Ansible: Let me put you on patch game</a></h3>
                                     <p>Greg Heffner <time datetime="2024-08-07">August 7, 2024</time></p>
                                 </div>
                                 <div class="blog-image-container">
@@ -946,7 +946,7 @@ data:
                         <article id="Article9-Kubernetes">
                             <div class="blog-box">
                                 <div class="blog-description">
-                                    <h3><a href="/image/pages/2024/Aug/k8s.html">Kubernetes: 86 the Prime Rib</a></h3>
+                                    <h3><a href="/blog/kubernetes-basics">Kubernetes: 86 the Prime Rib</a></h3>
                                     <p>Greg Heffner <time datetime="2024-08-04">August 4, 2024</time></p>
                                 </div>
                                 <div class="blog-image-container">
@@ -957,7 +957,7 @@ data:
                         <article id="Article8-HomeBuild">
                             <div class="blog-box">
                                 <div class="blog-description">
-                                    <h3><a href="/image/pages/2024/July/homebuild.html">A Home Build: If I were to build it today</a></h3>
+                                    <h3><a href="/blog/home-network-build">A Home Build: If I were to build it today</a></h3>
                                     <p>Greg Heffner <time datetime="2024-07-31">July 31, 2024</time></p>
                                 </div>
                                 <div class="blog-image-container">
@@ -968,7 +968,7 @@ data:
                         <article id="Article7-WiFi">
                             <div class="blog-box">
                                 <div class="blog-description">
-                                    <h3><a href="/image/pages/2024/July/wifi.html">WiFi: Wireless internet magic</a></h3>
+                                    <h3><a href="/blog/how-wifi-works">WiFi: Wireless internet magic</a></h3>
                                     <p>Greg Heffner <time datetime="2024-07-28">July 28, 2024</time></p>
                                 </div>
                                 <div class="blog-image-container">
@@ -979,7 +979,7 @@ data:
                         <article id="Article6-TheCloud">
                             <div class="blog-box">
                                 <div class="blog-description">
-                                    <h3><a href="/image/pages/2024/July/thecloud.html">The Cloud: Not the Floridian Cumulonimbus kind</a></h3>
+                                    <h3><a href="/blog/what-is-the-cloud">The Cloud: Not the Floridian Cumulonimbus kind</a></h3>
                                     <p>Greg Heffner <time datetime="2024-07-24">July 24, 2024</time></p>
                                 </div>
                                 <div class="blog-image-container">
@@ -990,7 +990,7 @@ data:
                         <article id="Article5-VPNs">
                             <div class="blog-box">
                                 <div class="blog-description">
-                                    <h3><a href="/image/pages/2024/July/VPNs.html">VPNs: Web browsing and IP masking</a></h3>
+                                    <h3><a href="/blog/vpns-explained">VPNs: Web browsing and IP masking</a></h3>
                                     <p>Greg Heffner <time datetime="2024-07-21">July 21, 2024</time></p>
                                 </div>
                                 <div class="blog-image-container">
@@ -1001,7 +1001,7 @@ data:
                         <article id="Article4-DockerHub">
                             <div class="blog-box">
                                 <div class="blog-description">
-                                    <h3><a href="/image/pages/2024/July/DockerHub.html">DockerHub: Because Ship Happens</a></h3>
+                                    <h3><a href="/blog/docker-hub">DockerHub: Because Ship Happens</a></h3>
                                     <p>Greg Heffner <time datetime="2024-07-17">July 17, 2024</time></p>
                                 </div>
                                 <div class="blog-image-container">
@@ -1012,7 +1012,7 @@ data:
                         <article id="Article3-Loadbalancers">
                             <div class="blog-box">
                                 <div class="blog-description">
-                                    <h3><a href="/image/pages/2024/July/LB.html">Loadbalancing: Boots & cats &</a></h3>
+                                    <h3><a href="/blog/load-balancers-explained">Loadbalancing: Boots & cats &</a></h3>
                                     <p>Greg Heffner <time datetime="2024-07-14">July 14, 2024</time></p>
                                 </div>
                                 <div class="blog-image-container">
@@ -1023,7 +1023,7 @@ data:
                         <article id="Article2-GitHub">
                             <div class="blog-box">
                                 <div class="blog-description">
-                                    <h3><a href="/image/pages/2024/July/GitHub.html">GitHub: What's the fuss about?</a></h3>
+                                    <h3><a href="/blog/github-basics">GitHub: What's the fuss about?</a></h3>
                                     <p>Greg Heffner <time datetime="2024-07-10">July 10, 2024</time></p>
                                 </div>
                                 <div class="blog-image-container">
@@ -1034,7 +1034,7 @@ data:
                         <article id="Article1-Pihole">
                             <div class="blog-box">
                                 <div class="blog-description">
-                                    <h3><a href="/image/pages/2024/July/Pi-Hole.html">Pi-Hole: What is it and why you might want to use it</a></h3>
+                                    <h3><a href="/blog/pi-hole-setup">Pi-Hole: What is it and why you might want to use it</a></h3>
                                     <p>Greg Heffner <time datetime="2024-07-07">July 7, 2024</time></p>
                                 </div>
                                 <div class="blog-image-container">
@@ -1045,7 +1045,7 @@ data:
                         <article id="initial">
                             <div class="blog-box">
                                 <div class="blog-description">
-                                    <h3><a href="/image/pages/initial.html">Beginner's Journey: Greg Starts His Blog</a></h3>
+                                    <h3><a href="/blog/first-post">Beginner's Journey: Greg Starts His Blog</a></h3>
                                     <p>Greg Heffner</p>
                                 </div>
                                 <div class="blog-image-container">
@@ -1511,8 +1511,8 @@ data:
                         <li><a href="https://tryhackme.com"><strong>TryHackMe</strong></a>: My go-to for CTFs, hands-on labs, and free courses.</li>
                         <li>See my blog for guides:
                             <ul>
-                                <li><a href="https://greg.heffner.live/image/pages/2024/Aug/tryhackme.html">Command Line Confessions</a></li>
-                                <li><a href="https://greg.heffner.live/image/pages/2024/Sept/classsetup.html">Class Setup: My Learning Tech Stack</a></li>
+                                <li><a href="https://greg.heffner.live/blog/tryhackme">Command Line Confessions</a></li>
+                                <li><a href="https://greg.heffner.live/blog/learning-lab-setup">Class Setup: My Learning Tech Stack</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -2206,260 +2206,260 @@ data:
     <priority>0.3</priority>
     </url>
     <url>
-    <loc>https://greg.heffner.live/image/pages/initial.html</loc>
-    <lastmod>2025-06-10</lastmod>
+    <loc>https://greg.heffner.live/blog/first-post</loc>
+    <lastmod>2026-07-03</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
-    <loc>https://greg.heffner.live/image/pages/2024/July/GitHub.html</loc>
-    <lastmod>2024-07-10</lastmod>
+    <loc>https://greg.heffner.live/blog/github-basics</loc>
+    <lastmod>2026-07-03</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
-    <loc>https://greg.heffner.live/image/pages/2024/July/Pi-Hole.html</loc>
-    <lastmod>2026-07-02</lastmod>
+    <loc>https://greg.heffner.live/blog/pi-hole-setup</loc>
+    <lastmod>2026-07-03</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
-    <loc>https://greg.heffner.live/image/pages/2024/July/LB.html</loc>
-    <lastmod>2024-07-14</lastmod>
+    <loc>https://greg.heffner.live/blog/load-balancers-explained</loc>
+    <lastmod>2026-07-03</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
-    <loc>https://greg.heffner.live/image/pages/2024/July/DockerHub.html</loc>
-    <lastmod>2024-07-17</lastmod>
+    <loc>https://greg.heffner.live/blog/docker-hub</loc>
+    <lastmod>2026-07-03</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
-    <loc>https://greg.heffner.live/image/pages/2024/July/VPNs.html</loc>
-    <lastmod>2024-07-21</lastmod>
+    <loc>https://greg.heffner.live/blog/vpns-explained</loc>
+    <lastmod>2026-07-03</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
-    <loc>https://greg.heffner.live/image/pages/2024/July/thecloud.html</loc>
-    <lastmod>2026-07-02</lastmod>
+    <loc>https://greg.heffner.live/blog/what-is-the-cloud</loc>
+    <lastmod>2026-07-03</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
-    <loc>https://greg.heffner.live/image/pages/2024/July/wifi.html</loc>
-    <lastmod>2024-07-28</lastmod>
+    <loc>https://greg.heffner.live/blog/how-wifi-works</loc>
+    <lastmod>2026-07-03</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
-    <loc>https://greg.heffner.live/image/pages/2024/July/homebuild.html</loc>
-    <lastmod>2026-07-02</lastmod>
+    <loc>https://greg.heffner.live/blog/home-network-build</loc>
+    <lastmod>2026-07-03</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
-    <loc>https://greg.heffner.live/image/pages/2024/Aug/k8s.html</loc>
-    <lastmod>2026-07-02</lastmod>
+    <loc>https://greg.heffner.live/blog/kubernetes-basics</loc>
+    <lastmod>2026-07-03</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
-    <loc>https://greg.heffner.live/image/pages/2024/Aug/ansible.html</loc>
-    <lastmod>2026-07-02</lastmod>
+    <loc>https://greg.heffner.live/blog/ansible-basics</loc>
+    <lastmod>2026-07-03</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
-    <loc>https://greg.heffner.live/image/pages/2024/Aug/dockerupdate.html</loc>
-    <lastmod>2024-08-11</lastmod>
+    <loc>https://greg.heffner.live/blog/updating-docker-images</loc>
+    <lastmod>2026-07-03</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
-    <loc>https://greg.heffner.live/image/pages/2024/Aug/travelrouter.html</loc>
-    <lastmod>2024-08-14</lastmod>
+    <loc>https://greg.heffner.live/blog/travel-router</loc>
+    <lastmod>2026-07-03</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
-    <loc>https://greg.heffner.live/image/pages/2024/Aug/secrets.html</loc>
-    <lastmod>2026-07-02</lastmod>
+    <loc>https://greg.heffner.live/blog/passwords-and-hardware-keys</loc>
+    <lastmod>2026-07-03</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
-    <loc>https://greg.heffner.live/image/pages/2024/Aug/twingate.html</loc>
-    <lastmod>2026-07-02</lastmod>
+    <loc>https://greg.heffner.live/blog/twingate</loc>
+    <lastmod>2026-07-03</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
-    <loc>https://greg.heffner.live/image/pages/2024/Aug/dmrradios.html</loc>
-    <lastmod>2026-07-02</lastmod>
+    <loc>https://greg.heffner.live/blog/dmr-radios</loc>
+    <lastmod>2026-07-03</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
-    <loc>https://greg.heffner.live/image/pages/2024/Aug/tryhackme.html</loc>
-    <lastmod>2026-07-02</lastmod>
+    <loc>https://greg.heffner.live/blog/tryhackme</loc>
+    <lastmod>2026-07-03</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
-    <loc>https://greg.heffner.live/image/pages/2024/Sept/techimplants.html</loc>
-    <lastmod>2026-07-02</lastmod>
+    <loc>https://greg.heffner.live/blog/nfc-implant-biohacking</loc>
+    <lastmod>2026-07-03</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
-    <loc>https://greg.heffner.live/image/pages/2024/Sept/upstreamdns.html</loc>
-    <lastmod>2024-09-04</lastmod>
+    <loc>https://greg.heffner.live/blog/upstream-dns</loc>
+    <lastmod>2026-07-03</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
-    <loc>https://greg.heffner.live/image/pages/2024/Sept/classsetup.html</loc>
-    <lastmod>2024-09-08</lastmod>
+    <loc>https://greg.heffner.live/blog/learning-lab-setup</loc>
+    <lastmod>2026-07-03</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
-    <loc>https://greg.heffner.live/image/pages/2024/Sept/smoketest.html</loc>
-    <lastmod>2024-09-11</lastmod>
+    <loc>https://greg.heffner.live/blog/smoke-testing-my-site</loc>
+    <lastmod>2026-07-03</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
-    <loc>https://greg.heffner.live/image/pages/2024/Sept/tools.html</loc>
-    <lastmod>2024-09-15</lastmod>
+    <loc>https://greg.heffner.live/blog/terraform-vs-ansible</loc>
+    <lastmod>2026-07-03</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
-    <loc>https://greg.heffner.live/image/pages/2024/Nov/AOC.html</loc>
-    <lastmod>2024-11-23</lastmod>
+    <loc>https://greg.heffner.live/blog/advent-of-cyber</loc>
+    <lastmod>2026-07-03</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
-    <loc>https://greg.heffner.live/image/pages/2025/June/githubadv.html</loc>
-    <lastmod>2025-06-15</lastmod>
+    <loc>https://greg.heffner.live/blog/github-advanced</loc>
+    <lastmod>2026-07-03</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
-    <loc>https://greg.heffner.live/image/pages/2025/June/websecurity.html</loc>
-    <lastmod>2025-06-25</lastmod>
+    <loc>https://greg.heffner.live/blog/web-security-basics</loc>
+    <lastmod>2026-07-03</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
-    <loc>https://greg.heffner.live/image/pages/2025/July/cicd.html</loc>
-    <lastmod>2025-07-03</lastmod>
+    <loc>https://greg.heffner.live/blog/cicd-pipeline</loc>
+    <lastmod>2026-07-03</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
-    <loc>https://greg.heffner.live/image/pages/2025/July/cron.html</loc>
-    <lastmod>2025-07-11</lastmod>
+    <loc>https://greg.heffner.live/blog/crontab</loc>
+    <lastmod>2026-07-03</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
-    <loc>https://greg.heffner.live/image/pages/2025/July/homelab.html</loc>
-    <lastmod>2026-07-02</lastmod>
+    <loc>https://greg.heffner.live/blog/homelab-tour</loc>
+    <lastmod>2026-07-03</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
-    <loc>https://greg.heffner.live/image/pages/2025/Aug/DEFCON.html</loc>
-    <lastmod>2025-07-26</lastmod>
+    <loc>https://greg.heffner.live/blog/defcon</loc>
+    <lastmod>2026-07-03</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
-    <loc>https://greg.heffner.live/image/pages/2025/Aug/UV.html</loc>
-    <lastmod>2025-08-16</lastmod>
+    <loc>https://greg.heffner.live/blog/uv-python-tool</loc>
+    <lastmod>2026-07-03</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
-    <loc>https://greg.heffner.live/image/pages/2025/Sept/piholeadv.html</loc>
-    <lastmod>2025-09-02</lastmod>
+    <loc>https://greg.heffner.live/blog/pi-hole-advanced</loc>
+    <lastmod>2026-07-03</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
-    <loc>https://greg.heffner.live/image/pages/2025/Sept/agenticAI.html</loc>
-    <lastmod>2025-09-05</lastmod>
+    <loc>https://greg.heffner.live/blog/agentic-ai-vs-ai</loc>
+    <lastmod>2026-07-03</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
-    <loc>https://greg.heffner.live/image/pages/2025/Sept/MCP.html</loc>
-    <lastmod>2026-07-02</lastmod>
+    <loc>https://greg.heffner.live/blog/what-is-mcp</loc>
+    <lastmod>2026-07-03</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
-    <loc>https://greg.heffner.live/image/pages/2025/Dec/web-blocks.html</loc>
-    <lastmod>2026-07-02</lastmod>
+    <loc>https://greg.heffner.live/blog/blocks-for-the-year</loc>
+    <lastmod>2026-07-03</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
-    <loc>https://greg.heffner.live/image/pages/2026/Jan/actioncheck.html</loc>
-    <lastmod>2026-07-02</lastmod>
+    <loc>https://greg.heffner.live/blog/actioncheck</loc>
+    <lastmod>2026-07-03</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
-    <loc>https://greg.heffner.live/image/pages/2026/May/NessusandWazuh.html</loc>
-    <lastmod>2026-07-02</lastmod>
+    <loc>https://greg.heffner.live/blog/nessus-and-wazuh</loc>
+    <lastmod>2026-07-03</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
-    <loc>https://greg.heffner.live/image/pages/2026/May/ClaudeSkills.html</loc>
-    <lastmod>2026-07-02</lastmod>
+    <loc>https://greg.heffner.live/blog/claude-agent-building-blocks</loc>
+    <lastmod>2026-07-03</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
-    <loc>https://greg.heffner.live/image/pages/2026/May/ClaudeBigRepo.html</loc>
-    <lastmod>2026-05-22</lastmod>
+    <loc>https://greg.heffner.live/blog/claude-code-big-repos</loc>
+    <lastmod>2026-07-03</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
-    <loc>https://greg.heffner.live/image/pages/2026/June/TokensDownTheStack.html</loc>
-    <lastmod>2026-06-05</lastmod>
+    <loc>https://greg.heffner.live/blog/knowledge-down-the-stack</loc>
+    <lastmod>2026-07-03</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
-    <loc>https://greg.heffner.live/image/pages/2026/June/AgenticMTTR.html</loc>
-    <lastmod>2026-07-02</lastmod>
+    <loc>https://greg.heffner.live/blog/machine-speed-triage</loc>
+    <lastmod>2026-07-03</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
-    <loc>https://greg.heffner.live/image/pages/2026/June/LetItBake.html</loc>
-    <lastmod>2026-07-02</lastmod>
+    <loc>https://greg.heffner.live/blog/patch-fast-let-it-bake</loc>
+    <lastmod>2026-07-03</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
-    <loc>https://greg.heffner.live/image/pages/2026/June/AgentSwarmHeal.html</loc>
-    <lastmod>2026-07-02</lastmod>
+    <loc>https://greg.heffner.live/blog/self-healing-agent-swarms</loc>
+    <lastmod>2026-07-03</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
-    <loc>https://greg.heffner.live/image/pages/2026/July/Fable5Weekend.html</loc>
-    <lastmod>2026-07-02</lastmod>
+    <loc>https://greg.heffner.live/blog/fable-5-weekend-projects</loc>
+    <lastmod>2026-07-03</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
