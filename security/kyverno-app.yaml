@@ -26,6 +26,8 @@ spec:
             enabled: true
             maxSize: 1000
             ttl: 60m
+          logging:
+            format: json # 2026-07-03 Datadog audit: default text format emits ANSI color codes — unparseable in DD Log Explorer and TRC lines mislabeled as errors; json gives structured logs + correct severity
         # kube-system + kyverno's own namespace are auto-excluded from webhooks by default.
   destination:
     server: https://kubernetes.default.svc
