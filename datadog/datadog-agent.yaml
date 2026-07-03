@@ -23,15 +23,7 @@ spec:
   features:
     apm:
       instrumentation:
-        enabled: true
-        targets:
-          - name: default-target
-            ddTraceVersions:
-              dotnet: "3"
-              java: "1"
-              js: "5"
-              php: "1"
-              python: "3"
+        enabled: false # 2026-07-03 audit: nothing in the cluster runs dotnet/java/js/php/python — auto-instrumentation was a paid feature instrumenting nothing
     asm:
       threats:
         enabled: true
@@ -83,8 +75,9 @@ spec:
               value: "true"
             - name: DD_KUBELET_TLS_VERIFY
               value: "false"
-            - name: DD_CONTAINER_INCLUDE
-              value: name:heffner.live
+            # 2026-07-03 audit: removed DD_CONTAINER_INCLUDE=name:heffner.live — matched
+            # no actual container name (they're nginx/fail2ban/...); dead config that read
+            # as if discovery were filtered when it wasn't (include without exclude is a no-op)
         otel-agent:
           env:
             - name: DD_OTELCOLLECTOR_ENABLED
