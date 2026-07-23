@@ -63,6 +63,13 @@ spec:
       enabled: true
   override:
     nodeAgent:
+      annotations:
+        # agent + process-agent ptrace-read host processes for live process collection;
+        # containerd's default profile (cri-containerd.apparmor.d) denies it, flooding the
+        # kernel audit log (~1 DENIED line every 2s per node). The operator already sets
+        # system-probe unconfined the same way.
+        container.apparmor.security.beta.kubernetes.io/agent: unconfined
+        container.apparmor.security.beta.kubernetes.io/process-agent: unconfined
       image:
         name: gcr.io/datadoghq/agent:latest-full
         pullPolicy: Always
