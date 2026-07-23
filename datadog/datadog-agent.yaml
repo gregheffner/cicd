@@ -20,6 +20,11 @@ spec:
         keyName: api-key
     tags:
       - env:prod
+    kubelet:
+      # kubelet serves a self-signed cert; without this, sidecar containers (not covered by
+      # the agent container's DD_KUBELET_TLS_VERIFY env) probe kubelet every ~5 min and fill
+      # its journal with "TLS handshake error ... bad certificate"
+      tlsVerify: false
   features:
     apm:
       instrumentation:
