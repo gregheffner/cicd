@@ -10,7 +10,7 @@ metadata:
   name: cicd-runner-token
   namespace: automation
 spec:
-  refreshInterval: 1h
+  refreshInterval: 6h
   secretStoreRefs:
     - name: onepassword
       kind: ClusterSecretStore

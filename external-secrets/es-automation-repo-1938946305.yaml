@@ -7,7 +7,7 @@ metadata:
   name: repo-1938946305
   namespace: automation
 spec:
-  refreshInterval: 30m
+  refreshInterval: 6h
   secretStoreRef:
     kind: ClusterSecretStore
     name: onepassword
