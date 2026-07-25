@@ -39,18 +39,13 @@ COPY --from=builder --chown=node:node /app/node_modules ./node_modules
 # pattern, so no secret from the working tree can land in the image.
 COPY --chown=node:node . .
 
-# server.js readFileSync's server.key/server.cert at startup and crashes without
-# them, but the repo copy must never ship in a PUBLIC image. Generate a fresh
-# throwaway pair at build time instead: the HTTPS:5000 listener is dev-only
-# (Kubernetes uses HTTP:8080 and Cloudflare terminates real TLS at the edge),
-# so this cert is never on a trusted path. openssl is removed again afterwards.
-RUN apk add --no-cache --virtual .gen-certs openssl \
-    && openssl req -x509 -newkey rsa:2048 -nodes -days 3650 \
-       -subj "/CN=radar.local" \
-       -keyout /app/server.key -out /app/server.cert \
-    && chown node:node /app/server.key /app/server.cert \
-    && chmod 600 /app/server.key \
-    && apk del .gen-certs
+# NO TLS key is generated or copied here, deliberately. server.js now starts its
+# HTTPS:5000 listener only when server.key/server.cert are present, so the
+# published image ships none: Kubernetes uses HTTP:8080 and Cloudflare
+# terminates real TLS at the edge. An earlier revision generated a throwaway
+# pair at build time, which tripped the pipeline's Trivy secret scan (a private
+# key in a published layer) for zero benefit. For local dev, drop a pair into
+# /app — both filenames are gitignored and .dockerignore'd.
 
 # Run as the unprivileged 'node' user; both ports are >1024 so no root needed
 USER node
