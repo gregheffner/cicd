@@ -48,6 +48,42 @@ This is an interactive weather map that shows:
 
 Perfect for checking weather conditions before heading out, planning trips, or just satisfying your curiosity about weather patterns around the world!
 
+## 📦 Source of Truth & Weekly Build Pipeline
+
+**`weathermap/app/` in this repo is now the CANONICAL radar source.** The old
+working tree at `/Volumes/vmshare/scripts/weathermap-build` (the QNAP share,
+`/mnt/QNAP/scripts/weathermap-build` on dockerhost) is **STALE / non-canonical**
+and is kept only for local development — it still holds the real `.env`,
+`server.key`, and `server.cert`, which must never be copied here. The vendored
+copy contains only the allowlisted app files; `.gitignore` and the workflow's
+secret-guard step both block secret-shaped files from ever entering the build
+context.
+
+The image is rebuilt weekly by `.github/workflows/radar-build-scan.yaml`
+(Mondays 07:15 UTC): fresh `--pull --no-cache` build, smoke test, Trivy gate
+(fixable HIGH/CRITICAL blocks the push), push of an immutable `vYYYY.MM.DD`
+tag only (never `:latest`), then `weathermap/radar.yml` is digest-pinned,
+committed, and rolled out to the `radar` namespace with digest verification.
+A Trivy block is "loudly stale but safe": nothing publishes and the cluster
+keeps the last good digest.
+
+**Bumping the base image:** check
+[node 20.x-alpine tags](https://hub.docker.com/_/node/tags?name=20) for the
+newest patch tag, update the `FROM` line in `weathermap/app/Dockerfile`, and
+let the pipeline's Trivy gate confirm it is clean. When moving off Node 20,
+also unpin `npm@11` in the Dockerfile (npm 12+ needs Node >= 22).
+
+**Regenerating package-lock.json:** from a machine with Node 20 / npm 11:
+
+```sh
+cd weathermap/app
+rm -rf node_modules package-lock.json
+npm install --omit=dev --package-lock-only
+```
+
+Commit only `package-lock.json` (never `node_modules/`); the Docker build uses
+`npm ci` against it for reproducible installs.
+
 ## Demo
 
 An example map using many features of this library can be seen at [ahorn.lima-city.de/owm](https://ahorn.lima-city.de/owm/).

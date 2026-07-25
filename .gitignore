@@ -12,6 +12,14 @@ id_rsa*
 kubeconfig
 *.kubeconfig
 
+# Vendored radar app — secrets stay local, only the example env ships
+weathermap/app/.env*
+!weathermap/app/.env.example
+weathermap/app/*.key
+weathermap/app/*.cert
+weathermap/app/*.pem
+weathermap/app/node_modules/
+
 # Python
 __pycache__/
 *.py[cod]

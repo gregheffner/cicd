@@ -1,0 +1,205 @@
+# .github/workflows/radar-build-scan.yaml
+#
+# WEEKLY radar image rebuild + Trivy gate + digest-pin of weathermap/radar.yml.
+# The radar image went 135 CVEs -> 2 simply by rebuilding on a current base with
+# apk upgrade + a patched npm; without a weekly rebuild it rots right back. The
+# fresh `--pull --no-cache` build below is the entire point of this workflow.
+#
+# If the Trivy gate blocks: the run goes red ("loudly stale but safe") — nothing
+# is pushed, nothing is committed, and the cluster keeps serving the last good
+# pinned digest until the base/deps are fixed and a rebuild passes.
+#
+# Source of truth for the image is the vendored weathermap/app/ directory in
+# THIS repo. No cosign here (decided): the manifest pins an immutable @sha256.
+
+name: radar-build-scan
+
+on:
+  schedule:
+    # Mondays 07:15 UTC — offset from the nginx build (07:00) to stagger runners.
+    - cron: '15 7 * * 1'
+  workflow_dispatch:
+
+# Independent of the nginx build/promote pipeline; just don't overlap with itself.
+concurrency:
+  group: radar-pipeline
+  cancel-in-progress: false
+
+permissions: {}   # least privilege at top level; jobs opt in below
+
+env:
+  IMAGE: technotuba/radar
+  BRANCH: main
+
+jobs:
+  build-scan-push:
+    runs-on: ubuntu-latest
+    # Scheduled runs always proceed; manual dispatch is restricted to the owner.
+    if: github.event_name == 'schedule' || github.actor == 'gregheffner'
+    permissions:
+      contents: read
+    outputs:
+      digest: ${{ steps.push.outputs.digest }}
+      tag: ${{ steps.date.outputs.tag }}
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0  # v7.0.0 (node24)
+        with:
+          ref: main
+
+      # Belt-and-braces: the vendor allowlist + .gitignore should make this
+      # impossible, but refuse to build if a secret ever lands in weathermap/app/.
+      - name: Secret guard — refuse to build if secrets are present in the context
+        run: |
+          set -euo pipefail
+          HITS=$(find weathermap/app -name '.env' -o -name '*.key' -o -name '*.cert' -o -name '*.pem')
+          if [ -n "$HITS" ]; then
+            echo "::error::secret-shaped files in build context:"; echo "$HITS"; exit 1
+          fi
+          if grep -rlE 'BEGIN [A-Z ]*PRIVATE KEY|OWM_API_KEY=[A-Za-z0-9]{8}' weathermap/app; then
+            echo "::error::secret-shaped content in build context"; exit 1
+          fi
+          echo "secret guard clean"
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@d7f5e7f509e45cec5c76c4d5afdd7de93d0b3df5  # v4.1.0 (node24)
+
+      - name: Compute immutable date tag
+        id: date
+        run: echo "tag=v$(date -u +'%Y.%m.%d')" >> "$GITHUB_OUTPUT"
+
+      # --pull --no-cache is REQUIRED: fresh base layers + fresh apk/npm upgrades
+      # are the entire point of the weekly rebuild. Single-arch linux/amd64 and
+      # --load so we can smoke-test and Trivy-scan BEFORE anything is published,
+      # and so the running pod's imageID digest equals the manifest digest.
+      - name: Build candidate (fresh base, load locally, do NOT push yet)
+        run: |
+          set -euo pipefail
+          docker buildx build --pull --no-cache --platform linux/amd64 --load \
+            -t "${IMAGE}:${{ steps.date.outputs.tag }}" weathermap/app/
+
+      - name: Smoke test — container answers HTTP on 8080
+        run: |
+          set -euo pipefail
+          docker run -d --name radar-smoke \
+            -e OWM_API_KEY=dummy -p 127.0.0.1:18080:8080 \
+            "${IMAGE}:${{ steps.date.outputs.tag }}"
+          ok=0
+          for i in $(seq 1 30); do
+            if curl -fs http://127.0.0.1:18080/ > /dev/null; then ok=1; break; fi
+            sleep 1
+          done
+          if [ "$ok" != "1" ]; then
+            echo "::error::radar container never answered on 8080; logs follow"
+            docker logs radar-smoke || true
+            docker rm -f radar-smoke || true
+            exit 1
+          fi
+          echo "smoke test OK"
+          docker rm -f radar-smoke
+
+      # Trivy GATE: fail on any fixable HIGH/CRITICAL (vuln + secret scanners)
+      # BEFORE publishing. A block here = loudly stale but safe: nothing pushes,
+      # the cluster keeps the last good digest.
+      - name: Trivy security gate (fail on fixable HIGH/CRITICAL)
+        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25
+        with:
+          image-ref: ${{ env.IMAGE }}:${{ steps.date.outputs.tag }}
+          scan-type: image
+          scanners: vuln,secret
+          severity: 'HIGH,CRITICAL'
+          ignore-unfixed: true
+          format: table
+          exit-code: '1'
+
+      - name: Log in to DockerHub
+        uses: docker/login-action@650006c6eb7dba73a995cc03b0b2d7f5ca915bee  # v4.2.0 (node24)
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      # Push ONLY the immutable :vYYYY.MM.DD tag — NEVER :latest. The manifest is
+      # digest-pinned; a mutable :latest would re-open the tag-poisoning vector.
+      - name: Push immutable tag and resolve digest
+        id: push
+        run: |
+          set -euo pipefail
+          TAG="${{ steps.date.outputs.tag }}"
+          docker push "${IMAGE}:${TAG}"
+          DIGEST=$(docker buildx imagetools inspect "${IMAGE}:${TAG}" --format '{{json .Manifest.Digest}}' | tr -d '"')
+          echo "$DIGEST" | grep -Eq '^sha256:[0-9a-f]{64}$' || { echo "::error::bad digest '$DIGEST'"; exit 1; }
+          echo "digest=$DIGEST" >> "$GITHUB_OUTPUT"
+          echo "Resolved ${IMAGE}@${DIGEST}"
+
+  pin-and-rollout:
+    needs: build-scan-push
+    runs-on: self-hosted
+    permissions:
+      contents: write     # commit the digest-pinned manifest to main
+    steps:
+      - name: Checkout main (full history for rebase/retry push)
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0  # v7.0.0 (node24)
+        with:
+          ref: main
+          fetch-depth: 0
+          # CICD_PUSH_TOKEN: fine-grained PAT (Contents RW, this repo only). Pushes
+          # act as the repo admin -> bypasses the main-pr-required ruleset (the
+          # github-actions app cannot be a bypass actor on user-owned repos).
+          # Falls back to GITHUB_TOKEN if unset (which GH006-fails on main).
+          token: ${{ secrets.CICD_PUSH_TOKEN || secrets.GITHUB_TOKEN }}
+
+      # imagePullPolicy stays IfNotPresent (already in the manifest): safe because
+      # the ref is immutable.
+      - name: Pin weathermap/radar.yml to the pushed digest
+        env:
+          DIGEST: ${{ needs.build-scan-push.outputs.digest }}
+        run: |
+          set -euo pipefail
+          REF="technotuba/radar@${DIGEST}" yq -i '
+            (.. | select(has("name") and .name == "radar") | .image) = strenv(REF)
+          ' weathermap/radar.yml
+          grep -q "technotuba/radar@${DIGEST}" weathermap/radar.yml \
+            || { echo "::error::digest pin failed in weathermap/radar.yml"; exit 1; }
+
+      - name: Commit and push (fetch+rebase+retry)
+        env:
+          TAG: ${{ needs.build-scan-push.outputs.tag }}
+        run: |
+          set -euo pipefail
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name  "github-actions[bot]"
+          git add weathermap/radar.yml
+          if git diff --cached --quiet; then
+            echo "No changes to commit (identical rebuild, identical digest)."; exit 0
+          fi
+          # [skip ci]: deploy commit; nothing else needs to trigger on it.
+          git commit -m "ci(radar): pin ${TAG} digest in weathermap/radar.yml [skip ci]"
+          for i in 1 2 3 4 5; do
+            git fetch origin "$BRANCH"
+            if git rebase "origin/${BRANCH}" && git push origin "HEAD:${BRANCH}"; then
+              echo "pushed"; exit 0
+            fi
+            echo "push attempt $i failed; retrying"; sleep $((i*3))
+          done
+          echo "::error::could not push pinned manifest after retries"; exit 1
+
+      - name: Roll out and verify the running digest
+        env:
+          DIGEST: ${{ needs.build-scan-push.outputs.digest }}
+        run: |
+          set -euo pipefail
+          kubectl -n radar apply -f weathermap/radar.yml
+          kubectl -n radar rollout status deploy/radar --timeout=180s
+          RUNNING=$(kubectl -n radar get pods -l app=radar \
+            -o jsonpath='{range .items[*]}{.status.containerStatuses[0].imageID}{"\n"}{end}')
+          echo "running imageIDs:"; echo "$RUNNING"
+          BAD=0
+          while IFS= read -r line; do
+            [ -z "$line" ] && continue
+            case "$line" in
+              *"$DIGEST"*) : ;;
+              *) echo "::error::pod imageID '$line' does not match pinned digest $DIGEST"; BAD=1 ;;
+            esac
+          done <<< "$RUNNING"
+          [ "$BAD" = "0" ] || exit 1
+          echo "all radar pods serve ${DIGEST}"
