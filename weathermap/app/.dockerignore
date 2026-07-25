@@ -1,0 +1,23 @@
+node_modules
+npm-debug.log
+
+# Secrets — never bake these into an image. technotuba/radar is a PUBLIC
+# Docker Hub repo, so anything copied here is world-readable.
+# The HTTPS dev cert/key are generated at build time in the Dockerfile instead.
+.env
+.env.*
+!.env.example
+server.key
+server.cert
+*.key
+*.pem
+*.p12
+*.pfx
+*.crt
+*.cert
+
+# Local/VCS noise that has no business in the image
+.git
+.github
+.vscode
+.DS_Store
