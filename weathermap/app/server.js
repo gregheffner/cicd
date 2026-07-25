@@ -70,17 +70,24 @@ app.get('/owm-tile/:layer/:z/:x/:y.png', async (req, res) => {
 
 // You can add more proxy endpoints as needed
 
-const options = {
-  key: fs.readFileSync('server.key'),
-  cert: fs.readFileSync('server.cert')
-};
-
 // Start HTTP server for Kubernetes/internal use
 http.createServer(app).listen(8080, () => {
   console.log('HTTP server running on http://localhost:8080');
 });
 
-// Start HTTPS server for local/dev use
-https.createServer(options, app).listen(PORT, () => {
-  console.log(`HTTPS server running on https://localhost:${PORT}`);
-});
+// Start HTTPS server only when a cert pair is actually present. In Kubernetes
+// only the HTTP:8080 listener is used and Cloudflare terminates real TLS at the
+// edge, so the published image ships no key at all — baking one in trips the
+// pipeline's secret scan for no benefit. For local dev, drop server.key and
+// server.cert next to this file (both are gitignored) and HTTPS comes up.
+if (fs.existsSync('server.key') && fs.existsSync('server.cert')) {
+  const options = {
+    key: fs.readFileSync('server.key'),
+    cert: fs.readFileSync('server.cert')
+  };
+  https.createServer(options, app).listen(PORT, () => {
+    console.log(`HTTPS server running on https://localhost:${PORT}`);
+  });
+} else {
+  console.log('HTTPS listener disabled: server.key/server.cert not present (expected in Kubernetes)');
+}
