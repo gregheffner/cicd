@@ -206,3 +206,41 @@ subjects:
   - kind: ServiceAccount
     name: cicd-runner
     namespace: automation
+---
+# radar namespace: lets radar-build-scan.yaml apply the digest-pinned manifest
+# and verify the rollout. `apply` needs get on every kind in radar.yml
+# (Deployment, Service, PodDisruptionBudget) to read the live object first;
+# patch/update let it change them; pods get/list backs the imageID assertion.
+# Deliberately no delete, no create on secrets, no cluster-wide scope.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: cicd-runner-radar
+  namespace: radar
+rules:
+  - apiGroups: [apps]
+    resources: [deployments]
+    verbs: [get, list, watch, patch, update]
+  - apiGroups: [""]
+    resources: [services]
+    verbs: [get, patch, update]
+  - apiGroups: [""]
+    resources: [pods]
+    verbs: [get, list]
+  - apiGroups: [policy]
+    resources: [poddisruptionbudgets]
+    verbs: [get, patch, update]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: cicd-runner-radar
+  namespace: radar
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: cicd-runner-radar
+subjects:
+  - kind: ServiceAccount
+    name: cicd-runner
+    namespace: automation
