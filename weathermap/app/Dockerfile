@@ -1,26 +1,39 @@
 # Node backend proxy for the radar weathermap.
-# Base pinned to a patch tag so builds are reproducible-ish and CVE fixes are
-# deliberate. To bump: check https://hub.docker.com/_/node/tags?name=20 for the
-# newest 20.x-alpine, update the line below, and let the pipeline's Trivy gate
-# confirm it's clean.
-FROM node:20.19-alpine
+#
+# Multi-stage on purpose. The whole reason radar accumulated 135 CVEs was that
+# nothing in the final image was ever refreshed, and the single biggest source
+# of findings was never this app's code at all:
+#   - stale libcrypto3/libssl3 in the base   -> fixed by `apk upgrade` below
+#   - npm's OWN bundled deps (tar, minimatch, glob, brace-expansion, ...)
+#     -> fixed by NOT SHIPPING NPM. The runtime entrypoint is `node server.js`,
+#        so npm is a build-time tool only. It stays in the builder stage.
+#
+# Base is pinned to a patch tag so bumps are deliberate. To bump: check
+# https://hub.docker.com/_/node/tags?name=20 for the newest 20.x-alpine, update
+# BOTH FROM lines below, and let the pipeline's Trivy gate confirm it's clean.
 
-# The base image ships a stale OpenSSL (libcrypto3/libssl3) and a stale bundled
-# npm; between them they accounted for ~93 of the 135 CVEs in the old image.
-# Neither comes from this app's code, and both are fixed by upgrading in place:
-#   - apk upgrade  -> patched libcrypto3/libssl3 + musl/zlib from Alpine repos
-#   - npm@latest   -> patched tar/minimatch/glob/brace-expansion/cross-spawn
-#                     (these are npm's OWN bundled deps, not ours)
-# Re-run the weekly pipeline to keep both current.
-# npm is pinned to the 11.x line: npm@latest is 12.x, which requires Node >=22
-# and fails EBADENGINE on this base. Bump when the base moves off Node 20.
-RUN apk upgrade --no-cache && npm install -g npm@11 && npm cache clean --force
+# ---- builder: installs deps, never ships ----
+FROM node:20.19-alpine AS builder
 
 WORKDIR /app
 
-# package-lock.json is committed, so use `npm ci` for reproducible installs.
-COPY --chown=node:node package.json package-lock.json ./
-RUN npm ci --omit=dev && npm cache clean --force
+# package-lock.json is committed, so `npm ci` gives reproducible installs.
+COPY package.json package-lock.json ./
+RUN npm ci --omit=dev
+
+# ---- runtime ----
+FROM node:20.19-alpine
+
+# Patched libcrypto3/libssl3/musl/zlib from the Alpine repos, then drop npm and
+# its bundled dependency tree entirely — it is not needed to run the app.
+RUN apk upgrade --no-cache \
+    && rm -rf /usr/local/lib/node_modules/npm \
+              /usr/local/bin/npm \
+              /usr/local/bin/npx
+
+WORKDIR /app
+
+COPY --from=builder --chown=node:node /app/node_modules ./node_modules
 
 # Copy app files. .dockerignore excludes node_modules, .env and every key/cert
 # pattern, so no secret from the working tree can land in the image.
