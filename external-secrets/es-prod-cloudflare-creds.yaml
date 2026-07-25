@@ -5,7 +5,7 @@ metadata:
   name: cloudflare-creds
   namespace: prod
 spec:
-  refreshInterval: 1h
+  refreshInterval: 6h
   secretStoreRef:
     kind: ClusterSecretStore
     name: onepassword
