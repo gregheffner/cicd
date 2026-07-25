@@ -155,11 +155,18 @@ jobs:
           DIGEST: ${{ needs.build-scan-push.outputs.digest }}
         run: |
           set -euo pipefail
-          REF="technotuba/radar@${DIGEST}" yq -i '
-            (.. | select(has("name") and .name == "radar") | .image) = strenv(REF)
-          ' weathermap/radar.yml
-          grep -q "technotuba/radar@${DIGEST}" weathermap/radar.yml \
-            || { echo "::error::digest pin failed in weathermap/radar.yml"; exit 1; }
+          # sed, not yq: the self-hosted runner has no yq, and this repo's hosts
+          # were deliberately debloated — not worth installing a tool to rewrite
+          # one line. The image ref is always a single `image: technotuba/radar…`
+          # line, and the grep assert below is the real safety net.
+          sed -i -E "s|(^[[:space:]]*image:[[:space:]]*)technotuba/radar([:@][^[:space:]]*)?[[:space:]]*$|\1technotuba/radar@${DIGEST}|" \
+            weathermap/radar.yml
+          # Exactly one pinned ref, and no unpinned ref left behind.
+          [ "$(grep -c "technotuba/radar@${DIGEST}" weathermap/radar.yml)" = "1" ] \
+            || { echo "::error::expected exactly one pinned radar image ref"; exit 1; }
+          grep -qE "^[[:space:]]*image:[[:space:]]*technotuba/radar:" weathermap/radar.yml \
+            && { echo "::error::an unpinned technotuba/radar tag ref survived the pin"; exit 1; }
+          echo "pinned radar to ${DIGEST}"
 
       - name: Commit and push (fetch+rebase+retry)
         env:
