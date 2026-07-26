@@ -18,4 +18,10 @@ data:
     ingress:
       - hostname: greg.heffner.live
         service: http://nginx-service.prod.svc.cluster.local:80
+      - hostname: deploy.heffner.live
+        service: https://argocd-server.automation.svc.cluster.local:443
+        originRequest:
+          noTLSVerify: true
+      - hostname: watch.heffner.live
+        service: http://192.168.1.53:3001
       - service: http_status:404
