@@ -11,8 +11,8 @@ spec:
   strategy: # surge-first: never drop below desired Ready
     type: RollingUpdate
     rollingUpdate:
-      maxSurge: 0 # required 1-per-node anti-affinity can't place a surge pod (every node full for this color)
-      maxUnavailable: 1 # so roll one-at-a-time: free a node, then schedule the new pod onto it
+      maxSurge: 1 # anti-affinity is preferred (not required), so a surge pod can double up on a node during the roll
+      maxUnavailable: 0 # never drop below desired Ready
   minReadySeconds: 10 # rec #23: a new pod must stay Ready 10s before the roll proceeds (catches crash-after-ready)
   selector:
     matchLabels:
@@ -46,13 +46,15 @@ spec:
                   - key: kubernetes.io/hostname
                     operator: In
                     values: ["worker1", "worker2", "worker3"]
-        podAntiAffinity: # REQUIRED: exactly one green pod per node; a drained node's pod stays Pending until that node returns, then refills it
-          requiredDuringSchedulingIgnoredDuringExecution:
-            - topologyKey: kubernetes.io/hostname
-              labelSelector:
-                matchLabels:
-                  app: nginx-web
-                  version: green
+        podAntiAffinity: # PREFERRED: spread one green pod per node by default, but allow doubling up so the HPA can scale past 3
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                topologyKey: kubernetes.io/hostname
+                labelSelector:
+                  matchLabels:
+                    app: nginx-web
+                    version: green
       # fail2ban runs as a NATIVE SIDECAR (initContainer + restartPolicy: Always, k8s >=1.29).
       # Outage review 2026-06-25: as a plain sidecar with no readinessProbe, a fail2ban
       # OOM/liveness restart flipped Pod.Ready=false and ejected the healthy nginx from the
