@@ -23,7 +23,7 @@ spec:
   selector:
     app: nginx-web
     version: green
-  type: LoadBalancer
+  type: ClusterIP
 ---
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
