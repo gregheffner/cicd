@@ -26,4 +26,6 @@ data:
         service: http://192.168.1.53:3001
       - hostname: maintain.heffner.live
         service: http://192.168.1.53:3000
+      - hostname: view.heffner.live # go2rtc camera relay on dockerhost (behind CF Access; WebRTC won't traverse CF -> players fall back to MSE/WSS)
+        service: http://192.168.1.53:1984
       - service: http_status:404
