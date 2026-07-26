@@ -24,4 +24,6 @@ data:
           noTLSVerify: true
       - hostname: watch.heffner.live
         service: http://192.168.1.53:3001
+      - hostname: home.heffner.live
+        service: http://192.168.1.53:3000
       - service: http_status:404
