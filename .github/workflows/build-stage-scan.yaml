@@ -139,6 +139,44 @@ jobs:
           provenance: false
           tags: ${{ env.IMAGE }}:candidate
 
+      # FUNCTIONAL GATE: Trivy/Scout/cosign are supply-chain checks that never
+      # execute the image. v2026.07.27 shipped an nginx that could not start at all
+      # under the prod security context and passed every one of them. Reproduce the
+      # manifest's constraints exactly -- readOnlyRootFilesystem, uid/gid 101, and
+      # the three emptyDir mounts -- and refuse to publish an image that cannot boot.
+      # mode=1777 is required: docker --tmpfs defaults to root-owned 0755, while a
+      # k8s emptyDir is 0777. Without it the test fails as uid 101 for a reason the
+      # real pod would never hit.
+      - name: Smoke test candidate under the prod security context
+        run: |
+          set -euo pipefail
+          docker run -d --name smoke \
+            --read-only --user 101:101 \
+            --tmpfs /var/cache/nginx:mode=1777 \
+            --tmpfs /var/run:mode=1777 \
+            --tmpfs /tmp:mode=1777 \
+            "${IMAGE}:candidate"
+          for i in $(seq 1 15); do
+            status=$(docker inspect -f '{{.State.Status}}' smoke)
+            [ "$status" = "running" ] || break
+            docker exec smoke nginx -t >/dev/null 2>&1 && break
+            sleep 1
+          done
+          docker logs smoke
+          if docker logs smoke 2>&1 | grep -q '\[emerg\]'; then
+            echo "::error::nginx logged [emerg] under the prod security context"
+            docker rm -f smoke >/dev/null 2>&1 || true
+            exit 1
+          fi
+          [ "$(docker inspect -f '{{.State.Running}}' smoke)" = "true" ] || {
+            echo "::error::container is not running under the prod security context"
+            docker rm -f smoke >/dev/null 2>&1 || true
+            exit 1
+          }
+          docker exec smoke nginx -t
+          docker rm -f smoke >/dev/null 2>&1 || true
+          echo "Smoke test OK: nginx boots read-only as uid 101."
+
       # Trivy GATE: fail on any FIXABLE HIGH/CRITICAL before publishing.
       - name: Trivy security gate (fail on fixable HIGH/CRITICAL)
         uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25

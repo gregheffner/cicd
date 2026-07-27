@@ -12,8 +12,9 @@
   "build_scan_status": "pass",
   "cosign_signed": true,
   "promote_eligible_after_epoch": 1785399165,
-  "state": "soaking",
+  "state": "rolled_back",
   "flip_committed_sha": null,
   "promoted_timestamp_utc": null,
-  "run_url": "https://github.com/gregheffner/cicd/actions/runs/30248937000"
+  "run_url": "https://github.com/gregheffner/cicd/actions/runs/30248937000",
+  "rollback_reason": "apk upgrade replaced the nginx.org-built nginx with Alpine community nginx-1.30.4-r1 (--prefix=/var/lib/nginx); temp paths moved outside the emptyDir mounts and nginx died with [emerg] mkdir /var/lib/nginx/tmp/client_body (30: Read-only file system)."
 }
