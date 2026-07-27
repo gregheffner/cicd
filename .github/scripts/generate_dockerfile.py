@@ -133,11 +133,28 @@ ENV TZ=America/New_York
 # apk upgrade picks up patched OS packages from the Alpine repo (e.g. openssl
 # libssl3/libcrypto3 3.5.6-r0 -> 3.5.7-r0, an ABI-stable .so swap) so the monthly
 # rebuild ships current security fixes even when the upstream base lags.
+#
+# --ignore nginx is LOAD-BEARING. The base image installs nginx from nginx.org's
+# repo (--prefix=/etc/nginx, temp dirs under /var/cache/nginx) but leaves Alpine
+# main+community configured. Alpine community ships its own nginx build compiled
+# with --prefix=/var/lib/nginx, and on Alpine v3.24 it outranks the base package,
+# so a blanket upgrade silently swaps the binary for one whose temp paths land
+# outside the emptyDir mounts in prod/nginx-blue.yaml + DR/nginx-green.yaml. With
+# readOnlyRootFilesystem: true that is an instant [emerg] at startup (v2026.07.27).
+# nginx's own version is NOT managed here: get_stable_nginx_version() moves the
+# base tag to the newest stable release every build, which is where nginx patches
+# come from.
 RUN set -eux && \
-    apk upgrade --no-cache && \
+    apk upgrade --no-cache --ignore nginx && \
     apk add --no-cache tzdata && \
     cp /usr/share/zoneinfo/America/New_York /etc/localtime && \
     echo "America/New_York" > /etc/timezone
+
+# Fail the BUILD, not the cluster, if the nginx package layout ever moves again.
+# These are exactly the paths the prod/DR manifests cover with emptyDir mounts.
+RUN set -eux && \
+    nginx -V 2>&1 | grep -q -- '--http-client-body-temp-path=/var/cache/nginx/' && \
+    nginx -V 2>&1 | grep -q -- '--prefix=/etc/nginx'
 
 COPY DockerImage/docker-entrypoint.sh /
 COPY DockerImage/docker-entrypoint.d/ /docker-entrypoint.d/
