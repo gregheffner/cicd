@@ -1,20 +1,19 @@
 {
   "schema": 3,
-  "immutable_tag": "v2026.07.27",
-  "digest": "sha256:5b509c80f759ea8cc34418e85f1d151c427b515d6ef15d69ee1b3ccd55fb566d",
-  "image_ref": "technotuba/nginx@sha256:5b509c80f759ea8cc34418e85f1d151c427b515d6ef15d69ee1b3ccd55fb566d",
+  "immutable_tag": "v2026.08.03",
+  "digest": "sha256:dbb3c1505b88a0449d8653b6b24c47f6b655ba963ea1a48a7d633f63a67f70db",
+  "image_ref": "technotuba/nginx@sha256:dbb3c1505b88a0449d8653b6b24c47f6b655ba963ea1a48a7d633f63a67f70db",
   "standby_color": "blue",
   "standby_object": "deployment/nginx-web-blue",
   "standby_file": "prod/nginx-blue.yaml",
   "live_color_at_build": "green",
-  "build_timestamp_utc": "2026-07-27T08:12:45Z",
-  "build_epoch": 1785139965,
+  "build_timestamp_utc": "2026-08-03T08:11:30Z",
+  "build_epoch": 1785744690,
   "build_scan_status": "pass",
   "cosign_signed": true,
-  "promote_eligible_after_epoch": 1785399165,
-  "state": "rolled_back",
+  "promote_eligible_after_epoch": 1786003890,
+  "state": "soaking",
   "flip_committed_sha": null,
   "promoted_timestamp_utc": null,
-  "run_url": "https://github.com/gregheffner/cicd/actions/runs/30248937000",
-  "rollback_reason": "apk upgrade replaced the nginx.org-built nginx with Alpine community nginx-1.30.4-r1 (--prefix=/var/lib/nginx); temp paths moved outside the emptyDir mounts and nginx died with [emerg] mkdir /var/lib/nginx/tmp/client_body (30: Read-only file system)."
+  "run_url": "https://github.com/gregheffner/cicd/actions/runs/30796299230"
 }
