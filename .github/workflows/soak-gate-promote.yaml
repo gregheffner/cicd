@@ -241,14 +241,15 @@ jobs:
           set -euo pipefail
           S="${{ steps.colors.outputs.standby }}"
           OBJ="${{ steps.ledger.outputs.standby_object }}"
-          # P1: ETP MUST be Cluster. With Local + selector-flip + no cloud VIP, nodes
-          # without a local ready pod of the incoming color BLACKHOLE on flip. This is
-          # an active outage source, not a nicety. fail2ban bans on the CF client-IP
-          # header, so Local->Cluster does NOT break bans. Promotion is BLOCKED by
-          # design until ETP=Cluster.
+          # P1: for NodePort/LoadBalancer, ETP MUST be Cluster (Local + selector-flip
+          # + no cloud VIP blackholes nodes without a local ready pod of the incoming
+          # color). ClusterIP services (traffic arrives via in-cluster cloudflared
+          # tunnel since the 2026-07-26 Access migration) have no ETP field and are
+          # inherently cluster-wide, so they pass.
+          TYPE=$(kubectl get svc nginx-service -n "$NS" -o jsonpath='{.spec.type}')
           ETP=$(kubectl get svc nginx-service -n "$NS" -o jsonpath='{.spec.externalTrafficPolicy}')
-          [ "$ETP" = "Cluster" ] \
-            || { echo "::error::externalTrafficPolicy=$ETP (prereq P1 requires Cluster). Local+flip can blackhole nodes. Refusing flip."; exit 1; }
+          [ "$TYPE" = "ClusterIP" ] || [ "$ETP" = "Cluster" ] \
+            || { echo "::error::svc type=$TYPE externalTrafficPolicy=$ETP (prereq P1 requires ClusterIP or ETP=Cluster). Local+flip can blackhole nodes. Refusing flip."; exit 1; }
           # P2: incoming color must be a Deployment (symmetric, HPA-able flip).
           KIND=$(kubectl get "$OBJ" -n "$NS" -o jsonpath='{.kind}' 2>/dev/null || echo MISSING)
           [ "$KIND" = "Deployment" ] \
