@@ -166,11 +166,18 @@ jobs:
           # worker crash loops, since exec spawns a fresh process) and stronger than
           # a log grep. curl is not guaranteed in the hardened image; fall back to
           # busybox wget (always present in the alpine base).
+          # Bare smoke container has no configmap mount, so nginx falls back to the
+          # stock default.conf on :80; prod config listens on :8080. Accept either.
           probe() {
-            docker exec smoke sh -c \
-              'command -v curl >/dev/null 2>&1 \
-                 && curl -sf -o /dev/null http://127.0.0.1:8080/ \
-                 || wget -q -O /dev/null http://127.0.0.1:8080/'
+            docker exec smoke sh -c '
+              for p in 8080 80; do
+                if command -v curl >/dev/null 2>&1; then
+                  curl -sf -o /dev/null "http://127.0.0.1:$p/" && exit 0
+                else
+                  wget -q -O /dev/null "http://127.0.0.1:$p/" && exit 0
+                fi
+              done
+              exit 1'
           }
           ok=false
           for i in $(seq 1 20); do
