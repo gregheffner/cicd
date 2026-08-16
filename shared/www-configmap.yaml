@@ -73,12 +73,6 @@ data:
                 },
                 {
                     "@type": "BlogPosting",
-                    "headline": "Hacker Summer Camp for Security Teams: A Field Guide to Black Hat and DEF CON 34",
-                    "url": "https://greg.heffner.live/blog/hacker-summer-camp-security-team-field-guide",
-                    "datePublished": "2026-08-09"
-                },
-                {
-                    "@type": "BlogPosting",
                     "headline": "Hacker Summer Camp 2026: This Time the Robots Are Invited",
                     "url": "https://greg.heffner.live/blog/hacker-summer-camp-2026",
                     "datePublished": "2026-07-22"
@@ -604,17 +598,6 @@ data:
                                 </div>
                                 <div class="blog-image-container">
                                     <img src="/image/blog/2026/Aug/automate-your-life-ai.png" alt="" width="1200" height="630" decoding="async">
-                                </div>
-                            </div>
-                        </article>
-                        <article id="Article44-HackerSummerCampGuide">
-                            <div class="blog-box">
-                                <div class="blog-description">
-                                    <h3><a href="/blog/hacker-summer-camp-security-team-field-guide">Hacker Summer Camp for Security Teams: A Field Guide to Black Hat and DEF CON 34</a></h3>
-                                    <p>Greg Heffner <time datetime="2026-08-09">August 9th, 2026</time></p>
-                                </div>
-                                <div class="blog-image-container">
-                                    <img src="/image/blog/2026/Aug/defcon-34-badge.png" alt="" width="1200" height="630" decoding="async">
                                 </div>
                             </div>
                         </article>
@@ -2517,12 +2500,6 @@ data:
     <url>
     <loc>https://greg.heffner.live/blog/hacker-summer-camp-2026</loc>
     <lastmod>2026-07-22</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.7</priority>
-    </url>
-    <url>
-    <loc>https://greg.heffner.live/blog/hacker-summer-camp-security-team-field-guide</loc>
-    <lastmod>2026-08-09</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
