@@ -1,0 +1,112 @@
+# .github/workflows/notify-test.yaml
+#
+# Manual self-test for the soak-gate's email notification path (nginx-review rec #8).
+#
+# WHY THIS EXISTS: soak-gate-promote.yaml only mails on a real event (promoted /
+# rollback / rollback_failed / rebuild_requested / rebuild_blocked, or a genuine
+# failure while a candidate is eligible). Its notify step's FIRST branch is the
+# no-op early-exit, so a dispatched no-op run never even READS the SMTP_* vars.
+# There was therefore no way to find out the alerting was broken except to have
+# an incident and not hear about it -- which is exactly how the 2026-08-27 gate
+# failure went unnoticed for a day.
+#
+# Runs on the SAME self-hosted runner as the gate, deliberately: that is the
+# egress path that actually matters. A test from ubuntu-latest would prove
+# nothing about whether K8-Primary can reach the mail server on 465.
+#
+# SCOPE: this shares the gate's SECRETS and SMTP mechanics, not its code. A green
+# run proves the credentials, the secrets, and the network path. It does NOT
+# prove the gate's own notify step is bug-free -- the first real end-to-end
+# exercise of that is a genuine promote/rollback event.
+#
+# Safe to delete after one green run if you would rather not keep it around.
+
+name: notify-test
+
+on:
+  workflow_dispatch:
+
+# Sends an email. Reads no repo content, needs no GITHUB_TOKEN scope whatsoever.
+permissions: {}
+
+concurrency:
+  group: notify-test
+  cancel-in-progress: false
+
+jobs:
+  notify-test:
+    runs-on: self-hosted
+    steps:
+      - name: Send one test email using the gate's SMTP_* secrets
+        # Every secret is passed through `env:` and NEVER written inline in the
+        # script body. An inline ${{ secrets.X }} gets substituted into the `run:`
+        # text that Actions renders into the log group; reading from os.environ
+        # keeps the values out of the rendered command entirely. GitHub also masks
+        # registered secrets in log output, but we do not lean on that alone.
+        env:
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
+          MAIL_TO: ${{ secrets.MAIL_TO }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import os, ssl, smtplib, sys
+          from email.message import EmailMessage
+
+          # scrub(): belt-and-braces. smtplib exception text is SERVER-controlled,
+          # so it is not something we get to audit ahead of time. Everything that
+          # reaches stdout goes through here first.
+          SECRET = os.environ.get("SMTP_PASS", "")
+          def scrub(t):
+              t = str(t)
+              return t.replace(SECRET, "***") if SECRET else t
+
+          REQUIRED = ("SMTP_HOST", "SMTP_PORT", "SMTP_USER", "SMTP_PASS", "MAIL_TO")
+          missing = [k for k in REQUIRED if not os.environ.get(k)]
+          if missing:
+              # Fail LOUD and RED. A self-test that skips and still reports success
+              # is worse than no self-test -- it is the exact failure mode this
+              # file exists to eliminate.
+              print("::error::missing secret(s): %s -- nothing was sent" % ", ".join(missing))
+              sys.exit(1)
+
+          host = os.environ["SMTP_HOST"]
+          port = int(os.environ["SMTP_PORT"] or "465")
+          user = os.environ["SMTP_USER"]
+          to   = os.environ["MAIL_TO"]
+          # Safe to print: host/port/addresses are not secrets, and seeing them is
+          # what makes a misconfiguration obvious at a glance.
+          print("host=%s port=%d from=%s to=%s" % (host, port, user, to))
+
+          m = EmailMessage()
+          m["Subject"] = "[soak-gate] notification self-test"
+          m["From"] = user
+          m["To"] = to
+          m.set_content(
+              "This is the soak-gate notification self-test.\n\n"
+              "If you are reading this, the SMTP_* repo secrets are correct and the\n"
+              "self-hosted runner can reach the mail server. The gate's promote,\n"
+              "rollback and rebuild alerts will be delivered.\n\n"
+              "Run: %s\n" % os.environ.get("RUN_URL", "")
+          )
+
+          ctx = ssl.create_default_context()
+          try:
+              if port == 465:
+                  with smtplib.SMTP_SSL(host, port, context=ctx, timeout=30) as s:
+                      s.login(user, os.environ["SMTP_PASS"])
+                      s.send_message(m)
+              else:
+                  with smtplib.SMTP(host, port, timeout=30) as s:
+                      s.starttls(context=ctx)
+                      s.login(user, os.environ["SMTP_PASS"])
+                      s.send_message(m)
+          except Exception as e:
+              print("::error::SMTP send FAILED (%s): %s" % (type(e).__name__, scrub(e)))
+              sys.exit(1)
+
+          print("sent -- check the inbox for %s" % to)
+          PY
