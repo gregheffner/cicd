@@ -26,6 +26,7 @@ concurrency:
 
 permissions:
   contents: write     # commit the atomic flip+ledger / rollback / promote to main
+  actions: write      # POST .../workflows/build-stage-scan.yaml/dispatches (auto-rebuild)
 
 env:
   IMAGE: technotuba/nginx
@@ -201,18 +202,197 @@ jobs:
 
       # All pre-flip gates run only for a fresh promotion (not resume, not reconcile).
       # ---- GB: fresh-DB Trivy re-scan of the EXACT staged digest ----
+      # THREE outcomes, and they must NEVER be conflated (the 2026-08-27 lesson):
+      #   (a) clean                  -> fall through and promote exactly as before;
+      #   (b) fixable HIGH/CRITICAL  -> divert to the auto-rebuild in GB2 below;
+      #   (c) trivy itself could not run (trivy-db/GHCR pull, registry auth, rate
+      #       limit, DNS, full disk) -> NOT a vulnerability finding: FAIL CLOSED, red,
+      #       and NO rebuild.
+      # Under the old `--exit-code 1`, (b) and (c) were the SAME exit status, so one
+      # transient DB outage would have burned a rebuild and reset the 72h soak EVERY
+      # day. So we now run with `--exit-code 0` -- trivy's exit status means only "did
+      # the scan run?" -- and decide on the PARSED report; unreadable output, or output
+      # that is not an image report, is also (c). Every other flag is unchanged. In
+      # particular --ignore-unfixed stays, so every row that survives HAS a FixedVersion:
+      # "found something" and "found something upgradable" are the same set, and no
+      # fixable/unfixable classifier is needed. python3 prints the table (one scan =
+      # one DB pull, so no second --format table run).
       - name: Fresh-DB Trivy re-scan of staged digest
+        id: rescan
         if: steps.soak.outputs.go == 'true' && steps.resume.outputs.resume == 'false' && steps.reconcile.outputs.reconcile == 'false'
         run: |
           set -euo pipefail
+          rc=0
           trivy image --image-src remote --no-progress \
             --scanners vuln --pkg-types os,library \
             --severity HIGH,CRITICAL --ignore-unfixed \
-            --exit-code 1 --format table "${{ steps.ledger.outputs.image_ref }}"
+            --exit-code 0 --format json --output /tmp/rescan.json \
+            "${{ steps.ledger.outputs.image_ref }}" || rc=$?
+          if [ "$rc" != "0" ]; then
+            echo "::error::trivy re-scan could not run (exit $rc). That is an INFRASTRUCTURE error, not a vulnerability finding: refusing to promote AND refusing to auto-rebuild."
+            exit 1
+          fi
+          python3 - /tmp/rescan.json <<'PY'
+          import json,os,re,sys
+          try:
+              d=json.load(open(sys.argv[1]))
+          except Exception as e:
+              # Unreadable output means the scan did not really run: never "clean"
+              # (fail open) and never "vulnerable" (would burn a build). Case (c).
+              sys.stderr.write(f"::error::trivy JSON unreadable ({e}); refusing to promote AND refusing to auto-rebuild\n")
+              sys.exit(1)
+          if not isinstance(d,dict) or "ArtifactName" not in d:
+              sys.stderr.write("::error::trivy JSON is not an image report; refusing to promote AND refusing to auto-rebuild\n")
+              sys.exit(1)
+          rows=[(v.get("VulnerabilityID",""),v.get("PkgName",""),v.get("InstalledVersion",""),
+                 v.get("FixedVersion",""),v.get("Severity",""))
+                for r in (d.get("Results") or []) for v in (r.get("Vulnerabilities") or [])]
+          out=open(os.environ["GITHUB_OUTPUT"],"a")
+          if not rows:
+              print(f"Fresh-DB re-scan CLEAN: 0 fixable HIGH/CRITICAL in {d['ArtifactName']}")
+              out.write("fixable=false\n"); out.write("summary=clean\n"); sys.exit(0)
+          # --ignore-unfixed is on, so every row below HAS a fixed version available.
+          print(f"Fresh-DB re-scan found {len(rows)} FIXABLE HIGH/CRITICAL vuln(s) in {d['ArtifactName']}:")
+          sm=open(os.environ.get("GITHUB_STEP_SUMMARY","/dev/null"),"a")
+          sm.write("### soak-gate: staged digest went vulnerable DURING the soak\n\n")
+          sm.write("| CVE | package | installed | fixed in | severity |\n|---|---|---|---|---|\n")
+          for cve,pkg,inst,fix,sev in rows:
+              print(f"  {cve}  {pkg} {inst} -> {fix}  ({sev})")
+              sm.write(f"| {cve} | {pkg} | {inst} | {fix} | {sev} |\n")
+          sm.write("\n")
+          one=", ".join(f"{c} {p} {i}->{f}" for c,p,i,f,_ in rows[:6])
+          if len(rows)>6: one+=f", +{len(rows)-6} more"
+          out.write("fixable=true\n")
+          # `summary` is SCANNER-SUPPLIED text that becomes a step output and then a
+          # $GITHUB_ENV value in GB2. Strip every non-printable-ASCII byte, not just
+          # \n: the runner treats a bare \r as a line terminator too, so one \r inside
+          # a package name could append a second `fixable=false` line (last one wins)
+          # and silently turn this step's own vulnerable verdict into a clean one.
+          out.write("summary=%s\n" % re.sub(r"[^ -~]", " ", one)[:400])
+          PY
+
+      # ---- GB2: AUTO-REBUILD DIVERSION (only reachable when GB found fixable vulns) ----
+      # The staged digest is IMMUTABLE, so a CVE that entered the Trivy DB DURING the
+      # 72h soak can never re-scan clean: before this step every daily run failed on it
+      # identically, forever (2026-08-27: CVE-2026-14456, libcrypto3/libssl3 3.5.7-r0,
+      # fixed in 3.5.8-r0). GB scans with --ignore-unfixed, so whatever it reported HAS
+      # a fixed package published and a fresh `apk upgrade` build can clear it. So
+      # instead of dead-ending red, dispatch build-stage-scan: its Supersede guard
+      # replaces this candidate and restarts the 72h clock. Fail-closed is untouched --
+      # this path commits nothing, leaves the ledger at state=soaking (exactly so the
+      # Supersede guard takes its normal branch) and can never reach the flip; its only
+      # outcome is "no promotion today".
+      #
+      # FIRE AND FORGET. build-stage-scan shares our `nginx-pipeline` concurrency group,
+      # so the dispatched run stays PENDING until this job ends; waiting on it here
+      # would deadlock both until the job timeout.
+      #
+      # LOOP GUARD -- at most ONE build attempt per candidate. If the fixed package is
+      # not in the Alpine branch yet, the rebuild dies on build-stage-scan's own
+      # BLOCKING pre-push Trivy gate: nothing is pushed, this candidate stays soaking
+      # with the same (already-eligible) digest, and we would re-dispatch EVERY DAY
+      # forever. So we dispatch only when NO build-stage-scan run has been created since
+      # this candidate's build_epoch. A successful rebuild writes a new ledger with a new
+      # build_epoch and re-arms the guard by itself; a failed one leaves build_epoch
+      # stale, so tomorrow's run goes RED (today's behaviour) instead of burning another
+      # build.
+      # DELIBERATE false positives -- do NOT "fix" them: the guard counts build-stage-scan
+      # runs on ANY ref, so the weekly Monday build (cron drift can put it AFTER our
+      # 07:30 tick), or a developer test-running the builder from a branch, suppresses
+      # that day's auto-rebuild. That is the conservative outcome we want: a build has
+      # just been attempted, so a human should look. In particular do NOT add an early
+      # `exit 0` to this step for "a scheduled build is imminent" -- leaving this step
+      # WITHOUT setting REBUILD_DISPATCHED is precisely the shape that would let the
+      # known-vulnerable digest back through the downstream gates.
+      #
+      # AUTH: secrets.GITHUB_TOKEN plus the `actions: write` line in permissions: above
+      # is sufficient. workflow_dispatch is a documented exception to GitHub's recursion
+      # guard ("workflow_dispatch and repository_dispatch events always create workflow
+      # runs"), so no PAT is needed (CICD_PUSH_TOKEN is Contents-only anyway). GH_TOKEN
+      # is only an env name (GITHUB_* is a reserved prefix); there is no gh CLI on this
+      # runner -- the value is used solely in an `Authorization: Bearer` header.
+      # ref MUST be main: build-stage-scan's keyless cosign SAN is
+      # .../build-stage-scan.yaml@refs/heads/main, which the GC gate below pins by regexp.
+      - name: Auto-rebuild — dispatch build-stage-scan (staged digest went vulnerable during soak)
+        if: steps.soak.outputs.go == 'true' && steps.resume.outputs.resume == 'false' && steps.reconcile.outputs.reconcile == 'false' && steps.rescan.outputs.fixable == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VULNS: ${{ steps.rescan.outputs.summary }}
+          DIGEST: ${{ steps.ledger.outputs.digest }}
+        run: |
+          set -euo pipefail
+          API="${GITHUB_API_URL:-https://api.github.com}"
+          WF="build-stage-scan.yaml"   # the filename the cosign regexps pin; .yml would 404
+          # /tmp/ledger.json is the exact candidate G0 read at the top of THIS run.
+          SINCE=$(python3 -c 'import json,time;print(time.strftime("%Y-%m-%dT%H:%M:%SZ",time.gmtime(int(json.load(open("/tmp/ledger.json"))["build_epoch"]))))') \
+            || { echo "::error::ledger has no usable build_epoch; cannot arm the auto-rebuild loop guard"; exit 1; }
+          # Loop-guard query. ANY http/parse problem counts as "already attempted":
+          # fail CLOSED, never dispatch on a maybe. We ask for the 30 most recent runs
+          # (newest first) and compare created_at OURSELVES rather than leaning on the
+          # API's `created=>` date-range filter: this guard is the ONLY thing bounding
+          # the rebuild rate, and if that filter were ever rejected or silently ignored
+          # the endpoint would answer with EVERY run ever, wedging the guard shut
+          # forever while printing "a build has ALREADY been attempted" -- a false
+          # statement that would disable the auto-rebuild with nobody noticing.
+          # ISO-8601 Z strings sort lexicographically == chronologically, and `>` keeps
+          # the exclusive semantics (the run that PRODUCED this candidate stamps
+          # build_epoch ~a minute AFTER its own created_at, so it can never match).
+          # 30 >> the handful of builds possible inside one soak window, and an
+          # overflow could only inflate the count, which still blocks.
+          PRIOR=unknown
+          CODE=$(curl -sS --max-time 30 -o /tmp/prior_builds.json -w '%{http_code}' \
+            -H 'Accept: application/vnd.github+json' \
+            -H "Authorization: Bearer ${GH_TOKEN}" \
+            -H 'X-GitHub-Api-Version: 2022-11-28' \
+            "${API}/repos/${GITHUB_REPOSITORY}/actions/workflows/${WF}/runs?per_page=30") || CODE=000
+          if [ "$CODE" = "200" ]; then
+            PRIOR=$(SINCE="$SINCE" python3 -c 'import json,os;print(sum(1 for r in json.load(open("/tmp/prior_builds.json"))["workflow_runs"] if (r.get("created_at") or "") > os.environ["SINCE"]))') || PRIOR=unknown
+          else
+            echo "::warning::could not list prior $WF runs (HTTP $CODE); treating this candidate as already-rebuilt"
+          fi
+          if [ "$PRIOR" != "0" ]; then
+            echo "::error::staged digest $DIGEST has FIXABLE HIGH/CRITICAL vulns ($VULNS). Loop guard says a build has ALREADY been attempted for it since $SINCE (matching $WF runs: $PRIOR -- 'unknown' means the guard query itself failed and we fail closed). NOT dispatching again and NOT promoting: fix build-stage-scan, or wait for the fixed package and re-run it by hand."
+            { echo "NOTIFY_EVENT=rebuild_blocked"; echo "NOTIFY_DETAIL=staged digest $DIGEST is vulnerable ($VULNS) and the loop guard suppressed the auto-rebuild (builds since $SINCE: $PRIOR); no promotion, manual attention needed"; } >> "$GITHUB_ENV"
+            exit 1
+          fi
+          # -sS with -o/-w and NOT -f: -f hides the body and returns 22, losing the code.
+          : > /tmp/dispatch.out   # never cat a stale body from an earlier run (long-lived runner)
+          CODE=$(curl -sS --max-time 30 -o /tmp/dispatch.out -w '%{http_code}' -X POST \
+            -H 'Accept: application/vnd.github+json' \
+            -H "Authorization: Bearer ${GH_TOKEN}" \
+            -H 'X-GitHub-Api-Version: 2022-11-28' \
+            -H 'Content-Type: application/json' \
+            "${API}/repos/${GITHUB_REPOSITORY}/actions/workflows/${WF}/dispatches" \
+            -d '{"ref":"main"}') || CODE=000
+          # 204 = accepted (return_run_details defaults to false). 401/403 = the
+          # `actions: write` permission is missing; 404 = wrong filename or no
+          # workflow_dispatch on main; 422 = bad ref. A non-204 is NEVER reported as
+          # "queued" -- a silent no-op here would recreate the exact dead end this
+          # change exists to remove.
+          if [ "$CODE" != "204" ]; then
+            echo "::error::workflow_dispatch of $WF FAILED (HTTP $CODE); no rebuild queued and NOT promoting"
+            cat /tmp/dispatch.out || true
+            exit 1
+          fi
+          # ::warning:: and not ::notice:: on purpose: this IS the escalation, the SMTP_*
+          # secrets are unset, and a warning is the loudest signal a GREEN run can carry.
+          echo "::warning::REBUILD REQUESTED: staged digest went vulnerable during soak ($VULNS). Dispatched $WF on main; if it lands it supersedes this candidate and restarts the 72h soak. Nothing was promoted today."
+          { echo "REBUILD_DISPATCHED=true"
+            echo "NOTIFY_EVENT=rebuild_requested"
+            echo "NOTIFY_DETAIL=staged digest $DIGEST went vulnerable during soak ($VULNS); dispatched build-stage-scan on main -- a fresh 72h soak starts if the rebuild lands"; } >> "$GITHUB_ENV"
+          { echo "### soak-gate: REBUILD REQUESTED -- nothing promoted today"
+            echo ""
+            echo "- staged digest \`$DIGEST\` was clean at build time but is NOT clean against today's Trivy DB"
+            echo "- dispatched \`$WF\` on \`main\` (HTTP 204); if it lands, its Supersede guard replaces this candidate and restarts the 72h soak clock (a byte-identical rebuild would keep the old clock instead)"
+            echo "- this run is deliberately GREEN: the gate refused a vulnerable digest and asked for a patched one. No flip, no ledger change."
+            echo "- one dispatch per candidate: if that build fails, tomorrow's run goes RED instead of rebuilding again"; } >> "${GITHUB_STEP_SUMMARY:-/dev/null}"
 
       # ---- GC: cosign verify the staged digest (identity = build-stage-scan @main) ----
+      # env.REBUILD_DISPATCHED is set ONLY by GB2 above, and only after a confirmed
+      # HTTP 204 dispatch. Unset (every pre-existing path, including resume/reconcile)
+      # is '' != 'true', so all of these steps keep today's behaviour byte for byte.
       - name: Cosign verify staged digest
-        if: steps.soak.outputs.go == 'true' && steps.resume.outputs.resume == 'false' && steps.reconcile.outputs.reconcile == 'false'
+        if: steps.soak.outputs.go == 'true' && steps.resume.outputs.resume == 'false' && steps.reconcile.outputs.reconcile == 'false' && env.REBUILD_DISPATCHED != 'true'
         run: |
           set -euo pipefail
           cosign verify "${{ steps.ledger.outputs.image_ref }}" \
@@ -223,7 +403,7 @@ jobs:
 
       # ---- GD: strict drift gate (committed == live == expected pre-flip peer) ----
       - name: Drift gate
-        if: steps.soak.outputs.go == 'true' && steps.resume.outputs.resume == 'false' && steps.reconcile.outputs.reconcile == 'false'
+        if: steps.soak.outputs.go == 'true' && steps.resume.outputs.resume == 'false' && steps.reconcile.outputs.reconcile == 'false' && env.REBUILD_DISPATCHED != 'true'
         run: |
           set -euo pipefail
           COMMITTED=$(git show "origin/${BRANCH}:shared/nginx-service.yaml" \
@@ -236,7 +416,7 @@ jobs:
 
       # ---- PREREQ REFUSE GATES (P1/P2/P3/P5): no flip if unsafe ----
       - name: Prereq gates (ETP=Cluster + Deployment + readinessProbe + HPA on incoming)
-        if: steps.soak.outputs.go == 'true' && steps.resume.outputs.resume == 'false' && steps.reconcile.outputs.reconcile == 'false'
+        if: steps.soak.outputs.go == 'true' && steps.resume.outputs.resume == 'false' && steps.reconcile.outputs.reconcile == 'false' && env.REBUILD_DISPATCHED != 'true'
         run: |
           set -euo pipefail
           S="${{ steps.colors.outputs.standby }}"
@@ -267,7 +447,7 @@ jobs:
 
       # ---- GE: standby Ready + serving the staged digest + >=1 Ready endpoint ----
       - name: Health gate — standby Ready and serving staged digest
-        if: steps.soak.outputs.go == 'true' && steps.resume.outputs.resume == 'false' && steps.reconcile.outputs.reconcile == 'false'
+        if: steps.soak.outputs.go == 'true' && steps.resume.outputs.resume == 'false' && steps.reconcile.outputs.reconcile == 'false' && env.REBUILD_DISPATCHED != 'true'
         run: |
           set -euo pipefail
           S="${{ steps.colors.outputs.standby }}"
@@ -290,7 +470,7 @@ jobs:
 
       # ---- GG: FENCE just before the atomic flip — ledger unchanged since gate start ----
       - name: Fence — ledger unchanged since gate start
-        if: steps.soak.outputs.go == 'true' && steps.resume.outputs.resume == 'false' && steps.reconcile.outputs.reconcile == 'false'
+        if: steps.soak.outputs.go == 'true' && steps.resume.outputs.resume == 'false' && steps.reconcile.outputs.reconcile == 'false' && env.REBUILD_DISPATCHED != 'true'
         run: |
           set -euo pipefail
           git fetch origin "$BRANCH" --quiet
@@ -306,7 +486,13 @@ jobs:
       # RESUMES the idempotent follow-ups (it does not flip again).
       - name: Atomic flip (selector -> standby AND ledger -> promoting) in one commit
         id: flip
-        if: steps.soak.outputs.go == 'true' && steps.resume.outputs.resume == 'false' && steps.reconcile.outputs.reconcile == 'false'
+        # TWO independent refusals, deliberately redundant: REBUILD_DISPATCHED proves a
+        # rebuild was queued, and fixable != 'true' proves the re-scan came back clean.
+        # The flip must never become reachable merely because a dispatch happened to
+        # succeed -- only because the image is clean. (Both are unset on the resume and
+        # reconcile paths, where GB/GB2 never run, so '' != 'true' passes and those
+        # paths are unchanged.)
+        if: steps.soak.outputs.go == 'true' && steps.resume.outputs.resume == 'false' && steps.reconcile.outputs.reconcile == 'false' && env.REBUILD_DISPATCHED != 'true' && steps.rescan.outputs.fixable != 'true'
         run: |
           set -euo pipefail
           S="${{ steps.colors.outputs.standby }}"
@@ -346,7 +532,7 @@ jobs:
 
       # ---- Force ArgoCD to apply the committed selector NOW, then confirm ----
       - name: Force ArgoCD sync of the flip, then wait for convergence
-        if: steps.soak.outputs.go == 'true' && steps.reconcile.outputs.reconcile == 'false'
+        if: steps.soak.outputs.go == 'true' && steps.reconcile.outputs.reconcile == 'false' && env.REBUILD_DISPATCHED != 'true'
         run: |
           set -euo pipefail
           S="${{ steps.colors.outputs.standby }}"
@@ -368,7 +554,7 @@ jobs:
       # ---- Post-flip smoke (ClusterIP:80, reachable from the runner regardless of
       # ETP/nodePort); auto-rollback via git on failure AND verify rollback landed. ----
       - name: Post-flip smoke; rollback via git on failure
-        if: steps.soak.outputs.go == 'true' && steps.reconcile.outputs.reconcile == 'false'
+        if: steps.soak.outputs.go == 'true' && steps.reconcile.outputs.reconcile == 'false' && env.REBUILD_DISPATCHED != 'true'
         run: |
           set -euo pipefail
           S="${{ steps.colors.outputs.standby }}"
@@ -432,9 +618,12 @@ jobs:
           exit 1
 
       # ---- Mark ledger promoted; pin now-previous color to same digest; commit ----
-      # Runs for the normal flip, the resume path, AND the reconcile path.
+      # Runs for the normal flip, the resume path, AND the reconcile path -- but NOT on
+      # the GB2 auto-rebuild path, where the candidate is known-vulnerable and must
+      # never be marked promoted (this step's `if:` is the only one broad enough to
+      # have fired there). Guarded twice, like the flip: dispatch-happened AND scan-clean.
       - name: Mark ledger promoted (and pin old-live color to same digest)
-        if: steps.soak.outputs.go == 'true'
+        if: steps.soak.outputs.go == 'true' && env.REBUILD_DISPATCHED != 'true' && steps.rescan.outputs.fixable != 'true'
         run: |
           set -euo pipefail
           DIGEST="${{ steps.ledger.outputs.digest }}"
@@ -476,7 +665,7 @@ jobs:
 
       # ---- Purge Cloudflare cache (only on a real flip or resume, not reconcile-noop) ----
       - name: Purge Cloudflare cache
-        if: steps.soak.outputs.go == 'true' && steps.reconcile.outputs.reconcile == 'false'
+        if: steps.soak.outputs.go == 'true' && steps.reconcile.outputs.reconcile == 'false' && env.REBUILD_DISPATCHED != 'true'
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
@@ -518,6 +707,10 @@ jobs:
               subj = "[soak-gate] auto-rollback fired -- live reverted"
           elif event == "promoted":
               subj = "[soak-gate] promoted -- new color is live"
+          elif event == "rebuild_requested":
+              subj = "[soak-gate] rebuild requested -- staged digest went vulnerable during soak"
+          elif event == "rebuild_blocked":
+              subj = "[soak-gate] STUCK -- vulnerable candidate, auto-rebuild suppressed by the loop guard"
           elif status == "failure" and go == "true":
               subj = "[soak-gate] FAILED during a promote attempt"
               detail = detail or "a promote attempt failed; check for a half-applied flip/rollback"
