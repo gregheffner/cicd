@@ -67,6 +67,12 @@ data:
             "blogPost": [
                 {
                     "@type": "BlogPosting",
+                    "headline": "The Fix Wasn't a Patch",
+                    "url": "https://greg.heffner.live/blog/the-fix-wasnt-a-patch",
+                    "datePublished": "2026-08-31"
+                },
+                {
+                    "@type": "BlogPosting",
                     "headline": "Automate Your Life: Letting AI Handle Email, Texts, and Calendars on Your Mac",
                     "url": "https://greg.heffner.live/blog/automate-your-life-with-ai",
                     "datePublished": "2026-08-16"
@@ -590,6 +596,17 @@ data:
             <div class="row">
                 <div class="leftcolumn">
                     <div class="card">
+                        <article id="Article46-FixWasntAPatch">
+                            <div class="blog-box">
+                                <div class="blog-description">
+                                    <h3><a href="/blog/the-fix-wasnt-a-patch">The Fix Wasn't a Patch</a></h3>
+                                    <p>Greg Heffner <time datetime="2026-08-31">August 31st, 2026</time></p>
+                                </div>
+                                <div class="blog-image-container">
+                                    <img src="/image/blog/2026/Aug/the-fix-wasnt-a-patch.png" alt="" width="1200" height="630" decoding="async">
+                                </div>
+                            </div>
+                        </article>
                         <article id="Article45-AutomateYourLife">
                             <div class="blog-box">
                                 <div class="blog-description">
@@ -2506,6 +2523,12 @@ data:
     <url>
     <loc>https://greg.heffner.live/blog/automate-your-life-with-ai</loc>
     <lastmod>2026-08-16</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.7</priority>
+    </url>
+    <url>
+    <loc>https://greg.heffner.live/blog/the-fix-wasnt-a-patch</loc>
+    <lastmod>2026-08-31</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
