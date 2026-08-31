@@ -38,3 +38,6 @@ graphify-out/
 
 # Private operator runbook + internal design docs (never publish — internal topology)
 ops-local/
+
+# Claude Code session settings, local only
+.claude/
