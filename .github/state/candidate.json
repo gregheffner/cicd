@@ -1,19 +1,19 @@
 {
   "schema": 3,
   "immutable_tag": "v2026.08.31",
-  "digest": "sha256:a997877f18f59a5dc6e1f6c907715dd52ef4af86ca05007bb53fcab807267732",
-  "image_ref": "technotuba/nginx@sha256:a997877f18f59a5dc6e1f6c907715dd52ef4af86ca05007bb53fcab807267732",
+  "digest": "sha256:4411fe8def4e06fb51d83a03b1aab6a984f0d895113932759babcc14dce10034",
+  "image_ref": "technotuba/nginx@sha256:4411fe8def4e06fb51d83a03b1aab6a984f0d895113932759babcc14dce10034",
   "standby_color": "blue",
   "standby_object": "deployment/nginx-web-blue",
   "standby_file": "prod/nginx-blue.yaml",
   "live_color_at_build": "green",
-  "build_timestamp_utc": "2026-08-31T14:51:15Z",
-  "build_epoch": 1788187875,
+  "build_timestamp_utc": "2026-08-31T23:24:22Z",
+  "build_epoch": 1788218662,
   "build_scan_status": "pass",
   "cosign_signed": true,
-  "promote_eligible_after_epoch": 1788447075,
+  "promote_eligible_after_epoch": 1788477862,
   "state": "soaking",
   "flip_committed_sha": null,
   "promoted_timestamp_utc": null,
-  "run_url": "https://github.com/gregheffner/cicd/actions/runs/33404960283"
+  "run_url": "https://github.com/gregheffner/cicd/actions/runs/33450471262"
 }
