@@ -22,3 +22,20 @@ updates:
       github-actions:
         patterns:
           - "*"
+
+  # Supply-chain cooldown for the radar image's npm deps (weathermap/app).
+  # The Dockerfile does `npm ci` from the committed lockfile, so poisoned
+  # versions can only enter via a lockfile bump. Cooldown makes Dependabot wait
+  # until a release is 7 days old before proposing it, which outlives the
+  # typical publish-to-takedown window of npm supply-chain attacks. 2026-08-31.
+  - package-ecosystem: "npm"
+    directory: "/weathermap/app"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    cooldown:
+      default-days: 7
+    commit-message:
+      prefix: "deps"
+    labels:
+      - "dependencies"
