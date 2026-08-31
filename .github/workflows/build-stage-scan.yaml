@@ -39,7 +39,50 @@ env:
   SOAK_SECONDS: '259200'   # 72h
 
 jobs:
+  # Refuse to clobber a promote-ready candidate. Found 2026-08-31: the Friday
+  # hand-rebuilt v2026.08.28 finished its 72h soak at Mon 10:59Z, but this
+  # weekly Monday build overwrote the ledger before the daily gate could promote
+  # it. Any off-cycle candidate built Thu/Fri is structurally guaranteed to be
+  # orphaned that way, and the auto-rebuild path (PR #76) creates exactly such
+  # candidates. If the sitting candidate is soaking and within DEFER_WINDOW of
+  # promote-eligibility (or already past it), stand down and let the gate ship
+  # it; the next weekly build resumes cadence. A candidate older than MAX_AGE
+  # means the gate itself is stuck, so we build anyway rather than starve
+  # freshness (the gate's own alarms cover that failure).
+  ledger-guard:
+    runs-on: ubuntu-latest
+    outputs:
+      proceed: ${{ steps.guard.outputs.proceed }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1 (node24)
+      - name: Defer if the current candidate is about to promote
+        id: guard
+        env:
+          DEFER_WINDOW: '129600'   # 36h: covers one late daily gate plus slack
+          MAX_AGE: '604800'        # 7d: past this, assume the gate is stuck
+        run: |
+          set -euo pipefail
+          L=.github/state/candidate.json
+          if [ ! -f "$L" ]; then echo "proceed=true" >> "$GITHUB_OUTPUT"; exit 0; fi
+          STATE=$(jq -r '.state // empty' "$L")
+          ELIG=$(jq -r '.promote_eligible_after_epoch // 0' "$L")
+          BUILT=$(jq -r '.build_epoch // 0' "$L")
+          TAG=$(jq -r '.immutable_tag // "?"' "$L")
+          NOW=$(date -u +%s)
+          if [ "$STATE" = "soaking" ]              && [ $(( ELIG - NOW )) -le "$DEFER_WINDOW" ]              && [ $(( NOW - BUILT )) -le "$MAX_AGE" ]; then
+            echo "::warning title=build deferred::candidate $TAG is $( [ "$NOW" -ge "$ELIG" ] && echo 'promote-ready' || echo 'nearly promote-ready' ); standing down so the soak gate can ship it. Next weekly build resumes cadence."
+            {
+              echo "## Build deferred"
+              echo "Candidate \`$TAG\` (state=soaking, eligible epoch $ELIG, now $NOW) is inside the defer window."
+              echo "The daily soak gate will promote it; this build intentionally did not clobber it."
+            } >> "$GITHUB_STEP_SUMMARY"
+            echo "proceed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "proceed=true" >> "$GITHUB_OUTPUT"
+          fi
   build-stage-scan:
+    needs: ledger-guard
+    if: needs.ledger-guard.outputs.proceed == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout main (full history for rebase/retry push)
