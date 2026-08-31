@@ -35,6 +35,13 @@ updates:
       day: "monday"
     cooldown:
       default-days: 7
+    # Majors are opt-in only for this legacy app: server.js is CommonJS
+    # (node-fetch v3 is ESM-only), the vendored leaflet-openweathermap plugin
+    # needs leaflet 0.7.x, and there is no test suite to catch express 5
+    # breakage. Security + minor + patch still flow. 2026-08-31.
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
     commit-message:
       prefix: "deps"
     labels:
