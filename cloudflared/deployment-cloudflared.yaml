@@ -19,6 +19,38 @@ spec:
       maxUnavailable: 1
   template:
     metadata:
+      annotations:
+        # Datadog autodiscovery for cloudflared's Prometheus endpoint, which the
+        # container already exposes via `--metrics 0.0.0.0:2000` (port `metrics`).
+        # Nothing was scraping it, so the tunnels - the ONLY ingress path to the
+        # site - had no health telemetry at all.
+        #
+        # Explicit metric allow-list rather than ".*": the endpoint exposes 63
+        # series and Datadog bills custom metrics per series per pod (6 pods here),
+        # so ".*" would be ~378 billable series for four useful signals.
+        #   ha_connections              - HA connections to the CF edge; the key
+        #                                 degradation signal (healthy = 4/replica)
+        #   total_requests              - throughput through the tunnel
+        #   request_errors              - tunnel-level failures
+        #   concurrent_requests_per_tunnel - saturation
+        ad.datadoghq.com/cloudflared.checks: |
+          {
+            "openmetrics": {
+              "init_config": {},
+              "instances": [
+                {
+                  "openmetrics_endpoint": "http://%%host%%:2000/metrics",
+                  "namespace": "cloudflared",
+                  "metrics": [
+                    "cloudflared_tunnel_ha_connections",
+                    "cloudflared_tunnel_total_requests",
+                    "cloudflared_tunnel_request_errors",
+                    "cloudflared_tunnel_concurrent_requests_per_tunnel"
+                  ]
+                }
+              ]
+            }
+          }
       labels:
         app.kubernetes.io/name: cloudflared
         app.kubernetes.io/part-of: edge
