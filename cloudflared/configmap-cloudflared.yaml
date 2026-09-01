@@ -34,7 +34,16 @@ data:
     # Browser synthetics abort in-flight resource requests at session teardown;
     # Cloudflare records those as 5xx. Measurement artifact, not user impact.
     protocol: auto
-    loglevel: info
+    # TEMPORARY DIAGNOSTIC - revert to `info` once the capture window is done.
+    # Testing whether the ~360/hr 503s Cloudflare reports ever reach this connector.
+    # Evidence so far says they do not: httpRequestsAdaptiveGroups over 20h contains
+    # 14 status codes across 284k requests - including a single 401 and three 520s -
+    # but ZERO 503s, while responseStatusMap reports ~7,200 for the same window.
+    # That rules out sampling and implies they are never proxied requests at all.
+    # debug logs every request the connector receives, so an absence at the expected
+    # 6/min is positive proof they never arrive here.
+    # NOTE: ~300k req/day - this is verbose. Do not leave enabled.
+    loglevel: debug
     grace-period: 30s
     ingress:
       - hostname: greg.heffner.live
