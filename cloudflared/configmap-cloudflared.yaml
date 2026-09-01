@@ -12,27 +12,28 @@ data:
     credentials-file: /etc/cloudflared-creds/credentials.json
     metrics: 0.0.0.0:2000
     no-autoupdate: true
-    # 2026-09-01: was `auto`, which selects QUIC when the environment supports it
-    # (connectivity pre-checks pass here, so it always picked QUIC over UDP/7844).
+    # 2026-09-01: RESULT OF THE http2 EXPERIMENT - keep `auto`.
     #
-    # ~2.6% of ALL requests through this tunnel return 5xx at the Cloudflare edge
-    # with originResponseStatus=0 - the origin is never reached. Neither end logs a
-    # failure: nginx serves 66k requests with ZERO 5xx, and cloudflared reports 0
-    # request_errors, no error log lines and max 7 concurrent requests.
+    # ~2.6% of requests through this tunnel return 5xx at the Cloudflare edge with
+    # originResponseStatus=0. Hypothesis was QUIC/UDP loss on the residential link,
+    # so the tunnel was forced to http2 (TLS/TCP) at 17:43Z to test it.
     #
-    # It isolates to the tunnel leg. 20h sample by hostname:
-    #     greg.heffner.live     6.23%   (through the tunnel)
-    #     maintain.heffner.live 22.89%  (through the tunnel)
-    #     heffner.live           0.48%  (edge redirect, no origin)
-    #     r2.heffner.live        0.00%  (Cloudflare R2, no tunnel)
-    # Cloudflare-served hostnames are clean; tunnel-backed ones are not.
+    # It made NO difference - 5xx kept accruing at the same ~6/min after the switch.
+    # Transport is NOT the cause. Reverting to `auto` so QUIC is used when healthy.
     #
-    # Forcing http2 moves the tunnel from QUIC/UDP to TLS-over-TCP to test whether
-    # UDP loss on the residential link is the cause. Same TLS, same credentials,
-    # still outbound-only - no security change. All ingress here is plain HTTP,
-    # so nothing needs QUIC (only UDP proxying / WARP-routing would).
-    # REVERT: set back to `auto` if the 5xx rate does not improve.
-    protocol: http2
+    # What the 5xx actually are: Datadog synthetic probes. Evidence:
+    #   - only on synthetic target paths (/, /blog.html, /privacy.html,
+    #     /image/site.webmanifest - the last is fetched via <link rel=manifest>
+    #     on every browser-test page load)
+    #   - only from US/CA, the probe regions
+    #   - every one has proto=UNK and originResponseStatus=0, i.e. the request never
+    #     completed rather than failed
+    #   - count is pinned at exactly 360/hr while organic traffic swings 47%,
+    #     because probes run on fixed schedules
+    #   - nginx logs ZERO 5xx; cloudflared logs zero request_errors
+    # Browser synthetics abort in-flight resource requests at session teardown;
+    # Cloudflare records those as 5xx. Measurement artifact, not user impact.
+    protocol: auto
     loglevel: info
     grace-period: 30s
     ingress:
