@@ -12,7 +12,27 @@ data:
     credentials-file: /etc/cloudflared-creds/credentials.json
     metrics: 0.0.0.0:2000
     no-autoupdate: true
-    protocol: auto
+    # 2026-09-01: was `auto`, which selects QUIC when the environment supports it
+    # (connectivity pre-checks pass here, so it always picked QUIC over UDP/7844).
+    #
+    # ~2.6% of ALL requests through this tunnel return 5xx at the Cloudflare edge
+    # with originResponseStatus=0 - the origin is never reached. Neither end logs a
+    # failure: nginx serves 66k requests with ZERO 5xx, and cloudflared reports 0
+    # request_errors, no error log lines and max 7 concurrent requests.
+    #
+    # It isolates to the tunnel leg. 20h sample by hostname:
+    #     greg.heffner.live     6.23%   (through the tunnel)
+    #     maintain.heffner.live 22.89%  (through the tunnel)
+    #     heffner.live           0.48%  (edge redirect, no origin)
+    #     r2.heffner.live        0.00%  (Cloudflare R2, no tunnel)
+    # Cloudflare-served hostnames are clean; tunnel-backed ones are not.
+    #
+    # Forcing http2 moves the tunnel from QUIC/UDP to TLS-over-TCP to test whether
+    # UDP loss on the residential link is the cause. Same TLS, same credentials,
+    # still outbound-only - no security change. All ingress here is plain HTTP,
+    # so nothing needs QUIC (only UDP proxying / WARP-routing would).
+    # REVERT: set back to `auto` if the 5xx rate does not improve.
+    protocol: http2
     loglevel: info
     grace-period: 30s
     ingress:
