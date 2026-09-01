@@ -94,6 +94,17 @@ spec:
           env:
             - name: DD_OTELCOLLECTOR_ENABLED
               value: "true"
+        system-probe:
+          env:
+            # Network Path (CNM). Traceroute-style hop-by-hop monitoring of the paths this
+            # cluster actually uses outbound — Cloudflare edge, DNS, upstream — so a latency
+            # regression can be attributed to a specific hop instead of guessed at.
+            #
+            # Set here rather than under .spec.features because operator 1.14.0's v2alpha1
+            # CRD exposes no `networkPath` feature field (verified against the live CRD).
+            # Requires agent 7.55+ (running 7.82.3) and npm.enabled, both already true.
+            - name: DD_NETWORK_PATH_CONNECTIONS_MONITORING_ENABLED
+              value: "true"
       tolerations:                        # run on the control-plane node too (4/4 nodes)
         - key: node-role.kubernetes.io/control-plane
           operator: Exists
