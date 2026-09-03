@@ -1,3 +1,9 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: radar
+automountServiceAccountToken: false
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -16,6 +22,19 @@ spec:
       labels:
         app: radar
     spec:
+      # 2026-09-03 (CIS C1): dedicated ServiceAccount, no API token, restricted-profile
+      # securityContext, read-only root with a scratch /tmp, and resource limits.
+      # Facts this is built on: the image runs as uid 1000 (node), writes nothing
+      # outside /tmp, holds zero capabilities, and uses ~1m CPU / ~30Mi per pod.
+      serviceAccountName: radar
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        seccompProfile:
+          type: RuntimeDefault
       affinity:
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -38,6 +57,24 @@ spec:
           envFrom:
             - secretRef:
                 name: radar
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ["ALL"]
+          resources:
+            requests:
+              cpu: 10m
+              memory: 32Mi
+            limits:
+              cpu: 100m
+              memory: 128Mi
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
+      volumes:
+        - name: tmp
+          emptyDir: {}
 ---
 apiVersion: v1
 kind: Service
