@@ -1,0 +1,13 @@
+# CIS B2 (2026-09-02). Approves kubelet SERVING certificate requests.
+# bypassDnsResolution is REQUIRED here: node names (k8-primary, worker1-3) do not
+# resolve in-cluster (NXDOMAIN), so the default DNS check would deny every CSR.
+bypassDnsResolution: true
+# Only these node names may request a serving cert.
+providerRegex: "^(k8-primary|worker[1-3])$"
+# SAN IPs must fall in one of these. worker3 lives on a DIFFERENT subnet
+# (192.168.25.222) from the other three (192.168.1.0/24) - both are required.
+providerIpPrefixes:
+  - 192.168.1.0/24
+  - 192.168.25.0/24
+maxExpirationSeconds: "31622400"   # MUST be quoted: Helm renders a bare int as 3.16224e+07 and the Go flag parser rejects it
+replicas: 2

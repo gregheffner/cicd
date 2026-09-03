@@ -21,10 +21,12 @@ spec:
     tags:
       - env:prod
     kubelet:
-      # kubelet serves a self-signed cert; without this, sidecar containers (not covered by
-      # the agent container's DD_KUBELET_TLS_VERIFY env) probe kubelet every ~5 min and fill
-      # its journal with "TLS handshake error ... bad certificate"
-      tlsVerify: false
+      # 2026-09-02 (CIS B2): kubelet serving certs are now issued by the cluster CA
+      # (serverTLSBootstrap + kubelet-csr-approver) instead of being self-signed and
+      # expired, so verification can be turned back on. The agent verifies against the
+      # service-account CA bundle it already mounts. This also removes the cause of the
+      # old "TLS handshake error ... bad certificate" journal spam rather than hiding it.
+      tlsVerify: true
   features:
     apm:
       instrumentation:
@@ -86,7 +88,7 @@ spec:
             - name: DD_PROCESS_AGENT_ENABLED
               value: "true"
             - name: DD_KUBELET_TLS_VERIFY
-              value: "false"
+              value: "true"
             # 2026-07-03 audit: removed DD_CONTAINER_INCLUDE=name:heffner.live — matched
             # no actual container name (they're nginx/fail2ban/...); dead config that read
             # as if discovery were filtered when it wasn't (include without exclude is a no-op)
