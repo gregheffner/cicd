@@ -38,14 +38,11 @@ spec:
         ad.datadoghq.com/nginx.logs: '[{"source":"nginx","service":"nginx"}]'
     spec:
       terminationGracePeriodSeconds: 30 # P4
+      securityContext:
+        fsGroup: 65533 # git-sync gid: makes the 0440 deploy key readable; nginx (101) still writes its emptyDirs via 0777
+        seccompProfile:
+          type: RuntimeDefault
       affinity:
-        nodeAffinity: # P2: only schedule where the images hostPath exists (all 3 workers confirmed)
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-              - matchExpressions:
-                  - key: kubernetes.io/hostname
-                    operator: In
-                    values: ["worker1", "worker2", "worker3"]
         podAntiAffinity: # PREFERRED: spread one green pod per node by default, but allow doubling up so the HPA can scale past 3
           preferredDuringSchedulingIgnoredDuringExecution:
             - weight: 100
@@ -61,8 +58,72 @@ spec:
       # Service. As a native sidecar it no longer gates Pod.Ready, so its restarts never
       # pull nginx out of nginx-service.
       initContainers:
+        # 2026-09-03 (CIS C2): blog + images come from the www repo via git-sync into an
+        # emptyDir, replacing three hostPaths and the per-worker GitHub runners that used to
+        # `git pull` on the node. The repo is private: read-only deploy key via ESO
+        # (Secret www-deploy-key). One-time clone first so nginx never starts without
+        # content; then a native sidecar re-pulls every 5 min.
+        - name: git-sync-init # blocks until the first clone exists
+          image: registry.k8s.io/git-sync/git-sync:v4.7.1
+          args:
+            - --repo=git@github.com:gregheffner/www.git
+            - --ref=main
+            - --root=/git
+            - --link=www
+            - --depth=1
+            - --ssh-key-file=/etc/git-secret/ssh
+            - --ssh-known-hosts-file=/etc/git-secret/known_hosts
+            - --one-time
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 65533 # the image's git-sync user
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ["ALL"]
+          resources:
+            requests: {cpu: 10m, memory: 32Mi}
+            limits: {cpu: 500m, memory: 256Mi}
+          volumeMounts:
+            - mountPath: /git
+              name: www-content
+            - mountPath: /etc/git-secret
+              name: www-deploy-key
+              readOnly: true
+            - mountPath: /tmp
+              name: git-sync-tmp
+        - name: git-sync # continuous
+          image: registry.k8s.io/git-sync/git-sync:v4.7.1
+          restartPolicy: Always # native sidecar: keeps /git/www current; nginx follows the symlink at request time
+          args:
+            - --repo=git@github.com:gregheffner/www.git
+            - --ref=main
+            - --root=/git
+            - --link=www
+            - --depth=1
+            - --ssh-key-file=/etc/git-secret/ssh
+            - --ssh-known-hosts-file=/etc/git-secret/known_hosts
+            - --period=300s # 5 min, not 60s: UniFi IPS sig 2003068 (ET SCAN Potential SSH Scan OUTBOUND) fires on ordinary git-over-ssh from the workers; fewer sessions = less to suppress
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 65533 # the image's git-sync user
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ["ALL"]
+          resources:
+            requests: {cpu: 10m, memory: 32Mi}
+            limits: {cpu: 500m, memory: 256Mi}
+          volumeMounts:
+            - mountPath: /git
+              name: www-content
+            - mountPath: /etc/git-secret
+              name: www-deploy-key
+              readOnly: true
+            - mountPath: /tmp
+              name: git-sync-tmp
         - name: fail2ban
-          image: crazymax/fail2ban:latest
+          image: crazymax/fail2ban:1.1.0 # 2026-09-03 (C3): pinned; was :latest
           restartPolicy: Always # makes this restartable init container a native sidecar
           resources:
             requests:
@@ -166,10 +227,9 @@ spec:
             - mountPath: /etc/nginx/nginx.conf
               name: config-volume
               subPath: nginx.conf
-            - mountPath: /usr/share/nginx/html/image
-              name: images-volume
-            - mountPath: /usr/share/nginx/html/blog # 2026-07-03 blog migration: posts moved out of images/pages
-              name: blog-volume
+            - mountPath: /content # git-sync checkout; nginx serves /blog/ and /image/ from /content/www (shared/nginx-config.yaml)
+              name: www-content
+              readOnly: true
             - mountPath: /etc/nginx/conf.d/status.conf
               name: config
               readOnly: true
@@ -185,10 +245,8 @@ spec:
       automountServiceAccountToken: false # rec #4: static web server never calls the k8s API
       serviceAccountName: nginx # rec #4b: dedicated zero-RoleBinding SA (was shared 'prod' SA); see shared/nginx-sa.yaml
       volumes:
-        - hostPath:
-            path: /var/log/nginx
-            type: DirectoryOrCreate
-          name: nginx-logs
+        - name: nginx-logs # was hostPath /var/log/nginx; emptyDir means fail2ban no longer re-scans persisted logs on pod roll
+          emptyDir: {}
         - configMap:
             name: fail2ban-config
           name: fail2ban-config-cloudflare
@@ -214,14 +272,14 @@ spec:
         - configMap:
             name: nginx-config
           name: config-volume
-        - hostPath:
-            path: /home/huey/www/images
-            type: Directory
-          name: images-volume
-        - hostPath:
-            path: /home/huey/www/blog # requires www repo sync BEFORE this rolls (type Directory is strict)
-            type: Directory
-          name: blog-volume
+        - name: www-content # git-sync checkout (emptyDir is 0777: git-sync uid 65533 writes 0755/0644, nginx uid 101 reads)
+          emptyDir: {}
+        - name: git-sync-tmp
+          emptyDir: {}
+        - name: www-deploy-key # ESO -> external-secrets/es-www-deploy-key.yaml; keys ssh + known_hosts land on git-sync's default paths
+          secret:
+            secretName: www-deploy-key
+            defaultMode: 0440
         - name: nginx-cache # readOnlyRootFilesystem writable mounts (emptyDir is 0777 -> uid 101 writes; no fsGroup)
           emptyDir: {}
         - name: nginx-run
