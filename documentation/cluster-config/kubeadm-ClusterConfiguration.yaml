@@ -1,0 +1,64 @@
+apiServer:
+  extraArgs:
+  - name: kubelet-certificate-authority
+    value: /etc/kubernetes/pki/ca.crt
+  - name: encryption-provider-config
+    value: /etc/kubernetes/enc/enc.yaml
+  - name: audit-policy-file
+    value: /etc/kubernetes/audit/policy.yaml
+  - name: audit-log-path
+    value: /var/log/kubernetes/audit/audit.log
+  - name: audit-log-maxage
+    value: "30"
+  - name: audit-log-maxbackup
+    value: "10"
+  - name: audit-log-maxsize
+    value: "100"
+  - name: profiling
+    value: "false"
+  - name: enable-admission-plugins
+    value: NodeRestriction,DenyServiceExternalIPs
+  - name: tls-min-version
+    value: VersionTLS12
+  - name: tls-cipher-suites
+    value: TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305,TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305
+  - name: service-account-extend-token-expiration
+    value: "false"
+  - name: request-timeout
+    value: 60s
+  extraVolumes:
+  - name: enc-config
+    hostPath: /etc/kubernetes/enc
+    mountPath: /etc/kubernetes/enc
+    readOnly: true
+    pathType: DirectoryOrCreate
+  - name: audit-policy
+    hostPath: /etc/kubernetes/audit
+    mountPath: /etc/kubernetes/audit
+    readOnly: true
+    pathType: DirectoryOrCreate
+  - name: audit-log
+    hostPath: /var/log/kubernetes/audit
+    mountPath: /var/log/kubernetes/audit
+    readOnly: false
+    pathType: DirectoryOrCreate
+apiVersion: kubeadm.k8s.io/v1beta4
+caCertificateValidityPeriod: 87600h0m0s
+certificateValidityPeriod: 8760h0m0s
+certificatesDir: /etc/kubernetes/pki
+clusterName: kubernetes
+controllerManager: {}
+dns: {}
+encryptionAlgorithm: RSA-2048
+etcd:
+  local:
+    dataDir: /var/lib/etcd
+imageRepository: registry.k8s.io
+kind: ClusterConfiguration
+kubernetesVersion: v1.32.13
+networking:
+  dnsDomain: cluster.local
+  podSubnet: 10.244.0.0/16
+  serviceSubnet: 10.96.0.0/12
+proxy: {}
+scheduler: {}
