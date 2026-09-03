@@ -155,10 +155,29 @@ spec:
             failureThreshold: 3
           securityContext: # rec #2: deprivileged — bans go via the Cloudflare API, not local iptables
             allowPrivilegeEscalation: false
+            # 2026-09-03: runs as nobody. This was the ONLY thing keeping the prod
+            # namespace off enforce=restricted. fail2ban needs no privilege here:
+            # it never touches iptables, it POSTs to the Cloudflare API. It only
+            # needed root because /data, /var/run, /var/lib/fail2ban and /var/cache
+            # are root-owned in the image, so each gets an emptyDir below. Proven
+            # in a throwaway pod first: both jails start and fail2ban-client ping
+            # answers as uid 65534.
+            runAsNonRoot: true
+            runAsUser: 65534
+            runAsGroup: 65534
             capabilities:
               drop:
                 - ALL
           volumeMounts:
+            # writable state, so the image's root-owned dirs don't block uid 65534
+            - mountPath: /data
+              name: fail2ban-data
+            - mountPath: /var/run
+              name: fail2ban-run
+            - mountPath: /var/lib/fail2ban
+              name: fail2ban-lib
+            - mountPath: /var/cache
+              name: fail2ban-cache
             - mountPath: /var/log/nginx
               name: nginx-logs
             - mountPath: /etc/fail2ban/action.d/cloudflare-ban.conf
@@ -291,6 +310,14 @@ spec:
         - name: nginx-logs # was hostPath /var/log/nginx; emptyDir means fail2ban no longer re-scans persisted logs on pod roll
           emptyDir: {}
         - name: git-sync-tmp
+          emptyDir: {}
+        - name: fail2ban-data
+          emptyDir: {}
+        - name: fail2ban-run
+          emptyDir: {}
+        - name: fail2ban-lib
+          emptyDir: {}
+        - name: fail2ban-cache
           emptyDir: {}
         - name: www-deploy-key # ESO -> external-secrets/es-www-deploy-key.yaml; keys ssh + known_hosts land on git-sync's default paths
           secret:
