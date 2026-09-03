@@ -4,3 +4,14 @@ metadata:
   name: cloudflared
   labels:
     kubernetes.io/metadata.name: cloudflared
+    # 2026-09-03 (CIS 5.2.1): warn + audit only. These NEVER reject a pod, they
+    # report what `enforce` would have blocked. The other workload namespaces were
+    # labelled directly with kubectl because they are not defined in this repo;
+    # this one is ArgoCD-managed, so it has to come through here or it gets reverted.
+    #
+    # Verified already compliant: submitting both cloudflared pod templates with
+    # --dry-run=server against restricted produced zero violations. So this namespace
+    # is a candidate to move straight to enforce=restricted (C5) whenever you want the
+    # actual control rather than just the reporting.
+    pod-security.kubernetes.io/warn: restricted
+    pod-security.kubernetes.io/audit: restricted
