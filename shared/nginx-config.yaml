@@ -30,13 +30,31 @@ data:
         ssl_ciphers 'HIGH:!aNULL:!MD5:!3DES';
         ssl_prefer_server_ciphers on;
 
-        set_real_ip_from 0.0.0.0/0;
-        real_ip_header X-Forwarded-For;
-        real_ip_recursive on;
+        # 2026-09-03: trust ONLY the in-cluster hop. cloudflared is the only thing
+        # that can reach this Service, and it arrives from the pod network (kubelet
+        # probes arrive from a node's cni0 gateway, also inside 10.244.0.0/16).
+        set_real_ip_from 10.244.0.0/16;
+        set_real_ip_from 192.168.0.0/16;
+        real_ip_header CF-Connecting-IP;
 
-        map $http_x_forwarded_for $real_client_ip {
-            ~^(?<ip>[^,]+) $ip;
-            default $remote_addr;
+        # CF-Connecting-IP is written by Cloudflare on every request and overwrites
+        # anything the client sent, so a visitor cannot forge it. X-Forwarded-For
+        # CAN be forged: Cloudflare APPENDS the real address to whatever the client
+        # supplied. The previous config trusted 0.0.0.0/0 with recursion on, which
+        # resolves to the LEFTMOST entry, i.e. the client-supplied one. Confirmed
+        # exploitable on 2026-09-03: a request carrying
+        #     X-Forwarded-For: 192.0.2.99
+        # logged 192.0.2.99 verbatim. Because fail2ban bans on that value with a
+        # 30-day Cloudflare edge block, any visitor could both evade banning (rotate
+        # the header) and get an arbitrary third party blocked (Googlebot, the
+        # Datadog synthetics, Greg's own home address).
+        #
+        # Fail-open by design: if CF-Connecting-IP is ever absent, $remote_addr stays
+        # a 10.244.x pod address, which is already in fail2ban's ignoreip, so the
+        # jails simply stop banning rather than banning the wrong thing.
+        map $http_cf_connecting_ip $real_client_ip {
+            ""      $remote_addr;
+            default $http_cf_connecting_ip;
         }
 
         log_format fail2ban '$real_client_ip - [$time_local] "$request" $status "$http_referer" "$http_user_agent"';
