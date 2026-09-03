@@ -1,0 +1,25 @@
+# CIS C2 (2026-09-03): read-only GitHub deploy key for the git-sync sidecar in the prod
+# nginx pods. Source of truth is the 1Password item "www-deploy-key" in k8s-cluster-secrets
+# (fields ssh + known_hosts). The Secret keys are named for git-sync's default file paths
+# under /etc/git-secret. The public half is registered as a read-only deploy key on
+# gregheffner/www; rotate by replacing the 1P fields and the GitHub key together.
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: www-deploy-key
+  namespace: prod
+spec:
+  refreshInterval: 6h
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: onepassword
+  target:
+    name: www-deploy-key
+    creationPolicy: Owner
+  data:
+    - secretKey: ssh
+      remoteRef:
+        key: www-deploy-key/ssh
+    - secretKey: known_hosts
+      remoteRef:
+        key: www-deploy-key/known_hosts
