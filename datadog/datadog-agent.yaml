@@ -77,12 +77,17 @@ spec:
         pullPolicy: IfNotPresent
     nodeAgent:
       annotations:
-        # agent + process-agent ptrace-read host processes for live process collection;
-        # containerd's default profile (cri-containerd.apparmor.d) denies it, flooding the
-        # kernel audit log (~1 DENIED line every 2s per node). The operator already sets
-        # system-probe unconfined the same way.
+        # The agent ptrace-reads host processes for live process collection; containerd's
+        # default profile (cri-containerd.apparmor.d) denies it, flooding the kernel audit
+        # log (~1 DENIED line every 2s per node). The operator already sets system-probe
+        # unconfined the same way.
+        #
+        # 2026-09-02: the process-agent annotation was dropped. Operator 1.29.0 sets
+        # DD_PROCESS_CONFIG_RUN_IN_CORE_AGENT_ENABLED, so there is no separate
+        # process-agent container any more (pods went 6/6 -> 5/5) and the annotation
+        # named a container that no longer exists. The agent one matters MORE now, not
+        # less, because the ptrace work moved into the core agent.
         container.apparmor.security.beta.kubernetes.io/agent: unconfined
-        container.apparmor.security.beta.kubernetes.io/process-agent: unconfined
       image:
         # 2026-09-02: pinned. Was `latest-full` + pullPolicy Always, which silently
         # rolled the node agents to 7.82.3 during an unrelated restart while the
@@ -94,9 +99,12 @@ spec:
       containers:
         agent:
           env:
+            # DD_PROCESS_AGENT_ENABLED (process_config.enabled) was removed 2026-09-02:
+            # the agent logs it as deprecated in favour of process_config.process_collection
+            # and process_config.container_collection. process_collection is set right here;
+            # container_collection and process_discovery are supplied by the operator. So
+            # this removal changes no behaviour, it just stops the deprecation warning.
             - name: DD_PROCESS_CONFIG_PROCESS_COLLECTION_ENABLED
-              value: "true"
-            - name: DD_PROCESS_AGENT_ENABLED
               value: "true"
             - name: DD_KUBELET_TLS_VERIFY
               value: "true"
