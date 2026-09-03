@@ -69,6 +69,12 @@ spec:
     usm:
       enabled: true
   override:
+    # Pinned in lockstep with nodeAgent. Previously unset, so the operator chose the
+    # cluster agent version independently of the node agents - the cause of the skew.
+    clusterAgent:
+      image:
+        name: gcr.io/datadoghq/cluster-agent:7.82.3
+        pullPolicy: IfNotPresent
     nodeAgent:
       annotations:
         # agent + process-agent ptrace-read host processes for live process collection;
@@ -78,8 +84,13 @@ spec:
         container.apparmor.security.beta.kubernetes.io/agent: unconfined
         container.apparmor.security.beta.kubernetes.io/process-agent: unconfined
       image:
-        name: gcr.io/datadoghq/agent:latest-full
-        pullPolicy: Always
+        # 2026-09-02: pinned. Was `latest-full` + pullPolicy Always, which silently
+        # rolled the node agents to 7.82.3 during an unrelated restart while the
+        # cluster agent stayed on the operator default (7.64.3). An 18-version skew
+        # broke the orchestrator node-UID lookup (404) and is unsupported: Datadog
+        # requires the cluster agent to be >= the node agents.
+        name: gcr.io/datadoghq/agent:7.82.3-full
+        pullPolicy: IfNotPresent
       containers:
         agent:
           env:
