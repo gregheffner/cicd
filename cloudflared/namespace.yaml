@@ -15,3 +15,10 @@ metadata:
     # actual control rather than just the reporting.
     pod-security.kubernetes.io/warn: restricted
     pod-security.kubernetes.io/audit: restricted
+    # 2026-09-03: enforce added. Re-verified immediately before this commit by
+    # submitting both cloudflared pod templates with --dry-run=server against
+    # restricted: zero violations. From here the API server REJECTS any new pod in
+    # this namespace that does not meet the restricted profile, so a future chart or
+    # image change that adds privilege will fail to deploy rather than silently
+    # weakening the namespace. Existing pods are never touched by enforce.
+    pod-security.kubernetes.io/enforce: restricted
