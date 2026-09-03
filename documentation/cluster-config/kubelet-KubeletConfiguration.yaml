@@ -44,6 +44,7 @@ resolvConf: /run/systemd/resolve/resolv.conf
 rotateCertificates: true
 runtimeRequestTimeout: 0s
 serverTLSBootstrap: true
+seccompDefault: true
 shutdownGracePeriod: 0s
 shutdownGracePeriodCriticalPods: 0s
 staticPodPath: /etc/kubernetes/manifests
@@ -51,10 +52,10 @@ streamingConnectionIdleTimeout: 0s
 syncFrequency: 0s
 tlsCipherSuites:
 - TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256
-- TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384
-- TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305
 - TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+- TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305
 - TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305
+- TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384
+- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 tlsMinVersion: VersionTLS12
 volumeStatsAggPeriod: 0s
