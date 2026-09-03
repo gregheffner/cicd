@@ -19,7 +19,20 @@ spec:
   source:
     repoURL: https://helm.datadoghq.com
     chart: datadog-operator
-    targetRevision: 2.9.2               # operator app v1.14.0 — matches the current live release
+    targetRevision: 2.25.1              # operator app v1.29.0
+    # 2026-09-02: was 2.9.2 (operator 1.14.0). That operator was too old to grant the
+    # cluster agent RBAC for discovery.k8s.io/v1/endpointslices, so the orchestrator
+    # check ran with that collector permanently skipped once the cluster agent moved
+    # to 7.82.3.
+    #
+    # Crossing operator v1.21 changes the DaemonSet matchLabels selector from
+    # agent.datadoghq.com/name to app.kubernetes.io/instance. Selectors are immutable,
+    # so the operator deletes and recreates the DaemonSet, using pod orphaning to keep
+    # the running Agent pods alive through it. From v1.21 this is automatic; the
+    # agent.datadoghq.com/update-metadata annotation is only for opting in early on
+    # v1.18-v1.20. Checked before upgrading: no NetworkPolicies, service mesh or VPAs
+    # in this cluster select on those labels, and the only Services that do are managed
+    # by the operator itself. See docs/agent_metadata_changes.md upstream.
     helm:
       releaseName: datadog-operator
       values: |
