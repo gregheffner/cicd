@@ -58,6 +58,22 @@ spec:
       # Service. As a native sidecar it no longer gates Pod.Ready, so its restarts never
       # pull nginx out of nginx-service.
       initContainers:
+        - name: nginx-log-init # fail2ban is a native sidecar that starts BEFORE nginx and refuses to load a jail whose logpath is missing; the emptyDir starts empty (the old hostPath always carried a file over from the previous pod), so pre-create the logs as nginx's uid
+          image: busybox:1.36
+          command: ["sh", "-c", "touch /var/log/nginx/access.log /var/log/nginx/error.log"]
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 101 # nginx's uid: it must own the files it appends to; fail2ban (root) only reads them
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ["ALL"]
+          resources:
+            requests: {cpu: 1m, memory: 8Mi}
+            limits: {cpu: 50m, memory: 32Mi}
+          volumeMounts:
+            - mountPath: /var/log/nginx
+              name: nginx-logs
         # 2026-09-03 (CIS C2): blog + images come from the www repo via git-sync into an
         # emptyDir, replacing three hostPaths and the per-worker GitHub runners that used to
         # `git pull` on the node. The repo is private: read-only deploy key via ESO
