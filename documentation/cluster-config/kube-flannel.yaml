@@ -266,8 +266,18 @@ spec:
           path: /run/xtables.lock
           type: FileOrCreate
         name: xtables-lock
+  # OnDelete, deliberately. flannel pods become Ready so fast that
+  # RollingUpdate/maxUnavailable:1 gives NO real protection - during the
+  # 2026-09-05 interface-pin change all four rolled within ~10 seconds, so a bad
+  # change would take the whole CNI down before anyone could react.
+  #
+  # With OnDelete, applying this file rolls NOTHING; each node is replaced only
+  # when its pod is deleted by hand. That is what makes a controlled node-by-node
+  # CNI change possible, with worker3 (remote site, over the VPN) genuinely last.
+  #
+  # This MUST live in the manifest, not just as a live patch: on 2026-09-05 the
+  # live DS was patched to OnDelete and then this file - still saying
+  # RollingUpdate - was applied, which silently reverted it and immediately
+  # started rolling worker3.
   updateStrategy:
-    rollingUpdate:
-      maxSurge: 0
-      maxUnavailable: 1
-    type: RollingUpdate
+    type: OnDelete
