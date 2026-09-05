@@ -36,6 +36,11 @@ env:
   TRIVY_SHA256: '0510e71e2fd39bf863856d499c8dc19feb4e7336546394c502a8f5cc7ab27460'   # trivy_0.71.2_Linux-64bit.tar.gz
   COSIGN_VERSION: '2.6.3'    # cosign binary, v2.x line (keyless verify is registry-native; no docker needed)
   COSIGN_SHA256: '7c78a7f2efc00088bd788a758db6e0928e79f3e0eb83eb5d3c499ed98da4c4f4'   # cosign-linux-amd64
+  # Scratch dir. NOT /tmp: this is a long-lived self-hosted runner and /tmp is sticky,
+  # so a fixed-name file left by another uid makes the redirect fail with EACCES
+  # (2026-09-04: `/tmp/m.yaml: Permission denied` failed the P0 gate). runner.temp is
+  # per-job and owned by the runner user.
+  TMPD: ${{ runner.temp }}
 
 jobs:
   soak-gate-promote:
@@ -59,12 +64,17 @@ jobs:
           git fetch origin "$BRANCH" --quiet
           fail=0
           for f in prod/nginx-blue.yaml DR/nginx-green.yaml; do
-            git show "origin/${BRANCH}:$f" > /tmp/m.yaml
+            git show "origin/${BRANCH}:$f" > "$TMPD/m.yaml"
             IMG=$(python3 - "$f" <<'PY'
-          import sys,re
-          c=open("/tmp/m.yaml").read()
-          # nginx container image line (NOT fail2ban). nginx block precedes fail2ban.
-          m=re.search(r'-\s*name:\s*nginx\b.*?image:\s*(\S+)', c, re.S)
+          import os,sys,re
+          c=open(os.environ["TMPD"]+"/m.yaml").read()
+          # The nginx container image line -- NOT fail2ban, git-sync, or the
+          # nginx-log-init initContainer. The old pattern was `name:\s*nginx\b`, and
+          # \b matches before the hyphen in `nginx-log-init` (added 2026-09-03, #101),
+          # whose image is busybox:1.36 -> the gate read the init image and refused to
+          # promote a correctly digest-pinned manifest. Anchor to a line that is
+          # exactly `- name: nginx` (optional trailing comment) instead.
+          m=re.search(r'^\s*-\s*name:\s*nginx\s*(?:#.*)?$.*?^\s*image:\s*(\S+)', c, re.S | re.M)
           print(m.group(1) if m else "MISSING")
           PY
           )
@@ -83,12 +93,12 @@ jobs:
           if ! git cat-file -e "origin/${BRANCH}:.github/state/candidate.json" 2>/dev/null; then
             echo "No ledger; nothing to promote."; echo "go=false" >> "$GITHUB_OUTPUT"; exit 0
           fi
-          git show "origin/${BRANCH}:.github/state/candidate.json" > /tmp/ledger.json
+          git show "origin/${BRANCH}:.github/state/candidate.json" > "$TMPD/ledger.json"
           python3 - <<'PY'
           import json,os,sys
           out=open(os.environ["GITHUB_OUTPUT"],"a")
           try:
-              d=json.load(open("/tmp/ledger.json"))
+              d=json.load(open(os.environ["TMPD"]+"/ledger.json"))
           except Exception as e:
               # Corrupt ledger is LOUD, not a silent no-op (could mask a soaking candidate).
               sys.stderr.write(f"::error::ledger corrupt; refusing to promote: {e}\n")
@@ -226,13 +236,13 @@ jobs:
           trivy image --image-src remote --no-progress \
             --scanners vuln --pkg-types os,library \
             --severity HIGH,CRITICAL --ignore-unfixed \
-            --exit-code 0 --format json --output /tmp/rescan.json \
+            --exit-code 0 --format json --output "$TMPD/rescan.json" \
             "${{ steps.ledger.outputs.image_ref }}" || rc=$?
           if [ "$rc" != "0" ]; then
             echo "::error::trivy re-scan could not run (exit $rc). That is an INFRASTRUCTURE error, not a vulnerability finding: refusing to promote AND refusing to auto-rebuild."
             exit 1
           fi
-          python3 - /tmp/rescan.json <<'PY'
+          python3 - "$TMPD/rescan.json" <<'PY'
           import json,os,re,sys
           try:
               d=json.load(open(sys.argv[1]))
@@ -323,8 +333,8 @@ jobs:
           set -euo pipefail
           API="${GITHUB_API_URL:-https://api.github.com}"
           WF="build-stage-scan.yaml"   # the filename the cosign regexps pin; .yml would 404
-          # /tmp/ledger.json is the exact candidate G0 read at the top of THIS run.
-          SINCE=$(python3 -c 'import json,time;print(time.strftime("%Y-%m-%dT%H:%M:%SZ",time.gmtime(int(json.load(open("/tmp/ledger.json"))["build_epoch"]))))') \
+          # $TMPD/ledger.json is the exact candidate G0 read at the top of THIS run.
+          SINCE=$(python3 -c 'import json,os,time;print(time.strftime("%Y-%m-%dT%H:%M:%SZ",time.gmtime(int(json.load(open(os.environ["TMPD"]+"/ledger.json"))["build_epoch"]))))') \
             || { echo "::error::ledger has no usable build_epoch; cannot arm the auto-rebuild loop guard"; exit 1; }
           # Loop-guard query. ANY http/parse problem counts as "already attempted":
           # fail CLOSED, never dispatch on a maybe. We ask for the 30 most recent runs
@@ -340,13 +350,13 @@ jobs:
           # 30 >> the handful of builds possible inside one soak window, and an
           # overflow could only inflate the count, which still blocks.
           PRIOR=unknown
-          CODE=$(curl -sS --max-time 30 -o /tmp/prior_builds.json -w '%{http_code}' \
+          CODE=$(curl -sS --max-time 30 -o "$TMPD/prior_builds.json" -w '%{http_code}' \
             -H 'Accept: application/vnd.github+json' \
             -H "Authorization: Bearer ${GH_TOKEN}" \
             -H 'X-GitHub-Api-Version: 2022-11-28' \
             "${API}/repos/${GITHUB_REPOSITORY}/actions/workflows/${WF}/runs?per_page=30") || CODE=000
           if [ "$CODE" = "200" ]; then
-            PRIOR=$(SINCE="$SINCE" python3 -c 'import json,os;print(sum(1 for r in json.load(open("/tmp/prior_builds.json"))["workflow_runs"] if (r.get("created_at") or "") > os.environ["SINCE"]))') || PRIOR=unknown
+            PRIOR=$(SINCE="$SINCE" python3 -c 'import json,os;print(sum(1 for r in json.load(open(os.environ["TMPD"]+"/prior_builds.json"))["workflow_runs"] if (r.get("created_at") or "") > os.environ["SINCE"]))') || PRIOR=unknown
           else
             echo "::warning::could not list prior $WF runs (HTTP $CODE); treating this candidate as already-rebuilt"
           fi
@@ -356,8 +366,8 @@ jobs:
             exit 1
           fi
           # -sS with -o/-w and NOT -f: -f hides the body and returns 22, losing the code.
-          : > /tmp/dispatch.out   # never cat a stale body from an earlier run (long-lived runner)
-          CODE=$(curl -sS --max-time 30 -o /tmp/dispatch.out -w '%{http_code}' -X POST \
+          : > "$TMPD/dispatch.out"   # never cat a stale body from an earlier run (long-lived runner)
+          CODE=$(curl -sS --max-time 30 -o "$TMPD/dispatch.out" -w '%{http_code}' -X POST \
             -H 'Accept: application/vnd.github+json' \
             -H "Authorization: Bearer ${GH_TOKEN}" \
             -H 'X-GitHub-Api-Version: 2022-11-28' \
@@ -371,7 +381,7 @@ jobs:
           # change exists to remove.
           if [ "$CODE" != "204" ]; then
             echo "::error::workflow_dispatch of $WF FAILED (HTTP $CODE); no rebuild queued and NOT promoting"
-            cat /tmp/dispatch.out || true
+            cat "$TMPD/dispatch.out" || true
             exit 1
           fi
           # ::warning:: and not ::notice:: on purpose: this IS the escalation, the SMTP_*
@@ -474,9 +484,9 @@ jobs:
         run: |
           set -euo pipefail
           git fetch origin "$BRANCH" --quiet
-          git show "origin/${BRANCH}:.github/state/candidate.json" > /tmp/ledger_now.json
-          NOWDIG=$(python3 -c 'import json;print(json.load(open("/tmp/ledger_now.json"))["digest"])')
-          NOWST=$(python3  -c 'import json;print(json.load(open("/tmp/ledger_now.json"))["state"])')
+          git show "origin/${BRANCH}:.github/state/candidate.json" > "$TMPD/ledger_now.json"
+          NOWDIG=$(python3 -c 'import json,os;print(json.load(open(os.environ["TMPD"]+"/ledger_now.json"))["digest"])')
+          NOWST=$(python3  -c 'import json,os;print(json.load(open(os.environ["TMPD"]+"/ledger_now.json"))["state"])')
           { [ "$NOWDIG" = "${{ steps.ledger.outputs.digest }}" ] && [ "$NOWST" = "soaking" ]; } \
             || { echo "::error::ledger changed mid-promote (dig=$NOWDIG state=$NOWST); aborting flip"; exit 1; }
 
@@ -714,6 +724,13 @@ jobs:
           elif status == "failure" and go == "true":
               subj = "[soak-gate] FAILED during a promote attempt"
               detail = detail or "a promote attempt failed; check for a half-applied flip/rollback"
+          elif status == "failure":
+              # go is "" when the run dies BEFORE the soak step sets it -- e.g. the P0
+              # prereq gate. That is precisely the failure worth mailing about, and it
+              # went silent for two days (2026-09-04/05) under the old `go == "true"`
+              # condition. Any failed run now mails; only a GREEN no-op stays quiet.
+              subj = "[soak-gate] FAILED before the soak gate -- pipeline is stuck, nothing promoted"
+              detail = detail or "the run failed before reaching the soak gate (prereq/ledger/setup step); no candidate was promoted and none will be until this is fixed"
           else:
               print("no-op run (go=%r status=%r event=%r): no email" % (go, status, event)); sys.exit(0)
           for k in ("SMTP_HOST", "SMTP_PORT", "SMTP_USER", "SMTP_PASS", "MAIL_TO"):
