@@ -642,14 +642,29 @@ jobs:
           REF="${{ steps.ledger.outputs.image_ref }}"
           PREV="${{ steps.colors.outputs.expect_live }}"   # now-previous (old live) color
           if [ "$PREV" = "blue" ]; then PFILE=prod/nginx-blue.yaml; else PFILE=DR/nginx-green.yaml; fi
+          # The flip commit's sha cannot be written INTO the flip commit, which is why
+          # schema 3 has always left flip_committed_sha null. It is knowable here, one
+          # commit later, so record it now. On the resume/reconcile paths this run never
+          # ran the flip step, so recover the sha from the last commit that touched the
+          # Service selector -- that IS the flip commit on those paths.
+          FLIP_SHA="${{ steps.flip.outputs.flip_sha }}"
+          if [ -z "$FLIP_SHA" ]; then
+            git fetch origin "$BRANCH" --quiet
+            FLIP_SHA=$(git log -1 --format=%H "origin/${BRANCH}" -- shared/nginx-service.yaml || true)
+          fi
+          [ -n "$FLIP_SHA" ] || echo "::warning::could not determine the flip commit sha; leaving flip_committed_sha null"
+          export FLIP_SHA
           for i in 1 2 3 4 5 6 7 8; do
             git fetch origin "$BRANCH" --quiet
             git checkout "origin/${BRANCH}" -- .github/state/candidate.json "$PFILE"
             python3 - <<'PY'
-          import json,datetime
+          import json,datetime,os
           f=".github/state/candidate.json"; d=json.load(open(f))
           d["state"]="promoted"
           d["promoted_timestamp_utc"]=datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
+          # Stays null only if the sha could not be determined (warned about above), so
+          # a null here means "unknown", never "no flip happened".
+          d["flip_committed_sha"]=os.environ.get("FLIP_SHA") or None
           json.dump(d,open(f,"w"),indent=2); open(f,"a").write("\n")
           PY
             python3 - "$PFILE" "$REF" "$DIGEST" <<'PY'
