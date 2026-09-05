@@ -368,14 +368,21 @@ jobs:
           SFILE: ${{ steps.color.outputs.sfile }}
         run: |
           set -euo pipefail
+          # Canary read BEFORE the edit. Asserting a literal tag here went stale the
+          # moment #103 pinned fail2ban to 1.1.0; comparing before/after keeps the
+          # "we touched only nginx" guarantee without hard-coding anyone's tag.
+          F2B_BEFORE=$(yq '.. | select(has("name") and .name == "fail2ban") | .image' "$SFILE")
+          [ -n "$F2B_BEFORE" ] && [ "$F2B_BEFORE" != "null" ] \
+            || { echo "::error::no fail2ban container found in $SFILE; refusing to edit blind"; exit 1; }
           yq -i '
             (.. | select(has("name") and .name == "nginx") | .image) = strenv(REF) |
             (.. | select(has("name") and .name == "nginx") | .imagePullPolicy) = "IfNotPresent"
           ' "$SFILE"
           grep -q "technotuba/nginx@${{ steps.push.outputs.digest }}" "$SFILE" \
             || { echo "::error::digest pin failed in $SFILE"; exit 1; }
-          grep -q "image: crazymax/fail2ban:latest" "$SFILE" \
-            || { echo "::error::fail2ban image line changed in $SFILE; aborting"; exit 1; }
+          F2B_AFTER=$(yq '.. | select(has("name") and .name == "fail2ban") | .image' "$SFILE")
+          [ "$F2B_BEFORE" = "$F2B_AFTER" ] \
+            || { echo "::error::fail2ban image line changed in $SFILE ($F2B_BEFORE -> $F2B_AFTER); aborting"; exit 1; }
 
       # ---- Write candidate.json ledger (state: soaking) ----
       - name: Write candidate.json ledger

@@ -660,7 +660,17 @@ jobs:
           c2=re.sub(r'(-\s*name:\s*nginx\b.*?imagePullPolicy:\s*)\w+',
                     r'\1IfNotPresent', c2, count=1, flags=re.S)
           assert ('technotuba/nginx@'+dig) in c2, "prev-color pin failed"
-          assert 'crazymax/fail2ban:latest' in c2, "fail2ban line changed"
+          # Canary: this edit must touch the nginx container and nothing else. Compare
+          # fail2ban's image line before/after rather than asserting a literal tag --
+          # the old `'crazymax/fail2ban:latest' in c2` went stale the moment #103
+          # pinned fail2ban to 1.1.0, and would have failed this step AFTER the flip
+          # had already been committed, leaving a half-finished promote.
+          F2B = r'^\s*-\s*name:\s*fail2ban\s*(?:#.*)?$.*?^\s*image:\s*(\S+)'
+          before = re.search(F2B, c,  re.S | re.M)
+          after  = re.search(F2B, c2, re.S | re.M)
+          assert before and after, "fail2ban container not found in %s" % f
+          assert before.group(1) == after.group(1), \
+              "fail2ban image changed: %s -> %s" % (before.group(1), after.group(1))
           open(f,"w").write(c2)
           PY
             git config user.email "github-actions[bot]@users.noreply.github.com"
