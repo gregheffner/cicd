@@ -270,6 +270,9 @@ spec:
               name: config
               readOnly: true
               subPath: status.conf
+            - mountPath: /etc/nginx/rum # Datadog RUM loader (ESO Secret datadog-rum); dir mount so a refreshed token propagates without a pod roll
+              name: datadog-rum
+              readOnly: true
             - mountPath: /var/cache/nginx # writable temp dirs for readOnlyRootFilesystem
               name: nginx-cache
             - mountPath: /var/run # nginx pid file (pid /var/run/nginx.pid)
@@ -329,3 +332,7 @@ spec:
           emptyDir: {}
         - name: nginx-tmp
           emptyDir: {}
+        - name: datadog-rum # ESO -> external-secrets/es-datadog-rum.yaml; optional so a missing Secret never blocks a rollout
+          secret:
+            secretName: datadog-rum
+            optional: true
