@@ -26,7 +26,7 @@ spec:
           # because the OpenMetrics v2 check matches on the metric family name.
           #   admission_requests          - volume + result (allowed/blocked) per policy
           #   admission_review_duration   - latency added to every prod deploy
-          #   policy_rule_info            - which policies/rules are live (1 = active)
+          #   policy_rule_info_total      - live policies/rules (1 = active). A GAUGE that ends in _total: the check strips that suffix for COUNTERS only, so the bare name matched nothing (2026-09-13)
           #   policy_changes              - policy edits, for audit correlation
           #   controller_reconcile        - reconcile errors surface here
           #   info                        - kyverno version, for upgrade tracking
@@ -42,7 +42,7 @@ spec:
                       "metrics": [
                         "kyverno_admission_requests",
                         "kyverno_admission_review_duration_seconds",
-                        "kyverno_policy_rule_info",
+                        "kyverno_policy_rule_info_total",
                         "kyverno_policy_changes",
                         "kyverno_controller_reconcile",
                         "kyverno_info"
