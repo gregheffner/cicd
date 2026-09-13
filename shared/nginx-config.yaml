@@ -178,6 +178,21 @@ data:
               default_type text/plain;
               return 200 "ok";
           }
+          # 2026-09-13 Datadog RUM: the loader is rendered by ESO from 1Password (see
+          # external-secrets/es-datadog-rum.yaml) and mounted at /etc/nginx/rum/. The
+          # server-level sub_filter below adds one <script> before </head> on every
+          # HTML response, so www-configmap pages AND git-synced blog posts get it
+          # without touching either source. The volume is optional: if the Secret is
+          # missing this 404s and the site is unaffected. no-cache so a token rotation
+          # takes effect without a CF purge (the file is ~700 bytes).
+          location = /dd-rum.js {
+              alias /etc/nginx/rum/dd-rum.js;
+              default_type application/javascript;
+              add_header Cache-Control "no-cache" always;
+              add_header X-Content-Type-Options "nosniff" always;
+          }
+          sub_filter "</head>" "<script src=\"/dd-rum.js\" defer></script></head>";
+          sub_filter_once on;
           # rec #19: browsers/iOS auto-request these root icons. Serve the REAL binaries from
           # the git-sync checkout (mounted at /content, repo dir images/) — they were 3 base64-text blobs in
           # www-configmap (~32% of it) that actually served broken; now removed. No precomposed

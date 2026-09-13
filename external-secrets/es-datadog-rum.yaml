@@ -1,0 +1,55 @@
+# external-secrets/es-datadog-rum.yaml
+# Datadog Browser RUM (Digital Experience) for greg.heffner.live.
+#
+# The site HTML lives in www-configmap (public repo) + the git-sync blog checkout, so
+# there is no build step to inject the snippet into. Instead: ESO renders the whole
+# v7 loader from two 1Password fields into a Secret, nginx serves it at /dd-rum.js
+# (shared/nginx-config.yaml), and a server-level sub_filter adds one <script> tag
+# before </head> on every HTML response. Nothing Datadog-specific is committed.
+#
+# The client token is public by design (it ships to every browser), but keeping it
+# out of a public repo stops anyone from trivially sending junk RUM events against
+# the quota. 1Password item: k8s-cluster-secrets / datadog-rum
+#   client-token    - RUM client token (pub...)
+#   application-id  - RUM application id (uuid)
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: datadog-rum
+  namespace: prod
+spec:
+  refreshInterval: 6h
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: onepassword
+  target:
+    name: datadog-rum
+    creationPolicy: Owner
+    template:
+      engineVersion: v2
+      data:
+        # v7 CDN async loader (us5). sessionReplaySampleRate 0: static site, replay is
+        # billable and adds nothing here. version is bumped by hand when the site changes.
+        dd-rum.js: |
+          (function(h,o,u,n,d){h=h[d]=h[d]||{q:[],onReady:function(c){h.q.push(c)}};d=o.createElement(u);d.async=1;d.src=n;d.crossOrigin="";n=o.getElementsByTagName(u)[0];n.parentNode.insertBefore(d,n)})(window,document,"script","https://www.datadoghq-browser-agent.com/us5/v7/datadog-rum.js","DD_RUM");
+          window.DD_RUM.onReady(function(){window.DD_RUM.init({
+            applicationId: "{{ .applicationId }}",
+            clientToken: "{{ .clientToken }}",
+            site: "us5.datadoghq.com",
+            service: "greg.heffner.live",
+            env: "prod",
+            version: "1.0.0",
+            sessionSampleRate: 100,
+            sessionReplaySampleRate: 0,
+            defaultPrivacyLevel: "mask-user-input",
+            trackUserInteractions: true,
+            trackResources: true,
+            trackLongTasks: true
+          })});
+  data:
+    - secretKey: clientToken
+      remoteRef:
+        key: datadog-rum/client-token
+    - secretKey: applicationId
+      remoteRef:
+        key: datadog-rum/application-id
