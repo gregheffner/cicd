@@ -3460,15 +3460,45 @@ data:
                 <iframe src="https://ambientweather.net/dashboard/10a8363ef8cd35a2e19f0e8fff9bafe3" title="Ambient Weather live station dashboard"></iframe>
             </section>
             <section class="window" aria-label="NWS Southeast radar loop">
-                <img src="https://radar.weather.gov/ridge/standard/SOUTHEAST_loop.gif" alt="Animated NWS radar loop of the southeastern United States" decoding="async" referrerpolicy="no-referrer">
+                <img src="https://radar.weather.gov/ridge/standard/SOUTHEAST_loop.gif" alt="Animated NWS radar loop of the southeastern United States" data-loop="nws-radar-southeast" decoding="async" referrerpolicy="no-referrer">
             </section>
             <section class="window" aria-label="GOES-19 Sandwich satellite loop">
-                <img src="https://cdn.star.nesdis.noaa.gov/GOES19/ABI/SECTOR/ga/Sandwich/GOES19-GA-Sandwich-1000x1000.gif" alt="GOES-19 Sandwich-enhancement satellite loop, Georgia sector" width="1000" height="1000" loading="lazy" decoding="async" referrerpolicy="no-referrer">
+                <img src="https://cdn.star.nesdis.noaa.gov/GOES19/ABI/SECTOR/ga/Sandwich/GOES19-GA-Sandwich-1000x1000.gif" alt="GOES-19 Sandwich-enhancement satellite loop, Georgia sector" data-loop="goes19-sandwich-ga" width="1000" height="1000" loading="lazy" decoding="async" referrerpolicy="no-referrer">
             </section>
             <section class="window" aria-label="GOES-19 GLM lightning loop">
-                <img src="https://cdn.star.nesdis.noaa.gov/GOES19/GLM/CONUS/EXTENT3/GOES19-CONUS-EXTENT3-625x375.gif" alt="GOES-19 GLM lightning extent loop over the continental United States" width="625" height="375" loading="lazy" decoding="async" referrerpolicy="no-referrer">
+                <img src="https://cdn.star.nesdis.noaa.gov/GOES19/GLM/CONUS/EXTENT3/GOES19-CONUS-EXTENT3-625x375.gif" alt="GOES-19 GLM lightning extent loop over the continental United States" data-loop="goes19-glm-conus" width="625" height="375" loading="lazy" decoding="async" referrerpolicy="no-referrer">
             </section>
         </main>
+    <!-- Datadog RUM custom vital: time from navigation start until each third-party
+         loop GIF has a decoded first frame (what the visitor actually waits for; the
+         built-in view timing stops at load and the LCP only covers one image).
+         Appears in RUM as @vital.name:loop_ready with @vital.description = the loop
+         id; a failed load is reported as an error so it can be counted, not guessed.
+         Runs safely under Rocket Loader: an already-complete img is handled inline. -->
+    <script>
+    (function () {
+      function rum(fn) { if (window.DD_RUM && window.DD_RUM.onReady) { window.DD_RUM.onReady(fn); } }
+      Array.prototype.forEach.call(document.querySelectorAll("img[data-loop]"), function (img) {
+        var name = img.getAttribute("data-loop");
+        function ok() {
+          rum(function () {
+            window.DD_RUM.addDurationVital("loop_ready", {
+              startTime: performance.timeOrigin, duration: performance.now(),
+              description: name, context: { loop: name }
+            });
+          });
+        }
+        function bad() {
+          rum(function () { window.DD_RUM.addError(new Error("loop failed to load: " + name), { loop: name }); });
+        }
+        if (img.complete) { (img.naturalWidth > 0) ? ok() : bad(); }
+        else {
+          img.addEventListener("load", ok, { once: true });
+          img.addEventListener("error", bad, { once: true });
+        }
+      });
+    })();
+    </script>
     </body>
     </html>
   traffic.html: |
