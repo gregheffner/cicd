@@ -18,6 +18,39 @@ spec:
       values: |
         admissionController:
           replicas: 3                    # HA across the 3 amd64 workers
+          # 2026-09-13: Datadog autodiscovery for the admission controller's Prometheus
+          # endpoint (:8000, port `metrics-port`). Nothing was scraping it, so the ONLY
+          # signal that image verification on prod was slow or failing was a pod that
+          # would not start. Explicit allow-list, not ".*" (histogram buckets alone are
+          # ~100 series/pod x 3 pods); counters are listed WITHOUT the _total suffix
+          # because the OpenMetrics v2 check matches on the metric family name.
+          #   admission_requests          - volume + result (allowed/blocked) per policy
+          #   admission_review_duration   - latency added to every prod deploy
+          #   policy_rule_info            - which policies/rules are live (1 = active)
+          #   policy_changes              - policy edits, for audit correlation
+          #   controller_reconcile        - reconcile errors surface here
+          #   info                        - kyverno version, for upgrade tracking
+          podAnnotations:
+            ad.datadoghq.com/kyverno.checks: |
+              {
+                "openmetrics": {
+                  "init_config": {},
+                  "instances": [
+                    {
+                      "openmetrics_endpoint": "http://%%host%%:8000/metrics",
+                      "namespace": "kyverno",
+                      "metrics": [
+                        "kyverno_admission_requests",
+                        "kyverno_admission_review_duration_seconds",
+                        "kyverno_policy_rule_info",
+                        "kyverno_policy_changes",
+                        "kyverno_controller_reconcile",
+                        "kyverno_info"
+                      ]
+                    }
+                  ]
+                }
+              }
         # --- verification-result caching (load-bearing once failurePolicy: Fail is on) ---
         # Caches successful image-verification results so a cold Sigstore/egress outage
         # only rejects FRESH (cold-cache) nginx pods, never already-verified digests.
