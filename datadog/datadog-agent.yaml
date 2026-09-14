@@ -68,10 +68,28 @@ spec:
                 - ".*"
     usm:
       enabled: true
+    # 2026-09-14: etcd is collected as a CLUSTER check (one scrape, one host tag) pointed at
+    # the plain-HTTP metrics listener kubeadm-config now exposes on the node IP (:2381).
+    # The agent's bundled etcd auto_conf targets :2379 (TLS client port, no certs) and had
+    # failed silently since the 09-06 kubeadm upgrade - etcd metrics were dead for 9 days
+    # and the [etcd] no-leader monitor sat in No Data.
+    clusterChecks:
+      enabled: true
+      useClusterChecksRunners: false
   override:
     # Pinned in lockstep with nodeAgent. Previously unset, so the operator chose the
     # cluster agent version independently of the node agents - the cause of the skew.
     clusterAgent:
+      extraConfd:
+        configDataMap:
+          etcd.yaml: |-
+            cluster_check: true
+            init_config:
+            instances:
+              - prometheus_url: http://192.168.1.190:2381/metrics
+                tags:
+                  - kube_cluster_name:heffner.k8s
+                  - etcd_role:control-plane
       image:
         name: gcr.io/datadoghq/cluster-agent:7.82.3
         pullPolicy: IfNotPresent
@@ -108,6 +126,10 @@ spec:
               value: "true"
             - name: DD_KUBELET_TLS_VERIFY
               value: "true"
+            # 2026-09-14: the bundled etcd auto_conf (:2379, no certs) can never work here and
+            # would now duplicate the cluster check; ignore it on every node agent.
+            - name: DD_IGNORE_AUTOCONF
+              value: '["etcd"]'
             # 2026-07-03 audit: removed DD_CONTAINER_INCLUDE=name:heffner.live — matched
             # no actual container name (they're nginx/fail2ban/...); dead config that read
             # as if discovery were filtered when it wasn't (include without exclude is a no-op)
