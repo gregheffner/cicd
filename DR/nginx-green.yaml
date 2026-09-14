@@ -110,6 +110,7 @@ spec:
             - --ssh-key-file=/etc/git-secret/ssh
             - --ssh-known-hosts-file=/etc/git-secret/known_hosts
             - --one-time
+            - --sync-timeout=900s # 2026-09-14: the www repo is 140 MB and node egress rides VyprVPN at ~370 KB/s, so a fresh clone needs 6-7 min; the 120s default made every NEW pod crash-loop in git-sync-init while old pods (delta fetches) looked fine
           securityContext:
             runAsNonRoot: true
             runAsUser: 65533 # the image's git-sync user
@@ -141,6 +142,7 @@ spec:
             - --ssh-known-hosts-file=/etc/git-secret/known_hosts
             - --period=300s # 5 min, not 60s: UniFi IPS sig 2003068 (ET SCAN Potential SSH Scan OUTBOUND) fires on ordinary git-over-ssh from the workers; fewer sessions = less to suppress
             - --http-bind=:9100 # metrics + /  readiness endpoint; scraped by Datadog (pod annotation)
+            - --sync-timeout=900s # same reason as the init container: a deleted or rewritten /git would otherwise never recover
             - --http-metrics=true
           ports:
             - name: gitsync-metrics
