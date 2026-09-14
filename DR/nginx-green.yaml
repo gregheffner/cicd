@@ -24,6 +24,26 @@ spec:
         app: nginx-web
         version: green
       annotations:
+        # 2026-09-13 Datadog autodiscovery for the git-sync sidecar (:9100, enabled by
+        # --http-bind below). Blog posts reach nginx ONLY through this sidecar, so a
+        # dead deploy key or a stalled VPN egress left the site serving stale content
+        # with every other signal green. Allow-list; counters listed without _total.
+        #   git_sync_count{status}   - success / error / noop per 5-min period
+        #   git_fetch_count          - actual fetches (new commits)
+        #   git_sync_duration_seconds - histogram, rises when egress is slow
+        ad.datadoghq.com/git-sync.checks: |
+          {
+            "openmetrics": {
+              "init_config": {},
+              "instances": [
+                {
+                  "openmetrics_endpoint": "http://%%host%%:9100/metrics",
+                  "namespace": "gitsync",
+                  "metrics": ["git_sync_count", "git_fetch_count", "git_sync_duration_seconds"]
+                }
+              ]
+            }
+          }
         ad.datadoghq.com/nginx.checks: |
           {
             "nginx": {
@@ -120,6 +140,12 @@ spec:
             - --ssh-key-file=/etc/git-secret/ssh
             - --ssh-known-hosts-file=/etc/git-secret/known_hosts
             - --period=300s # 5 min, not 60s: UniFi IPS sig 2003068 (ET SCAN Potential SSH Scan OUTBOUND) fires on ordinary git-over-ssh from the workers; fewer sessions = less to suppress
+            - --http-bind=:9100 # metrics + /  readiness endpoint; scraped by Datadog (pod annotation)
+            - --http-metrics=true
+          ports:
+            - name: gitsync-metrics
+              containerPort: 9100
+              protocol: TCP
           securityContext:
             runAsNonRoot: true
             runAsUser: 65533 # the image's git-sync user
