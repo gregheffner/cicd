@@ -231,7 +231,7 @@ spec:
               subPath: nginx-404.conf
       containers:
         - name: nginx
-          image: technotuba/nginx@sha256:5140b0d6124b806169db3d966f92cbaa772413601f172f008b799b8dbf55d8ca # P0: pinned to current running digest
+          image: technotuba/nginx@sha256:a309e1a42e733b476be094932affc7ce80d3448505dedc8e10967cdd0504b9b1 # P0: pinned to current running digest
           imagePullPolicy: IfNotPresent # P0: was Always
           securityContext: # harden: non-root, read-only rootfs, no caps (listeners now >=1024)
             runAsNonRoot: true
