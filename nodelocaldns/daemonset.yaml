@@ -21,6 +21,8 @@ spec:
       annotations:
         prometheus.io/port: "9253"
         prometheus.io/scrape: "true"
+        ad.datadoghq.com/node-cache.checks: |
+          {"coredns": {"init_config": {}, "instances": [{"prometheus_url": "http://%%host%%:9253/metrics", "tags": ["dns-role:nodelocal", "dns-node:%%host%%"]}]}}
     spec:
       priorityClassName: system-node-critical
       serviceAccountName: node-local-dns
