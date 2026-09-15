@@ -44,12 +44,30 @@ data:
         }
         prometheus :9253
     }
+    tier0.local:53 {
+        errors
+        cache 30
+        reload
+        bind 100.64.0.10 10.96.0.10
+        forward . 192.168.1.53
+    }
+    tier0:53 {
+        errors
+        cache 30
+        reload
+        bind 100.64.0.10 10.96.0.10
+        forward . 192.168.1.53
+    }
     .:53 {
         errors
         cache 30
         reload
         loop
         bind 100.64.0.10 10.96.0.10
-        forward . __PILLAR__UPSTREAM__SERVERS__
+        forward . tls://76.76.2.22 tls://76.76.10.22 {
+            tls_servername 13wz7snbioq.dns.controld.com
+            health_check 10s
+            max_concurrent 1000
+        }
         prometheus :9253
     }
