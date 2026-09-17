@@ -54,9 +54,13 @@ spec:
           containerPort: 4318
           hostPort: 4318
           protocol: TCP
+    # 2026-09-16: prometheusScrape OFF. It auto-scraped every prometheus.io-annotated
+    # target (node-local-dns, kube-dns, kubelet-csr-approver, argocd-metrics) and
+    # shipped ~250 UN-NAMESPACED metric families (go_*, coredns_*, argocd_*,
+    # workqueue_*, controller_runtime_*) as billed custom metrics, all duplicates of
+    # the coredns (nodelocaldns annotation) and argocd (cluster check) integrations.
     prometheusScrape:
-      enabled: true
-      enableServiceEndpoints: true
+      enabled: false
     usm:
       enabled: true
     # 2026-09-14: etcd is collected as a CLUSTER check (one scrape, one host tag) pointed at
@@ -92,6 +96,19 @@ spec:
                 notifications_controller_endpoint: http://argocd-notifications-controller-metrics.automation.svc.cluster.local:9001/metrics
                 tags:
                   - kube_cluster_name:heffner.k8s
+      # 2026-09-16: esxi cluster check. conf.yaml carries a password so it is NOT in
+      # extraConfd (a ConfigMap); ESO renders it into Secret datadog/datadog-esxi
+      # (external-secrets/es-datadog-esxi.yaml) and it is mounted as conf.d/esxi.d/.
+      volumes:
+        - name: esxi-conf
+          secret:
+            secretName: datadog-esxi
+      containers:
+        cluster-agent:
+          volumeMounts:
+            - name: esxi-conf
+              mountPath: /etc/datadog-agent/conf.d/esxi.d
+              readOnly: true
       image:
         name: gcr.io/datadoghq/cluster-agent:7.82.3
         pullPolicy: IfNotPresent
