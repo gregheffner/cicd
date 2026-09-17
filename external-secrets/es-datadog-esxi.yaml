@@ -1,0 +1,47 @@
+# external-secrets/es-datadog-esxi.yaml
+# Datadog `esxi` integration credentials for the Tier0 ESXi host (192.168.1.59).
+#
+# The check runs as a CLUSTER check from the cluster agent. Its conf.yaml needs a
+# password, and the cluster agent's extraConfd is a plain ConfigMap, so ESO renders
+# the whole conf.yaml into this Secret and datadog-agent.yaml mounts it at
+# /etc/datadog-agent/conf.d/esxi.d/. Nothing secret is committed.
+#
+# 1Password item: k8s-cluster-secrets / datadog-esxi (copy of Private/esxi.tier0.local)
+#   username  - ESXi local user "monitoring" (Read-only role)
+#   password
+# ssl_verify false: the host serves its self-signed cert.
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: datadog-esxi
+  namespace: datadog
+spec:
+  refreshInterval: 6h
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: onepassword
+  target:
+    name: datadog-esxi
+    creationPolicy: Owner
+    template:
+      engineVersion: v2
+      data:
+        conf.yaml: |
+          cluster_check: true
+          init_config:
+          instances:
+            - host: 192.168.1.59
+              username: "{{ .username }}"
+              password: "{{ .password }}"
+              ssl_verify: false
+              empty_default_hostname: true
+              tags:
+                - kube_cluster_name:heffner.k8s
+                - esxi_host:tier0
+  data:
+    - secretKey: username
+      remoteRef:
+        key: datadog-esxi/username
+    - secretKey: password
+      remoteRef:
+        key: datadog-esxi/password
