@@ -31,6 +31,9 @@ spec:
           init_config:
           instances:
             - host: 192.168.1.59
+              # each run walks every perf counter and takes ~1m50s; 15s default would
+              # run the check back-to-back
+              min_collection_interval: 120
               username: "{{ .username }}"
               password: "{{ .password }}"
               ssl_verify: false
