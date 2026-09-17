@@ -1,0 +1,25 @@
+# flannel/flannel-app.yaml  (apply ONCE as cluster-admin; see nodelocaldns-app.yaml)
+# CNI under GitOps with MANUAL sync only. No automated/selfHeal on purpose: a wrong
+# reconcile of the CNI breaks the network Argo CD itself needs. Git is the source of
+# truth and Argo shows drift; a human syncs. directory.include excludes this file.
+# The DaemonSet template keeps its historical restartedAt annotation so the initial
+# sync is a no-op (dropping it would roll every flannel pod).
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: flannel
+  namespace: automation
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/gregheffner/cicd
+    targetRevision: HEAD
+    path: flannel
+    directory:
+      include: '{namespace.yaml,serviceaccount.yaml,clusterrole.yaml,clusterrolebinding.yaml,configmap.yaml,daemonset.yaml}'
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: kube-flannel
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=false
