@@ -113,6 +113,15 @@ spec:
         name: gcr.io/datadoghq/cluster-agent:7.82.3
         pullPolicy: IfNotPresent
     nodeAgent:
+      # 2026-09-16: host network so the agent can reach kube-scheduler (:10259) and
+      # kube-controller-manager (:10257), which kubeadm binds to 127.0.0.1 (CIS 1.3.7
+      # / 1.4.2, kept). The stock kube_scheduler / kube_controller_manager auto-conf
+      # tries https://localhost:<port> and lights up on the control plane by itself.
+      # ClusterFirstWithHostNet is load-bearing: without it a host-network pod uses
+      # the node resolver and cannot find the cluster agent service (all cluster
+      # checks would go dark).
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
       annotations:
         # The agent ptrace-reads host processes for live process collection; containerd's
         # default profile (cri-containerd.apparmor.d) denies it, flooding the kernel audit
