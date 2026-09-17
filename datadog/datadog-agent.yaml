@@ -57,15 +57,6 @@ spec:
     prometheusScrape:
       enabled: true
       enableServiceEndpoints: true
-      additionalConfigs: |-
-        - autodiscovery:
-            kubernetes_services:
-              - automation/argocd-metrics
-          configurations:
-            - openmetrics_endpoint: "http://argocd-metrics.automation.svc.cluster.local:8082/metrics"
-              namespace: "argocd"
-              metrics:
-                - ".*"
     usm:
       enabled: true
     # 2026-09-14: etcd is collected as a CLUSTER check (one scrape, one host tag) pointed at
@@ -90,6 +81,17 @@ spec:
                 tags:
                   - kube_cluster_name:heffner.k8s
                   - etcd_role:control-plane
+          argocd.yaml: |-
+            cluster_check: true
+            init_config:
+            instances:
+              - app_controller_endpoint: http://argocd-metrics.automation.svc.cluster.local:8082/metrics
+                api_server_endpoint: http://argocd-server-metrics.automation.svc.cluster.local:8083/metrics
+                repo_server_endpoint: http://argocd-repo-server.automation.svc.cluster.local:8084/metrics
+                applicationset_controller_endpoint: http://argocd-applicationset-controller-metrics.automation.svc.cluster.local:8080/metrics
+                notifications_controller_endpoint: http://argocd-notifications-controller-metrics.automation.svc.cluster.local:9001/metrics
+                tags:
+                  - kube_cluster_name:heffner.k8s
       image:
         name: gcr.io/datadoghq/cluster-agent:7.82.3
         pullPolicy: IfNotPresent

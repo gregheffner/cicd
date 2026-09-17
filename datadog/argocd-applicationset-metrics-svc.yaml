@@ -1,0 +1,21 @@
+# Metrics Service for the Argo CD applicationset controller.
+# Upstream ships this as argocd-applicationset-controller-metrics; our install
+# lacks it. Needed by the Datadog argocd cluster check (datadog-agent.yaml).
+apiVersion: v1
+kind: Service
+metadata:
+  name: argocd-applicationset-controller-metrics
+  namespace: automation
+  labels:
+    app.kubernetes.io/name: argocd-applicationset-controller-metrics
+    app.kubernetes.io/component: applicationset-controller
+    app.kubernetes.io/part-of: argocd
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/name: argocd-applicationset-controller
+  ports:
+    - name: metrics
+      port: 8080
+      targetPort: 8080
+      protocol: TCP
