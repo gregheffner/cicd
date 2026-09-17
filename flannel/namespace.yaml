@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  labels:
+    datadoghq.com/ignore: 'true'
+    k8s-app: flannel
+    kubernetes.io/metadata.name: kube-flannel
+    pod-security.kubernetes.io/enforce: privileged
+  name: kube-flannel
+spec:
+  finalizers:
+  - kubernetes
