@@ -16,7 +16,7 @@ spec:
     targetRevision: main
     path: datadog
     directory:
-      include: 'datadog-agent.yaml'      # ONLY the CR, not the App YAMLs in this dir
+      include: '{datadog-agent.yaml,argocd-applicationset-metrics-svc.yaml}'  # the CR + the ArgoCD appset metrics Service, NOT the App YAMLs in this dir
   destination:
     server: https://kubernetes.default.svc
     namespace: datadog
