@@ -81,7 +81,7 @@ spec:
             cluster_check: true
             init_config:
             instances:
-              - prometheus_url: http://192.168.1.190:2381/metrics
+              - prometheus_url: http://100.100.0.8:2381/metrics
                 tags:
                   - kube_cluster_name:heffner.k8s
                   - etcd_role:control-plane
