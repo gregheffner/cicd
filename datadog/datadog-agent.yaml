@@ -127,8 +127,18 @@ spec:
           dns_check.yaml: |-
             init_config:
             instances:
+              # Every hostname below is ABSOLUTE (trailing dot). The agent runs
+              # hostNetwork but still gets the pod resolv.conf: ndots:5 plus four
+              # cluster.local search domains. Without the dot, dnspython tries
+              # greg.heffner.live.<each search domain> FIRST and only then the real
+              # name. Pi-hole does not answer *.cluster.local at all (it drops the
+              # query rather than returning NXDOMAIN), so both Pi-hole instances
+              # burned the whole 5s lifetime on search attempts and never reached
+              # the real lookup. The other resolvers NXDOMAIN'd fast enough to
+              # survive, but paid 4 extra round trips: 113ms -> 1ms on node-local,
+              # 197ms -> 37ms on 1.1.1.1. Do not remove the trailing dots.
               # house resolver, external name: Pi-hole -> unbound/upstream
-              - hostname: greg.heffner.live
+              - hostname: greg.heffner.live.
                 nameserver: 192.168.1.53
                 timeout: 5
                 min_collection_interval: 60
@@ -136,7 +146,7 @@ spec:
                   - dns_path:pihole
                   - dns_scope:external
               # house resolver, local record: also proves the mesh A records survive
-              - hostname: wazuh.tier0.local
+              - hostname: wazuh.tier0.local.
                 nameserver: 192.168.1.53
                 resolves_as: 100.100.0.10
                 timeout: 5
@@ -145,7 +155,7 @@ spec:
                   - dns_path:pihole
                   - dns_scope:local-record
               # cluster fast path, external name: node-local-dns -> CoreDNS -> DoT -> ControlD
-              - hostname: greg.heffner.live
+              - hostname: greg.heffner.live.
                 nameserver: 100.64.0.10
                 timeout: 5
                 min_collection_interval: 60
@@ -153,7 +163,7 @@ spec:
                   - dns_path:node-local-dns
                   - dns_scope:external
               # cluster fast path, cluster name
-              - hostname: kubernetes.default.svc.cluster.local
+              - hostname: kubernetes.default.svc.cluster.local.
                 nameserver: 100.64.0.10
                 resolves_as: 10.96.0.1
                 timeout: 5
@@ -162,7 +172,7 @@ spec:
                   - dns_path:node-local-dns
                   - dns_scope:cluster
               # CoreDNS service directly, so a node-local-dns fault is distinguishable
-              - hostname: kubernetes.default.svc.cluster.local
+              - hostname: kubernetes.default.svc.cluster.local.
                 nameserver: 10.96.0.10
                 resolves_as: 10.96.0.1
                 timeout: 5
@@ -171,7 +181,7 @@ spec:
                   - dns_path:coredns
                   - dns_scope:cluster
               # the gateway's own resolver (ControlD over DoH3)
-              - hostname: greg.heffner.live
+              - hostname: greg.heffner.live.
                 nameserver: 192.168.1.1
                 timeout: 5
                 min_collection_interval: 60
@@ -179,7 +189,7 @@ spec:
                   - dns_path:udm-controld
                   - dns_scope:external
               # control: if this fails too, the internet is broken, not our DNS
-              - hostname: greg.heffner.live
+              - hostname: greg.heffner.live.
                 nameserver: 1.1.1.1
                 timeout: 5
                 min_collection_interval: 60
