@@ -24,14 +24,21 @@ spec:
   background: true
   rules:
     - name: no-automount-sa-token
+      # RE-SCOPED 2026-09-19 after the first Audit pass. Cluster-wide, this policy
+      # had almost no yield: 16 of 17 failing workloads were controllers whose
+      # ServiceAccount has real RBAC bound (every ArgoCD controller, all Datadog
+      # components, all four Kyverno controllers, flannel, ESO + cert-controller),
+      # so they legitimately need the token. The single exception,
+      # external-secrets-webhook, is upstream-chart-managed.
+      #
+      # Scoped to the WORKLOAD namespaces instead, where a mounted token is a real
+      # finding rather than a design requirement. Platform namespaces are covered by
+      # RBAC review, not by this policy.
       match:
         any:
           - resources:
               kinds: [Pod]
-      exclude:
-        any:
-          - resources:
-              namespaces: [kube-system, kube-node-lease, kube-public]
+              namespaces: [prod, radar, default]
       validate:
         failureAction: Audit
         message: >-
