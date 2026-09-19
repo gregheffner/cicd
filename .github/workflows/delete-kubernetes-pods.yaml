@@ -38,6 +38,10 @@ jobs:
     runs-on: self-hosted
     steps:
       - name: Rolling pod restart (one pod at a time, wait for Ready between each)
+        # GitHub's default `bash -e {0}` aborts the script on ANY command that returns
+        # non-zero, including a plain `[ x = y ]` guard that is simply false. This step
+        # handles its own errors, so run it without -e.
+        shell: bash --noprofile --norc {0}
         run: |
           set -u
           NS="${{ inputs.namespace }}"
@@ -64,11 +68,11 @@ jobs:
                 | awk '$3!="Running" && $3!="Completed"' | wc -l)
               notready=$(kubectl get pods -n "$ns" --no-headers 2>/dev/null \
                 | awk '$3=="Running" {split($2,a,"/"); if (a[1]!=a[2]) print}' | wc -l)
-              if [ "$notrunning" -eq 0 ] && [ "$notready" -eq 0 ]; then return 0; fi
+              if [ "${notrunning:-1}" -eq 0 ] && [ "${notready:-1}" -eq 0 ]; then return 0; fi
               sleep 5
             done
             echo "::warning::$ns did not settle within ${SETTLE}s; continuing"
-            kubectl get pods -n "$ns" --no-headers | awk '$3!="Running" && $3!="Completed"'
+            kubectl get pods -n "$ns" --no-headers 2>/dev/null | awk '$3!="Running" && $3!="Completed"' || true
             return 1
           }
 
@@ -76,8 +80,8 @@ jobs:
             ns="$1"
             echo "::group::$ns"
             # Snapshot the pod list first: replacements get new names and must not be re-deleted.
-            pods=$(kubectl get pods -n "$ns" --no-headers -o custom-columns=:metadata.name 2>/dev/null)
-            [ -n "$pods" ] || { echo "no pods in $ns"; echo "::endgroup::"; return 0; }
+            pods=$(kubectl get pods -n "$ns" --no-headers -o custom-columns=:metadata.name 2>/dev/null || true)
+            if [ -z "$pods" ]; then echo "no pods in $ns"; echo "::endgroup::"; return 0; fi
 
             settle "$ns" || true   # do not start from an already-broken namespace state
 
@@ -85,12 +89,12 @@ jobs:
               # Skip anything that has since disappeared.
               kubectl get pod "$p" -n "$ns" >/dev/null 2>&1 || continue
               # Skip completed jobs.
-              phase=$(kubectl get pod "$p" -n "$ns" -o jsonpath='{.status.phase}' 2>/dev/null)
-              [ "$phase" = "Succeeded" ] && { echo "skip $p (Succeeded)"; continue; }
+              phase=$(kubectl get pod "$p" -n "$ns" -o jsonpath='{.status.phase}' 2>/dev/null || echo "")
+              if [ "$phase" = "Succeeded" ]; then echo "skip $p (Succeeded)"; continue; fi
               # Skip static/mirror pods (owned by a Node): etcd, kube-apiserver, controller-manager,
               # scheduler. Deleting those restarts the control plane and is not what a bounce is for.
-              owner=$(kubectl get pod "$p" -n "$ns" -o jsonpath='{.metadata.ownerReferences[0].kind}' 2>/dev/null)
-              [ "$owner" = "Node" ] && { echo "skip $p (static pod)"; continue; }
+              owner=$(kubectl get pod "$p" -n "$ns" -o jsonpath='{.metadata.ownerReferences[0].kind}' 2>/dev/null || echo "")
+              if [ "$owner" = "Node" ]; then echo "skip $p (static pod)"; continue; fi
 
               echo "restarting $ns/$p"
               kubectl delete pod "$p" -n "$ns" --wait=false
@@ -114,8 +118,9 @@ jobs:
           echo "=== final state ==="
           if [ "$NS" = "all" ]; then
             for ns in kubernetes-dashboard default radar kube-system kube-flannel; do
-              echo "--- $ns"; kubectl get pods -n "$ns" --no-headers | awk '{print $1, $2, $3}'
+              echo "--- $ns"; kubectl get pods -n "$ns" --no-headers 2>/dev/null | awk '{print $1, $2, $3}' || true
             done
           else
-            kubectl get pods -n "$NS" --no-headers | awk '{print $1, $2, $3}'
+            kubectl get pods -n "$NS" --no-headers 2>/dev/null | awk '{print $1, $2, $3}' || true
           fi
+          exit 0
