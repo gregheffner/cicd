@@ -251,6 +251,32 @@ spec:
             # no actual container name (they're nginx/fail2ban/...); dead config that read
             # as if discovery were filtered when it wasn't (include without exclude is a no-op)
         trace-agent:
+          # 2026-09-19 lockdown, part 3 — FIXES a crash loop that part 2 introduced.
+          #
+          # DD_APM_NON_LOCAL_TRAFFIC=false (below) binds the receiver to 127.0.0.1:8126.
+          # The operator's default livenessProbe is `tcpSocket: {port: 8126}` with no host,
+          # and this pod is hostNetwork: true — so the kubelet probed the NODE IP, found
+          # nothing listening, and SIGTERMed (exit 143) a perfectly healthy trace-agent
+          # every ~45s. CrashLoopBackOff on all 4 nodes from 22:44 UTC.
+          #
+          # This is the hostPort lesson one layer over: under hostNetwork the LIVENESS PROBE
+          # also resolves against the host IP. Changing a bind to localhost requires pinning
+          # any tcpSocket probe on that port to localhost as well.
+          #
+          # Do NOT "fix" this by setting DD_APM_NON_LOCAL_TRAFFIC=true — that re-opens the
+          # LAN APM exposure that #143/#144 closed (anyone on the LAN could inject spans).
+          #
+          # Timings are restated verbatim from the operator defaults that were live before
+          # this override, so pinning the host does not silently reset them.
+          livenessProbe:
+            tcpSocket:
+              port: 8126
+              host: 127.0.0.1
+            initialDelaySeconds: 15
+            periodSeconds: 15
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 3
           env:
             # 2026-09-19 lockdown, part 2. APM stays enabled (USM rides the trace agent and
             # the nginx SLO is built on universal.http.server), but the receiver now binds
