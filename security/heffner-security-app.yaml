@@ -14,7 +14,11 @@ spec:
     targetRevision: main
     path: security
     directory:
-      include: '{verify-nginx-signature.yaml,cicd-runner-rbac.yaml}'   # policy + runner RBAC, NOT the App YAMLs in this dir
+      # NOTE: this is a LITERAL include list, not a glob over the directory.
+      # A new file dropped into security/ is SILENTLY IGNORED until it is added
+      # here, and this App YAML is bootstrap-applied, so a git push alone is not
+      # enough - it needs a `kubectl apply -f security/heffner-security-app.yaml`.
+      include: '{verify-nginx-signature.yaml,cicd-runner-rbac.yaml,require-resource-limits.yaml,disallow-latest-tag.yaml,restrict-automount-sa-token.yaml}'
   destination:
     server: https://kubernetes.default.svc
     namespace: kyverno                          # ClusterPolicy is cluster-scoped; ns is just the App default
