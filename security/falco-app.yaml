@@ -118,6 +118,45 @@ spec:
             memory: 512Mi
           limits:
             memory: 1Gi
+        # The chart runs a SECOND container, falcoctl-artifact-follow, which the
+        # initial deploy left unsized - caught by our own require-resource-limits
+        # policy (#145) within 90 seconds of the DaemonSet starting. It only polls
+        # for rule-artifact updates, so it is tiny.
+        falcoctl:
+          artifact:
+            follow:
+              resources:
+                requests: {cpu: 10m, memory: 64Mi}
+                limits: {memory: 128Mi}
+            install:
+              resources:
+                requests: {cpu: 10m, memory: 64Mi}
+                limits: {memory: 128Mi}
+        # --- Tuning pass 1, from 734 real events across 4 nodes (2026-09-19) ------
+        # Observed profile on the first run: 100% priority=Notice, zero Warning or
+        # above, and ~95% of ALL events were a single rule firing on OUR OWN
+        # monitoring stack. Both exceptions below are scoped to a specific process,
+        # NOT to the whole datadog namespace, so a compromised datadog pod running
+        # anything else still alerts.
+        customRules:
+          local-tuning.yaml: |-
+            # Datadog NPM (system-probe) legitimately opens AF_PACKET sockets to do
+            # network performance monitoring. 716 of 734 first-run events. Scoped to
+            # the exact process + image; any other process in datadog still fires.
+            - rule: Packet socket created in container
+              condition: >
+                and not (proc.name = "system-probe"
+                         and container.image.repository = "gcr.io/datadoghq/agent")
+              append: true
+            # The Datadog node + cluster agents talk to the API server by design.
+            # Scoped to those process names only - NOT the namespace - so a shell or
+            # curl from inside a datadog pod still alerts.
+            - rule: Contact K8S API Server From Container
+              condition: >
+                and not (proc.name in ("agent", "cluster-agent", "process-agent",
+                                       "trace-agent", "security-agent")
+                         and container.image.repository = "gcr.io/datadoghq/agent")
+              append: true
   destination:
     server: https://kubernetes.default.svc
     namespace: falco
