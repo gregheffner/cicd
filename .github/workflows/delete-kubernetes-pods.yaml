@@ -1,10 +1,10 @@
-name: Delete all Pods (Selection)
+name: Restart Pods (Rolling, Selection)
 
 on:
   workflow_dispatch:
     inputs:
       namespace:
-        description: 'Namespace to delete pods from'
+        description: 'Namespace to restart pods in'
         required: true
         default: 'all'
         type: choice
@@ -17,10 +17,15 @@ on:
           - radar
           - kube-system
           - kube-flannel
+      settle_timeout:
+        description: 'Seconds to wait for each replacement pod before moving on'
+        required: false
+        default: '300'
+        type: string
   # No schedule: dispatch-only. The weekly-soak pipeline deploys via digest-pin +
   # ArgoCD, so no scheduled pod-bounce is needed. (P7)
 
-# Serialize against the build/promote pipeline so a manual pod-delete never races
+# Serialize against the build/promote pipeline so a manual bounce never races
 # a stage or a flip.
 concurrency:
   group: nginx-pipeline
@@ -29,21 +34,88 @@ concurrency:
 permissions: {}   # rec #12: kubectl via the self-hosted runner's own kubeconfig — no GITHUB_TOKEN scopes needed
 
 jobs:
-  delete-pods:
+  restart-pods:
     runs-on: self-hosted
     steps:
-      - name: Delete pods in selected namespaces
+      - name: Rolling pod restart (one pod at a time, wait for Ready between each)
         run: |
-          NS="${{ github.event_name == 'workflow_dispatch' && inputs.namespace || 'all' }}"
+          set -u
+          NS="${{ inputs.namespace }}"
+          SETTLE="${{ inputs.settle_timeout }}"
 
-          # The 'all' sweep intentionally EXCLUDES 'prod' (live customer traffic —
-          # deleting both blue+green colors at once = outage) and 'automation'
-          # (ArgoCD itself — bouncing it stalls reconciliation). Target those
-          # explicitly by name only if you really mean to. (P7)
+          # 2026-09-18: this used to be `kubectl delete pods --all -n $ns`, which admits every
+          # replacement pod in the same second. Kyverno's keyless image verification then makes
+          # one cold-cache Sigstore/TUF fetch per pod in parallel and some come back HTTP 403,
+          # so a replica gets denied and its ReplicaSet sits in backoff for ~30 min. Happened on
+          # two consecutive manual bounces (09-17 and 09-18). Deleting one pod at a time and
+          # waiting for it to come back Ready means the first verification warms Kyverno's
+          # imageVerifyCache (enabled, 60m TTL) and the rest are cache hits.
+          #
+          # Why delete-one rather than `kubectl rollout restart`: the prod/DR workloads are
+          # ArgoCD apps with selfHeal, and Argo strips the kubectl.kubernetes.io/restartedAt
+          # annotation straight back off, so the restart never happens. Deleting a pod touches
+          # no spec, so Argo has nothing to revert.
+
+          settle() {   # wait until every pod in $1 is Running and fully Ready
+            ns="$1"
+            deadline=$(( $(date +%s) + SETTLE ))
+            while [ "$(date +%s)" -lt "$deadline" ]; do
+              notrunning=$(kubectl get pods -n "$ns" --no-headers 2>/dev/null \
+                | awk '$3!="Running" && $3!="Completed"' | wc -l)
+              notready=$(kubectl get pods -n "$ns" --no-headers 2>/dev/null \
+                | awk '$3=="Running" {split($2,a,"/"); if (a[1]!=a[2]) print}' | wc -l)
+              if [ "$notrunning" -eq 0 ] && [ "$notready" -eq 0 ]; then return 0; fi
+              sleep 5
+            done
+            echo "::warning::$ns did not settle within ${SETTLE}s; continuing"
+            kubectl get pods -n "$ns" --no-headers | awk '$3!="Running" && $3!="Completed"'
+            return 1
+          }
+
+          bounce_ns() {
+            ns="$1"
+            echo "::group::$ns"
+            # Snapshot the pod list first: replacements get new names and must not be re-deleted.
+            pods=$(kubectl get pods -n "$ns" --no-headers -o custom-columns=:metadata.name 2>/dev/null)
+            [ -n "$pods" ] || { echo "no pods in $ns"; echo "::endgroup::"; return 0; }
+
+            settle "$ns" || true   # do not start from an already-broken namespace state
+
+            for p in $pods; do
+              # Skip anything that has since disappeared.
+              kubectl get pod "$p" -n "$ns" >/dev/null 2>&1 || continue
+              # Skip completed jobs.
+              phase=$(kubectl get pod "$p" -n "$ns" -o jsonpath='{.status.phase}' 2>/dev/null)
+              [ "$phase" = "Succeeded" ] && { echo "skip $p (Succeeded)"; continue; }
+              # Skip static/mirror pods (owned by a Node): etcd, kube-apiserver, controller-manager,
+              # scheduler. Deleting those restarts the control plane and is not what a bounce is for.
+              owner=$(kubectl get pod "$p" -n "$ns" -o jsonpath='{.metadata.ownerReferences[0].kind}' 2>/dev/null)
+              [ "$owner" = "Node" ] && { echo "skip $p (static pod)"; continue; }
+
+              echo "restarting $ns/$p"
+              kubectl delete pod "$p" -n "$ns" --wait=false
+              settle "$ns" || true
+            done
+            echo "::endgroup::"
+          }
+
+          # The 'all' sweep intentionally EXCLUDES 'prod' (live traffic) and 'automation'
+          # (ArgoCD itself — bouncing it stalls reconciliation). Target those explicitly by
+          # name only if you really mean to. Rolling makes 'prod' survivable now, but the
+          # exclusion stands so 'all' never touches live traffic by accident. (P7)
           if [ "$NS" = "all" ]; then
             for ns in kubernetes-dashboard default radar kube-system kube-flannel; do
-              kubectl delete pods --all -n "$ns"
+              bounce_ns "$ns"
             done
           else
-            kubectl delete pods --all -n "$NS"
+            bounce_ns "$NS"
+          fi
+
+          echo "=== final state ==="
+          if [ "$NS" = "all" ]; then
+            for ns in kubernetes-dashboard default radar kube-system kube-flannel; do
+              echo "--- $ns"; kubectl get pods -n "$ns" --no-headers | awk '{print $1, $2, $3}'
+            done
+          else
+            kubectl get pods -n "$NS" --no-headers | awk '{print $1, $2, $3}'
           fi
