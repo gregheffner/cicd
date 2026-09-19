@@ -50,7 +50,30 @@ spec:
             ttl: 60m
           logging:
             format: json # 2026-07-03 Datadog audit: default text format emits ANSI color codes — unparseable in DD Log Explorer and TRC lines mislabeled as errors; json gives structured logs + correct severity
-        # kube-system + kyverno's own namespace are auto-excluded from webhooks by default.
+        # --- CNI must never be gated by this webhook ---------------------------
+        # 2026-09-19: kube-flannel MUST be exempt from the resource webhook.
+        # Deleting a CNI pod is otherwise SELF-TRAPPING: the DaemonSet's replacement
+        # pod CREATE goes through this webhook, the API server reaches Kyverno over
+        # the pod network, and that network is exactly what the deleted pod provides.
+        # A routine post-reboot cleanup (`kubectl delete pod -n kube-flannel --all`)
+        # therefore took prod down for ~20 min: every pod create/delete outside
+        # kube-system/kyverno returned 504, including the creates needed to restore
+        # flannel. Recovery required scaling admissionController to 0, which makes
+        # Kyverno delete its own resource webhook on shutdown. Patching failurePolicy
+        # to Ignore does NOT work - the webhook-controller reverts it immediately.
+        #
+        # kube-system is the chart default and MUST be repeated here: setting this
+        # value replaces the default list rather than appending to it. The kyverno
+        # namespace is still excluded separately by excludeKyvernoNamespace: true.
+        config:
+          webhooks:
+            namespaceSelector:
+              matchExpressions:
+                - key: kubernetes.io/metadata.name
+                  operator: NotIn
+                  values:
+                    - kube-system
+                    - kube-flannel
   destination:
     server: https://kubernetes.default.svc
     namespace: kyverno
