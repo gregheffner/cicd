@@ -12,8 +12,8 @@
   "build_scan_status": "pass",
   "cosign_signed": true,
   "promote_eligible_after_epoch": 1789652381,
-  "state": "promoting",
-  "flip_committed_sha": null,
-  "promoted_timestamp_utc": null,
+  "state": "promoted",
+  "flip_committed_sha": "830dc00aafedbe475d0f12b316847be1e0c709fc",
+  "promoted_timestamp_utc": "2026-09-19T11:59:12Z",
   "run_url": "https://github.com/gregheffner/cicd/actions/runs/34850444435"
 }
