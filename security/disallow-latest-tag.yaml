@@ -3,12 +3,11 @@
 #
 # WHY NOT PSA: PodSecurity does not look at image references. Additive.
 #
-# BASELINE 2026-09-19: 6 offenders, ALL of them cloudflared —
-#   cloudflared/cloudflared-*        cloudflare/cloudflared:latest   (x3)
-#   cloudflared/cloudflared-radar-*  cloudflare/cloudflared:latest   (x3)
-# That is the internet-facing tunnel running an unpinned upstream tag: a new
-# upstream push lands on the edge path with no review and no rollback point.
-# Everything else in the cluster is already tag- or digest-pinned.
+# BASELINE 2026-09-19: the only offenders were 6 cloudflared pods on
+# cloudflare/cloudflared:latest. That is an ACCEPTED RISK (Greg, 2026-09-19) and
+# the cloudflared namespace is excluded below, so this policy is expected to
+# report ZERO findings. Everything else in the cluster is already tag- or
+# digest-pinned. A new finding here therefore means a genuine regression.
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -28,7 +27,11 @@ spec:
       exclude:
         any:
           - resources:
-              namespaces: [kube-system, kube-node-lease, kube-public]
+              # cloudflared: ACCEPTED RISK, Greg 2026-09-19. It tracks
+              # cloudflare/cloudflared:latest deliberately and will not be pinned.
+              # Excluded so this policy's reports stay signal - it remains in force
+              # as a regression guard for every OTHER workload.
+              namespaces: [kube-system, kube-node-lease, kube-public, cloudflared]
       validate:
         failureAction: Audit
         message: "Image must carry an explicit tag or digest (':latest' and untagged are not reproducible)."
@@ -44,7 +47,11 @@ spec:
       exclude:
         any:
           - resources:
-              namespaces: [kube-system, kube-node-lease, kube-public]
+              # cloudflared: ACCEPTED RISK, Greg 2026-09-19. It tracks
+              # cloudflare/cloudflared:latest deliberately and will not be pinned.
+              # Excluded so this policy's reports stay signal - it remains in force
+              # as a regression guard for every OTHER workload.
+              namespaces: [kube-system, kube-node-lease, kube-public, cloudflared]
       validate:
         failureAction: Audit
         message: "Image reference has no tag at all; it will silently resolve to :latest."
