@@ -157,6 +157,20 @@ spec:
             # The Datadog node + cluster agents talk to the API server by design.
             # Scoped to those process names only - NOT the namespace - so a shell or
             # curl from inside a datadog pod still alerts.
+            # Wazuh's OWN SCA (Security Configuration Assessment) module reads
+            # /etc/sudoers, /etc/shadow, /etc/pam.d/* and /etc/security/* to run its
+            # CIS checks. 607 Warning-priority events in the first hour across four
+            # nodes - the security scanner tripping the security monitor.
+            #
+            # Scoped to the exact binary path, NOT just proc.name, so a process that
+            # merely renames itself wazuh-modulesd does NOT inherit the exemption.
+            - rule: Read sensitive file untrusted
+              condition: >
+                and not (proc.name = "wazuh-modulesd"
+                         and proc.exepath = "/var/ossec/bin/wazuh-modulesd"
+                         and container.id = "host")
+              override:
+                condition: append
             - rule: Contact K8S API Server From Container
               condition: >
                 and not (proc.name in ("agent", "cluster-agent", "process-agent",
