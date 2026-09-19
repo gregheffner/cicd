@@ -58,6 +58,11 @@ spec:
     server: https://kubernetes.default.svc
   - namespace: kube-flannel
     server: https://kubernetes.default.svc
+  # 2026-09-19: Falco runtime detection (playbook Phase 2, cicd #149). Scoped to
+  # the single `falco` namespace - NOT a wildcard. This project is ArgoCD's blast
+  # radius (see description), so each addition is one namespace, one repo.
+  - namespace: falco
+    server: https://kubernetes.default.svc
   namespaceResourceBlacklist:
   - group: ''
     kind: ResourceQuota
@@ -69,4 +74,6 @@ spec:
   - https://helm.datadoghq.com
   - https://charts.external-secrets.io
   - https://kyverno.github.io/kyverno
+  # 2026-09-19: official Falco chart repo (chart falco 9.1.0 / appVersion 0.44.1).
+  - https://falcosecurity.github.io/charts
 
