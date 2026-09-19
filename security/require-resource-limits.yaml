@@ -1,0 +1,51 @@
+# security/require-resource-limits.yaml
+# AUDIT ONLY. Reports containers with no memory limit / no CPU request.
+#
+# WHY NOT PSA: PodSecurity `restricted` (enforced on automation, cloudflared,
+# default, external-secrets, kyverno, prod, radar) does NOT cover resource
+# limits at all. This is genuinely additive, not a duplicate control.
+#
+# WHY memory LIMIT but cpu REQUEST: a memory limit is what actually bounds the
+# blast radius of a runaway or malicious workload (OOMKill). A hard CPU limit
+# causes throttling and is widely considered harmful for latency-sensitive
+# workloads, so we require a CPU *request* (scheduling fairness) instead.
+#
+# BASELINE 2026-09-19: 44 of ~62 pod-containers have no limits, incl. ALL of
+# ArgoCD and ALL Datadog agent containers. Expect a large first report. Read it
+# before even discussing Enforce.
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: require-resource-limits
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"   # after the kyverno controller/CRDs (wave 0)
+    policies.kyverno.io/description: >-
+      Audit-only. Flags containers missing a memory limit or a CPU request.
+spec:
+  background: true                       # also evaluate existing pods, not just admission
+  rules:
+    - name: require-memory-limit-cpu-request
+      match:
+        any:
+          - resources:
+              kinds: [Pod]
+      exclude:
+        any:
+          - resources:
+              namespaces:                # unmanageable / not ours; excluded for signal quality
+                - kube-system
+                - kube-node-lease
+                - kube-public
+      validate:
+        failureAction: Audit             # Kyverno 1.19 per-rule form (spec.validationFailureAction is the deprecated spelling)
+        message: >-
+          Container '{{ request.object.metadata.name }}' must set
+          resources.limits.memory and resources.requests.cpu.
+        pattern:
+          spec:
+            containers:
+              - resources:
+                  limits:
+                    memory: "?*"
+                  requests:
+                    cpu: "?*"

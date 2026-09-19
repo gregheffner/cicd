@@ -1,0 +1,42 @@
+# security/restrict-automount-sa-token.yaml
+# AUDIT ONLY. Reports pods that mount a ServiceAccount token they may not need.
+#
+# WHY NOT PSA: PodSecurity has no opinion on ServiceAccount tokens. Additive.
+#
+# WHY IT MATTERS HERE: the pod network is flat (flannel has no NetworkPolicy
+# engine - see the 2026-09-19 playbook), so a mounted SA token plus reachable
+# kube-apiserver is a direct escalation path from any compromised pod.
+# Removing the token where it is not needed shrinks that path without touching
+# the network at all - which is why this ships BEFORE any NetworkPolicy work.
+#
+# BASELINE 2026-09-19: 42 of 62 pods automount. Many legitimately need it
+# (ArgoCD controllers, ESO, Datadog cluster agent, kyverno). The point of Audit
+# is to separate those from the ones that just never set the field.
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: restrict-automount-sa-token
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+    policies.kyverno.io/description: >-
+      Audit-only. Flags pods with automountServiceAccountToken unset or true.
+spec:
+  background: true
+  rules:
+    - name: no-automount-sa-token
+      match:
+        any:
+          - resources:
+              kinds: [Pod]
+      exclude:
+        any:
+          - resources:
+              namespaces: [kube-system, kube-node-lease, kube-public]
+      validate:
+        failureAction: Audit
+        message: >-
+          Pod should set automountServiceAccountToken: false unless it calls the
+          Kubernetes API. Flat pod network makes a stray token an escalation path.
+        pattern:
+          spec:
+            automountServiceAccountToken: "false"

@@ -1,0 +1,54 @@
+# security/disallow-latest-tag.yaml
+# AUDIT ONLY. Reports images using :latest or no tag at all.
+#
+# WHY NOT PSA: PodSecurity does not look at image references. Additive.
+#
+# BASELINE 2026-09-19: 6 offenders, ALL of them cloudflared —
+#   cloudflared/cloudflared-*        cloudflare/cloudflared:latest   (x3)
+#   cloudflared/cloudflared-radar-*  cloudflare/cloudflared:latest   (x3)
+# That is the internet-facing tunnel running an unpinned upstream tag: a new
+# upstream push lands on the edge path with no review and no rollback point.
+# Everything else in the cluster is already tag- or digest-pinned.
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: disallow-latest-tag
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+    policies.kyverno.io/description: >-
+      Audit-only. Flags containers using the :latest tag or an untagged image.
+spec:
+  background: true
+  rules:
+    - name: require-explicit-tag
+      match:
+        any:
+          - resources:
+              kinds: [Pod]
+      exclude:
+        any:
+          - resources:
+              namespaces: [kube-system, kube-node-lease, kube-public]
+      validate:
+        failureAction: Audit
+        message: "Image must carry an explicit tag or digest (':latest' and untagged are not reproducible)."
+        pattern:
+          spec:
+            containers:
+              - image: "!*:latest"
+    - name: require-tag-present
+      match:
+        any:
+          - resources:
+              kinds: [Pod]
+      exclude:
+        any:
+          - resources:
+              namespaces: [kube-system, kube-node-lease, kube-public]
+      validate:
+        failureAction: Audit
+        message: "Image reference has no tag at all; it will silently resolve to :latest."
+        pattern:
+          spec:
+            containers:
+              - image: "*:*"
