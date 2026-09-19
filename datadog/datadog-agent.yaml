@@ -29,6 +29,12 @@ spec:
       tlsVerify: true
   features:
     apm:
+      # 2026-09-19 lockdown: APM stays ENABLED - USM rides the trace agent, and the nginx
+      # availability SLO is built on universal.http.server. Only the HOST PORT goes away:
+      # tcp/8126 was reachable from the whole LAN on every node and nothing off-node sends
+      # traces, so anyone could inject spans. In-cluster senders use /var/run/datadog/apm.socket.
+      hostPortConfig:
+        enabled: false
       instrumentation:
         enabled: false # 2026-07-03 audit: nothing in the cluster runs dotnet/java/js/php/python — auto-instrumentation was a paid feature instrumenting nothing
     asm:
@@ -39,21 +45,21 @@ spec:
     logCollection:
       enabled: true
       containerCollectAll: true
+    # 2026-09-19 lockdown: udp/8125 was bound to 0.0.0.0 on every node via
+    # DD_DOGSTATSD_NON_LOCAL_TRAFFIC=true, so anything on the LAN could inject custom metrics.
+    # Local senders are unaffected: /usr/local/bin/egress-check.sh targets 127.0.0.1:8125 and
+    # the agent runs hostNetwork, and in-cluster senders use /var/run/datadog/dsd.socket.
+    dogstatsd:
+      nonLocalTraffic: false
     npm:
       enabled: true
     orchestratorExplorer:
       enabled: true
+    # 2026-09-19 lockdown: OFF. tcp/4317 and tcp/4318 were open to the LAN on every node and
+    # accepted unauthenticated OTLP. Nothing sends OTLP: no otel.* metric family reports, and no
+    # workload sets OTEL_EXPORTER_*. Re-enable with hostPort omitted if OTLP is ever adopted.
     otelCollector:
-      enabled: true
-      ports:
-        - name: otel-grpc
-          containerPort: 4317
-          hostPort: 4317
-          protocol: TCP
-        - name: otel-http
-          containerPort: 4318
-          hostPort: 4318
-          protocol: TCP
+      enabled: false
     # 2026-09-16: prometheusScrape OFF. It auto-scraped every prometheus.io-annotated
     # target (node-local-dns, kube-dns, kubelet-csr-approver, argocd-metrics) and
     # shipped ~250 UN-NAMESPACED metric families (go_*, coredns_*, argocd_*,
