@@ -113,6 +113,79 @@ spec:
         name: gcr.io/datadoghq/cluster-agent:7.82.3
         pullPolicy: IfNotPresent
     nodeAgent:
+      extraConfd:
+        configDataMap:
+          # 2026-09-18: DNS was the one SPOF with no monitoring at all. Pi-hole is the
+          # house resolver, node-local-dns + CoreDNS forward to ControlD over DoT, and
+          # nothing would have told us any of them stopped answering. Runs on every node
+          # (hostNetwork), so a per-node failure is attributable - worth it for worker3,
+          # which sits at the remote site and reaches Pi-hole over the S2S tunnel.
+          # Baselines measured 2026-09-18 before shipping: pihole 0-450ms, node-local
+          # external 122-138ms (DoT handshake to ControlD), cluster names 3-5ms, UDM 1-79ms.
+          # resolves_as is only used where the answer is stable: Cloudflare rotates the
+          # public A records for greg.heffner.live, so that one is never asserted.
+          dns_check.yaml: |-
+            init_config:
+            instances:
+              # house resolver, external name: Pi-hole -> unbound/upstream
+              - hostname: greg.heffner.live
+                nameserver: 192.168.1.53
+                timeout: 5
+                min_collection_interval: 60
+                tags:
+                  - dns_path:pihole
+                  - dns_scope:external
+              # house resolver, local record: also proves the mesh A records survive
+              - hostname: wazuh.tier0.local
+                nameserver: 192.168.1.53
+                resolves_as: 100.100.0.10
+                timeout: 5
+                min_collection_interval: 60
+                tags:
+                  - dns_path:pihole
+                  - dns_scope:local-record
+              # cluster fast path, external name: node-local-dns -> CoreDNS -> DoT -> ControlD
+              - hostname: greg.heffner.live
+                nameserver: 100.64.0.10
+                timeout: 5
+                min_collection_interval: 60
+                tags:
+                  - dns_path:node-local-dns
+                  - dns_scope:external
+              # cluster fast path, cluster name
+              - hostname: kubernetes.default.svc.cluster.local
+                nameserver: 100.64.0.10
+                resolves_as: 10.96.0.1
+                timeout: 5
+                min_collection_interval: 60
+                tags:
+                  - dns_path:node-local-dns
+                  - dns_scope:cluster
+              # CoreDNS service directly, so a node-local-dns fault is distinguishable
+              - hostname: kubernetes.default.svc.cluster.local
+                nameserver: 10.96.0.10
+                resolves_as: 10.96.0.1
+                timeout: 5
+                min_collection_interval: 60
+                tags:
+                  - dns_path:coredns
+                  - dns_scope:cluster
+              # the gateway's own resolver (ControlD over DoH3)
+              - hostname: greg.heffner.live
+                nameserver: 192.168.1.1
+                timeout: 5
+                min_collection_interval: 60
+                tags:
+                  - dns_path:udm-controld
+                  - dns_scope:external
+              # control: if this fails too, the internet is broken, not our DNS
+              - hostname: greg.heffner.live
+                nameserver: 1.1.1.1
+                timeout: 5
+                min_collection_interval: 60
+                tags:
+                  - dns_path:cloudflare-control
+                  - dns_scope:external
       # 2026-09-16: host network so the agent can reach kube-scheduler (:10259) and
       # kube-controller-manager (:10257), which kubeadm binds to 127.0.0.1 (CIS 1.3.7
       # / 1.4.2, kept). The stock kube_scheduler / kube_controller_manager auto-conf
