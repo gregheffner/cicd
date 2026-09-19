@@ -1,0 +1,144 @@
+# security/falco-app.yaml  (apply once as cluster-admin; ArgoCD owns it after that)
+# Phase 2 of the 2026-09-19 cluster security playbook: runtime detection.
+#
+# WHY: every existing control is pre-execution or log-derived — kube-bench (config),
+# Trivy (images), Kyverno (admission), Wazuh (logs), AIDE (files). NOTHING watches
+# syscalls. A shell spawning inside the nginx container, a container escape attempt
+# or an outbound connection to a C2 host is invisible today.
+#
+# WHY NOT falcosidekick + syslog (what the playbook originally proposed):
+#   1. dockerhost:514 is UDP-ONLY (verified 2026-09-19). falcosidekick's syslog
+#      output defaults to TCP, and UDP syslog drops messages silently under load —
+#      the worst possible failure mode for a security feed.
+#   2. A Wazuh agent is already ACTIVE on all four nodes and already tails JSON via
+#      logcollector (`log_format>json`: m1 has 3 such entries, each worker 1).
+# So Falco writes JSON to a hostPath file and the EXISTING Wazuh agent tails it.
+# No extra network hop, no extra deployment, no silent UDP loss.
+#
+# ⚠️ TWO THINGS MUST BE DONE ALONGSIDE THIS APP (they are NOT in this file):
+#   1. logrotate for /var/log/falco/falco.json on every node. Falco does NOT rotate
+#      its own file. See [[wazuh-disk-retention]] — disk has filled here before.
+#   2. The Wazuh <localfile> stanza + decoder/rules. Pull FREE rule ids from the
+#      list in the k8s-audit-wazuh-rules note; 100950-100955 and 100960-100982 are
+#      TAKEN. Rule files must be mode 644 or they fail SILENTLY.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: falco
+  namespace: automation                 # ArgoCD lives here
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  project: default
+  source:
+    repoURL: https://falcosecurity.github.io/charts
+    chart: falco
+    targetRevision: 9.1.0               # appVersion 0.44.1. 9.2.0 is an RC — do NOT track it.
+    helm:
+      values: |
+        controller:
+          kind: daemonset
+        driver:
+          enabled: true
+          # PINNED, not `auto`. Kernel is 6.8.0-139 on all four nodes, so CO-RE
+          # modern_ebpf applies: no kernel module, no DKMS, and therefore nothing
+          # to rebuild on the Saturday patch-and-bounce. `auto` could fall back to
+          # a module build and leave detection silently down after a kernel bump.
+          kind: modern_ebpf
+        collectors:
+          enabled: true
+          containerEngine:
+            enabled: true
+            engines:
+              # containerd 2.3.4 via CRI. The chart's default cri socket list already
+              # contains /run/containerd/containerd.sock, which is this cluster's path.
+              cri:
+                enabled: true
+                sockets:
+                  - /run/containerd/containerd.sock
+              # Everything else OFF: none of these runtimes exist on these nodes, and
+              # each enabled engine is another socket Falco tries to open.
+              containerd: {enabled: false}
+              docker: {enabled: false}
+              podman: {enabled: false}
+              lxc: {enabled: false}
+              libvirt_lxc: {enabled: false}
+              bpm: {enabled: false}
+          kubernetes:
+            enabled: false              # k8s metadata via the metacollector is not needed
+                                        # for the first pass and adds a Deployment + RBAC.
+        falco:
+          # JSON so the Wazuh agent's logcollector can parse it natively.
+          json_output: true
+          json_include_output_property: true
+          log_level: info
+          # Stock rules ONLY for the first pass. falco-incubating / falco-sandbox are
+          # deliberately NOT loaded — they are far noisier and would bury the signal
+          # during the tuning week.
+          rules_files:
+            - /etc/falco/falco_rules.yaml
+            - /etc/falco/falco_rules.local.yaml   # where tuning-week overrides go
+            - /etc/falco/rules.d
+          file_output:
+            enabled: true
+            keep_alive: false
+            filename: /var/log/falco/falco.json
+          stdout_output:
+            enabled: true               # keeps `kubectl logs` useful for debugging
+          syslog_output:
+            enabled: false              # see header: dockerhost:514 is UDP-only
+        # hostPath so the node-local Wazuh agent can read what Falco writes.
+        mounts:
+          volumes:
+            - name: falco-logs
+              hostPath:
+                path: /var/log/falco
+                type: DirectoryOrCreate
+          volumeMounts:
+            - name: falco-logs
+              mountPath: /var/log/falco
+        # Run on the control-plane node too, so all 4 nodes are covered.
+        tolerations:
+          - key: node-role.kubernetes.io/control-plane
+            operator: Exists
+            effect: NoSchedule
+          - key: node-role.kubernetes.io/master
+            operator: Exists
+            effect: NoSchedule
+        # Set explicitly so Falco COMPLIES with require-resource-limits, the policy
+        # shipped in #145. Sized against observed peers: datadog system-probe runs
+        # ~412Mi on these nodes and is the closest analogue.
+        # NOTE: Helm MERGES maps, so the chart's default limits.cpu (1000m) survives
+        # this block — the effective limits are cpu=1000m, memory=1Gi. That is the
+        # vendor default and these are 4-vCPU nodes, so it is accepted deliberately
+        # rather than nulled out.
+        resources:
+          requests:
+            cpu: 100m
+            memory: 512Mi
+          limits:
+            memory: 1Gi
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: falco
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
+    syncOptions:
+      - CreateNamespace=true
+    # The DaemonSet needs hostPID + privileged-equivalent access for the eBPF probe.
+    # PodSecurity `restricted` is enforced cluster-wide by NAMESPACE LABEL here, so
+    # without this the pods are rejected outright at admission. Same pattern already
+    # proven on kube-flannel, datadog and kube-system.
+    managedNamespaceMetadata:
+      labels:
+        pod-security.kubernetes.io/enforce: privileged
+        pod-security.kubernetes.io/audit: privileged
+        pod-security.kubernetes.io/warn: privileged
+    retry:
+      limit: 5
+      backoff:
+        duration: 30s
+        factor: 2
+        maxDuration: 5m
