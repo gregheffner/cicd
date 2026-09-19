@@ -147,7 +147,13 @@ spec:
               condition: >
                 and not (proc.name = "system-probe"
                          and container.image.repository = "gcr.io/datadoghq/agent")
-              append: true
+              # The legacy top-level `append` key is DEPRECATED as of Falco 0.44
+              # and warns on load. Left unfixed it is a SILENT-BREAKAGE risk: if a
+              # later Falco stops honouring it, this `condition` would REPLACE the
+              # rule's condition instead of extending it, quietly changing what the
+              # rule matches. The `override` form below is the supported spelling.
+              override:
+                condition: append
             # The Datadog node + cluster agents talk to the API server by design.
             # Scoped to those process names only - NOT the namespace - so a shell or
             # curl from inside a datadog pod still alerts.
@@ -156,7 +162,13 @@ spec:
                 and not (proc.name in ("agent", "cluster-agent", "process-agent",
                                        "trace-agent", "security-agent")
                          and container.image.repository = "gcr.io/datadoghq/agent")
-              append: true
+              # The legacy top-level `append` key is DEPRECATED as of Falco 0.44
+              # and warns on load. Left unfixed it is a SILENT-BREAKAGE risk: if a
+              # later Falco stops honouring it, this `condition` would REPLACE the
+              # rule's condition instead of extending it, quietly changing what the
+              # rule matches. The `override` form below is the supported spelling.
+              override:
+                condition: append
   destination:
     server: https://kubernetes.default.svc
     namespace: falco
