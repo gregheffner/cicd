@@ -269,6 +269,16 @@ jobs:
           ignore-unfixed: true
           format: table
           exit-code: '1'
+        env:
+          # Trivy's default db-repository order is [mirror.gcr.io, ghcr.io] and a 403 from
+          # mirror.gcr.io is FATAL rather than falling through to ghcr.io. That 403 happens:
+          # it killed the 2026-09-18 soak gate (run 35343867558) and blocked the v2026.09.14
+          # promote. mirror.gcr.io is Google-fronted and resolves to a rotating
+          # googleusercontent pool, so the IP-based WAN-bypass route used for the Sigstore and
+          # registry.k8s.io hosts is not a reliable fix for it. Lead with ghcr.io and keep
+          # mirror.gcr.io as the fallback.
+          TRIVY_DB_REPOSITORY: 'ghcr.io/aquasecurity/trivy-db:2,mirror.gcr.io/aquasec/trivy-db:2'
+          TRIVY_JAVA_DB_REPOSITORY: 'ghcr.io/aquasecurity/trivy-java-db:1,mirror.gcr.io/aquasec/trivy-java-db:1'
 
       # Push ONLY the immutable :vYYYY.MM.DD tag. We DO NOT push :latest: nothing
       # references :latest after P0, and pushing it would re-create the mutable-tag
