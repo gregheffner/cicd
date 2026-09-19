@@ -250,10 +250,14 @@ spec:
             # 2026-07-03 audit: removed DD_CONTAINER_INCLUDE=name:heffner.live — matched
             # no actual container name (they're nginx/fail2ban/...); dead config that read
             # as if discovery were filtered when it wasn't (include without exclude is a no-op)
-        otel-agent:
+        trace-agent:
           env:
-            - name: DD_OTELCOLLECTOR_ENABLED
-              value: "true"
+            # 2026-09-19 lockdown, part 2. APM stays enabled (USM rides the trace agent and
+            # the nginx SLO is built on universal.http.server), but the receiver now binds
+            # 127.0.0.1 instead of every interface. In-cluster senders are unaffected: they
+            # use /var/run/datadog/apm.socket, which is already configured.
+            - name: DD_APM_NON_LOCAL_TRAFFIC
+              value: "false"
         system-probe:
           env:
             # Network Path (CNM). Traceroute-style hop-by-hop monitoring of the paths this
