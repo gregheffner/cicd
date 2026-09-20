@@ -8,6 +8,12 @@ metadata:
   namespace: prod
 spec:
   replicas: 3 # P2: mirror blue
+  # 2026-09-20: ArgoCD selfHeal:true makes `kubectl rollout undo` a dead end -
+  # it re-syncs within seconds, so git IS the rollback path here. Keep ONE old
+  # ReplicaSet for an emergency manual step; 0 would remove even that. The
+  # default of 10 accumulated 117 idle ReplicaSets cluster-wide and inflated
+  # every PolicyReport count ~4x.
+  revisionHistoryLimit: 1
   strategy: # surge-first: never drop below desired Ready
     type: RollingUpdate
     rollingUpdate:
