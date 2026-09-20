@@ -162,12 +162,23 @@ spec:
             # CIS checks. 607 Warning-priority events in the first hour across four
             # nodes - the security scanner tripping the security monitor.
             #
-            # Scoped to the exact binary path, NOT just proc.name, so a process that
-            # merely renames itself wazuh-modulesd does NOT inherit the exemption.
+            # 2026-09-20: WIDENED to wazuh-syscheckd. Both Wazuh daemons fire the
+            # SAME rule - modulesd for SCA/CIS checks, syscheckd for FIM - and the
+            # original exception covered only modulesd, so every FIM scan kept
+            # writing events to disk. Measured before this change:
+            #   k8-primary  modulesd 95   syscheckd 58
+            #   worker2     modulesd 140  syscheckd 56
+            # (The earlier "0 events/90s" steady-state reading simply fell between
+            # scan windows - these recur on every scan cycle.)
+            #
+            # Scoped to the exact binary PATHS, not proc.name, so a process that
+            # merely renames itself does NOT inherit the exemption. container.id
+            # stays pinned to "host": the same read from INSIDE a container must
+            # still alert - that is Wazuh rule 100947, level 12.
             - rule: Read sensitive file untrusted
               condition: >
-                and not (proc.name = "wazuh-modulesd"
-                         and proc.exepath = "/var/ossec/bin/wazuh-modulesd"
+                and not (proc.exepath in ("/var/ossec/bin/wazuh-modulesd",
+                                          "/var/ossec/bin/wazuh-syscheckd")
                          and container.id = "host")
               override:
                 condition: append
