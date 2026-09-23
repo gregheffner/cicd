@@ -200,18 +200,15 @@ data:
           location = /favicon.ico {
               alias /content/www/images/favicon.ico;
               access_log off;
-              expires 1y;
-              add_header Cache-Control "public, max-age=31536000, no-transform";
+              add_header Cache-Control "public, max-age=31536000";
           }
           location = /apple-touch-icon.png {
               alias /content/www/images/apple-touch-icon.png;
-              expires 1y;
-              add_header Cache-Control "public, max-age=31536000, no-transform";
+              add_header Cache-Control "public, max-age=31536000";
           }
           location = /apple-touch-icon-precomposed.png {
               alias /content/www/images/apple-touch-icon.png;
-              expires 1y;
-              add_header Cache-Control "public, max-age=31536000, no-transform";
+              add_header Cache-Control "public, max-age=31536000";
           }
           location ~* wlwmanifest\.xml$ { return 444; }
           location ~* xmlrpc\.php { return 444; }
@@ -244,8 +241,7 @@ data:
           }
           location /image/ {
               alias /content/www/images/; # 2026-09-03 (C2): repo dir is images/ (plural), URL is /image/ (singular), so alias maps one onto the other
-              expires 1y;
-              add_header Cache-Control "public, max-age=31536000, no-transform";
+              add_header Cache-Control "public, max-age=31536000";
               add_header Content-Security-Policy "default-src 'self'; style-src 'self' 'unsafe-inline';";
               add_header X-Content-Type-Options "nosniff" always;   # rec #14 (add_header doesn't inherit into a location with its own add_header)
               add_header X-Frame-Options "SAMEORIGIN" always;
