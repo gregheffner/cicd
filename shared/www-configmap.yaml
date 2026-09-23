@@ -1574,6 +1574,16 @@ data:
                     <ul>
                         <li><a href="https://greg.heffner.live/blog.html"><strong>Nerdsense – A Blog</strong></a>: Deep dives into tech, automation, and learning. Suggest topics via my contact link!</li>
                         <li><a href="https://medium.com/@light.pen8923"><strong>Medium (Blog Re-Post)</strong></a>: Mirror of my main blog for wider reach.</li>
+                        <li>Latest posts:
+                            <ul>
+                                <li><a href="https://greg.heffner.live/blog/encrypting-everything-inside-the-homelab">Encrypting Everything Inside the Homelab</a></li>
+                                <li><a href="https://greg.heffner.live/blog/fable-5-1-audited-my-cluster">I Let Fable 5.1 Audit My Cluster. Here Is What It Found.</a></li>
+                                <li><a href="https://greg.heffner.live/blog/the-fix-wasnt-a-patch">The Fix Wasn't a Patch</a></li>
+                                <li><a href="https://greg.heffner.live/blog/automate-your-life-with-ai">Automate Your Life: Letting AI Handle Email, Texts, and Calendars on Your Mac</a></li>
+                                <li><a href="https://greg.heffner.live/blog/hacker-summer-camp-2026">Hacker Summer Camp 2026: This Time the Robots Are Invited</a></li>
+                                <li><a href="https://greg.heffner.live/blog/fable-5-weekend-projects">Fable 5 Until July 7: Three Weekend Projects for America's 250th</a></li>
+                            </ul>
+                        </li>
                     </ul>
                     <h3>How My Site Runs</h3>
                     <p class="site-note">This site is powered by Kubernetes and automated CI/CD pipelines using ArgoCD. Every update, deployment, and rollback is handled by GitOps workflows, so the site stays reliable and up to date with minimal manual work.</p>
@@ -2250,7 +2260,7 @@ data:
     <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
     <loc>https://greg.heffner.live/</loc>
-    <lastmod>2026-07-01</lastmod>
+    <lastmod>2026-09-22</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     </url>
@@ -2262,7 +2272,7 @@ data:
     </url>
     <url>
     <loc>https://greg.heffner.live/blog.html</loc>
-    <lastmod>2026-07-02</lastmod>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
     </url>
@@ -2271,12 +2281,6 @@ data:
     <lastmod>2026-07-01</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.1</priority>
-    </url>
-    <url>
-    <loc>https://greg.heffner.live/loops.html</loc>
-    <lastmod>2026-07-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/traffic.html</loc>
@@ -2292,259 +2296,259 @@ data:
     </url>
     <url>
     <loc>https://greg.heffner.live/blog/first-post</loc>
-    <lastmod>2026-07-03</lastmod>
+    <lastmod>2024-07-01</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/blog/github-basics</loc>
-    <lastmod>2026-07-03</lastmod>
+    <lastmod>2024-07-05</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/blog/pi-hole-setup</loc>
-    <lastmod>2026-07-03</lastmod>
+    <lastmod>2026-07-02</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/blog/load-balancers-explained</loc>
-    <lastmod>2026-07-03</lastmod>
+    <lastmod>2024-07-15</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/blog/docker-hub</loc>
-    <lastmod>2026-07-03</lastmod>
+    <lastmod>2024-07-17</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/blog/vpns-explained</loc>
-    <lastmod>2026-07-03</lastmod>
+    <lastmod>2024-07-10</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/blog/what-is-the-cloud</loc>
-    <lastmod>2026-07-03</lastmod>
+    <lastmod>2026-07-02</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/blog/how-wifi-works</loc>
-    <lastmod>2026-07-03</lastmod>
+    <lastmod>2024-07-03</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/blog/home-network-build</loc>
-    <lastmod>2026-07-03</lastmod>
+    <lastmod>2026-07-02</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/blog/kubernetes-basics</loc>
-    <lastmod>2026-07-03</lastmod>
+    <lastmod>2026-07-02</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/blog/ansible-basics</loc>
-    <lastmod>2026-07-03</lastmod>
+    <lastmod>2026-07-02</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/blog/updating-docker-images</loc>
-    <lastmod>2026-07-03</lastmod>
+    <lastmod>2024-08-07</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/blog/travel-router</loc>
-    <lastmod>2026-07-03</lastmod>
+    <lastmod>2024-08-03</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/blog/passwords-and-hardware-keys</loc>
-    <lastmod>2026-07-03</lastmod>
+    <lastmod>2026-07-02</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/blog/twingate</loc>
-    <lastmod>2026-07-03</lastmod>
+    <lastmod>2026-07-02</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/blog/dmr-radios</loc>
-    <lastmod>2026-07-03</lastmod>
+    <lastmod>2026-07-02</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/blog/tryhackme</loc>
-    <lastmod>2026-07-03</lastmod>
+    <lastmod>2026-07-02</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/blog/nfc-implant-biohacking</loc>
-    <lastmod>2026-07-03</lastmod>
+    <lastmod>2026-07-02</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/blog/upstream-dns</loc>
-    <lastmod>2026-07-03</lastmod>
+    <lastmod>2024-09-01</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/blog/learning-lab-setup</loc>
-    <lastmod>2026-07-03</lastmod>
+    <lastmod>2024-09-05</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/blog/smoke-testing-my-site</loc>
-    <lastmod>2026-07-03</lastmod>
+    <lastmod>2024-09-04</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/blog/terraform-vs-ansible</loc>
-    <lastmod>2026-07-03</lastmod>
+    <lastmod>2024-09-02</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/blog/advent-of-cyber</loc>
-    <lastmod>2026-07-03</lastmod>
+    <lastmod>2024-11-01</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/blog/github-advanced</loc>
-    <lastmod>2026-07-03</lastmod>
+    <lastmod>2025-06-15</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/blog/web-security-basics</loc>
-    <lastmod>2026-07-03</lastmod>
+    <lastmod>2025-06-25</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/blog/cicd-pipeline</loc>
-    <lastmod>2026-07-03</lastmod>
+    <lastmod>2025-07-03</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/blog/crontab</loc>
-    <lastmod>2026-07-03</lastmod>
+    <lastmod>2025-07-11</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/blog/homelab-tour</loc>
-    <lastmod>2026-07-03</lastmod>
+    <lastmod>2026-07-02</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/blog/defcon</loc>
-    <lastmod>2026-07-03</lastmod>
+    <lastmod>2025-08-12</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/blog/uv-python-tool</loc>
-    <lastmod>2026-07-03</lastmod>
+    <lastmod>2025-08-16</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/blog/pi-hole-advanced</loc>
-    <lastmod>2026-07-03</lastmod>
+    <lastmod>2025-09-02</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/blog/agentic-ai-vs-ai</loc>
-    <lastmod>2026-07-03</lastmod>
+    <lastmod>2025-09-05</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/blog/what-is-mcp</loc>
-    <lastmod>2026-07-03</lastmod>
+    <lastmod>2026-07-02</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/blog/blocks-for-the-year</loc>
-    <lastmod>2026-07-03</lastmod>
+    <lastmod>2026-07-02</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/blog/actioncheck</loc>
-    <lastmod>2026-07-03</lastmod>
+    <lastmod>2026-07-02</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/blog/nessus-and-wazuh</loc>
-    <lastmod>2026-07-03</lastmod>
+    <lastmod>2026-07-02</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/blog/claude-agent-building-blocks</loc>
-    <lastmod>2026-07-03</lastmod>
+    <lastmod>2026-07-02</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/blog/claude-code-big-repos</loc>
-    <lastmod>2026-07-03</lastmod>
+    <lastmod>2026-05-22</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/blog/knowledge-down-the-stack</loc>
-    <lastmod>2026-07-03</lastmod>
+    <lastmod>2026-06-05</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/blog/machine-speed-triage</loc>
-    <lastmod>2026-07-03</lastmod>
+    <lastmod>2026-07-02</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/blog/patch-fast-let-it-bake</loc>
-    <lastmod>2026-07-03</lastmod>
+    <lastmod>2026-07-02</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/blog/self-healing-agent-swarms</loc>
-    <lastmod>2026-07-03</lastmod>
+    <lastmod>2026-07-02</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
     <url>
     <loc>https://greg.heffner.live/blog/fable-5-weekend-projects</loc>
-    <lastmod>2026-07-03</lastmod>
+    <lastmod>2026-07-02</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
     </url>
