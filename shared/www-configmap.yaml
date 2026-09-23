@@ -6,6 +6,8 @@ metadata:
 data:
   ads.txt: |
     google.com, pub-3941951641805897, DIRECT, f08c47fec0942fa0
+  342d2de7bf13031a1ecf43832ebf8936.txt: |-
+    342d2de7bf13031a1ecf43832ebf8936
   blog.html: |
     <!doctype html>
     <html lang="en-US">
