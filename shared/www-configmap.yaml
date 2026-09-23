@@ -833,7 +833,6 @@ data:
                                 <div class="blog-description">
                                     <h3><a href="/blog/homelab-tour">Homelab and Virtualization in 2025</a></h3>
                                     <p>Greg Heffner <time datetime="2025-07-26">July 26th, 2025</time></p>
-                                    <p class="blog-note">Cleaner css moving forward!!!</p>
                                 </div>
                                 <div class="blog-image-container">
                                     <img src="/image/blog/2025/July/homelab.webp" alt="" width="1200" height="1200" loading="lazy" decoding="async">
@@ -856,7 +855,6 @@ data:
                                 <div class="blog-description">
                                     <h3><a href="/blog/cicd-pipeline">Build, Test, Deploy: The CI/CD Adventure (with a Dash of Argo CD Magic)</a></h3>
                                     <p>Greg Heffner <time datetime="2025-07-03">July 3rd, 2025</time></p>
-                                    <p class="blog-note">Mobile friendly blogs moving forward!!!</p>
                                 </div>
                                 <div class="blog-image-container">
                                     <img src="/image/blog/2025/July/CICD2.webp" alt="" width="1200" height="800" loading="lazy" decoding="async">
@@ -1302,14 +1300,14 @@ data:
         <link rel="canonical" href="https://greg.heffner.live/">
     
         <!-- SEO Meta Tags -->
-        <meta name="description" content="A personal webpage of Greg Heffner, a father, veteran, and tech enthusiast. Explore my journey in the military and my passion for technology.">
+        <meta name="description" content="Greg Heffner's homelab notebook: Claude agents and AI automation, Kubernetes and GitOps, and home network security, written up as I build and break things.">
         <meta name="author" content="Greg Heffner">
         <meta name="robots" content="index, follow">
     
         <!-- Open Graph Meta Tags -->
         <meta property="og:type" content="website">
         <meta property="og:title" content="Greg Heffner - Father, Veteran, Tech Enthusiast">
-        <meta property="og:description" content="A personal webpage of Greg Heffner, a father, veteran, and tech enthusiast. Explore my journey in the military and my passion for technology.">
+        <meta property="og:description" content="Greg Heffner's homelab notebook: Claude agents and AI automation, Kubernetes and GitOps, and home network security, written up as I build and break things.">
         <meta property="og:url" content="https://greg.heffner.live/">
         <meta property="og:site_name" content="Greg Heffner">
         <meta property="og:image" content="https://greg.heffner.live/image/photo/header.jpg">
@@ -1321,7 +1319,7 @@ data:
         <!-- Twitter Meta Tags -->
         <meta name="twitter:card" content="summary_large_image">
         <meta name="twitter:title" content="Greg Heffner - Father, Veteran, Tech Enthusiast">
-        <meta name="twitter:description" content="A personal webpage of Greg Heffner, a father, veteran, and tech enthusiast. Explore my journey in the military and my passion for technology.">
+        <meta name="twitter:description" content="Greg Heffner's homelab notebook: Claude agents and AI automation, Kubernetes and GitOps, and home network security, written up as I build and break things.">
         <meta name="twitter:image" content="https://greg.heffner.live/image/photo/header.jpg">
         <meta name="twitter:image:alt" content="Greg Heffner site header banner">
     
@@ -1709,10 +1707,10 @@ data:
                     </p>
                     <h3>What Makes Me Tick?</h3>
                     <ul class="mb-half">
-                        <li><strong>Blue Green Deployments:</strong> I run my own blue-green Nginx clusters, with live cutovers and zero-downtime updates. GitOps and ArgoCD keep it honest.</li>
-                        <li><strong>Weather &amp; Radio:</strong> Built a live weather radar and radio dashboard for my local community. If it's on the air or in the cloud, I want to see it.</li>
-                        <li><strong>CI/CD &amp; Monitoring:</strong> Everything is versioned, tested, and monitored. If it breaks, I want to know before anyone else does.</li>
-                        <li><strong>Learning in Public:</strong> My blog and GitHub README are living docs. Check them for my latest experiments, guides, and rants.</li>
+                        <li><a href="https://greg.heffner.live/blog/cicd-pipeline"><strong>Blue Green Deployments:</strong></a> I run my own blue-green Nginx clusters, with live cutovers and zero-downtime updates. GitOps and ArgoCD keep it honest.</li>
+                        <li><a href="https://radar.heffner.live"><strong>Weather &amp; Radio:</strong></a> Built a live weather radar and radio dashboard for my local community. If it's on the air or in the cloud, I want to see it.</li>
+                        <li><a href="https://greg.heffner.live/blog/nessus-and-wazuh"><strong>CI/CD &amp; Monitoring:</strong></a> Everything is versioned, tested, and monitored. If it breaks, I want to know before anyone else does.</li>
+                        <li><a href="https://greg.heffner.live/blog.html"><strong>Learning in Public:</strong></a> My blog and GitHub README are living docs. Check them for my latest experiments, guides, and rants.</li>
                     </ul>
                     </details>
                     <details class="m-fold">
@@ -2118,6 +2116,7 @@ data:
                 background: #777;
             }
         </style>
+        <!-- Clarity tracking code for https://greg.heffner.live/ --><script>    (function(c,l,a,r,i,t,y){        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i+"?ref=bwt";        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);    })(window, document, "clarity", "script", "nry25es3go");</script>
     </head>
 
     <body>
