@@ -615,7 +615,7 @@ data:
                                     <p>Greg Heffner <time datetime="2026-09-18">September 18th, 2026</time></p>
                                 </div>
                                 <div class="blog-image-container">
-                                    <img src="/image/blog/2026/Sept/encrypting-everything-inside-the-homelab.png" alt="" width="1200" height="630" decoding="async">
+                                    <img src="/image/blog/2026/Sept/encrypting-everything-inside-the-homelab.webp" alt="" width="1200" height="630" decoding="async">
                                 </div>
                             </div>
                         </article>
@@ -626,7 +626,7 @@ data:
                                     <p>Greg Heffner <time datetime="2026-09-04">September 4th, 2026</time></p>
                                 </div>
                                 <div class="blog-image-container">
-                                    <img src="/image/blog/2026/Sept/fable-k8s-hardening.png" alt="" width="2400" height="1260" decoding="async">
+                                    <img src="/image/blog/2026/Sept/fable-k8s-hardening.webp" alt="" width="1200" height="630" decoding="async">
                                 </div>
                             </div>
                         </article>
@@ -637,7 +637,7 @@ data:
                                     <p>Greg Heffner <time datetime="2026-08-31">August 31st, 2026</time></p>
                                 </div>
                                 <div class="blog-image-container">
-                                    <img src="/image/blog/2026/Aug/the-fix-wasnt-a-patch.png" alt="" width="1200" height="630" decoding="async">
+                                    <img src="/image/blog/2026/Aug/the-fix-wasnt-a-patch.webp" alt="" width="1200" height="630" decoding="async">
                                 </div>
                             </div>
                         </article>
@@ -1290,7 +1290,7 @@ data:
         <link rel="stylesheet" href="/image/assets/styles.css">
     
         <!-- Hero image is the LCP element; CSS background images are discovered late -->
-        <link rel="preload" as="image" href="/image/photo/header.jpg" fetchpriority="high">
+        <link rel="preload" as="image" href="/image/photo/header.webp" fetchpriority="high">
     
         <!-- App Title for iOS -->
         <meta name="apple-mobile-web-app-title" content="Nerdsense">
@@ -1363,7 +1363,7 @@ data:
         }
     
         .header {
-            background-image: linear-gradient(rgba(13, 17, 23, 0.55), rgba(13, 17, 23, 0.8)), url('image/photo/header.jpg');
+            background-image: linear-gradient(rgba(13, 17, 23, 0.55), rgba(13, 17, 23, 0.8)), url('image/photo/header.webp');
             background-size: cover;
             background-position: center;
             height: 200px;
@@ -1670,17 +1670,17 @@ data:
                 <h2 id="latest-heading">Latest from the blog</h2>
                 <div class="latest-grid">
                     <a class="latest-card" href="https://greg.heffner.live/blog/encrypting-everything-inside-the-homelab">
-                        <img src="/image/blog/2026/Sept/encrypting-everything-inside-the-homelab.png" alt="" width="1200" height="630" decoding="async">
+                        <img src="/image/blog/2026/Sept/encrypting-everything-inside-the-homelab.webp" alt="" width="1200" height="630" decoding="async">
                         <span class="latest-title">Encrypting Everything Inside the Homelab</span>
                         <time datetime="2026-09-18">September 18th, 2026</time>
                     </a>
                     <a class="latest-card" href="https://greg.heffner.live/blog/fable-5-1-audited-my-cluster">
-                        <img src="/image/blog/2026/Sept/fable-k8s-hardening.png" alt="" width="2400" height="1260" decoding="async">
+                        <img src="/image/blog/2026/Sept/fable-k8s-hardening.webp" alt="" width="1200" height="630" decoding="async">
                         <span class="latest-title">I Let Fable 5.1 Audit My Cluster. Here Is What It Found.</span>
                         <time datetime="2026-09-04">September 4th, 2026</time>
                     </a>
                     <a class="latest-card" href="https://greg.heffner.live/blog/the-fix-wasnt-a-patch">
-                        <img src="/image/blog/2026/Aug/the-fix-wasnt-a-patch.png" alt="" width="1200" height="630" decoding="async">
+                        <img src="/image/blog/2026/Aug/the-fix-wasnt-a-patch.webp" alt="" width="1200" height="630" decoding="async">
                         <span class="latest-title">The Fix Wasn't a Patch</span>
                         <time datetime="2026-08-31">August 31st, 2026</time>
                     </a>
