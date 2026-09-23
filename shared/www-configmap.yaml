@@ -1568,6 +1568,75 @@ data:
                 margin-top: 16px;
             }
         }
+        /* Mobile-first layout: .m-fold sections collapse on phones and look like plain content on desktop. */
+        @media (min-width: 769px) {
+            .m-fold > summary {
+                display: none;
+            }
+            .m-fold::details-content {
+                content-visibility: visible;
+                display: contents;
+            }
+        }
+        @media (max-width: 768px) {
+            .m-fold > summary {
+                cursor: pointer;
+                font-family: var(--mono);
+                font-weight: bold;
+                color: var(--green);
+                padding: 12px 0;
+            }
+            .m-fold + .m-fold {
+                border-top: 1px solid var(--card-border);
+            }
+            .column {
+                padding: 4px 16px;
+            }
+            .text-container {
+                margin-top: 12px;
+                gap: 12px;
+            }
+            .navbar {
+                justify-content: flex-end;
+            }
+            .m-menu > summary {
+                color: var(--accent);
+                font-family: system-ui, sans-serif;
+                border: 1px solid var(--card-border);
+                border-radius: 10px;
+                padding: 8px 14px;
+                list-style: none;
+            }
+            .m-menu > summary::-webkit-details-marker {
+                display: none;
+            }
+            .m-menu > summary::before {
+                content: "\2630  ";
+            }
+            .m-menu ul {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                padding: 10px 0 4px;
+                margin: 0;
+                text-align: right;
+            }
+            .m-menu li a {
+                margin-right: 0;
+            }
+            .latest-card:not(:first-child) img {
+                display: none;
+            }
+            .latest-card:not(:first-child) .latest-title {
+                padding: 10px 14px 2px;
+            }
+            .latest-card:not(:first-child) time {
+                padding: 0 14px 10px;
+            }
+            .latest-grid {
+                gap: 10px;
+            }
+        }
         </style>
     </head>
     
@@ -1577,6 +1646,8 @@ data:
         <a class="skip-link" href="#main">Skip to main content</a>
         <nav class="navbar" aria-label="Primary">
             <div class="navdiv">
+                <details class="m-fold m-menu">
+                    <summary>Menu</summary>
                 <ul>
                     <li><a href="https://greg.heffner.live" aria-current="page">Home</a></li>
                     <li><a href="https://greg.heffner.live/photos.html">Photos</a></li>
@@ -1585,6 +1656,7 @@ data:
                     <li><a href="https://greg.heffner.live/privacy.html">Privacy Policy</a></li>
                     <li><a href="mailto:main.plan5783@fastmail.com">Contact</a></li>
                 </ul>
+                </details>
             </div>
         </nav>
     
@@ -1620,6 +1692,8 @@ data:
             <!-- LATEST-POSTS:END -->
             <div class="text-container">
                 <section class="column">
+                    <details class="m-fold">
+                    <summary>About me</summary>
                     <p class="intro"><strong>Hello!</strong> Welcome to my home lab. Here, automation is a daily habit, and curiosity drives every project. I'm Greg Heffner: builder, veteran, and digital transformation leader. Code, radio, and weather maps all get their turn, and every deployment is a new lesson. This GitHub is my playground and lab notebook, focused on reliability, innovation, and always getting better. Glad you're here.</p>
                     <h3>Who Am I?</h3>
                     <ul class="mb-half">
@@ -1640,6 +1714,9 @@ data:
                         <li><strong>CI/CD &amp; Monitoring:</strong> Everything is versioned, tested, and monitored. If it breaks, I want to know before anyone else does.</li>
                         <li><strong>Learning in Public:</strong> My blog and GitHub README are living docs. Check them for my latest experiments, guides, and rants.</li>
                     </ul>
+                    </details>
+                    <details class="m-fold">
+                    <summary>Handy links</summary>
                     <h3>Handy Links</h3>
                     <p class="link-list-intro">Useful resources and favorite tools I use for radio, weather, and network monitoring:</p>
                     <ul class="link-list">
@@ -1656,8 +1733,11 @@ data:
                         <li><a href="http://192.223.28.176:42420/CallWatch">DMR Logs</a></li>
                         <li><a href="https://stats.allstarlink.org/stats/52914/networkMap">Allstar Radio Map</a></li>
                     </ul>
+                    </details>
                 </section>
                 <section class="column">
+                    <details class="m-fold">
+                    <summary>Repos and how this site runs</summary>
                     <h3>Explore My Online Repos</h3>
                     <ul>
                         <li><a href="https://github.com/GregHeffner"><strong>GitHub</strong></a>: Automation scripts, playbooks, and my latest experiments.</li>
@@ -1695,9 +1775,16 @@ data:
                             </ul>
                         </li>
                     </ul>
+                    </details>
                 </section>
             </div>
         </main>
+        <script>
+            /* Browsers without ::details-content: open the folds on desktop so nothing looks collapsed. */
+            if (!CSS.supports('selector(::details-content)') && matchMedia('(min-width: 769px)').matches) {
+                document.querySelectorAll('details.m-fold').forEach(function (d) { d.open = true; });
+            }
+        </script>
         <script src="/image/assets/scripts.js"></script>
     </body>
     </html>
