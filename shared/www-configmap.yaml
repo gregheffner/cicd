@@ -1494,6 +1494,80 @@ data:
         .mt-6 {
             margin-top: 6px;
         }
+        .latest-posts {
+            max-width: 1200px;
+            margin: 25px auto 0;
+        }
+        .latest-posts h2 {
+            color: var(--green);
+            font-family: var(--mono);
+            font-size: clamp(1.1rem, 3vw, 1.4rem);
+            margin: 0 0 12px;
+        }
+        .latest-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        .latest-card {
+            display: flex;
+            flex-direction: column;
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            overflow: hidden;
+            color: var(--text);
+            text-decoration: none;
+        }
+        .latest-card img {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 1200 / 630;
+            object-fit: cover;
+            display: block;
+        }
+        .latest-title {
+            padding: 12px 14px 4px;
+            font-weight: bold;
+            line-height: 1.3;
+        }
+        .latest-card time {
+            padding: 0 14px 12px;
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+        .latest-card:hover .latest-title,
+        .latest-card:focus-visible .latest-title {
+            text-decoration: underline;
+        }
+        .latest-all {
+            text-align: right;
+            margin: 10px 0 0;
+        }
+        @media (prefers-reduced-motion: no-preference) {
+            .latest-card {
+                transition: transform 0.2s ease, border-color 0.2s ease;
+            }
+            .latest-card:hover {
+                transform: translateY(-4px);
+                border-color: var(--accent);
+            }
+        }
+        @media (max-width: 768px) {
+            .header {
+                height: 120px;
+            }
+            .sub-header {
+                margin: 12px 0 0;
+            }
+            .latest-grid {
+                grid-template-columns: 1fr;
+                gap: 14px;
+            }
+            .latest-posts {
+                margin-top: 16px;
+            }
+        }
         </style>
     </head>
     
@@ -1521,6 +1595,29 @@ data:
     
         <main id="main">
             <h2 class="visually-hidden">A website about learning</h2>
+            <!-- LATEST-POSTS:START (blog-builder keeps the 3 newest published posts here) -->
+            <section class="latest-posts" aria-labelledby="latest-heading">
+                <h2 id="latest-heading">Latest from the blog</h2>
+                <div class="latest-grid">
+                    <a class="latest-card" href="https://greg.heffner.live/blog/encrypting-everything-inside-the-homelab">
+                        <img src="/image/blog/2026/Sept/encrypting-everything-inside-the-homelab.png" alt="" width="1200" height="630" decoding="async">
+                        <span class="latest-title">Encrypting Everything Inside the Homelab</span>
+                        <time datetime="2026-09-18">September 18th, 2026</time>
+                    </a>
+                    <a class="latest-card" href="https://greg.heffner.live/blog/fable-5-1-audited-my-cluster">
+                        <img src="/image/blog/2026/Sept/fable-k8s-hardening.png" alt="" width="2400" height="1260" decoding="async">
+                        <span class="latest-title">I Let Fable 5.1 Audit My Cluster. Here Is What It Found.</span>
+                        <time datetime="2026-09-04">September 4th, 2026</time>
+                    </a>
+                    <a class="latest-card" href="https://greg.heffner.live/blog/the-fix-wasnt-a-patch">
+                        <img src="/image/blog/2026/Aug/the-fix-wasnt-a-patch.png" alt="" width="1200" height="630" decoding="async">
+                        <span class="latest-title">The Fix Wasn't a Patch</span>
+                        <time datetime="2026-08-31">August 31st, 2026</time>
+                    </a>
+                </div>
+                <p class="latest-all"><a href="https://greg.heffner.live/blog.html">All posts &rarr;</a></p>
+            </section>
+            <!-- LATEST-POSTS:END -->
             <div class="text-container">
                 <section class="column">
                     <p class="intro"><strong>Hello!</strong> Welcome to my home lab. Here, automation is a daily habit, and curiosity drives every project. I'm Greg Heffner: builder, veteran, and digital transformation leader. Code, radio, and weather maps all get their turn, and every deployment is a new lesson. This GitHub is my playground and lab notebook, focused on reliability, innovation, and always getting better. Glad you're here.</p>
@@ -1571,16 +1668,6 @@ data:
                     <ul>
                         <li><a href="https://greg.heffner.live/blog.html"><strong>Nerdsense – A Blog</strong></a>: Deep dives into tech, automation, and learning. Suggest topics via my contact link!</li>
                         <li><a href="https://medium.com/@light.pen8923"><strong>Medium (Blog Re-Post)</strong></a>: Mirror of my main blog for wider reach.</li>
-                        <li>Latest posts:
-                            <ul>
-                                <li><a href="https://greg.heffner.live/blog/encrypting-everything-inside-the-homelab">Encrypting Everything Inside the Homelab</a></li>
-                                <li><a href="https://greg.heffner.live/blog/fable-5-1-audited-my-cluster">I Let Fable 5.1 Audit My Cluster. Here Is What It Found.</a></li>
-                                <li><a href="https://greg.heffner.live/blog/the-fix-wasnt-a-patch">The Fix Wasn't a Patch</a></li>
-                                <li><a href="https://greg.heffner.live/blog/automate-your-life-with-ai">Automate Your Life: Letting AI Handle Email, Texts, and Calendars on Your Mac</a></li>
-                                <li><a href="https://greg.heffner.live/blog/hacker-summer-camp-2026">Hacker Summer Camp 2026: This Time the Robots Are Invited</a></li>
-                                <li><a href="https://greg.heffner.live/blog/fable-5-weekend-projects">Fable 5 Until July 7: Three Weekend Projects for America's 250th</a></li>
-                            </ul>
-                        </li>
                     </ul>
                     <h3>How My Site Runs</h3>
                     <p class="site-note">This site is powered by Kubernetes and automated CI/CD pipelines using ArgoCD. Every update, deployment, and rollback is handled by GitOps workflows, so the site stays reliable and up to date with minimal manual work.</p>
