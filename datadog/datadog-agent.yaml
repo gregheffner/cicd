@@ -111,6 +111,17 @@ spec:
             secretName: datadog-esxi
       containers:
         cluster-agent:
+          # 2026-09-24 sizing (Kyverno require-resource-limits): from 14d of Datadog
+          # kubernetes.memory.working_set / cpu.usage. Memory limit = max(2x p95, 1.25x 14d peak),
+          # memory request ~= p95 (without one, k8s defaults request = limit), CPU request ~= p95,
+          # NO CPU limits (throttling the agent loses data). Re-measure before tightening.
+          resources:
+            requests:
+              cpu: 30m
+              memory: 320Mi
+            limits:
+              memory: 640Mi
+          # 14d: p95 318Mi / peak 344Mi, cpu p95 30m
           volumeMounts:
             - name: esxi-conf
               mountPath: /etc/datadog-agent/conf.d/esxi.d
@@ -233,6 +244,14 @@ spec:
         pullPolicy: IfNotPresent
       containers:
         agent:
+          # sizing method: see cluster-agent above
+          # 14d: p95 323Mi / peak 358Mi, cpu p95 213m (peak 685m)
+          resources:
+            requests:
+              cpu: 200m
+              memory: 320Mi
+            limits:
+              memory: 768Mi
           env:
             # DD_PROCESS_AGENT_ENABLED (process_config.enabled) was removed 2026-09-02:
             # the agent logs it as deprecated in favour of process_config.process_collection
@@ -251,6 +270,13 @@ spec:
             # no actual container name (they're nginx/fail2ban/...); dead config that read
             # as if discovery were filtered when it wasn't (include without exclude is a no-op)
         trace-agent:
+          # 14d: p95 47Mi / peak 61Mi, cpu p95 6m
+          resources:
+            requests:
+              cpu: 10m
+              memory: 48Mi
+            limits:
+              memory: 128Mi
           # 2026-09-19 lockdown, part 3 — FIXES a crash loop that part 2 introduced.
           #
           # DD_APM_NON_LOCAL_TRAFFIC=false (below) binds the receiver to 127.0.0.1:8126.
@@ -285,6 +311,13 @@ spec:
             - name: DD_APM_NON_LOCAL_TRAFFIC
               value: "false"
         system-probe:
+          # 14d: p95 584Mi / peak 621Mi, cpu p95 91m (peak 431m)
+          resources:
+            requests:
+              cpu: 100m
+              memory: 576Mi
+            limits:
+              memory: 1200Mi
           env:
             # Network Path (CNM). Traceroute-style hop-by-hop monitoring of the paths this
             # cluster actually uses outbound — Cloudflare edge, DNS, upstream — so a latency
@@ -295,6 +328,14 @@ spec:
             # Requires agent 7.55+ (running 7.82.3) and npm.enabled, both already true.
             - name: DD_NETWORK_PATH_CONNECTIONS_MONITORING_ENABLED
               value: "true"
+        security-agent:
+          # 14d: p95 76Mi / peak 87Mi, cpu p95 6m
+          resources:
+            requests:
+              cpu: 10m
+              memory: 80Mi
+            limits:
+              memory: 192Mi
       tolerations:                        # run on the control-plane node too (4/4 nodes)
         - key: node-role.kubernetes.io/control-plane
           operator: Exists
