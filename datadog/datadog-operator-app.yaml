@@ -40,6 +40,15 @@ spec:
           enabled: true                # enables the operator's DatadogAgent controller (chart renders no CR)
         installCRDs: true
         collectOperatorMetrics: true
+        # 2026-09-24 sizing (Kyverno require-resource-limits), from 14d Datadog usage:
+        # mem limit = max(2x p95, 1.25x peak), request ~= p95, NO cpu limit.
+        # operator 14d: p95 162Mi / peak 168Mi, cpu p95 7m
+        resources:
+          requests:
+            cpu: 10m
+            memory: 160Mi
+          limits:
+            memory: 384Mi
         datadogCRDs:
           crds:
             datadogAgents: true
