@@ -54,10 +54,15 @@ spec:
         image: ghcr.io/flannel-io/flannel:v0.28.9
         imagePullPolicy: IfNotPresent
         name: kube-flannel
+        # 2026-09-24 (Kyverno require-resource-limits): 14d Datadog working_set p95 58.4Mi,
+        # peak 58.7Mi (very flat). Limit = 2x p95. An OOM kill here takes pod networking
+        # down on that node, so roll it one node at a time (updateStrategy is OnDelete).
         resources:
           requests:
             cpu: 100m
-            memory: 50Mi
+            memory: 64Mi
+          limits:
+            memory: 128Mi
         securityContext:
           capabilities:
             add:
