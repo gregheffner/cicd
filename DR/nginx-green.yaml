@@ -4,6 +4,8 @@ metadata:
   labels:
     app: nginx-web
     version: green
+    tags.datadoghq.com/env: prod
+    tags.datadoghq.com/service: nginx
   name: nginx-web-green
   namespace: prod
 spec:
@@ -29,6 +31,15 @@ spec:
       labels:
         app: nginx-web
         version: green
+        # 2026-09-25: Datadog unified service tagging. Server-side USM captures nginx
+        # traffic in the kernel (verified in system-probe's http_monitoring table) but
+        # the agent only attributes it to service:nginx for ~30-90 min after an agent
+        # restart or pod start, then drops it - while git-sync, same pod/netns, keeps
+        # reporting. Hypothesis: without UST the service name is a process-name guess
+        # that expires. NOT in the selector (immutable). The nginx SLO does not depend
+        # on this: it reads the client side (cloudflared -> peer.service:nginx).
+        tags.datadoghq.com/env: prod
+        tags.datadoghq.com/service: nginx
       annotations:
         # 2026-09-13 Datadog autodiscovery for the git-sync sidecar (:9100, enabled by
         # --http-bind below). Blog posts reach nginx ONLY through this sidecar, so a
