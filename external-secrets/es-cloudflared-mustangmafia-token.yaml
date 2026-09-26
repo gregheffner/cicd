@@ -1,4 +1,4 @@
-# Connector token for the mustangmafia904.com tunnel (remotely-managed, created in the
+# Connector token for the mustangmafiajacksonville.com tunnel (remotely-managed, created in the
 # Cloudflare dashboard). Source of truth: 1Password item "cloudflared-mustangmafia-token"
 # in k8s-cluster-secrets, field "token". Read by mustangmafia/deployment-cloudflared.yaml.
 apiVersion: external-secrets.io/v1

@@ -1,4 +1,4 @@
-# Mustang Mafia Jacksonville chapter site (mustangmafia904.com). Same restricted
+# Mustang Mafia Jacksonville chapter site (mustangmafiajacksonville.com). Same restricted
 # profile as prod/cloudflared/radar: every pod here passes PSA restricted, so a
 # future change that adds privilege fails to deploy instead of weakening the namespace.
 apiVersion: v1

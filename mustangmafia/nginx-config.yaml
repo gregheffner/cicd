@@ -51,11 +51,6 @@ data:
           root /content/site;
           index index.html;
 
-          # DRAFT GATE: shared password while the site is unfinished. The htpasswd line comes
-          # from 1P item mustangmafia-draft-auth via ESO. To launch, delete these two lines,
-          # the auth volume in deployment-web.yaml, and es-mustangmafia-draft-auth.yaml.
-          auth_basic "Mustang Mafia Jacksonville (draft)";
-          auth_basic_user_file /etc/nginx/auth/htpasswd;
 
           add_header X-Content-Type-Options "nosniff" always;
           add_header X-Frame-Options "SAMEORIGIN" always;
@@ -64,7 +59,6 @@ data:
           add_header Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()" always;
 
           location = /healthz {
-              auth_basic off;   # probes must not need the draft password
               access_log off;
               default_type text/plain;
               return 200 "ok";
@@ -72,24 +66,22 @@ data:
           location = /favicon.ico {
               alias /content/site/assets/favicon-32.png;
               access_log off;
-              add_header Cache-Control "private, no-store" always;   # DRAFT GATE; at launch: expires 30d;
+              expires 30d;
           }
           location ~ /\. { deny all; return 404; }   # never serve .git or dotfiles from the checkout
           location ~* \.(md)$ { return 404; }
           location ~* xmlrpc\.php|wp-login\.php|^/(wp-admin|wp-includes) { return 444; }
 
           location /assets/ {
-              # DRAFT GATE: private/no-store so Cloudflare never caches gated assets (a "public"
-              # response is cached even when the request carried a password). At launch restore:
-              #   expires 30d;  add_header Cache-Control "public, max-age=2592000" always;
-              add_header Cache-Control "private, no-store" always;
+              expires 30d;
+              add_header Cache-Control "public, max-age=2592000" always;
               add_header X-Content-Type-Options "nosniff" always;
               add_header X-Frame-Options "SAMEORIGIN" always;
               add_header Referrer-Policy "strict-origin-when-cross-origin" always;
           }
           location / {
               try_files $uri $uri/ =404;
-              add_header Cache-Control "private, no-store" always;   # DRAFT GATE; at launch: "public, max-age=300, must-revalidate"
+              add_header Cache-Control "public, max-age=300, must-revalidate" always;
               add_header X-Content-Type-Options "nosniff" always;
               add_header X-Frame-Options "SAMEORIGIN" always;
               add_header Referrer-Policy "strict-origin-when-cross-origin" always;
