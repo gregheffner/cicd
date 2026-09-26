@@ -132,7 +132,7 @@ spec:
             - {containerPort: 8080, name: http}
             - {containerPort: 8081, name: nginx-status}
           readinessProbe:
-            httpGet: {path: /, port: 8080}
+            httpGet: {path: /healthz, port: 8080} # / is behind the draft password
             initialDelaySeconds: 5
             periodSeconds: 10
             timeoutSeconds: 3
@@ -157,6 +157,7 @@ spec:
           volumeMounts:
             - {mountPath: /etc/nginx/nginx.conf, name: nginx-config, subPath: nginx.conf, readOnly: true}
             - {mountPath: /content, name: site-content, readOnly: true}
+            - {mountPath: /etc/nginx/auth, name: draft-auth, readOnly: true}
             - {mountPath: /var/cache/nginx, name: nginx-cache}
             - {mountPath: /var/run, name: nginx-run}
             - {mountPath: /tmp, name: nginx-tmp}
@@ -170,6 +171,11 @@ spec:
           secret:
             secretName: mustangmafia-deploy-key
             defaultMode: 0440
+        - name: draft-auth # DRAFT GATE: ESO -> external-secrets/es-mustangmafia-draft-auth.yaml; optional + fail-closed (missing file = 500, never open)
+          secret:
+            secretName: mustangmafia-draft-auth
+            optional: true
+            defaultMode: 0444
         - {name: git-sync-tmp, emptyDir: {}}
         - {name: nginx-cache, emptyDir: {}}
         - {name: nginx-run, emptyDir: {}}
