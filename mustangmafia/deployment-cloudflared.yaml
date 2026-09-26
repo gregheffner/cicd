@@ -1,4 +1,4 @@
-# Dedicated tunnel for mustangmafia904.com. Single replica by request (no HA).
+# Dedicated tunnel for mustangmafiajacksonville.com. Single replica by request (no HA).
 # Remotely-managed tunnel: hostnames are configured in the Cloudflare dashboard
 # (Zero Trust > Networks > Tunnels) and point at
 #   http://mustangmafia-web.mustangmafia.svc.cluster.local:80

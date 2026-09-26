@@ -32,7 +32,7 @@ spec:
                 - Pod
               namespaces:
                 - prod                    # both blue + green Deployments live here
-                - mustangmafia            # mustangmafia904.com runs the same promoted digest
+                - mustangmafia            # mustangmafiajacksonville.com runs the same promoted digest
       verifyImages:
         - imageReferences:
             - "docker.io/technotuba/nginx*"

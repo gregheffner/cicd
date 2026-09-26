@@ -699,7 +699,7 @@ jobs:
               "fail2ban image changed: %s -> %s" % (before.group(1), after.group(1))
           open(f,"w").write(c2)
           PY
-            # mustangmafia904.com runs the same image: re-pin it to the promoted digest in
+            # mustangmafiajacksonville.com runs the same image: re-pin it to the promoted digest in
             # this same commit, so it only ever moves on a successful promotion.
             MMFILE=mustangmafia/deployment-web.yaml
             if git cat-file -e "origin/${BRANCH}:$MMFILE" 2>/dev/null; then

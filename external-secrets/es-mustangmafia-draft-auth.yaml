@@ -1,4 +1,4 @@
-# DRAFT GATE for mustangmafia904.com: the nginx basic-auth htpasswd line. Source of truth
+# DRAFT GATE for mustangmafiajacksonville.com: the nginx basic-auth htpasswd line. Source of truth
 # is 1Password item "mustangmafia-draft-auth" in k8s-cluster-secrets (username, password,
 # htpasswd). Delete this file (and `kubectl delete externalsecret`) when the site launches.
 apiVersion: external-secrets.io/v1
