@@ -699,6 +699,22 @@ jobs:
               "fail2ban image changed: %s -> %s" % (before.group(1), after.group(1))
           open(f,"w").write(c2)
           PY
+            # mustangmafia904.com runs the same image: re-pin it to the promoted digest in
+            # this same commit, so it only ever moves on a successful promotion.
+            MMFILE=mustangmafia/deployment-web.yaml
+            if git cat-file -e "origin/${BRANCH}:$MMFILE" 2>/dev/null; then
+              git checkout "origin/${BRANCH}" -- "$MMFILE"
+              python3 - "$MMFILE" "$REF" "$DIGEST" <<'PY'
+          import re,sys
+          f,ref,dig=sys.argv[1],sys.argv[2],sys.argv[3]
+          c=open(f).read()
+          c2=re.sub(r'(image:\s*)technotuba/nginx[:@][^\s"]*', r'\1'+ref, c, count=1)
+          assert ('technotuba/nginx@'+dig) in c2, "mustangmafia pin failed"
+          assert c2.count('technotuba/nginx') == c.count('technotuba/nginx'), "mustangmafia pin touched more than one image"
+          open(f,"w").write(c2)
+          PY
+              git add "$MMFILE"
+            fi
             git config user.email "github-actions[bot]@users.noreply.github.com"
             git config user.name  "github-actions[bot]"
             git add .github/state/candidate.json "$PFILE"

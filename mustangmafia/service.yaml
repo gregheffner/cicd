@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mustangmafia-web
+  namespace: mustangmafia
+  labels:
+    app: mustangmafia-web
+spec:
+  type: ClusterIP
+  ipFamilyPolicy: SingleStack
+  ports:
+    - name: http
+      port: 80
+      targetPort: http
+  selector:
+    app: mustangmafia-web

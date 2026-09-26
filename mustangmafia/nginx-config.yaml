@@ -1,0 +1,100 @@
+# Trimmed from shared/nginx-config.yaml: same hardening and real-IP handling, minus
+# the heffner.live blog redirects, fail2ban log file and Datadog RUM injection.
+# Content comes from the git-sync checkout of gregheffner/mustangmafia at /content/site.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mustangmafia-nginx-config
+  namespace: mustangmafia
+data:
+  nginx.conf: |-
+    worker_processes  auto;
+    error_log  /dev/stderr warn;
+    pid        /var/run/nginx.pid;
+
+    events {
+        worker_connections  1024;
+    }
+
+    http {
+        include       /etc/nginx/mime.types;
+        default_type  application/octet-stream;
+        server_tokens off;
+
+        # real client IP from the Cloudflare tunnel
+        set_real_ip_from 10.244.0.0/16;
+        set_real_ip_from 192.168.0.0/16;
+        real_ip_header CF-Connecting-IP;
+
+        log_format main '$remote_addr - [$time_local] "$request" $status $body_bytes_sent "$http_referer" "$http_user_agent"';
+        access_log /dev/stdout main;
+
+        sendfile        on;
+        tcp_nopush      on;
+        tcp_nodelay     on;
+        keepalive_timeout  65;
+
+        gzip  on;
+        gzip_types text/plain text/css application/json application/javascript text/xml application/xml image/svg+xml;
+        gzip_min_length 256;
+        gzip_vary on;
+
+        limit_req_zone $binary_remote_addr zone=req_per_ip:10m rate=30r/s;
+        limit_req_status 429;
+
+        server {
+          listen 8080;
+          absolute_redirect off;
+          port_in_redirect off;
+          limit_req zone=req_per_ip burst=60 nodelay;
+
+          root /content/site;
+          index index.html;
+
+          add_header X-Content-Type-Options "nosniff" always;
+          add_header X-Frame-Options "SAMEORIGIN" always;
+          add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+          add_header Content-Security-Policy "frame-ancestors 'self'; base-uri 'self'; object-src 'none'" always;
+          add_header Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()" always;
+
+          location = /healthz {
+              access_log off;
+              default_type text/plain;
+              return 200 "ok";
+          }
+          location = /favicon.ico {
+              alias /content/site/assets/favicon-32.png;
+              access_log off;
+              expires 30d;
+          }
+          location ~ /\. { deny all; return 404; }   # never serve .git or dotfiles from the checkout
+          location ~* \.(md)$ { return 404; }
+          location ~* xmlrpc\.php|wp-login\.php|^/(wp-admin|wp-includes) { return 444; }
+
+          location /assets/ {
+              expires 30d;
+              add_header Cache-Control "public, max-age=2592000" always;
+              add_header X-Content-Type-Options "nosniff" always;
+              add_header X-Frame-Options "SAMEORIGIN" always;
+              add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+          }
+          location / {
+              try_files $uri $uri/ =404;
+              add_header Cache-Control "public, max-age=300, must-revalidate" always;
+              add_header X-Content-Type-Options "nosniff" always;
+              add_header X-Frame-Options "SAMEORIGIN" always;
+              add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+              add_header Content-Security-Policy "frame-ancestors 'self'; base-uri 'self'; object-src 'none'" always;
+              add_header Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()" always;
+          }
+        }
+
+        # stub_status for Datadog on the pod IP only (not in the Service)
+        server {
+          listen 8081;
+          location /nginx_status {
+            stub_status;
+            access_log off;
+          }
+        }
+    }

@@ -1,0 +1,13 @@
+# Mustang Mafia Jacksonville chapter site (mustangmafia904.com). Same restricted
+# profile as prod/cloudflared/radar: every pod here passes PSA restricted, so a
+# future change that adds privilege fails to deploy instead of weakening the namespace.
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: mustangmafia
+  labels:
+    kubernetes.io/metadata.name: mustangmafia
+    pod-security.kubernetes.io/enforce: restricted
+    pod-security.kubernetes.io/enforce-version: latest
+    pod-security.kubernetes.io/warn: restricted
+    pod-security.kubernetes.io/audit: restricted

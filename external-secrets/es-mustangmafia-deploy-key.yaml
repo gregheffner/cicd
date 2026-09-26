@@ -1,0 +1,24 @@
+# Read-only GitHub deploy key for the git-sync sidecars in mustangmafia/deployment-web.yaml.
+# Source of truth: 1Password item "mustangmafia-deploy-key" in k8s-cluster-secrets
+# (fields ssh + known_hosts), seeded 2026-09-26 via PushSecret. The public half is a
+# read-only deploy key on gregheffner/mustangmafia; rotate both together.
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: mustangmafia-deploy-key
+  namespace: mustangmafia
+spec:
+  refreshInterval: 6h
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: onepassword
+  target:
+    name: mustangmafia-deploy-key
+    creationPolicy: Owner
+  data:
+    - secretKey: ssh
+      remoteRef:
+        key: mustangmafia-deploy-key/ssh
+    - secretKey: known_hosts
+      remoteRef:
+        key: mustangmafia-deploy-key/known_hosts
