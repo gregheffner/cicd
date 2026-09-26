@@ -1,0 +1,21 @@
+# Connector token for the mustangmafiajax.com tunnel (remotely-managed, created in the
+# Cloudflare dashboard). Source of truth: 1Password item "cloudflared-mustangmafiajax-token"
+# in k8s-cluster-secrets, field "token". Read by the second Deployment in
+# mustangmafia/deployment-cloudflared.yaml.
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: cloudflared-mustangmafiajax-token
+  namespace: mustangmafia
+spec:
+  refreshInterval: 6h
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: onepassword
+  target:
+    name: cloudflared-mustangmafiajax-token
+    creationPolicy: Owner
+  data:
+    - secretKey: token
+      remoteRef:
+        key: cloudflared-mustangmafiajax-token/token
