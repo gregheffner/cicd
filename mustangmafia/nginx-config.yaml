@@ -72,22 +72,24 @@ data:
           location = /favicon.ico {
               alias /content/site/assets/favicon-32.png;
               access_log off;
-              expires 30d;
+              add_header Cache-Control "private, no-store" always;   # DRAFT GATE; at launch: expires 30d;
           }
           location ~ /\. { deny all; return 404; }   # never serve .git or dotfiles from the checkout
           location ~* \.(md)$ { return 404; }
           location ~* xmlrpc\.php|wp-login\.php|^/(wp-admin|wp-includes) { return 444; }
 
           location /assets/ {
-              expires 30d;
-              add_header Cache-Control "public, max-age=2592000" always;
+              # DRAFT GATE: private/no-store so Cloudflare never caches gated assets (a "public"
+              # response is cached even when the request carried a password). At launch restore:
+              #   expires 30d;  add_header Cache-Control "public, max-age=2592000" always;
+              add_header Cache-Control "private, no-store" always;
               add_header X-Content-Type-Options "nosniff" always;
               add_header X-Frame-Options "SAMEORIGIN" always;
               add_header Referrer-Policy "strict-origin-when-cross-origin" always;
           }
           location / {
               try_files $uri $uri/ =404;
-              add_header Cache-Control "public, max-age=300, must-revalidate" always;
+              add_header Cache-Control "private, no-store" always;   # DRAFT GATE; at launch: "public, max-age=300, must-revalidate"
               add_header X-Content-Type-Options "nosniff" always;
               add_header X-Frame-Options "SAMEORIGIN" always;
               add_header Referrer-Policy "strict-origin-when-cross-origin" always;
