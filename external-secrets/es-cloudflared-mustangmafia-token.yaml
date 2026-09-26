@@ -1,0 +1,20 @@
+# Connector token for the mustangmafia904.com tunnel (remotely-managed, created in the
+# Cloudflare dashboard). Source of truth: 1Password item "cloudflared-mustangmafia-token"
+# in k8s-cluster-secrets, field "token". Read by mustangmafia/deployment-cloudflared.yaml.
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: cloudflared-mustangmafia-token
+  namespace: mustangmafia
+spec:
+  refreshInterval: 6h
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: onepassword
+  target:
+    name: cloudflared-mustangmafia-token
+    creationPolicy: Owner
+  data:
+    - secretKey: token
+      remoteRef:
+        key: cloudflared-mustangmafia-token/token

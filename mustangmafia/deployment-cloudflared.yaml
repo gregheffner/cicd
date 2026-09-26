@@ -1,0 +1,98 @@
+# Dedicated tunnel for mustangmafia904.com. Single replica by request (no HA).
+# Remotely-managed tunnel: hostnames are configured in the Cloudflare dashboard
+# (Zero Trust > Networks > Tunnels) and point at
+#   http://mustangmafia-web.mustangmafia.svc.cluster.local:80
+# The connector token comes from 1P item cloudflared-mustangmafia-token via ESO.
+# Same hardening and :latest/Always policy as cloudflared/deployment-cloudflared.yaml.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cloudflared-mustangmafia
+  namespace: mustangmafia
+  labels:
+    app.kubernetes.io/name: cloudflared-mustangmafia
+    app.kubernetes.io/part-of: edge
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: cloudflared-mustangmafia
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0 # new connector registers before the old one leaves
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: cloudflared-mustangmafia
+        app.kubernetes.io/part-of: edge
+      annotations:
+        ad.datadoghq.com/cloudflared.checks: |
+          {
+            "openmetrics": {
+              "init_config": {},
+              "instances": [
+                {
+                  "openmetrics_endpoint": "http://%%host%%:2000/metrics",
+                  "namespace": "cloudflared",
+                  "metrics": [
+                    "cloudflared_tunnel_ha_connections",
+                    "cloudflared_tunnel_total_requests",
+                    "cloudflared_tunnel_request_errors",
+                    "cloudflared_tunnel_concurrent_requests_per_tunnel"
+                  ]
+                }
+              ]
+            }
+          }
+    spec:
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65532
+        runAsGroup: 65532
+        seccompProfile:
+          type: RuntimeDefault
+      terminationGracePeriodSeconds: 45
+      containers:
+        - name: cloudflared
+          image: cloudflare/cloudflared:latest
+          imagePullPolicy: Always
+          args:
+            - tunnel
+            - --no-autoupdate
+            - --loglevel
+            - info
+            - --metrics
+            - 0.0.0.0:2000
+            - run
+          env:
+            - name: TUNNEL_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: cloudflared-mustangmafia-token
+                  key: token
+          ports:
+            - {name: metrics, containerPort: 2000, protocol: TCP}
+          livenessProbe:
+            httpGet: {path: /healthcheck, port: 2000}
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            failureThreshold: 3
+          readinessProbe:
+            httpGet: {path: /ready, port: 2000}
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            failureThreshold: 3
+          resources:
+            requests: {cpu: 20m, memory: 32Mi}
+            limits: {cpu: 250m, memory: 128Mi}
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 65532
+            capabilities:
+              drop: ["ALL"]

@@ -1,0 +1,176 @@
+# Mustang Mafia Jacksonville site. Modeled on prod/nginx-blue.yaml, scaled down:
+# 3 replicas, no blue/green, no HPA, no PDB, no anti-affinity, no fail2ban (by request).
+# Same image as prod (signed technotuba/nginx, verified by Kyverno in this namespace,
+# re-pinned by .github/workflows/soak-gate-promote.yaml on every promotion)
+# and the same hardening. Content comes from gregheffner/mustangmafia via git-sync.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mustangmafia-web
+  namespace: mustangmafia
+  labels:
+    app: mustangmafia-web
+spec:
+  replicas: 3
+  revisionHistoryLimit: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  minReadySeconds: 10
+  selector:
+    matchLabels:
+      app: mustangmafia-web
+  template:
+    metadata:
+      labels:
+        app: mustangmafia-web
+      annotations:
+        ad.datadoghq.com/git-sync.checks: |
+          {
+            "openmetrics": {
+              "init_config": {},
+              "instances": [
+                {
+                  "openmetrics_endpoint": "http://%%host%%:9100/metrics",
+                  "namespace": "gitsync",
+                  "metrics": ["git_sync_count", "git_fetch_count", "git_sync_duration_seconds"]
+                }
+              ]
+            }
+          }
+        ad.datadoghq.com/nginx.checks: |
+          {
+            "nginx": {
+              "init_config": {},
+              "instances": [
+                {
+                  "nginx_status_url":"http://%%host%%:8081/nginx_status/"
+                }
+              ]
+            }
+          }
+        ad.datadoghq.com/nginx.logs: '[{"source":"nginx","service":"mustangmafia"}]'
+    spec:
+      serviceAccountName: mustangmafia-web
+      automountServiceAccountToken: false
+      terminationGracePeriodSeconds: 30
+      securityContext:
+        fsGroup: 65533 # git-sync gid: makes the 0440 deploy key readable
+        seccompProfile:
+          type: RuntimeDefault
+      initContainers:
+        - name: git-sync-init # blocks until the first clone exists, so nginx never starts empty
+          image: registry.k8s.io/git-sync/git-sync:v4.7.1
+          args:
+            - --repo=git@github.com:gregheffner/mustangmafia.git
+            - --ref=main
+            - --root=/git
+            - --link=site
+            - --depth=1
+            - --ssh-key-file=/etc/git-secret/ssh
+            - --ssh-known-hosts-file=/etc/git-secret/known_hosts
+            - --one-time
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 65533
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ["ALL"]
+          resources:
+            requests: {cpu: 10m, memory: 32Mi}
+            limits: {cpu: 500m, memory: 256Mi}
+          volumeMounts:
+            - {mountPath: /git, name: site-content}
+            - {mountPath: /etc/git-secret, name: deploy-key, readOnly: true}
+            - {mountPath: /tmp, name: git-sync-tmp}
+        - name: git-sync # native sidecar: re-pulls every 5 min; nginx follows the symlink at request time
+          image: registry.k8s.io/git-sync/git-sync:v4.7.1
+          restartPolicy: Always
+          args:
+            - --repo=git@github.com:gregheffner/mustangmafia.git
+            - --ref=main
+            - --root=/git
+            - --link=site
+            - --depth=1
+            - --ssh-key-file=/etc/git-secret/ssh
+            - --ssh-known-hosts-file=/etc/git-secret/known_hosts
+            - --period=300s # same as prod: fewer outbound SSH sessions for the UniFi IPS to flag
+            - --http-bind=:9100
+            - --http-metrics=true
+          ports:
+            - {name: gitsync-metrics, containerPort: 9100, protocol: TCP}
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 65533
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ["ALL"]
+          resources:
+            requests: {cpu: 10m, memory: 32Mi}
+            limits: {cpu: 500m, memory: 256Mi}
+          volumeMounts:
+            - {mountPath: /git, name: site-content}
+            - {mountPath: /etc/git-secret, name: deploy-key, readOnly: true}
+            - {mountPath: /tmp, name: git-sync-tmp}
+      containers:
+        - name: nginx
+          image: technotuba/nginx@sha256:e7aaf75c0bf961a3b1bffb2251258ccc5d07d4e3e6d4b2c9dcc291f56e8bc1f5 # follows prod: soak-gate-promote bumps this to each newly promoted digest
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 101
+            runAsGroup: 101
+            readOnlyRootFilesystem: true
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["ALL"]
+          ports:
+            - {containerPort: 8080, name: http}
+            - {containerPort: 8081, name: nginx-status}
+          readinessProbe:
+            httpGet: {path: /, port: 8080}
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 3
+            failureThreshold: 3
+          startupProbe:
+            httpGet: {path: /healthz, port: 8080}
+            periodSeconds: 3
+            failureThreshold: 10
+          livenessProbe:
+            httpGet: {path: /healthz, port: 8080}
+            initialDelaySeconds: 10
+            periodSeconds: 15
+            timeoutSeconds: 3
+            failureThreshold: 3
+          lifecycle:
+            preStop:
+              exec:
+                command: ["/bin/sh", "-c", "sleep 5; nginx -s quit"]
+          resources:
+            requests: {cpu: 50m, memory: 32Mi}
+            limits: {cpu: 500m, memory: 128Mi}
+          volumeMounts:
+            - {mountPath: /etc/nginx/nginx.conf, name: nginx-config, subPath: nginx.conf, readOnly: true}
+            - {mountPath: /content, name: site-content, readOnly: true}
+            - {mountPath: /var/cache/nginx, name: nginx-cache}
+            - {mountPath: /var/run, name: nginx-run}
+            - {mountPath: /tmp, name: nginx-tmp}
+      volumes:
+        - name: nginx-config
+          configMap:
+            name: mustangmafia-nginx-config
+        - name: site-content # git-sync checkout (emptyDir 0777: git-sync 65533 writes, nginx 101 reads)
+          emptyDir: {}
+        - name: deploy-key # ESO -> external-secrets/es-mustangmafia-deploy-key.yaml (1P item mustangmafia-deploy-key)
+          secret:
+            secretName: mustangmafia-deploy-key
+            defaultMode: 0440
+        - {name: git-sync-tmp, emptyDir: {}}
+        - {name: nginx-cache, emptyDir: {}}
+        - {name: nginx-run, emptyDir: {}}
+        - {name: nginx-tmp, emptyDir: {}}
