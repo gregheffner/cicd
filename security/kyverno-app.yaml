@@ -13,6 +13,27 @@ spec:
   source:
     repoURL: https://kyverno.github.io/kyverno
     chart: kyverno
+    # ⚠️ TRIPWIRE - READ BEFORE CHANGING targetRevision ⚠️
+    # 2026-09-26: kubectl now warns on every apply that the WHOLE
+    # `ClusterPolicy` (kyverno.io) kind is deprecated and will be removed,
+    # in favour of ValidatingPolicy / MutatingPolicy / GeneratingPolicy /
+    # ImageValidatingPolicy under `policies.kyverno.io` (CEL-based).
+    # Those CRDs are already installed on this cluster; we use none of them.
+    #
+    # All FOUR of our policies are kyverno.io/v1 ClusterPolicy:
+    #   verify-technotuba-nginx, require-resource-limits,
+    #   disallow-latest-tag, restrict-automount-sa-token
+    #
+    # Nothing is broken today - it is deprecated, not removed - and pinning
+    # here is what keeps it that way. But if a future chart DROPS the old
+    # API, those four vanish on sync and the cosign image gate on prod stops
+    # enforcing. ArgoCD would go OutOfSync so it is not silent, but the
+    # control would already be off.
+    #
+    # BEFORE bumping this: check the release notes for removal of
+    # kyverno.io/v1, and if it is gone, migrate the four policies FIRST.
+    # The three audit ones are simple pattern matches and port easily; the
+    # keyless-cosign signing policy is the fiddly one.
     targetRevision: 3.9.0               # app v1.19.0 (2026-08-20). RE-CONFIRM via the live-confirmations before applying.
     helm:
       values: |
