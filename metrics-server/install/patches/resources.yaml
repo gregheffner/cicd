@@ -1,0 +1,19 @@
+# Memory limit sized from Datadog: 14-day peak 87Mi (median 86Mi) as of 2026-09-27, so
+# 256Mi is ~3x. Requests stay at upstream's 100m / 200Mi. No CPU limit (throttling
+# metrics-server slows HPA and kubectl top for no benefit).
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: metrics-server
+  namespace: kube-system
+spec:
+  template:
+    spec:
+      containers:
+        - name: metrics-server
+          resources:
+            requests:
+              cpu: 100m
+              memory: 200Mi
+            limits:
+              memory: 256Mi
