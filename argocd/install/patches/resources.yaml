@@ -1,0 +1,105 @@
+# Requests/limits for every Argo CD workload (upstream ships none), sized 2026-09-27 from
+# Datadog kubernetes.memory.usage over 14 days (covers a Saturday patch reboot):
+#
+#   container                          14d max   median   limit   request
+#   argocd-application-controller        738Mi    551Mi   1536Mi    512Mi
+#   argocd-repo-server                   215Mi    145Mi    512Mi    160Mi
+#   argocd-server                         66Mi     45Mi    256Mi     64Mi
+#   argocd-notifications-controller       54Mi     33Mi    128Mi     48Mi
+#   argocd-applicationset-controller      49Mi     36Mi    128Mi     48Mi
+#   dex                                   37Mi     22Mi    128Mi     32Mi
+#   redis                                 36Mi     32Mi    128Mi     32Mi
+#
+# ~2x peak for the two that grow with the cluster (controller: app/resource count;
+# repo-server: Helm renders), more headroom for the small ones. No CPU limits: throttling
+# the controller or repo-server slows every sync. Re-size from Datadog if apps are added.
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: argocd-application-controller
+spec:
+  template:
+    spec:
+      containers:
+        - name: argocd-application-controller
+          resources:
+            requests: {cpu: 100m, memory: 512Mi}
+            limits: {memory: 1536Mi}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: argocd-repo-server
+spec:
+  template:
+    spec:
+      containers:
+        - name: argocd-repo-server
+          resources:
+            requests: {cpu: 50m, memory: 160Mi}
+            limits: {memory: 512Mi}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: argocd-server
+spec:
+  template:
+    spec:
+      containers:
+        - name: argocd-server
+          resources:
+            requests: {cpu: 20m, memory: 64Mi}
+            limits: {memory: 256Mi}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: argocd-notifications-controller
+spec:
+  template:
+    spec:
+      containers:
+        - name: argocd-notifications-controller
+          resources:
+            requests: {cpu: 10m, memory: 48Mi}
+            limits: {memory: 128Mi}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: argocd-applicationset-controller
+spec:
+  template:
+    spec:
+      containers:
+        - name: argocd-applicationset-controller
+          resources:
+            requests: {cpu: 10m, memory: 48Mi}
+            limits: {memory: 128Mi}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: argocd-dex-server
+spec:
+  template:
+    spec:
+      containers:
+        - name: dex
+          resources:
+            requests: {cpu: 10m, memory: 32Mi}
+            limits: {memory: 128Mi}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: argocd-redis
+spec:
+  template:
+    spec:
+      containers:
+        - name: redis
+          resources:
+            requests: {cpu: 20m, memory: 32Mi}
+            limits: {memory: 128Mi}
