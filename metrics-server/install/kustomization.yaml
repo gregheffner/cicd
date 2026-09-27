@@ -1,0 +1,12 @@
+# metrics-server/install - UNMODIFIED upstream components.yaml + patches/.
+# Upgrade = replace upstream/components.yaml with the new release asset (PR diff = upstream
+# change). Rendered by the metrics-server Application (metrics-server-app.yaml).
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - upstream/components.yaml
+patches:
+  - path: patches/kubelet-ca.yaml
+    target:
+      kind: Deployment
+      name: metrics-server

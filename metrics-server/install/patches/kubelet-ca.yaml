@@ -1,0 +1,6 @@
+# CIS hardening: verify kubelet serving certs against the cluster CA instead of trusting
+# them blindly. Works because kubelet-csr-approver issues CA-signed serving certs.
+# Was a live-only edit until 2026-09-27.
+- op: add
+  path: /spec/template/spec/containers/0/args/-
+  value: --kubelet-certificate-authority=/var/run/secrets/kubernetes.io/serviceaccount/ca.crt
