@@ -10,3 +10,4 @@ patches:
     target:
       kind: Deployment
       name: metrics-server
+  - path: patches/resources.yaml
