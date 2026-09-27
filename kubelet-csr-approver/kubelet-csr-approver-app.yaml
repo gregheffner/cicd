@@ -7,7 +7,8 @@
 # resources Argo CD now owns.
 # The chart's test Job (helm.sh/hook: test) is a hook type Argo CD has no mapping for, so it
 # is never created.
-# MANUAL sync for the adoption sync; automated in a follow-up.
+# Adoption sync 2026-09-27 was manual and verified (same pods, 0 restarts, test Job not
+# created). Automated with selfHeal; prune OFF because it owns cluster-scoped RBAC.
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -38,5 +39,8 @@ spec:
     server: https://kubernetes.default.svc
     namespace: kube-system
   syncPolicy:
+    automated:
+      prune: false
+      selfHeal: true
     syncOptions:
       - ServerSideApply=true
