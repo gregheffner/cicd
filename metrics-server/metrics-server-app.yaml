@@ -1,7 +1,7 @@
 # metrics-server/metrics-server-app.yaml - created by the root app (argocd/root.yaml).
 # Was a raw kubectl apply of upstream v0.9.0 plus one live-only arg; adopted 2026-09-27.
-# MANUAL sync for the first (adoption) sync, which only writes tracking annotations;
-# automated comes in a follow-up once that is verified.
+# Adoption sync 2026-09-27 was manual and verified (same pods, 0 restarts). Automated with
+# selfHeal; prune OFF because it owns cluster-scoped RBAC and an APIService.
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -17,5 +17,8 @@ spec:
     server: https://kubernetes.default.svc
     namespace: kube-system
   syncPolicy:
+    automated:
+      prune: false
+      selfHeal: true
     syncOptions:
       - ServerSideApply=true
