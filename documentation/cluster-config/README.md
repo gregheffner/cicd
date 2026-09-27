@@ -26,7 +26,6 @@ have silently lost all of it, and there was no diffable history of what changed 
 | `kubeadm-ClusterConfiguration.yaml` | `kube-system/kubeadm-config` ConfigMap, key `ClusterConfiguration` | kubeadm |
 | `kubelet-KubeletConfiguration.yaml` | `kube-system/kubelet-config` ConfigMap, key `kubelet` | kubeadm, pulled per node by `kubeadm upgrade node phase kubelet-config` |
 | `apiserver-audit-policy.yaml` | `/etc/kubernetes/audit/policy.yaml` on k8-primary | mounted into kube-apiserver |
-| `kubelet-csr-approver-values.yaml` | Helm release `kubelet-csr-approver` in `kube-system` | Helm |
 
 **Not captured, deliberately:** `/etc/kubernetes/enc/enc.yaml` contains live encryption keys.
 It lives in 1Password (`Secure APIs`) in two items, the current secretbox key and the retired

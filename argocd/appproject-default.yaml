@@ -85,4 +85,6 @@ spec:
   - https://kyverno.github.io/kyverno
   # 2026-09-19: official Falco chart repo (chart falco 9.1.0 / appVersion 0.44.1).
   - https://falcosecurity.github.io/charts
+  # 2026-09-27: kubelet-csr-approver chart (adopted from a hand `helm install`).
+  - https://postfinance.github.io/kubelet-csr-approver
 
