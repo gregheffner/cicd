@@ -201,22 +201,31 @@ jobs:
           echo "::error::could not push pinned manifest after retries"; exit 1
 
       - name: Roll out and verify the running digest
+        # ArgoCD (app `radar`, automated + selfHeal) owns weathermap/: it applies the pinned
+        # manifest from the commit above. This step only asks Argo to refresh now and then
+        # WAITS until every live pod serves the pinned digest. It used to `kubectl apply`
+        # itself, which duplicated Argo and broke on 2026-09-07 once radar.yml gained a
+        # ServiceAccount the least-privilege runner may not read (3 weeks of false red).
+        # Runner RBAC used: applications.argoproj.io patch (automation), pods list (radar).
         env:
           DIGEST: ${{ needs.build-scan-push.outputs.digest }}
         run: |
           set -euo pipefail
-          kubectl -n radar apply -f weathermap/radar.yml
-          kubectl -n radar rollout status deploy/radar --timeout=180s
-          RUNNING=$(kubectl -n radar get pods -l app=radar \
-            -o jsonpath='{range .items[*]}{.status.containerStatuses[0].imageID}{"\n"}{end}')
-          echo "running imageIDs:"; echo "$RUNNING"
-          BAD=0
-          while IFS= read -r line; do
-            [ -z "$line" ] && continue
-            case "$line" in
-              *"$DIGEST"*) : ;;
-              *) echo "::error::pod imageID '$line' does not match pinned digest $DIGEST"; BAD=1 ;;
-            esac
-          done <<< "$RUNNING"
-          [ "$BAD" = "0" ] || exit 1
+          kubectl -n automation annotate application radar \
+            argocd.argoproj.io/refresh=hard --overwrite \
+            || echo "::warning::could not force an ArgoCD refresh; waiting on its poll instead"
+          deadline=$(( SECONDS + 600 ))
+          while :; do
+            # One line per pod: "<deletionTimestamp>|<imageID>|<ready>". Terminating pods have a
+            # deletionTimestamp; kubectl JSONPath has no negation, so drop them in the shell.
+            PODS=$(kubectl -n radar get pods -l app=radar -o jsonpath='{range .items[*]}{.metadata.deletionTimestamp}{"|"}{.status.containerStatuses[0].imageID}{"|"}{.status.containerStatuses[0].ready}{"\n"}{end}' | grep '^|' || true)
+            total=$(printf '%s\n' "$PODS" | grep -c . || true)
+            good=$(printf '%s\n' "$PODS" | grep -F "$DIGEST" | grep -c '|true$' || true)
+            echo "radar pods on ${DIGEST} and Ready: ${good}/${total}"
+            if [ "$total" -gt 0 ] && [ "$good" -eq "$total" ]; then break; fi
+            if [ "$SECONDS" -ge "$deadline" ]; then
+              echo "::error::radar pods did not all reach ${DIGEST} within 10 min"; echo "$PODS"; exit 1
+            fi
+            sleep 10
+          done
           echo "all radar pods serve ${DIGEST}"

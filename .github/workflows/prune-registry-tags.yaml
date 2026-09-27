@@ -87,7 +87,10 @@ jobs:
       - name: Prune (all set-logic; mechanical, no AI)
         env:
           DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-          DOCKERHUB_TOKEN:    ${{ secrets.DOCKERHUB_TOKEN }}
+          # Separate delete-scoped token, used ONLY here (2026-09-27): DOCKERHUB_TOKEN is
+          # read/write and got HTTP 403 on DELETE, so every scheduled prune since 09-07 failed
+          # closed. The build keeps the non-delete token (least privilege).
+          DOCKERHUB_TOKEN:    ${{ secrets.DOCKERHUB_PRUNE_TOKEN }}
           EVENT:             ${{ github.event_name }}
           APPLY_INPUT:       ${{ inputs.apply || 'false' }}
           RETENTION_MONTHS:  ${{ inputs.retention_months || '3' }}
