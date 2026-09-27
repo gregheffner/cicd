@@ -29,3 +29,5 @@ patches:
   - path: patches/cmd-params-cm.yaml
   - path: patches/redis-datadog-annotation.yaml
   - path: patches/redis-network-policy.yaml
+  # Upstream ships no requests/limits; sized from 14 days of Datadog data.
+  - path: patches/resources.yaml
