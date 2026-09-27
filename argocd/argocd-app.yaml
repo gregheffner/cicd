@@ -1,0 +1,28 @@
+# argocd/argocd-app.yaml  (apply ONCE as cluster-admin during bootstrap)
+# Argo CD managing its own install from argocd/install (kustomize overlay on upstream).
+# This file sits OUTSIDE that path, so the app never manages or prunes its own Application CR.
+#
+# Deliberately conservative - Argo CD breaking itself leaves nothing to fix it with:
+#   - NO automated sync. Every change, upgrades included, is a human-read diff + manual Sync.
+#     Break-glass with Argo CD down: kubectl apply --server-side --force-conflicts -k argocd/install
+#   - NO resources-finalizer. Deleting this Application must never cascade into Argo CD itself.
+#   - Leave PRUNE unticked on manual syncs; the 3 argoproj CRDs also carry Delete=false,Prune=false.
+#   - ServerSideApply: the applicationsets CRD (~376 KB) is over the client-side
+#     last-applied-configuration limit.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argocd
+  namespace: automation
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/gregheffner/cicd
+    targetRevision: HEAD
+    path: argocd/install
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: automation
+  syncPolicy:
+    syncOptions:
+      - ServerSideApply=true
