@@ -1,0 +1,32 @@
+# datadog/argocd-redis-creds — sourced from 1Password
+# (vault k8s-cluster-secrets, item "argocd-redis", field "password").
+#
+# 2026-09-26: exists so the Datadog `redisdb` check can authenticate to
+# argocd-redis WITHOUT the password sitting in CLEAR TEXT in the
+# ad.datadoghq.com/redis.checks annotation on the argocd-redis pod template,
+# which is where it was found. The agent consumes this via an env var and the
+# annotation then uses %%env_ARGOCD_REDIS_PASSWORD%%.
+#
+# The same value already lives in Secret automation/argocd-redis (key `auth`) —
+# verified identical by sha256 before this was created. Cross-namespace Secret
+# references are not possible, hence this copy in the datadog namespace.
+#
+# Do NOT remove from the include allowlist without a planned rotation: prune
+# would delete the Secret and the redisdb check would start failing auth.
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: argocd-redis-creds
+  namespace: datadog
+spec:
+  refreshInterval: 6h
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: onepassword
+  target:
+    name: argocd-redis-creds
+    creationPolicy: Owner
+  data:
+    - secretKey: password
+      remoteRef:
+        key: argocd-redis/password
