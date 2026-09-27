@@ -38,10 +38,25 @@ spec:
       containers:
         - name: node-cache
           image: registry.k8s.io/dns/k8s-dns-node-cache:1.26.4
+          # 2026-09-26 sizing, from live usage across all four nodes
+          # (24Mi / 54Mi / 54Mi / 55Mi; cpu 4-16m):
+          #
+          # - memory REQUEST 5Mi -> 64Mi. The old request was 5-11x BELOW actual
+          #   usage, which makes this pod a prime eviction candidate under node
+          #   memory pressure. Evicting the node's DNS cache is exactly the
+          #   failure you do not want, so the request now reflects reality.
+          # - memory LIMIT 256Mi (~4.6x the 55Mi peak) and NOT the ~2x used
+          #   elsewhere. This is DNS: an OOMKill here is worse than the runaway a
+          #   tight limit would contain, so the headroom is deliberate.
+          # - NO cpu limit. CPU throttling on a DNS cache shows up as latency on
+          #   every lookup on the node. The cpu REQUEST is what matters and is
+          #   already generous at 25m vs 4-16m observed.
           resources:
             requests:
               cpu: 25m
-              memory: 5Mi
+              memory: 64Mi
+            limits:
+              memory: 256Mi
           args:
             - "-localip"
             - "100.64.0.10,10.96.0.10"
