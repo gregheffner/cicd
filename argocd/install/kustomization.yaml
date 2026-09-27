@@ -1,0 +1,31 @@
+# argocd/install - Argo CD itself, as a kustomize overlay on UNMODIFIED upstream install.yaml.
+# Upgrade = replace upstream/install.yaml with the new tag's file; the PR diff is the upstream
+# change. Everything local lives in patches/. Rendered by the `argocd` Application
+# (argocd/argocd-app.yaml) and, as break-glass, by `kubectl apply --server-side -k`.
+#
+# GATE before any merge: `kubectl kustomize argocd/install | grep -c 'namespace: argocd$'` MUST
+# print 0. The `namespace:` below does NOT rewrite ClusterRoleBinding subjects (verified with
+# kustomize v5.8.1); an unpatched binding strips Argo CD of all cluster RBAC.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: automation
+resources:
+  - upstream/install.yaml
+patches:
+  # Upstream pins these three subjects to namespace `argocd`.
+  - path: patches/clusterrolebinding-namespace.yaml
+    target:
+      kind: ClusterRoleBinding
+      name: argocd-(application-controller|applicationset-controller|server)
+  # Deleting the Application CRD deletes every Application, and their finalizers cascade to
+  # every workload in the cluster. Never prune or delete these three.
+  - path: patches/crd-protect.yaml
+    target:
+      kind: CustomResourceDefinition
+      name: (applications|applicationsets|appprojects).argoproj.io
+  # argocd-secret holds the admin hash and server signing key, argocd-notifications-secret is
+  # unused; upstream ships both empty. Never let Git own them.
+  - path: patches/secrets-exclude.yaml
+  - path: patches/cmd-params-cm.yaml
+  - path: patches/redis-datadog-annotation.yaml
+  - path: patches/redis-network-policy.yaml

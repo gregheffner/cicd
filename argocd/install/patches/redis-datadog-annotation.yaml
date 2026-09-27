@@ -1,0 +1,11 @@
+# Datadog redisdb check. The password comes from the node agent's ARGOCD_REDIS_PASSWORD env var
+# (ESO secret datadog/argocd-redis-creds, cicd #176/#177) - never put the literal here.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: argocd-redis
+spec:
+  template:
+    metadata:
+      annotations:
+        ad.datadoghq.com/redis.checks: '{"redisdb": {"instances": [{"host": "%%host%%", "port": 6379, "password": "%%env_ARGOCD_REDIS_PASSWORD%%"}]}}'
