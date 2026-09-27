@@ -8,6 +8,9 @@ metadata:
   namespace: automation                 # ArgoCD lives here (same as heffner-prod/dr/shared-services)
   annotations:
     argocd.argoproj.io/sync-wave: "0"
+    # 2026-09-27: root app manages this Application. It carries pre-delete hook finalizers,
+    # so it must never be pruned from git - removal is a deliberate manual step.
+    argocd.argoproj.io/sync-options: Prune=false
 spec:
   project: default
   source:

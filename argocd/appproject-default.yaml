@@ -1,3 +1,8 @@
+# argocd/appproject-default.yaml - the `default` AppProject, managed by the root app
+# (argocd/root.yaml) since 2026-09-27. Before that it was hand-applied and this copy lived
+# in documentation/cluster-config, where it drifted. Every Application uses this project,
+# including root: a bad edit here can block ALL syncs. Recover with a kubectl apply of the
+# last good version.
 apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
@@ -62,6 +67,10 @@ spec:
   # the single `falco` namespace - NOT a wildcard. This project is ArgoCD's blast
   # radius (see description), so each addition is one namespace, one repo.
   - namespace: falco
+    server: https://kubernetes.default.svc
+  # 2026-09-26: Mustang Mafia site (cicd #170). Was live-patched only; this copy
+  # missed it until the project came under the root app (2026-09-27).
+  - namespace: mustangmafia
     server: https://kubernetes.default.svc
   namespaceResourceBlacklist:
   - group: ''

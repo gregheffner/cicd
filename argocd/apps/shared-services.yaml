@@ -1,0 +1,26 @@
+# argocd/apps/shared-services.yaml - nginx Service/config shared by blue and green (path
+# shared/). The soak-gate-promote workflow flips the Service selector in git and then
+# hard-refreshes THIS app, so it must keep selfHeal. Created in the UI; written down
+# 2026-09-27 from the live spec. Not in shared/: no include filter there.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: shared-services
+  namespace: automation
+  labels:
+    app.kubernetes.io/managed-by: argocd
+    owner: gregheffner
+    self-heal: "true"
+    source: cicd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/gregheffner/cicd
+    targetRevision: HEAD
+    path: shared
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: prod
+  syncPolicy:
+    automated:
+      selfHeal: true

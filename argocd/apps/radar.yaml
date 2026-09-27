@@ -1,0 +1,26 @@
+# argocd/apps/radar.yaml - the weather radar (path weathermap/). Created in the UI;
+# written down 2026-09-27 from the live spec. Not in weathermap/: no include filter there.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: radar
+  namespace: automation
+  labels:
+    ACTIVE: "TRUE"
+    app.kubernetes.io/managed-by: argocd
+    owner: gregheffner
+    self-heal: "true"
+    source: cicd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/gregheffner/cicd
+    targetRevision: HEAD
+    path: weathermap
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: radar
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
