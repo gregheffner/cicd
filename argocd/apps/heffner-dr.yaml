@@ -1,0 +1,31 @@
+# argocd/apps/heffner-dr.yaml - the GREEN standby nginx (path DR/). Created in the UI;
+# written down 2026-09-27 from the live spec. Not in DR/: no include filter there.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: heffner-dr
+  namespace: automation
+  labels:
+    ACTIVE: "TRUE"
+    app.kubernetes.io/managed-by: argocd
+    owner: gregheffner
+    self-heal: "true"
+    source: cicd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/gregheffner/cicd
+    targetRevision: HEAD
+    path: DR
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: prod
+  ignoreDifferences:
+    - group: apps
+      kind: Deployment
+      jsonPointers:
+        - /spec/replicas
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

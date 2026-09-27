@@ -1,0 +1,38 @@
+# argocd/root.yaml  (apply ONCE as cluster-admin; nothing manages this file)
+# App of apps: every Application, the default AppProject and (later) Namespaces come from
+# git, so merging an *-app.yaml change is enough - no more kubectl apply after merge.
+#
+#   */*-app.yaml                  the Applications that live next to their workloads
+#   argocd/apps/*.yaml            Applications whose source dir has no include filter
+#   argocd/appproject-default.yaml
+#   namespaces/*.yaml             (added in a follow-up)
+#
+# Guardrails:
+#   - NEVER prune. Removing an Application from git must not delete it: kyverno's carries
+#     pre-delete hooks, and a child's own prune would take its workloads with it. Remove an
+#     app by deleting its file AND the Application by hand, deliberately.
+#   - No resources-finalizer: deleting root must not cascade into the child Applications.
+#   - This file matches none of the include patterns, so root never manages itself.
+#   - Manual sync at first; automated (no selfHeal, no prune) comes in a follow-up once the
+#     first sync is verified. argocd-upgrade.yml --tags suspend must pause root too.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: root
+  namespace: automation
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/gregheffner/cicd
+    targetRevision: HEAD
+    path: .
+    directory:
+      recurse: true
+      include: '{*/*-app.yaml,argocd/apps/*.yaml,argocd/appproject-default.yaml,namespaces/*.yaml}'
+      exclude: '{archive/**,.github/**}'
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: automation
+  syncPolicy:
+    syncOptions:
+      - ServerSideApply=true
