@@ -269,6 +269,18 @@ spec:
             # 2026-07-03 audit: removed DD_CONTAINER_INCLUDE=name:heffner.live — matched
             # no actual container name (they're nginx/fail2ban/...); dead config that read
             # as if discovery were filtered when it wasn't (include without exclude is a no-op)
+            #
+            # 2026-09-26: feeds the ad.datadoghq.com/redis.checks annotation on the
+            # argocd-redis pod template, which previously carried the password in CLEAR
+            # TEXT. Autodiscovery resolves %%env_ARGOCD_REDIS_PASSWORD%% from the AGENT's
+            # environment, so it must live on this container - the redisdb check runs in
+            # the node agent (verified: Configuration Source container:..., 3478 runs).
+            # Secret comes from 1Password via ESO (external-secrets/es-datadog-argocd-redis-creds.yaml).
+            - name: ARGOCD_REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: argocd-redis-creds
+                  key: password
         trace-agent:
           # 14d: p95 47Mi / peak 61Mi, cpu p95 6m
           resources:
