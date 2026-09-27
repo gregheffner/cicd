@@ -13,8 +13,11 @@
 #     app by deleting its file AND the Application by hand, deliberately.
 #   - No resources-finalizer: deleting root must not cascade into the child Applications.
 #   - This file matches none of the include patterns, so root never manages itself.
-#   - Manual sync at first; automated (no selfHeal, no prune) comes in a follow-up once the
-#     first sync is verified. argocd-upgrade.yml --tags suspend must pause root too.
+#   - Automated, but NO selfHeal and NO prune: a merge to main is applied; a live edit is
+#     only reverted by the next commit. argocd-upgrade.yml --tags suspend pauses root FIRST
+#     (else it would re-arm the Helm apps it suspends) and --tags resume restores it LAST.
+#   - First sync 2026-09-27 was manual and verified: 17/17 (16 Applications + AppProject),
+#     every child's policy and finalizers unchanged.
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -34,5 +37,8 @@ spec:
     server: https://kubernetes.default.svc
     namespace: automation
   syncPolicy:
+    automated:
+      prune: false
+      selfHeal: false
     syncOptions:
       - ServerSideApply=true
