@@ -1,0 +1,9 @@
+# Lets watch.heffner.live (behind Cloudflare Access) frame the Argo CD UI. Were set out-of-band
+# and only survived upgrades because server-side apply leaves other managers' fields alone.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-cmd-params-cm
+data:
+  server.content.security.policy: frame-ancestors self https://watch.heffner.live
+  server.x.frame.options: ""

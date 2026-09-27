@@ -1,0 +1,25 @@
+# Adds the datadog namespace as a 4th ingress source so the redisdb check keeps working if
+# NetworkPolicy enforcement is ever enabled (flannel does not enforce today). namespaceSelector,
+# not podSelector: the agent DaemonSet's labels shift between versions. Still 6379/TCP only.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: argocd-redis-network-policy
+spec:
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/name: argocd-server
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/name: argocd-repo-server
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/name: argocd-application-controller
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: datadog
+      ports:
+        - port: 6379
+          protocol: TCP
