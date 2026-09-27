@@ -1,0 +1,14 @@
+# namespaces/default.yaml - nothing should run here; restricted so nothing privileged can.
+# Managed by the root app (argocd/root.yaml) for its Pod Security labels, which had no
+# git record before 2026-09-27. Delete=false,Prune=false: deleting a namespace deletes
+# everything in it, so git must never be able to.
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: default
+  annotations:
+    argocd.argoproj.io/sync-options: Delete=false,Prune=false
+  labels:
+    pod-security.kubernetes.io/audit: restricted
+    pod-security.kubernetes.io/enforce: restricted
+    pod-security.kubernetes.io/warn: restricted
