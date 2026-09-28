@@ -1,0 +1,21 @@
+# Read-only Discord bot token for mustangmafia/events-sync.yaml (website calendar sync).
+# Source of truth: 1Password item "mustangmafia-discord-bot" in k8s-cluster-secrets, field token.
+# The bot ("Mustang Mafia Helper") holds View Channels only after the 2026-09-28 build;
+# rotate in the Discord Developer Portal and update the 1P item together.
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: mustangmafia-discord-bot
+  namespace: mustangmafia
+spec:
+  refreshInterval: 6h
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: onepassword
+  target:
+    name: mustangmafia-discord-bot
+    creationPolicy: Owner
+  data:
+    - secretKey: token
+      remoteRef:
+        key: mustangmafia-discord-bot/token

@@ -160,6 +160,7 @@ spec:
             - {mountPath: /var/cache/nginx, name: nginx-cache}
             - {mountPath: /var/run, name: nginx-run}
             - {mountPath: /tmp, name: nginx-tmp}
+            - {mountPath: /srv/events, name: events, readOnly: true} # no subPath: kubelet refreshes updates
       volumes:
         - name: nginx-config
           configMap:
@@ -174,3 +175,7 @@ spec:
         - {name: nginx-cache, emptyDir: {}}
         - {name: nginx-run, emptyDir: {}}
         - {name: nginx-tmp, emptyDir: {}}
+        - name: events # written by the events-sync CronJob; optional so pods start before its first run
+          configMap:
+            name: mustangmafia-events
+            optional: true
