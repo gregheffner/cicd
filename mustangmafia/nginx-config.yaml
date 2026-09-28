@@ -72,6 +72,26 @@ data:
           location ~* \.(md)$ { return 404; }
           location ~* xmlrpc\.php|wp-login\.php|^/(wp-admin|wp-includes) { return 444; }
 
+          # Join button, IG bio and flyer QR all point here, so a new invite is a one-line change.
+          location = /discord {
+              add_header Cache-Control "public, max-age=300" always;
+              return 302 https://discord.gg/YsDEdm6fJP;
+          }
+
+          # Discord scheduled events, written by the events-sync CronJob into the
+          # mustangmafia-events ConfigMap (mounted at /srv/events). 5 min cache like the HTML.
+          location /events/ {
+              alias /srv/events/;
+              types {
+                  application/json json;
+                  text/calendar    ics;
+              }
+              charset utf-8;
+              charset_types application/json text/calendar;
+              add_header Cache-Control "public, max-age=300" always;
+              add_header X-Content-Type-Options "nosniff" always;
+          }
+
           location /assets/ {
               expires 30d;
               add_header Cache-Control "public, max-age=2592000" always;

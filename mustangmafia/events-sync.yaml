@@ -1,0 +1,259 @@
+# Website calendar sync for mustangmafiajacksonville.com.
+# Every 15 min a CronJob reads the chapter Discord server's scheduled events with a
+# read-only bot token (View Channels only) and writes events.json + mustangmafia.ics
+# into the ConfigMap mustangmafia-events. The web pods mount it at /srv/events and
+# nginx serves it as /events/. Outbound only: no Service, no inbound endpoint.
+# The ConfigMap is created by the job, not by Argo, so it is never pruned or reset.
+# Token: 1P item mustangmafia-discord-bot (k8s-cluster-secrets) via
+# external-secrets/es-mustangmafia-discord-bot.yaml.
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: mustangmafia-events-sync
+  namespace: mustangmafia
+automountServiceAccountToken: false
+---
+# Only the one ConfigMap. create can't be limited by name, so it is namespace-wide,
+# but get/patch are pinned to mustangmafia-events.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: mustangmafia-events-sync
+  namespace: mustangmafia
+rules:
+  - apiGroups: [""]
+    resources: [configmaps]
+    verbs: [create]
+  - apiGroups: [""]
+    resources: [configmaps]
+    resourceNames: [mustangmafia-events]
+    verbs: [get, patch]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: mustangmafia-events-sync
+  namespace: mustangmafia
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: mustangmafia-events-sync
+subjects:
+  - kind: ServiceAccount
+    name: mustangmafia-events-sync
+    namespace: mustangmafia
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mustangmafia-events-sync-script
+  namespace: mustangmafia
+data:
+  sync.py: |
+    """Copy Discord scheduled events to the website.
+
+    Reads the chapter server's scheduled events with a read-only bot token and writes
+    events.json + mustangmafia.ics into the ConfigMap mustangmafia-events, which the
+    web pods mount at /srv/events (served as /events/). Outbound only, stdlib only.
+
+    Published: real-world (EXTERNAL) events that are scheduled or live, created by an
+    Officer or carrying #public in the description. #members always hides an event.
+    """
+    import json, os, ssl, sys, urllib.error, urllib.request
+    from datetime import datetime, timezone
+
+    GUILD = os.environ["GUILD_ID"]
+    OFFICER_ROLE = os.environ["OFFICER_ROLE_ID"]
+    NS = os.environ.get("NAMESPACE", "mustangmafia")
+    CM = os.environ.get("CONFIGMAP", "mustangmafia-events")
+    MAX_EVENTS = 10
+    TOKEN = open(os.environ.get("TOKEN_FILE", "/etc/discord/token")).read().strip()
+    UA = "DiscordBot (https://mustangmafiajacksonville.com, 1.0) mustangmafia-events-sync"
+
+
+    def discord(path):
+        req = urllib.request.Request("https://discord.com/api/v10" + path,
+                                     headers={"Authorization": "Bot " + TOKEN, "User-Agent": UA})
+        try:
+            with urllib.request.urlopen(req, timeout=20) as r:
+                return json.load(r)
+        except urllib.error.HTTPError as e:
+            body = e.read()[:300].decode(errors="replace")
+            # 401/403: bad token or a Cloudflare block. Log the body to tell them apart, never retry.
+            sys.exit(f"discord {path} -> {e.code}: {body}")
+
+
+    def is_officer(user_id, cache={}):
+        if user_id not in cache:
+            try:
+                m = discord(f"/guilds/{GUILD}/members/{user_id}")
+                cache[user_id] = OFFICER_ROLE in m.get("roles", [])
+            except SystemExit:  # creator left the server: treat as not an officer
+                cache[user_id] = False
+        return cache[user_id]
+
+
+    def published(ev):
+        desc = (ev.get("description") or "").lower()
+        if ev.get("entity_type") != 3 or ev.get("status") not in (1, 2) or "#members" in desc:
+            return False
+        return "#public" in desc or is_officer(ev.get("creator_id"))
+
+
+    def clean(text):
+        return " ".join((text or "").replace("#public", "").replace("#PUBLIC", "").split()) if text else ""
+
+
+    def ics_text(s):
+        return s.replace("\\", "\\\\").replace(";", "\\;").replace(",", "\\,").replace("\n", "\\n")
+
+
+    def ics_time(iso):
+        return datetime.fromisoformat(iso).astimezone(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+
+
+    def fold(line):
+        b = line.encode()
+        out = []
+        while len(b) > 75:
+            cut = 75
+            while (b[cut] & 0xC0) == 0x80:  # don't split a UTF-8 character
+                cut -= 1
+            out.append(b[:cut].decode()); b = b" " + b[cut:]
+        out.append(b.decode())
+        return "\r\n".join(out)
+
+
+    REPEATS = {0: "yearly", 1: "monthly", 2: "weekly", 3: "daily"}
+
+    events = []
+    for ev in sorted(discord(f"/guilds/{GUILD}/scheduled-events?with_user_count=true"),
+                     key=lambda e: e["scheduled_start_time"]):
+        if not published(ev):
+            continue
+        rr = ev.get("recurrence_rule")
+        events.append({
+            "id": ev["id"],
+            "name": ev["name"],
+            "start": ev["scheduled_start_time"],
+            "end": ev.get("scheduled_end_time"),
+            "location": (ev.get("entity_metadata") or {}).get("location", ""),
+            "description": clean(ev.get("description")),
+            "interested": ev.get("user_count", 0),
+            "repeats": REPEATS.get(rr.get("frequency")) if rr else None,
+            "live": ev["status"] == 2,
+            "rsvp_url": f"https://discord.com/events/{GUILD}/{ev['id']}",
+        })
+        if len(events) >= MAX_EVENTS:
+            break
+
+    feed = json.dumps({"events": events}, indent=1, sort_keys=True)
+
+    stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+    lines = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Mustang Mafia Jacksonville//Events//EN",
+             "CALSCALE:GREGORIAN", "METHOD:PUBLISH", "X-WR-CALNAME:Mustang Mafia Jacksonville",
+             "X-WR-TIMEZONE:America/New_York", "REFRESH-INTERVAL;VALUE=DURATION:PT1H", "X-PUBLISHED-TTL:PT1H"]
+    for e in events:
+        desc = e["description"] + ("\n\n" if e["description"] else "") + "RSVP on Discord: " + e["rsvp_url"]
+        lines += ["BEGIN:VEVENT", f"UID:{e['id']}@mustangmafiajacksonville.com", f"DTSTAMP:{stamp}",
+                  f"DTSTART:{ics_time(e['start'])}", f"DTEND:{ics_time(e['end'] or e['start'])}",
+                  f"SUMMARY:{ics_text(e['name'])}", f"LOCATION:{ics_text(e['location'])}",
+                  f"DESCRIPTION:{ics_text(desc)}", f"URL:{e['rsvp_url']}", "END:VEVENT"]
+    lines.append("END:VCALENDAR")
+    ics = "\r\n".join(fold(l) for l in lines) + "\r\n"
+
+    if os.environ.get("DRY_RUN"):
+        print(feed); print(ics); sys.exit(0)
+
+    # ---- write the ConfigMap (only when the events changed; DTSTAMP alone is not a change)
+    api = "https://kubernetes.default.svc/api/v1/namespaces/" + NS + "/configmaps"
+    sa = "/var/run/secrets/kubernetes.io/serviceaccount/"
+    ctx = ssl.create_default_context(cafile=sa + "ca.crt")
+    kh = {"Authorization": "Bearer " + open(sa + "token").read().strip(), "Content-Type": "application/json"}
+
+
+    def k8s(method, url, body=None, ctype=None):
+        h = dict(kh)
+        if ctype:
+            h["Content-Type"] = ctype
+        req = urllib.request.Request(url, method=method, headers=h, data=None if body is None else json.dumps(body).encode())
+        try:
+            with urllib.request.urlopen(req, context=ctx, timeout=20) as r:
+                return json.load(r)
+        except urllib.error.HTTPError as e:
+            if e.code == 404 and method == "GET":
+                return None
+            sys.exit(f"k8s {method} {url} -> {e.code}: {e.read()[:300].decode(errors='replace')}")
+
+
+    current = k8s("GET", f"{api}/{CM}")
+    data = {"events.json": feed, "mustangmafia.ics": ics}
+    if current is None:
+        k8s("POST", api, {"apiVersion": "v1", "kind": "ConfigMap",
+                          "metadata": {"name": CM, "namespace": NS, "labels": {"app": "mustangmafia-events-sync"}},
+                          "data": data})
+        print(f"created {CM}: {len(events)} event(s)")
+    elif (current.get("data") or {}).get("events.json") != feed:
+        k8s("PATCH", f"{api}/{CM}", {"data": data}, "application/merge-patch+json")
+        print(f"updated {CM}: {len(events)} event(s)")
+    else:
+        print(f"no change: {len(events)} event(s)")
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: mustangmafia-events-sync
+  namespace: mustangmafia
+spec:
+  schedule: "*/15 * * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 3
+  startingDeadlineSeconds: 600
+  jobTemplate:
+    spec:
+      backoffLimit: 1
+      activeDeadlineSeconds: 120
+      ttlSecondsAfterFinished: 86400
+      template:
+        metadata:
+          labels:
+            app: mustangmafia-events-sync
+        spec:
+          serviceAccountName: mustangmafia-events-sync
+          automountServiceAccountToken: true # needed to write its one ConfigMap (see Role)
+          restartPolicy: Never
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 65534
+            runAsGroup: 65534
+            fsGroup: 65534 # makes the 0440 token file readable
+            seccompProfile:
+              type: RuntimeDefault
+          containers:
+            - name: sync
+              image: python:3.13-slim@sha256:7c61056e61ac89e852de05f3dc6fa51a6dd2181797bceed46aa725dd7cb2cd3b
+              command: ["python3", "/app/sync.py"]
+              env:
+                - {name: GUILD_ID, value: "1554270941205233787"}
+                - {name: OFFICER_ROLE_ID, value: "1554277403759738942"}
+                - {name: PYTHONDONTWRITEBYTECODE, value: "1"}
+              securityContext:
+                allowPrivilegeEscalation: false
+                readOnlyRootFilesystem: true
+                capabilities:
+                  drop: ["ALL"]
+              resources:
+                requests: {cpu: 10m, memory: 32Mi}
+                limits: {cpu: 200m, memory: 64Mi}
+              volumeMounts:
+                - {mountPath: /app, name: script, readOnly: true}
+                - {mountPath: /etc/discord, name: token, readOnly: true}
+          volumes:
+            - name: script
+              configMap:
+                name: mustangmafia-events-sync-script
+            - name: token
+              secret:
+                secretName: mustangmafia-discord-bot
+                defaultMode: 0440

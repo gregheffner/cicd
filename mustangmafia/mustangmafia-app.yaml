@@ -14,7 +14,7 @@ spec:
     targetRevision: HEAD
     path: mustangmafia
     directory:
-      include: '{namespace.yaml,serviceaccount.yaml,nginx-config.yaml,service.yaml,deployment-web.yaml,deployment-cloudflared.yaml}'
+      include: '{namespace.yaml,serviceaccount.yaml,nginx-config.yaml,service.yaml,deployment-web.yaml,deployment-cloudflared.yaml,events-sync.yaml}'
   destination:
     server: https://kubernetes.default.svc
     namespace: mustangmafia
