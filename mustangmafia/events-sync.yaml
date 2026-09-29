@@ -2,7 +2,8 @@
 # Every 15 min a CronJob reads the chapter Discord server's scheduled events with a
 # read-only bot token (View Channels only) and writes events.json + mustangmafia.ics
 # into the ConfigMap mustangmafia-events. The web pods mount it at /srv/events and
-# nginx serves it as /events/. Outbound only: no Service, no inbound endpoint.
+# nginx serves it as /events/. Also publishes the server member/online COUNTS (never
+# names) for the site Discord card. Outbound only: no Service, no inbound endpoint.
 # The ConfigMap is created by the job, not by Argo, so it is never pruned or reset.
 # Token: 1P item mustangmafia-discord-bot (k8s-cluster-secrets) via
 # external-secrets/es-mustangmafia-discord-bot.yaml.
@@ -147,7 +148,11 @@ data:
         if len(events) >= MAX_EVENTS:
             break
 
-    feed = json.dumps({"events": events}, indent=1, sort_keys=True)
+    # Server size for the site's Discord card: counts only, never member names.
+    g = discord(f"/guilds/{GUILD}?with_counts=true")
+    counts = {"members": g.get("approximate_member_count", 0), "online": g.get("approximate_presence_count", 0)}
+
+    feed = json.dumps({"events": events, "discord": counts}, indent=1, sort_keys=True)
 
     stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     lines = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Mustang Mafia Jacksonville//Events//EN",
