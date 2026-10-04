@@ -58,13 +58,13 @@ data:
     web pods mount at /srv/events (served as /events/). Outbound only, stdlib only.
 
     Published: real-world (EXTERNAL) events that are scheduled or live, created by an
-    Officer or carrying #public in the description. #members always hides an event.
+    Officer or Tech, or carrying #public in the description. #members always hides an event.
     """
     import json, os, ssl, sys, urllib.error, urllib.request
     from datetime import datetime, timezone
 
     GUILD = os.environ["GUILD_ID"]
-    OFFICER_ROLE = os.environ["OFFICER_ROLE_ID"]
+    PUBLISHER_ROLES = {os.environ["OFFICER_ROLE_ID"], os.environ["TECH_ROLE_ID"]}
     NS = os.environ.get("NAMESPACE", "mustangmafia")
     CM = os.environ.get("CONFIGMAP", "mustangmafia-events")
     MAX_EVENTS = 10
@@ -84,12 +84,12 @@ data:
             sys.exit(f"discord {path} -> {e.code}: {body}")
 
 
-    def is_officer(user_id, cache={}):
+    def is_publisher(user_id, cache={}):
         if user_id not in cache:
             try:
                 m = discord(f"/guilds/{GUILD}/members/{user_id}")
-                cache[user_id] = OFFICER_ROLE in m.get("roles", [])
-            except SystemExit:  # creator left the server: treat as not an officer
+                cache[user_id] = bool(PUBLISHER_ROLES & set(m.get("roles", [])))
+            except SystemExit:  # creator left the server: treat as not a publisher
                 cache[user_id] = False
         return cache[user_id]
 
@@ -98,7 +98,7 @@ data:
         desc = (ev.get("description") or "").lower()
         if ev.get("entity_type") != 3 or ev.get("status") not in (1, 2) or "#members" in desc:
             return False
-        return "#public" in desc or is_officer(ev.get("creator_id"))
+        return "#public" in desc or is_publisher(ev.get("creator_id"))
 
 
     def clean(text):
@@ -242,6 +242,7 @@ spec:
               env:
                 - {name: GUILD_ID, value: "1554270941205233787"}
                 - {name: OFFICER_ROLE_ID, value: "1554277403759738942"}
+                - {name: TECH_ROLE_ID, value: "1556450371080036425"}
                 - {name: PYTHONDONTWRITEBYTECODE, value: "1"}
               securityContext:
                 allowPrivilegeEscalation: false
