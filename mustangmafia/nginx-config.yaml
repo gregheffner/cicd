@@ -42,6 +42,14 @@ data:
         limit_req_zone $binary_remote_addr zone=req_per_ip:10m rate=30r/s;
         limit_req_status 429;
 
+        # /assets/ is cached for 30 days, but only real files. A 404 (e.g. a new
+        # font requested while the nginx pods are still mid git-sync) must not be
+        # cached by Cloudflare or browsers, or it outlives the deploy.
+        map $status $assets_cache_control {
+            ~^(200|206|304)$  "public, max-age=2592000";
+            default           "no-store";
+        }
+
         server {
           listen 8080;
           absolute_redirect off;
@@ -94,7 +102,7 @@ data:
 
           location /assets/ {
               expires 30d;
-              add_header Cache-Control "public, max-age=2592000" always;
+              add_header Cache-Control $assets_cache_control always;
               add_header X-Content-Type-Options "nosniff" always;
               add_header X-Frame-Options "SAMEORIGIN" always;
               add_header Referrer-Policy "strict-origin-when-cross-origin" always;
