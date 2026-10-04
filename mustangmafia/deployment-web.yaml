@@ -86,7 +86,7 @@ spec:
             - {mountPath: /git, name: site-content}
             - {mountPath: /etc/git-secret, name: deploy-key, readOnly: true}
             - {mountPath: /tmp, name: git-sync-tmp}
-        - name: git-sync # native sidecar: re-pulls every 5 min; nginx follows the symlink at request time
+        - name: git-sync # native sidecar: re-pulls hourly; nginx follows the symlink at request time
           image: registry.k8s.io/git-sync/git-sync:v4.7.1
           restartPolicy: Always
           args:
@@ -97,7 +97,7 @@ spec:
             - --depth=1
             - --ssh-key-file=/etc/git-secret/ssh
             - --ssh-known-hosts-file=/etc/git-secret/known_hosts
-            - --period=300s # same as prod: fewer outbound SSH sessions for the UniFi IPS to flag
+            - --period=3600s # hourly: 3 replicas x 5 min was the site's noisiest egress (36 GitHub SSH sessions/hr). Publish now: kubectl -n mustangmafia rollout restart deploy/mustangmafia-web
             - --http-bind=:9100
             - --http-metrics=true
           ports:
