@@ -13,11 +13,21 @@
 # imagePullPolicy: IfNotPresent. This workflow REFUSES to run while a live manifest
 # still references technotuba/nginx:latest (mutable :latest would let an unsoaked
 # image reach live on any pod restart, defeating the 72h soak). See section 5.
+#
+# workflow_dispatch input `reason`: soak-gate-promote's auto-rebuild dispatches with
+# reason=vuln-rebuild, which bypasses the ledger-guard defer (see that job). Schedule
+# runs and plain manual dispatches keep the defer exactly as before.
 
 name: build-stage-scan
 
 on:
   workflow_dispatch:
+    inputs:
+      reason:
+        description: 'vuln-rebuild = soak gate found fixable vulns in the candidate; bypasses the ledger-guard defer'
+        type: choice
+        options: [manual, vuln-rebuild]
+        default: manual
   schedule:
     # Mondays 07:00 UTC -> a candidate becomes promote-eligible 72h later (Thu 07:00).
     - cron: '0 7 * * 1'
@@ -49,6 +59,13 @@ jobs:
   # it; the next weekly build resumes cadence. A candidate older than MAX_AGE
   # means the gate itself is stuck, so we build anyway rather than starve
   # freshness (the gate's own alarms cover that failure).
+  # EXCEPTION reason=vuln-rebuild (2026-10 deadlock): the soak gate dispatches us
+  # BECAUSE the promote-ready candidate re-scanned vulnerable and can never ship.
+  # Deferring to it is wrong: on 10-02 the auto-rebuild (run 37016674026) stood down
+  # here in 11s, the gate's one-rebuild loop guard counted that no-op as the attempt,
+  # and the pipeline sat stuck on vulnerable v2026.09.28 until MAX_AGE. A vuln-rebuild
+  # dispatch therefore always proceeds (the gate sends it; a human may pick it in the
+  # UI to deliberately replace a vulnerable candidate).
   ledger-guard:
     runs-on: ubuntu-latest
     outputs:
@@ -60,8 +77,15 @@ jobs:
         env:
           DEFER_WINDOW: '129600'   # 36h: covers one late daily gate plus slack
           MAX_AGE: '604800'        # 7d: past this, assume the gate is stuck
+          EVENT: ${{ github.event_name }}
+          REASON: ${{ inputs.reason }}   # empty on schedule events
         run: |
           set -euo pipefail
+          if [ "$EVENT" = "workflow_dispatch" ] && [ "$REASON" = "vuln-rebuild" ]; then
+            echo "::notice title=defer bypassed::reason=vuln-rebuild: the soak gate found fixable vulns in the sitting candidate, so it cannot promote; building its replacement now."
+            echo "Defer bypassed: dispatched with \`reason=vuln-rebuild\` (sitting candidate re-scanned vulnerable and cannot promote)." >> "$GITHUB_STEP_SUMMARY"
+            echo "proceed=true" >> "$GITHUB_OUTPUT"; exit 0
+          fi
           L=.github/state/candidate.json
           if [ ! -f "$L" ]; then echo "proceed=true" >> "$GITHUB_OUTPUT"; exit 0; fi
           STATE=$(jq -r '.state // empty' "$L")

@@ -7,6 +7,9 @@
 # Post-flip smoke (ClusterIP:80); auto-rollback by committing the selector back and
 # VERIFYING the rollback landed. Then mark promoted, pin old-live color, purge CF.
 # Idempotent + self-reconciling. Every gate fails CLOSED to "no flip".
+# A staged digest that re-scans vulnerable triggers ONE auto-rebuild (GB2), dispatched
+# with reason=vuln-rebuild so build-stage-scan's ledger-guard cannot defer it (2026-10
+# deadlock: a deferred no-op build was counted as the one allowed rebuild).
 #
 # Runner: self-hosted (read-only kubectl health gates). cosign + Trivy run as
 # SHA256-checksum-verified downloaded binaries (this runner has no docker daemon).
@@ -317,14 +320,31 @@ jobs:
       # build_epoch and re-arms the guard by itself; a failed one leaves build_epoch
       # stale, so tomorrow's run goes RED (today's behaviour) instead of burning another
       # build.
+      # DEFERRED runs are NOT attempts (2026-10 deadlock). A build-stage-scan run whose
+      # ledger-guard succeeded and whose build-stage-scan job was SKIPPED stood down
+      # without building anything. On 10-02 our dispatch (run 37016674026) deferred that
+      # way because the vulnerable candidate looked promote-ready, and the 10-03/10-04
+      # gates counted it and went red: stuck until ledger-guard's MAX_AGE. Two fixes:
+      # the dispatch now sends reason=vuln-rebuild (ledger-guard never defers it), and
+      # the guard reads each candidate run's jobs and discounts ONLY that exact deferred
+      # shape (run completed/success; in EVERY attempt, if it was re-run). A run still
+      # queued/in progress, cancelled, failed, or whose jobs cannot be read counts as
+      # attempted (fail closed); a run that actually built still uses up the one rebuild.
+      # KNOWN WINDOW (fails closed, accepted): our dispatched run sits PENDING in the
+      # nginx-pipeline group for the few seconds until this job ends; any other
+      # nginx-pipeline run queued in that gap (e.g. the Monday cron) makes GitHub cancel
+      # it, and the cancelled run counts. If rebuild_blocked follows a rebuild_requested
+      # day and that run shows cancelled, recover with a dispatch that cannot defer:
+      # `gh workflow run build-stage-scan.yaml --ref main -f reason=vuln-rebuild`.
       # DELIBERATE false positives -- do NOT "fix" them: the guard counts build-stage-scan
       # runs on ANY ref, so the weekly Monday build (cron drift can put it AFTER our
-      # 07:30 tick), or a developer test-running the builder from a branch, suppresses
-      # that day's auto-rebuild. That is the conservative outcome we want: a build has
-      # just been attempted, so a human should look. In particular do NOT add an early
-      # `exit 0` to this step for "a scheduled build is imminent" -- leaving this step
-      # WITHOUT setting REBUILD_DISPATCHED is precisely the shape that would let the
-      # known-vulnerable digest back through the downstream gates.
+      # 07:30 tick) when it actually builds, or a developer test-running the builder
+      # from a branch, suppresses that day's auto-rebuild. That is the conservative
+      # outcome we want: a build has just been attempted, so a human should look. In
+      # particular do NOT add an early `exit 0` to this step for "a scheduled build is
+      # imminent" -- leaving this step WITHOUT setting REBUILD_DISPATCHED is precisely
+      # the shape that would let the known-vulnerable digest back through the
+      # downstream gates.
       #
       # AUTH: secrets.GITHUB_TOKEN plus the `actions: write` line in permissions: above
       # is sufficient. workflow_dispatch is a documented exception to GitHub's recursion
@@ -367,13 +387,50 @@ jobs:
             -H 'X-GitHub-Api-Version: 2022-11-28' \
             "${API}/repos/${GITHUB_REPOSITORY}/actions/workflows/${WF}/runs?per_page=30") || CODE=000
           if [ "$CODE" = "200" ]; then
-            PRIOR=$(SINCE="$SINCE" python3 -c 'import json,os;print(sum(1 for r in json.load(open(os.environ["RUNNER_TEMP"]+"/prior_builds.json"))["workflow_runs"] if (r.get("created_at") or "") > os.environ["SINCE"]))') || PRIOR=unknown
+            # Count runs newer than SINCE, minus those that provably DEFERRED (see the
+            # 2026-10 note above). filter=all covers every attempt of a re-run. Any
+            # exception for a run (HTTP error, timeout, bad JSON, missing jobs, a job
+            # list longer than one page) leaves it counted; a failure outside the
+            # per-run loop exits non-zero -> unknown.
+            PRIOR=$(SINCE="$SINCE" API="$API" python3 - <<'PY'
+          import json, os, sys, urllib.request
+          env = os.environ
+          runs = [r for r in json.load(open(env["RUNNER_TEMP"] + "/prior_builds.json"))["workflow_runs"]
+                  if (r.get("created_at") or "") > env["SINCE"]]
+          attempted = 0
+          for r in runs:
+              deferred = False
+              try:
+                  req = urllib.request.Request(
+                      "%s/repos/%s/actions/runs/%d/jobs?filter=all&per_page=100" % (env["API"], env["GITHUB_REPOSITORY"], int(r["id"])),
+                      headers={"Accept": "application/vnd.github+json", "Authorization": "Bearer " + env["GH_TOKEN"],
+                               "X-GitHub-Api-Version": "2022-11-28"})
+                  with urllib.request.urlopen(req, timeout=30) as resp:
+                      doc = json.load(resp)
+                  jobs = doc["jobs"]
+                  guard = [j for j in jobs if j.get("name") == "ledger-guard"]
+                  build = [j for j in jobs if j.get("name") == "build-stage-scan"]
+                  if int(doc.get("total_count", -1)) != len(jobs):
+                      raise ValueError("job list incomplete (%s of %s)" % (len(jobs), doc.get("total_count")))
+                  deferred = bool(r.get("status") == "completed" and r.get("conclusion") == "success"
+                                  and guard and build
+                                  and all(j.get("conclusion") == "success" for j in guard)
+                                  and all(j.get("conclusion") == "skipped" for j in build))
+              except Exception as e:
+                  print("::warning::could not read jobs of build-stage-scan run %s (%s); counting it as a build attempt" % (r.get("id"), e), file=sys.stderr)
+              if deferred:
+                  print("::notice::build-stage-scan run %s deferred at ledger-guard (build job skipped); not counted as a rebuild attempt" % r["id"], file=sys.stderr)
+              else:
+                  attempted += 1
+          print(attempted)
+          PY
+            ) || PRIOR=unknown
           else
             echo "::warning::could not list prior $WF runs (HTTP $CODE); treating this candidate as already-rebuilt"
           fi
           if [ "$PRIOR" != "0" ]; then
-            echo "::error::staged digest $DIGEST has FIXABLE HIGH/CRITICAL vulns ($VULNS). Loop guard says a build has ALREADY been attempted for it since $SINCE (matching $WF runs: $PRIOR -- 'unknown' means the guard query itself failed and we fail closed). NOT dispatching again and NOT promoting: fix build-stage-scan, or wait for the fixed package and re-run it by hand."
-            { echo "NOTIFY_EVENT=rebuild_blocked"; echo "NOTIFY_DETAIL=staged digest $DIGEST is vulnerable ($VULNS) and the loop guard suppressed the auto-rebuild (builds since $SINCE: $PRIOR); no promotion, manual attention needed"; } >> "$GITHUB_ENV"
+            echo "::error::staged digest $DIGEST has FIXABLE HIGH/CRITICAL vulns ($VULNS). Loop guard says a build has ALREADY been attempted for it since $SINCE (matching $WF runs: $PRIOR -- 'unknown' means the guard query itself failed and we fail closed). NOT dispatching again and NOT promoting: fix build-stage-scan, or wait for the fixed package and dispatch it by hand with reason=vuln-rebuild (gh workflow run build-stage-scan.yaml --ref main -f reason=vuln-rebuild; a plain dispatch defers to this candidate), or 'Re-run all jobs' on the failed vuln-rebuild run (a re-run keeps its inputs)."
+            { echo "NOTIFY_EVENT=rebuild_blocked"; echo "NOTIFY_DETAIL=staged digest $DIGEST is vulnerable ($VULNS) and the loop guard suppressed the auto-rebuild (builds since $SINCE: $PRIOR); no promotion, manual attention needed (re-dispatch build-stage-scan with reason=vuln-rebuild; a plain dispatch defers)"; } >> "$GITHUB_ENV"
             exit 1
           fi
           # -sS with -o/-w and NOT -f: -f hides the body and returns 22, losing the code.
@@ -384,10 +441,11 @@ jobs:
             -H 'X-GitHub-Api-Version: 2022-11-28' \
             -H 'Content-Type: application/json' \
             "${API}/repos/${GITHUB_REPOSITORY}/actions/workflows/${WF}/dispatches" \
-            -d '{"ref":"main"}') || CODE=000
+            -d '{"ref":"main","inputs":{"reason":"vuln-rebuild"}}') || CODE=000
           # 204 = accepted (return_run_details defaults to false). 401/403 = the
           # `actions: write` permission is missing; 404 = wrong filename or no
-          # workflow_dispatch on main; 422 = bad ref. A non-204 is NEVER reported as
+          # workflow_dispatch on main; 422 = bad ref, or main's build-stage-scan does not
+          # declare the `reason` input (it must ship with this). A non-204 is NEVER reported as
           # "queued" -- a silent no-op here would recreate the exact dead end this
           # change exists to remove.
           if [ "$CODE" != "204" ]; then
