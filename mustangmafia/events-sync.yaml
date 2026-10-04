@@ -5,6 +5,9 @@
 # nginx serves it as /events/. Also publishes the server member/online COUNTS (never
 # names) for the site Discord card. Outbound only: no Service, no inbound endpoint.
 # The ConfigMap is created by the job, not by Argo, so it is never pruned or reset.
+# New events are also announced once in #meets-and-cruises with an @Cruise Alerts
+# ping, through that channel's webhook (1P item mustangmafia-cruise-webhook, field url,
+# via external-secrets/es-mustangmafia-cruise-webhook.yaml). The bot stays read-only.
 # Token: 1P item mustangmafia-discord-bot (k8s-cluster-secrets) via
 # external-secrets/es-mustangmafia-discord-bot.yaml.
 apiVersion: v1
@@ -69,6 +72,9 @@ data:
     CM = os.environ.get("CONFIGMAP", "mustangmafia-events")
     MAX_EVENTS = 10
     TOKEN = open(os.environ.get("TOKEN_FILE", "/etc/discord/token")).read().strip()
+    CRUISE_ROLE = os.environ.get("CRUISE_ALERTS_ROLE_ID", "")
+    HOOK_FILE = os.environ.get("ANNOUNCE_WEBHOOK_FILE", "/etc/announce/url")
+    ANNOUNCED = "mustangmafiajacksonville.com/announced"   # ConfigMap annotation, not served by nginx
     UA = "DiscordBot (https://mustangmafiajacksonville.com, 1.0) mustangmafia-events-sync"
 
 
@@ -167,7 +173,30 @@ data:
     lines.append("END:VCALENDAR")
     ics = "\r\n".join(fold(l) for l in lines) + "\r\n"
 
+    def announcement(e):
+        # <t:..:F> renders in each reader's own time zone; the bare event link unfurls as an RSVP card
+        when = int(datetime.fromisoformat(e["start"]).timestamp())
+        where = f" at {e['location']}" if e["location"] else ""
+        return f"<@&{CRUISE_ROLE}> **New meet:** {e['name']}\n<t:{when}:F>{where}\n{e['rsvp_url']}"
+
+
+    def announce(hook, e):
+        body = json.dumps({"content": announcement(e), "allowed_mentions": {"roles": [CRUISE_ROLE]}}).encode()
+        req = urllib.request.Request(hook + ("&" if "?" in hook else "?") + "wait=true", data=body, method="POST",
+                                     headers={"Content-Type": "application/json", "User-Agent": UA})
+        try:
+            with urllib.request.urlopen(req, timeout=20):
+                pass
+        except (urllib.error.URLError, OSError) as err:
+            print(f"announce failed for {e['id']} ({e['name']}), will retry next run: {err}")
+            return False
+        print(f"announced {e['id']} ({e['name']})")
+        return True
+
+
     if os.environ.get("DRY_RUN"):
+        for e in events:
+            print("would announce:", announcement(e))
         print(feed); print(ics); sys.exit(0)
 
     # ---- write the ConfigMap (only when the events changed; DTSTAMP alone is not a change)
@@ -192,14 +221,34 @@ data:
 
 
     current = k8s("GET", f"{api}/{CM}")
+
+    # ---- announce each new upcoming event once. The first run only records what already
+    # exists, so turning this on doesn't ping anyone about old events. A failed post isn't
+    # recorded, so it's retried on the next run.
+    seen_raw = (((current or {}).get("metadata") or {}).get("annotations") or {}).get(ANNOUNCED)
+    seen = [i for i in (seen_raw or "").split(",") if i]
+    if seen_raw is None:
+        seen = [e["id"] for e in events]
+        print(f"announce: recorded {len(seen)} existing event(s), nothing posted")
+    elif CRUISE_ROLE and os.path.exists(HOOK_FILE):
+        hook = open(HOOK_FILE).read().strip()
+        now = datetime.now(timezone.utc)
+        for e in events:
+            if e["id"] not in seen and datetime.fromisoformat(e["start"]) > now and announce(hook, e):
+                seen.append(e["id"])
+    annotations = {ANNOUNCED: ",".join(seen[-200:])}
+
     data = {"events.json": feed, "mustangmafia.ics": ics}
     if current is None:
         k8s("POST", api, {"apiVersion": "v1", "kind": "ConfigMap",
-                          "metadata": {"name": CM, "namespace": NS, "labels": {"app": "mustangmafia-events-sync"}},
+                          "metadata": {"name": CM, "namespace": NS, "labels": {"app": "mustangmafia-events-sync"},
+                                       "annotations": annotations},
                           "data": data})
         print(f"created {CM}: {len(events)} event(s)")
-    elif (current.get("data") or {}).get("events.json") != feed:
-        k8s("PATCH", f"{api}/{CM}", {"data": data}, "application/merge-patch+json")
+    elif ((current.get("data") or {}).get("events.json") != feed
+          or (current["metadata"].get("annotations") or {}).get(ANNOUNCED) != annotations[ANNOUNCED]):
+        k8s("PATCH", f"{api}/{CM}", {"metadata": {"annotations": annotations}, "data": data},
+            "application/merge-patch+json")
         print(f"updated {CM}: {len(events)} event(s)")
     else:
         print(f"no change: {len(events)} event(s)")
@@ -242,6 +291,7 @@ spec:
               env:
                 - {name: GUILD_ID, value: "1554270941205233787"}
                 - {name: OFFICER_ROLE_ID, value: "1554277403759738942"}
+                - {name: CRUISE_ALERTS_ROLE_ID, value: "1554277406704017451"}
                 - {name: PYTHONDONTWRITEBYTECODE, value: "1"}
               securityContext:
                 allowPrivilegeEscalation: false
@@ -254,6 +304,7 @@ spec:
               volumeMounts:
                 - {mountPath: /app, name: script, readOnly: true}
                 - {mountPath: /etc/discord, name: token, readOnly: true}
+                - {mountPath: /etc/announce, name: announce-webhook, readOnly: true}
           volumes:
             - name: script
               configMap:
@@ -261,4 +312,9 @@ spec:
             - name: token
               secret:
                 secretName: mustangmafia-discord-bot
+                defaultMode: 0440
+            - name: announce-webhook
+              secret:
+                secretName: mustangmafia-cruise-webhook
+                optional: true # until the 1P item exists the job just doesn't announce
                 defaultMode: 0440
