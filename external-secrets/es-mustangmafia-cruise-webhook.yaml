@@ -1,0 +1,22 @@
+# Discord webhook for #meets-and-cruises, used by mustangmafia/events-sync.yaml to post
+# "@Cruise Alerts New meet: ..." once per new event. Posting goes through this webhook
+# so the bot itself stays read-only.
+# Source of truth: 1Password item "mustangmafia-cruise-webhook" in k8s-cluster-secrets,
+# field url. Rotate by deleting the webhook in Discord and saving the new URL there.
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: mustangmafia-cruise-webhook
+  namespace: mustangmafia
+spec:
+  refreshInterval: 1h
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: onepassword
+  target:
+    name: mustangmafia-cruise-webhook
+    creationPolicy: Owner
+  data:
+    - secretKey: url
+      remoteRef:
+        key: mustangmafia-cruise-webhook/url
