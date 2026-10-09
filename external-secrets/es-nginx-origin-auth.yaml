@@ -1,0 +1,37 @@
+# external-secrets/es-nginx-origin-auth.yaml
+# Shared secret that proves a request came through the Cloudflare edge (vuln hunt
+# 2026-10-08 #3: any pod could send CF-Connecting-IP straight to nginx-service and get
+# an arbitrary address, e.g. the home WAN, banned at the CF edge for 30 days).
+#
+# A Cloudflare Request Header Transform Rule ("origin-auth", hostname greg.heffner.live)
+# sets X-Origin-Auth on every request. ESO renders this nginx map from the same value;
+# shared/nginx-config.yaml includes it and trusts CF-Connecting-IP only when it matches.
+# The repo is public, so the value lives only in 1Password + the CF rule.
+#
+# 1Password item: k8s-cluster-secrets / nginx-origin-auth (password, letters+digits only)
+# Rotate: change the CF rule and the 1P item together (6h refresh, then nginx reload).
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: nginx-origin-auth
+  namespace: prod
+spec:
+  refreshInterval: 6h
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: onepassword
+  target:
+    name: nginx-origin-auth
+    creationPolicy: Owner
+    template:
+      engineVersion: v2
+      data:
+        origin-auth.conf: |
+          map $http_x_origin_auth $from_cf_edge {
+              default 0;
+              "{{ .originAuth }}" 1;
+          }
+  data:
+    - secretKey: originAuth
+      remoteRef:
+        key: nginx-origin-auth/password
