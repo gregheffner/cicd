@@ -43,8 +43,5 @@ data:
         service: https://argocd-server.automation.svc.cluster.local:443
         originRequest:
           noTLSVerify: true
-      - hostname: watch.heffner.live
-        service: http://100.100.0.10:3001
-      - hostname: maintain.heffner.live
-        service: http://100.100.0.10:3000
+      # watch/maintain moved to the bastion-local tunnel (2026-10-09) so tag:k8s no longer needs :3000/:3001.
       - service: http_status:404
