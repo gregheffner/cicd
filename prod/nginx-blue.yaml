@@ -305,6 +305,9 @@ spec:
             - mountPath: /etc/nginx/rum # Datadog RUM loader (ESO Secret datadog-rum); dir mount so a refreshed token propagates without a pod roll
               name: datadog-rum
               readOnly: true
+            - mountPath: /etc/nginx/origin-auth # ESO Secret nginx-origin-auth: X-Origin-Auth map included by nginx.conf (vuln hunt 2026-10-08 #3)
+              name: nginx-origin-auth
+              readOnly: true
             - mountPath: /var/cache/nginx # writable temp dirs for readOnlyRootFilesystem
               name: nginx-cache
             - mountPath: /var/run # nginx pid file (pid /var/run/nginx.pid)
@@ -368,3 +371,6 @@ spec:
           secret:
             secretName: datadog-rum
             optional: true
+        - name: nginx-origin-auth # ESO -> external-secrets/es-nginx-origin-auth.yaml; NOT optional: nginx.conf includes it, so a pod without it must wait in ContainerCreating rather than crash
+          secret:
+            secretName: nginx-origin-auth

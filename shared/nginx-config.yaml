@@ -30,12 +30,16 @@ data:
         ssl_ciphers 'HIGH:!aNULL:!MD5:!3DES';
         ssl_prefer_server_ciphers on;
 
-        # 2026-09-03: trust ONLY the in-cluster hop. cloudflared is the only thing
-        # that can reach this Service, and it arrives from the pod network (kubelet
-        # probes arrive from a node's cni0 gateway, also inside 10.244.0.0/16).
-        set_real_ip_from 10.244.0.0/16;
-        set_real_ip_from 192.168.0.0/16;
-        real_ip_header CF-Connecting-IP;
+        # 2026-10-09 (vuln hunt 2026-10-08 #3): the 09-03 fix trusted CF-Connecting-IP
+        # from any 10.244.0.0/16 peer, assuming only cloudflared reaches this Service.
+        # Not true: NetworkPolicies are unenforced (flannel), so ANY pod could send
+        # CF-Connecting-IP: <home WAN> and get it banned at the CF edge for 30 days.
+        # Pod IPs can't be told apart from cloudflared's, so trust is now proven by a
+        # shared secret instead: the CF Transform Rule "origin-auth" sets X-Origin-Auth
+        # on every edge request, and this ESO-rendered file maps it to $from_cf_edge
+        # (external-secrets/es-nginx-origin-auth.yaml). The realip module is no longer
+        # used, so $remote_addr is always the real TCP peer.
+        include /etc/nginx/origin-auth/origin-auth.conf;
 
         # CF-Connecting-IP is written by Cloudflare on every request and overwrites
         # anything the client sent, so a visitor cannot forge it. X-Forwarded-For
@@ -49,12 +53,13 @@ data:
         # the header) and get an arbitrary third party blocked (Googlebot, the
         # Datadog synthetics, Greg's own home address).
         #
-        # Fail-open by design: if CF-Connecting-IP is ever absent, $remote_addr stays
-        # a 10.244.x pod address, which is already in fail2ban's ignoreip, so the
-        # jails simply stop banning rather than banning the wrong thing.
-        map $http_cf_connecting_ip $real_client_ip {
-            ""      $remote_addr;
-            default $http_cf_connecting_ip;
+        # Fail-open by design: without a matching X-Origin-Auth (or with no
+        # CF-Connecting-IP), $real_client_ip is the TCP peer, a 10.244.x pod address
+        # already in fail2ban's ignoreip, so the jails stop banning rather than
+        # banning the wrong thing.
+        map "$from_cf_edge:$http_cf_connecting_ip" $real_client_ip {
+            "~^1:(?<edge_client_ip>.+)$" $edge_client_ip;
+            default                      $remote_addr;
         }
 
         log_format fail2ban '$real_client_ip - [$time_local] "$request" $status "$http_referer" "$http_user_agent"';
