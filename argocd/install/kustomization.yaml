@@ -31,3 +31,5 @@ patches:
   - path: patches/redis-network-policy.yaml
   # Upstream ships no requests/limits; sized from 14 days of Datadog data.
   - path: patches/resources.yaml
+  # worker3 is the remote site; keep the controller on worker1/worker2.
+  - path: patches/controller-node-affinity.yaml
