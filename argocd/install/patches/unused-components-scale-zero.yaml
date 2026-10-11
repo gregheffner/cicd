@@ -1,0 +1,19 @@
+# dex and notifications ship with upstream but are UNUSED here: argocd-cm has no dex.config / oidc.config
+# (dex logs "dex is not configured"), argocd-notifications-cm and -secret are empty and no Application or
+# AppProject subscribes. Both service accounts can read Secrets in automation (argocd-secret: server signing
+# key + admin hash, the cicd-runner token, the repo PAT), and notifications can also patch Applications
+# (vuln hunt 2026-10-08, Low). Scaled to 0 instead of deleted so upstream/install.yaml stays unmodified;
+# re-enable = drop this patch. With no pod, nothing mounts the service-account tokens.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: argocd-dex-server
+spec:
+  replicas: 0
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: argocd-notifications-controller
+spec:
+  replicas: 0
