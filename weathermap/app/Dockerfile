@@ -9,11 +9,11 @@
 #        so npm is a build-time tool only. It stays in the builder stage.
 #
 # Base is pinned to a patch tag so bumps are deliberate. To bump: check
-# https://hub.docker.com/_/node/tags?name=20 for the newest 20.x-alpine, update
+# https://hub.docker.com/_/node/tags?name=24 for the newest 24.x-alpine, update
 # BOTH FROM lines below, and let the pipeline's Trivy gate confirm it's clean.
 
 # ---- builder: installs deps, never ships ----
-FROM node:20.19-alpine AS builder
+FROM node:24.22.1-alpine AS builder
 
 WORKDIR /app
 
@@ -22,7 +22,7 @@ COPY package.json package-lock.json ./
 RUN npm ci --omit=dev
 
 # ---- runtime ----
-FROM node:20.19-alpine
+FROM node:24.22.1-alpine
 
 # Patched libcrypto3/libssl3/musl/zlib from the Alpine repos, then drop npm and
 # its bundled dependency tree entirely — it is not needed to run the app.
