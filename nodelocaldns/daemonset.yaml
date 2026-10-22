@@ -93,6 +93,10 @@ spec:
               mountPath: /etc/coredns
             - name: kube-dns-config
               mountPath: /etc/kube-dns
+            # eMudhra: replace the image's stale bundle (trusted-ca-bundle in configmap.yaml)
+            - name: trusted-ca
+              mountPath: /etc/ssl/certs
+              readOnly: true
       volumes:
         - name: xtables-lock
           hostPath:
@@ -108,3 +112,6 @@ spec:
             items:
               - key: Corefile
                 path: Corefile.base
+        - name: trusted-ca
+          configMap:
+            name: trusted-ca-bundle
