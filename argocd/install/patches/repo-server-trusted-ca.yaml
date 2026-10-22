@@ -1,0 +1,22 @@
+# 2026-10-22 eMudhra CA compromise (CVE-2026-111943). The repo-server fetches github.com (git via
+# the Ubuntu 26.04 bundle, ca-certificates 20260601, not yet fixed) and the Helm repos (helm go1.26.4,
+# no compiled-in blocklist). Its /etc/ssl/certs also holds ~245 hashed links, emSign roots included,
+# so the WHOLE directory is replaced, not just ca-certificates.crt. Remove once Argo CD ships a
+# fixed image (verify by fingerprint, not by version string).
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: argocd-repo-server
+spec:
+  template:
+    spec:
+      containers:
+        - name: argocd-repo-server
+          volumeMounts:
+            - name: trusted-ca
+              mountPath: /etc/ssl/certs
+              readOnly: true
+      volumes:
+        - name: trusted-ca
+          configMap:
+            name: trusted-ca-bundle
