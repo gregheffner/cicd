@@ -15,7 +15,7 @@ spec:
     # LoadBalancer. Datadog scrapes it on the pod IP (:8081) directly, not via the Service.
   selector:
     app: nginx-web
-    version: green
+    version: blue
   type: ClusterIP
 ---
 apiVersion: autoscaling/v2
