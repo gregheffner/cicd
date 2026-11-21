@@ -33,17 +33,18 @@ spec:
   source:
     repoURL: https://falcosecurity.github.io/charts
     chart: falco
-    targetRevision: 9.1.0               # appVersion 0.44.1. 9.2.0 is an RC — do NOT track it.
+    targetRevision: 9.2.2               # 0.45.2 / libs 0.26.1: embedded probe carries the #3119
+                                        # fix; verified to load on kernel 6.8.0-151 (2026-11-21).
     helm:
       values: |
         controller:
           kind: daemonset
         driver:
           enabled: true
-          # PINNED, not `auto`. Kernel is 6.8.0-139 on all four nodes, so CO-RE
-          # modern_ebpf applies: no kernel module, no DKMS, and therefore nothing
-          # to rebuild on the Saturday patch-and-bounce. `auto` could fall back to
-          # a module build and leave detection silently down after a kernel bump.
+          # PINNED, not `auto`. Kernel is 6.8.0-151 on all four nodes. The 0.45.2 image
+          # embeds the fixed probe (falcosecurity/libs#3119); on -151 it passes the
+          # verifier, while 0.44.1's probe is rejected (R9 invalid mem access 'scalar').
+          # Verified on worker2, 2026-11-21, via crictl/ctr with image 0.45.2.
           kind: modern_ebpf
         collectors:
           enabled: true
