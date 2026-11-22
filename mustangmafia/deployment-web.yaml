@@ -121,7 +121,7 @@ spec:
             - {mountPath: /tmp, name: git-sync-tmp}
       containers:
         - name: nginx
-          image: technotuba/nginx@sha256:d45dfd7a5192ca87643ab4cf6d2b671735dd5ea5dd8df3b6f832df383f0f2107 # follows prod: soak-gate-promote bumps this to each newly promoted digest
+          image: technotuba/nginx@sha256:09aeb8d1bf9853abf0c5e5aabc7533401521a13000157f8e102068c08fe39c9a # follows prod: soak-gate-promote bumps this to each newly promoted digest
           imagePullPolicy: IfNotPresent
           securityContext:
             runAsNonRoot: true
