@@ -50,7 +50,7 @@ spec:
               topologyKey: kubernetes.io/hostname
       containers:
         - name: radar
-          image: technotuba/radar@sha256:d05cb4b260c92b925fbb28b1f80f5dfacf7c21a470a1c403391be32107db9e8b
+          image: technotuba/radar@sha256:e4d5698ab221baab42198464b6ef21f0991868ef763ae3790a3ded22385527a6
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
